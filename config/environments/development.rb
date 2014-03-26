@@ -28,5 +28,6 @@ Openmetrics::Application.configure do
   config.assets.debug = true
 
   # devise mailer
+  # The default_url_options config provides the URL for the links in the mail message, not the SMTP server.
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
 end

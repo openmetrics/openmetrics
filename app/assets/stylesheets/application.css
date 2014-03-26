@@ -22,3 +22,47 @@
        url('../assets/glyphicons-halflings-regular.ttf') format('truetype'),
        url('../assets/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
+
+/* bootstrap vertical dividers in navbar */
+.navbar .divider-vertical {
+    height: 50px;
+    margin: 0 9px;
+    border-right: 1px solid #ffffff;
+    border-left: 1px solid #f2f2f2;
+}
+
+.navbar-inverse .divider-vertical {
+    border-right-color: #222222;
+    border-left-color: #111111;
+}
+
+@media (max-width: 767px) {
+    .navbar-collapse .nav > .divider-vertical {
+        display: none;
+    }
+}
+
+
+/* margin and overflow for gravatar image within header */
+.gravatar-s {
+    margin-right: 2px;
+}
+
+
+/* bootstrap increased glyphicon sizes */
+.glyphicon-2x{
+    font-size: 40px;
+}
+
+.glyphicon-3x{
+    font-size: 60px;
+}
+
+/* gravatar images */
+.gravatar-s {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+}

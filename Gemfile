@@ -32,8 +32,11 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-# Devise for authentication
+# Devise for authentication https://github.com/plataformatec/devise
 gem 'devise'
+
+# that tiny images from gravatar https://github.com/mdeering/gravatar_image_tag
+gem 'gravatar_image_tag'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
@@ -45,4 +48,4 @@ gem 'devise'
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]
