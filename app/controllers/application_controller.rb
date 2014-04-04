@@ -5,4 +5,12 @@ class ApplicationController < ActionController::Base
 
   # accept & respond to following formats
   respond_to :html, :xml, :json
+
+  # set layout depending on user is authenticated or not
+  layout :determine_layout
+
+  private
+  def determine_layout
+    current_user ? "application" : "startpage"
+  end
 end

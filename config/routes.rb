@@ -6,6 +6,15 @@ Openmetrics::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome_page#display'
 
+  #devise_for :user,
+  #           path: "auth",
+  #           path_names: { sign_in: 'login', sign_out: 'logout', password: 'secret', confirmation: 'verify',
+  #                         unlock: 'unblock', registration: 'register', sign_up: 'sign_up' }
+  as :user do
+    get "/login" => "devise/sessions#new"
+    delete "/logout" => "devise/sessions#destroy"
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

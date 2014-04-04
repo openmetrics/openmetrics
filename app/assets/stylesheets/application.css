@@ -10,7 +10,7 @@
  *
  *= require bootstrap.min
  *= require_self
- *= require_tree .
+ * require_tree .
  */
 
 /* Override Bootstrap 3 font locations */
@@ -42,13 +42,6 @@
     }
 }
 
-
-/* margin and overflow for gravatar image within header */
-.gravatar-s {
-    margin-right: 2px;
-}
-
-
 /* bootstrap increased glyphicon sizes */
 .glyphicon-2x{
     font-size: 40px;
@@ -60,6 +53,7 @@
 
 /* gravatar images */
 .gravatar-s {
+    margin-right: 2px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     -ms-border-radius: 2px;
