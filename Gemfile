@@ -7,13 +7,13 @@ gem 'rails', '4.0.3'
 gem 'sqlite3'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+#gem 'sass-rails', '~> 4.0.0'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+#gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
@@ -37,6 +37,12 @@ gem 'devise'
 
 # that tiny images from gravatar https://github.com/mdeering/gravatar_image_tag
 gem 'gravatar_image_tag'
+
+# js translations https://github.com/fnando/i18n-js
+# original gem is not compatible with Rails4 yet
+#gem 'i18n-js'
+gem "i18n-js-pika", require: "i18n-js", ref: "rails4"
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'

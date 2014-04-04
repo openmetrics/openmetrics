@@ -15,6 +15,8 @@ Openmetrics::Application.routes.draw do
     delete "/logout" => "devise/sessions#destroy"
   end
 
+  resources :systems
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
