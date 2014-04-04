@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Openmetrics Start</title>
+  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "startpage", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+
+</head>
+
+<body>
+    <div class="container">
+      <div class="row">
+          <div class="center-block">
+            <%= render "layouts/notifications" %>
+            <%= yield %>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

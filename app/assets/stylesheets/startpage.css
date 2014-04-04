@@ -1,0 +1,34 @@
+
+.container { width: 628px; margin-top:42px; }
+table { width: 560px; }
+td { padding: 5px 15px; }
+
+.center-block {
+    border: medium double #ddd;
+    padding: 28px;
+}
+
+/* element styles */
+h2 {
+    margin-bottom: 42px;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+        border-color: grey;
+        border-style:none none dotted;
+        border-width:medium medium 2px;
+        text-align:center;
+    }
+
+#devise-links {
+        margin-top: 42px;
+        color: slategray;
+        padding: 0.7em;
+        background-color: #f3f3f3;
+        border: 1px solid #ddd;
+}
+
+
+

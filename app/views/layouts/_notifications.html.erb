@@ -1,0 +1,5 @@
+<% flash.each do |severity, value| %>
+    <div class="<%= flash_class(severity) %>">
+          <%= value %>
+    </div>
+<% end %>
