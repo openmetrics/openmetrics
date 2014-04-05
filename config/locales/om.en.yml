@@ -1,0 +1,14 @@
+en:
+  om:
+    login:
+      greeter: "Welcome stranger! Please sign in."
+      email: "Your email"
+      password: "Your password"
+    navigation:
+      systems: "Systems"
+      services: "Services"
+    views:
+      system:
+        index:
+          title: "Overview"
+          new_system: "Add a new system"

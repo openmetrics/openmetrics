@@ -15,6 +15,9 @@
 //= require turbolinks
 //= require_tree .
 //= require bootstrap.min
+//= require i18n/translations
+
+/* toggle bootstrap dropdowns */
 $( document ).ready(function() {
     $('.dropdown-toggle').dropdown();
 });

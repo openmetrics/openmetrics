@@ -1,6 +1,5 @@
   <h2>
-    <span class="glyphicon glyphicon-lock"></span>
-    Welcome stranger! Please sign in.
+    <span class="glyphicon glyphicon-lock"></span> <%= t("om.login.greeter") %>
   </h2>
 
   <table>
@@ -11,8 +10,8 @@
       <td><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span></button></td>
     </tr>
     <tr>
-      <td><%= f.label :email %></td>
-      <td><%= f.label :password %></td>
+      <td><%= f.label :email, t("om.login.email") %></td>
+      <td><%= f.label :password, t("om.login.password")  %></td>
       <td></td>
     </tr>
     <tr>

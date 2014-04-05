@@ -11,7 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324171612) do
+ActiveRecord::Schema.define(version: 20140404110816) do
+
+  create_table "running_services", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "type"
+  end
+
+  create_table "services", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "systems", force: true do |t|
+    t.string   "name"
+    t.string   "fqdn"
+    t.string   "operating_system"
+    t.string   "operating_system_flavour"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

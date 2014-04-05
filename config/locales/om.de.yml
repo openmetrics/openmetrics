@@ -1,0 +1,14 @@
+de:
+  om:
+    login:
+      greeter: "Hallo Fremder! Bitte melde dich an."
+      email: "Deine E-Mail"
+      password: "Dein Passwort"
+    navigation:
+      systems: "Systeme"
+      services: "Dienste"
+    views:
+      system:
+        index:
+          title: "Übersicht"
+          new_system: "Neues System hinzufügen"
