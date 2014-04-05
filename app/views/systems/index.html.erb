@@ -1,9 +1,12 @@
 <h1><%= t("om.views.system.index.title") %></h1>
 
 <ul>
-  <li>
-    <%= link_to t("om.views.system.index.new_system"), new_system_path %>
-  </li>
+    <li>
+        <%= link_to t("om.views.system.index.new_system"), new_system_path %>
+    </li>
 </ul>
 
-<%= display_table(@systems) %>
+<%= raw display_table(@systems) %>
+
+
+

@@ -2,9 +2,19 @@ en:
   om:
     login:
       greeter: "Welcome stranger! Please sign in."
+      username: "Your username"
       email: "Your email"
+      login: "Your username or email"
       password: "Your password"
+    register:
+      greeter: "Create a new account"
+      username: "Username"
+      email: "Email"
+      password: "Password"
+      password_confirmation: "Password confirm"
+      register: "Sign up"
     navigation:
+      inventory: "Inventory"
       systems: "Systems"
       services: "Services"
     views:

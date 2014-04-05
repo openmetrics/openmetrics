@@ -50,6 +50,11 @@
     font-size: 60px;
 }
 
+/* bootstrap multiple navbar-right needs padding */
+.navbar-right {
+    padding-right: 15px;
+}
+
 /* gravatar images */
 .gravatar-s {
     margin-right: 2px;

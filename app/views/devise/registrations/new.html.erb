@@ -1,18 +1,24 @@
-<h2>Sign up</h2>
+<h4>
+  <%= t("om.register.greeter") %>
+</h4>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
+  <div><%= f.label :username, t('om.register.username') %><br />
+  <%= f.text_field :username, autofocus: true %></div>
 
-  <div><%= f.label :password %><br />
+  <div><%= f.label :email, t('om.register.email') %><br />
+  <%= f.email_field :email %></div>
+
+  <div><%= f.label :password, t('om.register.password') %><br />
     <%= f.password_field :password, autocomplete: "off" %></div>
 
-  <div><%= f.label :password_confirmation %><br />
+  <div><%= f.label :password_confirmation, t('om.register.password_confirmation') %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
 
-  <div><%= f.submit "Sign up" %></div>
+  <div><%= f.submit t('om.register.register') %></div>
 <% end %>
 
 <%= render "devise/shared/links" %>
+

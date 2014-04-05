@@ -4,9 +4,9 @@ module ApplicationHelper
     case severity
         when :notice then "alert alert-info"
         when :success then "alert alert-success"
-        when :error then "alert alert-danger"
-        when :alert then "alert alert-danger"
-        when :danger then "alert alert-danger"
+        when :error then "alert alert-warning"
+        when :alert then "alert alert-warning"
+        when :danger then "alert alert-warning"
     end
   end
 
@@ -20,7 +20,7 @@ module ApplicationHelper
     if collection.empty?
       return "None"
     else
-        collection.first.new.attributes.each_key {|attr| attr_available.push(attr) unless attr_ignore.include?(attr) || attr_hide.include?(attr) }
+        collection.first.attributes.each_key {|attr| attr_available.push(attr) unless attr_ignore.include?(attr) || attr_hide.include?(attr) }
     end
 
     attr_order = attr_available.sort
@@ -32,7 +32,7 @@ module ApplicationHelper
     html += "<tr>"
 
     attr_sorted.each do |attr|
-      html += "<th class=\"ui-state-default ui-th-column ui-th-ltr\" title=\"#{attr_tooltip(attr)}\">#{attr_caption(attr)}</th>"
+      html += "<th>#{attr}</th>"
     end
 
     html += "</tr>"
@@ -42,26 +42,27 @@ module ApplicationHelper
       # generate table cells
       attr_sorted.each do |attr|
         # special treat for type (=date) and partner_netto (+gameserver revs)column
-        case attr
-          when "type"
-            html += "<td class=\"#{attr_type(attr,val[attr.to_sym])}\">"
-            if resolution == "monthly"
-              the_date = Date.parse(val[attr.to_sym].gsub(/.*PaymentStats(....)(..)/, '\1/\2'))
-              html+=I18n.localize(the_date, :format => :long_my)
-            else
-              the_date = Date.parse(val[attr.to_sym].gsub(/DailyPaymentStats(.*)/, '\1'))
-              html+=I18n.localize(the_date, :format => :short)
-            end
-            html += "</td>"
-          else
-            html += "<td class=\"#{attr_type(attr,val[attr.to_sym])}\">#{val[attr.to_sym]}</td>"
-        end
+        # case attr
+        #   when "type"
+        #     html += "<td>"
+        #     if resolution == "monthly"
+        #       the_date = Date.parse(val[attr.to_sym].gsub(/.*PaymentStats(....)(..)/, '\1/\2'))
+        #       html+=I18n.localize(the_date, :format => :long_my)
+        #     else
+        #       the_date = Date.parse(val[attr.to_sym].gsub(/DailyPaymentStats(.*)/, '\1'))
+        #       html+=I18n.localize(the_date, :format => :short)
+        #     end
+        #     html += "</td>"
+        #   else
+        #     html += "<td class=\"#{attr_type(attr,val[attr.to_sym])}\">#{val[attr.to_sym]}</td>"
+        # end
+        html += "<td>#{val[attr.to_sym]}</td>"
       end
     end
     html += "</tr>"
     html += "</tbody>"
     html += "</table>"
 
-    js+html
+    html
   end
 end
