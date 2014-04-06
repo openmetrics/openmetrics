@@ -30,5 +30,8 @@ module Openmetrics
     # make rake assets:precompile happy
     # otherwise "Cannot precompile i18n-js translations unless environment is initialized."
     config.assets.initialize_on_precompile = true
+
+    # load rails env into sidekiq
+    #config.eager_load_paths += ["#{config.root}/lib/workers"]
   end
 end

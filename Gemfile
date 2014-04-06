@@ -27,6 +27,20 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
+# use sidekiq as for background processing
+gem 'sidekiq'
+
+# needed for sidekiq monitoring web mount
+# if you require 'sinatra' you get the DSL extended to Object
+gem 'sinatra', '>= 1.3.0', :require => nil
+
+# nmap for system lookups
+gem 'nmap-parser', '~> 0.3.5'
+
+# some net magick
+gem 'net-ssh'
+gem 'net-sftp'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

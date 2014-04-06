@@ -17,6 +17,17 @@ Openmetrics::Application.routes.draw do
 
   resources :systems
 
+
+
+  # Enable this route for sidekiq monitoring
+  # Remember to add 'sinatra' in Gemfile
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
+  # temp admin area with sidekiq within iframe
+  get 'admin' => 'welcome_page#admin'
+
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
