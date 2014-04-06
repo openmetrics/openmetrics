@@ -3,6 +3,13 @@ http://openmetrics.net
 ```
 rake assets:precompile
 
+// show & fix missing translations (https://github.com/glebm/i18n-tasks)
+#i18n-task #no args show usage information
+#i18n-tasks find om.views.system.new.html_input.caption #show usage of translation key in code
+
+i18n-tasks missing #show summary
+i18n-tasks add missing
+
 // export translations from /config/locale/* to js
 rake i18n:js:export
 ```

@@ -57,6 +57,12 @@ gem 'gravatar_image_tag'
 #gem 'i18n-js'
 gem "i18n-js-pika", require: "i18n-js", ref: "rails4"
 
+# provides `i18n-tasks' command to find and fix missing translations, https://github.com/glebm/i18n-tasks
+gem 'i18n-tasks', '~> 0.3.9'
+
+# xlsx spreadsheet export; required by `i18n-tasks xlsx-report` command
+gem 'axlsx', '~> 2.0'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'

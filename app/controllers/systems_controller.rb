@@ -6,8 +6,17 @@ class SystemsController < ApplicationController
 
   def new
     # passing to new causes formbakery placeholders to appear
-    @system = System.new(:name => "New systems name", :fqdn => "host.example.com")
-    @ip_lookup = IpLookup.new(:target => "127.0.0.1/32")
+    @system = System.new(:name => "my example host", :fqdn => "host.example.com")
+    @ip_lookup = IpLookup.new(:target => "www.example.com or 127.0.0.1/32")
+  end
+
+  def create
+    @system = System.new(params[:system])
+    if @system.save
+      redirect_to @system
+    else
+      render new
+    end
   end
 
   # initiates background process IpLookupWorker to start nmap scan on given target

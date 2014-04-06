@@ -24,16 +24,18 @@ de:
           new_system: "Neues System hinzufügen"
         new:
           ip_lookup:
-            note: "Here you can start a nmap service scan on target."
-            submit_text: "Start scan"
+            note: "Füge Systeme und/oder Services durch einen nmap Netzwerkscan hinzu."
+            caption: "Welche Adresse scannen?"
+            submit_text: "Netzwerkscan starten"
             help_text:
-              target: "A fully qualified domain name (FQDN) or IP address or network address (CIDR notation)."
+              target: "Ein vollqualifizierter Hostname (FQDN) oder IP-Adresse oder Netzwerk-Adresse (CIDR Notation)."
           html_input:
-            caption: "Basic information"
-            submit_text: "Create system"
+            caption: "Basisinformationen"
+            submit_text: "System erstellen"
             help_text:
-              fqdn: "A fully qualified domain name (FQDN)."
+              fqdn: "Ein vollqualifizierter Hostname (FQDN)"
+              name: "Ein einprägsamer Name"
     forms:
       submit_text:
-        new:  "Create"
-        update: "Update"
+        new:  "Erstellen"
+        update: "Aktualisieren"

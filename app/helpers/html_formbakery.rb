@@ -104,7 +104,7 @@ module HTMLFormbakery
 
     attributes = object.attributes
     html_result += "<fieldset>"
-    html_result += "<legend>#{caption || object.class.to_s}</legend>"
+    html_result += "<legend>#{caption || object.class.to_s}</legend>" if caption
     attributes.each do |attribute|
       #puts "Attribute: »#{attribute[0]}« has a value of »#{attribute[1]}« and is a »#{attribute[1].class}«"
       field_symbol = attribute[0].to_sym
@@ -175,8 +175,11 @@ module HTMLFormbakery
       html_result += join_table_input(object, object_name, list_include_join_tables)
     end
 
-    # buttons
     unless args.include? :nested
+      # add csrf token
+      html_result += "<input type=\"hidden\" value=\"#{form_authenticity_token}\" name=\"authenticity_token\">"
+
+      # buttons
       html_result += '<div class="form-group"><label class="col-md-4 control-label"></label><div class="col-md-4">'
       if is_new_object
         html_result += "<button type=\"submit\" class=\"btn btn-default btn-success bt-lg pull-right\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
