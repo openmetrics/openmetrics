@@ -1,10 +1,9 @@
 <h1><%= t("om.views.system.index.title") %></h1>
 
-<ul>
-    <li>
-        <%= link_to t("om.views.system.index.new_system"), new_system_path %>
-    </li>
-</ul>
+<%= link_to raw('<span class="glyphicon glyphicon-plus"></span> ' + t("om.views.system.index.new_system")),
+            new_system_path, :class => "btn btn-success btn-large" %>
+
+<!--<button class="btn btn-success btn-large"><span class="glyphicon glyphicon-plus"></span> <%= t("om.views.system.index.new_system") %></button>-->
 
 <%= raw display_table(@systems) %>
 

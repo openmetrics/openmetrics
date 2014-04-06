@@ -4,6 +4,11 @@ class SystemsController < ApplicationController
     respond_with(@systems)
   end
 
+  def new
+    # passing to new causes placeholders to appear
+    @system = System.new(:name => "New systems name", :fqdn => "host.example.com")
+  end
+
   # initiates background process IpLookupWorker to start nmap scan on given target
   # creates an IpLookup object when finished for further use
   def scan

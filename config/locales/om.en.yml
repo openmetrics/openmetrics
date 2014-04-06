@@ -22,3 +22,9 @@ en:
         index:
           title: "Overview"
           new_system: "Add a new system"
+        new:
+          ip_lookup:
+            note: "Here you can start a nmap service scan on target."
+          html_input:
+            caption: "Add basic information"
+            submit: "Save"
