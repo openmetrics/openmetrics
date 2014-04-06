@@ -36,7 +36,7 @@ module HTMLFormbakery
   # Possible options:<br/>
   #<br/>
   # :caption - form legend value of created form <br/>
-  # :nested - does not create 'form'-tags<br/>
+  # :nested - does not create neiter 'form'-tags, nor buttons and csrf token<br/>
   # :only (array) - only create inputs for the given fields<br/>
   # :except (array) - create all inputs except for the given fields<br/>
   # :include_linked_objects - if set, FB will try to create fields for linked objects too.<br/>
@@ -58,6 +58,7 @@ module HTMLFormbakery
     caption = nil
     submit_text = nil
     help_text = nil
+    nested = false
     # TODO proper placeholder control; currently if a object is new (Object.id ==nil) placeholders aren't set
 
     # *args is an Array and not a hash, so we need to make it a little more
@@ -89,16 +90,17 @@ module HTMLFormbakery
           help_text = args_object[:help_text]
         end
 
+        if args_object.include? :nested
+          nested = args_object[:nested]
+        end
+
       end
     end
 
     html_result = ""
 
     # start the form
-
-    unless args.include? :nested
-      html_result += "<form class=\"form-horizontal\" method=\"#{default_method}\" action=\"/#{object_name.pluralize}/#{object.id}\">"
-    end
+    html_result += "<form class=\"form-horizontal\" role=\"form\" method=\"#{default_method}\" action=\"/#{object_name.pluralize}/#{object.id}\">" unless nested
 
     addtional_fields = "" # here go the fields for linked subobjects
 
@@ -175,7 +177,7 @@ module HTMLFormbakery
       html_result += join_table_input(object, object_name, list_include_join_tables)
     end
 
-    unless args.include? :nested
+    unless nested
       # add csrf token
       html_result += "<input type=\"hidden\" value=\"#{form_authenticity_token}\" name=\"authenticity_token\">"
 

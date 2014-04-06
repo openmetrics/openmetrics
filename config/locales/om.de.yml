@@ -17,6 +17,7 @@ de:
       inventory: "Inventar"
       systems: "Systeme"
       services: "Dienste"
+      logoff: "Beenden"
     views:
       system:
         index:

@@ -33,6 +33,7 @@ module HTMLTablebakery
     html += '<tbody>'
     collection.each do |val|
       # generate table cells
+      html += '<tr>'
       attr_sorted.each do |attr|
         # special treat for type (=date) and partner_netto (+gameserver revs)column
         # case attr

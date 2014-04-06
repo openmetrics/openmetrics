@@ -2,42 +2,63 @@
 <ul class="nav nav-tabs">
   <li class="active"><a href="#ip-lookup" data-toggle="tab">IP lookup</a></li>
   <li><a href="#html-input" data-toggle="tab">Your input</a></li>
-  <!--<li><a href="#file-input" data-toggle="tab">File import</a></li>-->
+  <li><a href="#scanresult" data-toggle="tab">Recent scan results</a></li>
+  <li><a href="#file-input" data-toggle="tab">File import</a></li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
 
   <div class="tab-pane active" id="ip-lookup">
-    <h2>Start a system scan</h2>
-    <p><%= t('om.views.system.new.ip_lookup.note') %></p>
-    <%= raw htmlform_for @ip_lookup, {
-                :only => [:target],
-                :caption => t('om.views.system.new.ip_lookup.caption'),
-                :help_text => {:target => t('om.views.system.new.ip_lookup.help_text.target')},
-                :submit_text => t('om.views.system.new.ip_lookup.submit_text')
+    <div class="panel panel-default spacer">
+      <div class="panel-heading">Scan network for a system</div>
+      <div class="panel-body">
+        <p><%= raw t('om.views.system.new.ip_lookup.note') %></p>
+        <%= form_tag(system_scan_path, method: "post", class: "form-horizontal spacer", role: "form") do %>
+            <%= raw htmlform_for @ip_lookup, {
+                    :nested => true,
+                    :only => [:target],
+                    # :caption => t('om.views.system.new.ip_lookup.caption'),
+                    :help_text => {:target => t('om.views.system.new.ip_lookup.help_text.target')},
+                    :submit_text => t('om.views.system.new.ip_lookup.submit_text')
             }
-    %>
+            %>
+            <div class="form-group"><label class="col-md-4 control-label">
+            </label><div class="col-md-4">
+              <button class="btn btn-default btn-success" type="submit"><%= t('om.views.system.new.ip_lookup.submit_text')%></button>
+            </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 
 
   <div class="tab-pane" id="html-input">
-    <h2>Create a new System</h2>
-    <p>Here you can add a minimalistic System skeleton. Services and Metrics can be attached after successful creation.</p>
-    <%= raw htmlform_for @system, {:except => [:id, :created_at, :updated_at],
-                                   :caption => t('om.views.system.new.html_input.caption'),
-                                   :help_text => {:fqdn => t('om.views.system.new.html_input.help_text.fqdn'),
-                                                  :name => t('om.views.system.new.html_input.help_text.name')},
-                                   :submit_text => t('om.views.system.new.html_input.submit_text')
-    }
-    %>
-
-
+    <div class="panel panel-default spacer">
+      <div class="panel-heading">Fill out form to create a new system</div>
+      <div class="panel-body">
+        <p>Here you can add a minimalistic System skeleton. Services and Metrics can be attached after successful creation.</p>
+        <%= raw htmlform_for @system, {:except => [:id, :created_at, :updated_at, :operating_system, :operating_system_flavour],
+                                       :caption => t('om.views.system.new.html_input.caption'),
+                                       :help_text => {:fqdn => t('om.views.system.new.html_input.help_text.fqdn'),
+                                                      :name => t('om.views.system.new.html_input.help_text.name')},
+                                       :submit_text => t('om.views.system.new.html_input.submit_text')
+        }
+        %>
+      </div>
+    </div>
   </div>
 
 
-  <!--<div class="tab-pane" id="file-input">-->
-    <!--<h2>Upload CSV file</h2>-->
-    <!--<p>not yet</p>-->
-  <!--</div>-->
+  <div class="tab-pane" id="file-input">
+    <h2>Upload CSV file <small>FIXME</small></h2>
+    <p>not yet</p>
+  </div>
+
+
+  <div class="tab-pane" id="scanresult">
+  <h2>Recent scan results <small>FIXME</small></h2>
+  <p>not yet</p>
+  </div>
 </div>

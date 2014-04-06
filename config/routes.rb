@@ -16,6 +16,7 @@ Openmetrics::Application.routes.draw do
   end
 
   resources :systems
+  post 'systems/scan' => 'systems#scan', as: :system_scan
 
 
 
