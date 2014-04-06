@@ -2,7 +2,7 @@
 <ul class="nav nav-tabs">
   <li class="active"><a href="#ip-lookup" data-toggle="tab">IP lookup</a></li>
   <li><a href="#html-input" data-toggle="tab">Your input</a></li>
-  <li><a href="#file-input" data-toggle="tab">File import</a></li>
+  <!--<li><a href="#file-input" data-toggle="tab">File import</a></li>-->
 </ul>
 
 <!-- Tab panes -->
@@ -11,22 +11,32 @@
   <div class="tab-pane active" id="ip-lookup">
     <h2>Start a system scan</h2>
     <p><%= t('om.views.system.new.ip_lookup.note') %></p>
-  </div>
-
-
-  <div class="tab-pane" id="html-input">
-    <h2>Start a system scan</h2>
-    <p>Here you can add a new system with minimum effort. Services and Metrics can be attached after successful creation.</p>
-    <%= raw htmlform_for @system, {:except => [:id,:created_at,:updated_at],
-                                   :caption => t('om.views.system.new.html_input.caption'),
-                                   :submit_text => t('om.views.system.new.html_input.submit')
-    }
+    <%= raw htmlform_for @ip_lookup, {
+                :only => [:target],
+                :help_text => t('om.views.system.new.ip_lookup.help_text'),
+                :submit_text => t('om.views.system.new.ip_lookup.submit_text')
+            }
     %>
   </div>
 
 
-  <div class="tab-pane" id="file-input">
-    <h2>Import from files</h2>
-    <p>not yet</p>
+  <div class="tab-pane" id="html-input">
+    <h2>Create a new System</h2>
+    <p>Here you can add a minimalistic System skeleton. Services and Metrics can be attached after successful creation.</p>
+    <%= raw htmlform_for @system, {:except => [:id, :created_at, :updated_at],
+                                   :caption => t('om.views.system.new.html_input.caption'),
+                                   :help_text => {:fqdn => "fully qualified domain name",
+                                                  :name => 'A nice name to remember..'},
+                                   :submit_text => t('om.views.system.new.html_input.submit_text')
+    }
+    %>
+
+
   </div>
+
+
+  <!--<div class="tab-pane" id="file-input">-->
+    <!--<h2>Upload CSV file</h2>-->
+    <!--<p>not yet</p>-->
+  <!--</div>-->
 </div>

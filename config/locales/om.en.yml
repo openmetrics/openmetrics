@@ -25,6 +25,15 @@ en:
         new:
           ip_lookup:
             note: "Here you can start a nmap service scan on target."
+            submit_text: "Start scan"
+            help_text:
+              target: "A fully qualified domain name (FQDN) or IP address or network address (CIDR notation)"
           html_input:
-            caption: "Add basic information"
-            submit: "Save"
+            caption: "Basic information"
+            submit_text: "Create system"
+            help_text:
+              fqdn: "A fully qualified domain name (FQDN), e.g. server1.example.com"
+    forms:
+      submit_text:
+        new:  "Create"
+        update: "Update"

@@ -57,6 +57,7 @@ module HTMLFormbakery
     list_include_join_tables = nil
     caption = nil
     submit_text = nil
+    help_text = nil
     # TODO proper placeholder control; currently if a object is new (Object.id ==nil) placeholders aren't set
 
     # *args is an Array and not a hash, so we need to make it a little more
@@ -84,6 +85,10 @@ module HTMLFormbakery
           submit_text = args_object[:submit_text]
         end
 
+        if args_object.include? :help_text
+          help_text = args_object[:help_text]
+        end
+
       end
     end
 
@@ -102,21 +107,31 @@ module HTMLFormbakery
     html_result += "<legend>#{caption || object.class.to_s}</legend>"
     attributes.each do |attribute|
       #puts "Attribute: »#{attribute[0]}« has a value of »#{attribute[1]}« and is a »#{attribute[1].class}«"
+      field_symbol = attribute[0].to_sym
+      field_value = attribute[1]
+
+      # help text available?
+      h=nil
+      if help_text
+        unless help_text[field_symbol].nil?
+          h=help_text[field_symbol]
+        end
+      end
 
       # just given list_only attributes
       unless list_only.nil?
-        if list_only.include? attribute[0].to_sym
+        if list_only.include? field_symbol
           html_result += '<div class="form-group">'
-          html_result += input_for(object_name, attribute[1], attribute[0], is_new_object)
+          html_result += input_for(object_name, attribute[1], attribute[0], is_new_object, h)
           html_result += '</div>'
         end
       end
 
       # all attributes except the given ones
       if !list_except.nil? and list_only.nil?
-        unless list_except.include? attribute[0].to_sym
+        unless list_except.include? field_symbol
           html_result += '<div class="form-group">'
-          html_result += input_for(object_name, attribute[1], attribute[0], is_new_object)
+          html_result += input_for(object_name, attribute[1], attribute[0], is_new_object, h)
           html_result += '</div>'
         end
       end
@@ -124,11 +139,11 @@ module HTMLFormbakery
       # show all attributes
       if list_only.nil? and list_except.nil?
         html_result += '<div class="form-group">'
-        html_result += input_for(object_name, attribute[1], attribute[0], is_new_object)
+        html_result += input_for(object_name, attribute[1], attribute[0], is_new_object, h)
         html_result += '</div>'
       end
 
-      
+
 
       if args.include? :include_linked_objects
         # check for linked subobjects
@@ -159,14 +174,17 @@ module HTMLFormbakery
       html_result += join_table_input(object, object_name, list_include_join_tables)
     end
 
-    #
-    # TODO add post submit button for new objects
+    # buttons
     unless args.include? :nested
-      html_result += "<fieldset>"
-      html_result += "<div style=\"margin: 0pt; padding: 0pt; display: inline;\"><input type=\"hidden\" value=\"put\" name=\"_method\"></div>"
-      html_result += "<input type=\"submit\" value=\"update\" name=\"commit\">"
-      html_result += "</fieldset>"
-      html_result += "</form>"
+      html_result += '<div class="form-group"><label class="col-md-4 control-label"></label><div class="col-md-4">'
+      if is_new_object
+        html_result += "<button type=\"submit\" class=\"btn btn-default btn-success bt-lg pull-right\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
+      else
+        html_result += "<input type=\"hidden\" value=\"put\" name=\"_method\">"
+        html_result += "<button type=\"submit\" class=\"btn btn-default\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
+      end
+      html_result += '</div></div>'
+      html_result += '</form>'
     end
 
     return html_result
@@ -175,10 +193,12 @@ module HTMLFormbakery
 
   protected
 
-  def wrap_label(html, labeltext)
+  def wrap_label(html, labeltext, helptext)
     l =  "<label class=\"col-md-4 control-label\" for=\"textinput\">#{labeltext}</label>"
     l += '<div class="col-md-4">'
     l += html
+    # help text set?
+    l += "<span class=\"help-block\">#{helptext}</span>" unless helptext.nil?
     l += '</div>'
     l
   end
@@ -192,7 +212,7 @@ module HTMLFormbakery
     end
   end
 
-  def input_for(formholder_object_name,object,object_name,is_new_object)
+  def input_for(formholder_object_name,object,object_name,is_new_object, helptext)
     result = ''
     if object.is_a? String
 
@@ -203,7 +223,7 @@ module HTMLFormbakery
       else
         result += "value=\"#{object.to_s}\" name=\"#{formholder_object_name}[#{object_name}]\" id=\"#{formholder_object_name}_#{object_name}\">"
       end
-      return wrap_label(result, object_name)
+      return wrap_label(result, object_name, helptext)
     end
 
     if object.is_a? Fixnum
@@ -226,13 +246,13 @@ module HTMLFormbakery
         # just a normal Integer!
         result += "<input type=\"text\" value=\"#{object.to_s}\" name=\"#{formholder_object_name}[#{object_name}]\" id=\"#{formholder_object_name}_#{object_name}\">"
       end
-      return wrap_label(result, object_name)
+      return wrap_label(result, object_name,helptext)
     end
     if object.is_a? Time
       # usually you wont need to change this, but we can generate an input too:
       # TODO : BROKEN!
       #result += ActionView::Helpers::DateHelper.select_datetime object
-      return wrap_label(result, object_name)
+      return wrap_label(result, object_name, helptext)
     end
 
     # unknown object type
@@ -243,7 +263,7 @@ module HTMLFormbakery
         result += "placeholder=\"unknown ObjectType for input: #{object.class}\" name=\"#{formholder_object_name}[#{object_name}]\">"
       end
 
-    return wrap_label(result, object_name)
+    return wrap_label(result, object_name, helptext)
   end
 
   def join_table_input(object, object_name, tablename)
