@@ -111,6 +111,7 @@ module HTMLFormbakery
       field_value = attribute[1]
 
       # help text available?
+      # TODO this crashes if ':help_text' => l("om.some.path") does dont exist in any language file
       h=nil
       if help_text
         unless help_text[field_symbol].nil?

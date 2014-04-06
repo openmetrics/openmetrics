@@ -20,5 +20,20 @@ de:
     views:
       system:
         index:
-          title: "Übersicht"
+          title: "Systemübersicht"
           new_system: "Neues System hinzufügen"
+        new:
+          ip_lookup:
+            note: "Here you can start a nmap service scan on target."
+            submit_text: "Start scan"
+            help_text:
+              target: "A fully qualified domain name (FQDN) or IP address or network address (CIDR notation)."
+          html_input:
+            caption: "Basic information"
+            submit_text: "Create system"
+            help_text:
+              fqdn: "A fully qualified domain name (FQDN)."
+    forms:
+      submit_text:
+        new:  "Create"
+        update: "Update"
