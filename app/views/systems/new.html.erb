@@ -1,7 +1,7 @@
 <h3>Create System</h3>
 
 <!-- Nav tabs -->
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs" id="system_new_tab">
   <li class="active"><a href="#ip-lookup" data-toggle="tab">IP lookup</a></li>
   <li><a href="#html-input" data-toggle="tab">Your input</a></li>
   <li><a href="#scanresult" data-toggle="tab">Recent scan results</a></li>
@@ -63,3 +63,21 @@
   <p>not yet</p>
   </div>
 </div>
+
+<!-- javascript to make tabs clickable and store location -->
+<script>
+    $('#system_new_tab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    // store the currently selected tab in the hash value
+    $("ul.nav-tabs > li > a").on("shown.bs.tab", function (e) {
+        var id = $(e.target).attr("href").substr(1);
+        window.location.hash = id;
+    });
+
+    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash;
+    $('#system_new_tab a[href="' + hash + '"]').tab('show');
+</script>
