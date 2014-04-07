@@ -34,6 +34,8 @@ class SystemsController < ApplicationController
       i.job_id = IpLookupWorker.perform_async(i.target)
       if i.save
         flash[:success] = "IpLookup scheduled successfully. You will be noticed as soon as scanresult is available."
+      else
+        flash[:warn] = "Oh snap! Scheduling IpLookup on that target failed. ;("
       end
     rescue
       logger.error "Failed to schedule job on IpLookupWorker"
