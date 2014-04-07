@@ -13,8 +13,10 @@ class SystemsController < ApplicationController
   def create
     @system = System.new(system_params)
     if @system.save
+      flash[:success] = "System saved."
       redirect_to systems_path
     else
+      flash[:warn] = "Oh snap! That didn't work."
       redirect_to new_system_path
     end
   end

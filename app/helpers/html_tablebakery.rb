@@ -3,7 +3,22 @@ module HTMLTablebakery
   public
 
   # returns an html table
-  def htmltable_for(collection)
+  # Possible options:<br/>
+  #<br/>
+  # :html_class - tables class attribute (will be merged with default table classes) <br/>
+  def htmltable_for(collection, *args)
+    table_classes = "table table-hover table-striped" # may be be expanded with :html_class
+    # *args is an Array and not a hash, so we need to make it a little more
+    # usable first! Scan for known options and use them
+    args.each do |args_object|
+      if args_object.is_a? Hash
+
+        if args_object.include? :html_class
+          table_classes = table_classes+' '+args_object[:html_class]
+        end
+
+      end
+    end
 
     attr_ignore = []
     attr_hide = []
@@ -20,7 +35,7 @@ module HTMLTablebakery
     attr_sorted = attr_order & attr_available
 
 
-    html = '<table class="table table-hover table-striped">'
+    html = "<table class=\"#{table_classes}\">"
     html += '<thead>'
     html += '<tr>'
 

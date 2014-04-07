@@ -41,11 +41,12 @@ module HTMLFormbakery
   # :except (array) - create all inputs except for the given fields<br/>
   # :include_linked_objects - if set, FB will try to create fields for linked objects too.<br/>
   # :include_join_tables (array) - EXPERIMENTAL include join tables linking to the object in form of lists<br/>
+  # :html_class - form class attribute (will be merged with default form classes) <br/>
+  # :help_text ( object ) - help text for form fields
   # <br/>
   # Not implemented:<br/>
   # :include_subobjects<br/>
   # :include_timestamps<br/>
-  # :submit_text<br/>
   #
   def htmlform_for(object, *args)
     default_action = "update"
@@ -59,6 +60,7 @@ module HTMLFormbakery
     submit_text = nil
     help_text = nil
     nested = false
+    form_classes = "form-horizontal" # may be be expanded with :html_class
     # TODO proper placeholder control; currently if a object is new (Object.id ==nil) placeholders aren't set
 
     # *args is an Array and not a hash, so we need to make it a little more
@@ -82,6 +84,10 @@ module HTMLFormbakery
           caption = args_object[:caption]
         end
 
+        if args_object.include? :html_class
+          form_classes = form_classes+' '+args_object[:html_class]
+        end
+
         if args_object.include? :submit_text
           submit_text = args_object[:submit_text]
         end
@@ -100,7 +106,7 @@ module HTMLFormbakery
     html_result = ""
 
     # start the form
-    html_result += "<form class=\"form-horizontal\" role=\"form\" method=\"#{default_method}\" action=\"/#{object_name.pluralize}/#{object.id}\">" unless nested
+    html_result += "<form class=\"#{form_classes}\" role=\"form\" method=\"#{default_method}\" action=\"/#{object_name.pluralize}/#{object.id}\">" unless nested
 
     addtional_fields = "" # here go the fields for linked subobjects
 
