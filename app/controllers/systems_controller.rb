@@ -27,15 +27,18 @@ class SystemsController < ApplicationController
   def scan
     i = IpLookup.new(ip_lookup_params)
     i.user_id = current_user.id
-    i.job_id = IpLookupWorker.perform_async(i.target)
-    if i.save
-      flash[:success] = "IpLookup scheduled successfully. You will be noticed as soon as scanresult is available."
-      redirect_to :back
-    else
-      flash[:warn] = "That IpLookup didn't work."
+    begin
+      # try to perform async, otherwise fail
+      i.job_id = IpLookupWorker.perform_async(i.target)
+      if i.save
+        flash[:success] = "IpLookup scheduled successfully. You will be noticed as soon as scanresult is available."
+      end
+    rescue
+      logger.error "Failed to schedule job on IpLookupWorker"
+      flash[:error] = "That IpLookup didn't work."
+    ensure
       redirect_to :back
     end
-
   end
 
   private

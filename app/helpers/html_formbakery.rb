@@ -1,3 +1,4 @@
+# encoding: utf-8 # source files receive a US-ASCII Encoding, unless you say otherwise.
 module HTMLFormbakery
 
 

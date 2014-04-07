@@ -1,5 +1,6 @@
-class WelcomePageController < ApplicationController
+require 'sidekiq/api' # admin
 
+class WelcomePageController < ApplicationController
   before_filter :authenticate_user!
 
   def display
@@ -8,7 +9,6 @@ class WelcomePageController < ApplicationController
   end
 
   def admin
-    respond_with "foo"
   end
 
 end
