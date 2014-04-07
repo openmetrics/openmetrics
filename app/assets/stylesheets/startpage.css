@@ -4,7 +4,7 @@ table { width: 560px; }
 td { padding: 5px 15px; }
 
 .center-block {
-    border: medium double #ddd;
+    border: medium double #e7e7e7;
     padding: 28px;
 }
 
@@ -26,8 +26,8 @@ input[type='password'] {
         margin-top: 42px;
         color: slategray;
         padding: 0.7em;
-        background-color: #f3f3f3;
-        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        border-top: thin solid #e7e7e7;
 }
 
 

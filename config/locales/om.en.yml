@@ -21,8 +21,8 @@ en:
     views:
       system:
         index:
-          title: "System overview"
-          new_system: "Add a new system"
+          title: "Systems List"
+          new_system: "Add a new System"
         new:
           ip_lookup:
             note: "Start a nmap service scan on given target hostname or IP (& network) address. Afterwards you may want to create systems and services from the scanresult.<br><strong>BE ADVISED:</strong> Scanning computer systems and network infrastructure you do not own may violate law."

@@ -1,8 +1,8 @@
-  <h4>
-    <span class="glyphicon glyphicon-lock"></span> <%= t("om.login.greeter") %>
-  </h4>
+  <h3>
+    <span class="glyphicon glyphicon-lock"></span> <%= t('om.login.greeter') %>
+  </h3>
 
-  <table>
+  <table class="spacer">
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <tr>
       <td><%= f.text_field :login, autofocus: true, :class => "form-control" %></td>
