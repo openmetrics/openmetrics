@@ -17,8 +17,26 @@ de:
       inventory: "Inventar"
       systems: "Systeme"
       services: "Dienste"
+      logoff: "Beenden"
     views:
       system:
         index:
-          title: "Übersicht"
+          title: "Systemübersicht"
           new_system: "Neues System hinzufügen"
+        new:
+          ip_lookup:
+            note: "Füge Systeme und/oder Services durch einen nmap Netzwerkscan hinzu."
+            caption: "Welche Adresse scannen?"
+            submit_text: "Netzwerkscan starten"
+            help_text:
+              target: "Ein vollqualifizierter Hostname (FQDN) oder IP-Adresse oder Netzwerk-Adresse (CIDR Notation)."
+          html_input:
+            caption: "Basisinformationen"
+            submit_text: "System erstellen"
+            help_text:
+              fqdn: "Ein vollqualifizierter Hostname (FQDN)"
+              name: "Ein einprägsamer Name"
+    forms:
+      submit_text:
+        new:  "Erstellen"
+        update: "Aktualisieren"

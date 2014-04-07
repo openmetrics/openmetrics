@@ -27,6 +27,20 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
+# use sidekiq as for background processing
+gem 'sidekiq'
+
+# needed for sidekiq monitoring web mount
+# if you require 'sinatra' you get the DSL extended to Object
+gem 'sinatra', '>= 1.3.0', :require => nil
+
+# nmap for system lookups
+gem 'nmap-parser', '~> 0.3.5'
+
+# some net magick
+gem 'net-ssh'
+gem 'net-sftp'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -42,6 +56,12 @@ gem 'gravatar_image_tag'
 # original gem is not compatible with Rails4 yet
 #gem 'i18n-js'
 gem "i18n-js-pika", require: "i18n-js", ref: "rails4"
+
+# provides `i18n-tasks' command to find and fix missing translations, https://github.com/glebm/i18n-tasks
+gem 'i18n-tasks', '~> 0.3.9'
+
+# xlsx spreadsheet export; required by `i18n-tasks xlsx-report` command
+gem 'axlsx', '~> 2.0'
 
 
 # Use ActiveModel has_secure_password

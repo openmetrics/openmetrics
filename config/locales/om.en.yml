@@ -17,8 +17,27 @@ en:
       inventory: "Inventory"
       systems: "Systems"
       services: "Services"
+      admin: "Admin Area"
+      logoff: "Exit"
     views:
       system:
         index:
-          title: "Overview"
-          new_system: "Add a new system"
+          title: "Systems List"
+          new_system: "Add a new System"
+        new:
+          ip_lookup:
+            note: "Start a nmap service scan on given target hostname or IP (& network) address. Afterwards you may want to create systems and services from the scanresult.<br><strong>BE ADVISED:</strong> Scanning computer systems and network infrastructure you do not own may violate law."
+            caption: "Which target to scan?"
+            submit_text: "Start scan"
+            help_text:
+              target: "A fully qualified domain name (FQDN) or IP address or network address (CIDR notation)"
+          html_input:
+            caption: "Basic information"
+            submit_text: "Create system"
+            help_text:
+              fqdn: "A fully qualified domain name (FQDN)"
+              name: "A name easy to remember"
+    forms:
+      submit_text:
+        new:  "Create"
+        update: "Update"

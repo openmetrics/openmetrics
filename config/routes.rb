@@ -3,19 +3,29 @@ Openmetrics::Application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
+  # start at welcomepage
   root 'welcome_page#display'
 
-  #devise_for :user,
-  #           path: "auth",
-  #           path_names: { sign_in: 'login', sign_out: 'logout', password: 'secret', confirmation: 'verify',
-  #                         unlock: 'unblock', registration: 'register', sign_up: 'sign_up' }
+  # devise and user related routes
   as :user do
     get "/login" => "devise/sessions#new"
     delete "/logout" => "devise/sessions#destroy"
   end
+  get '/users/:id', :to => 'users#show', :as => :user  # provides user_path
 
+  # system's routes
   resources :systems
+  post 'systems/scan' => 'systems#scan', as: :system_scan
+
+
+  # Enable this route for sidekiq monitoring
+  # Remember to add 'sinatra' in Gemfile
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
+  # temp admin area with sidekiq within iframe
+  get 'admin' => 'welcome_page#admin'
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

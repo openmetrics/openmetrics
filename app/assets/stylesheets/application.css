@@ -41,18 +41,27 @@
     }
 }
 
+/* bootstrap make glyphicon in navbar appear more vertical aligned */
+.glyphicon {
+    top: 3px;
+}
+
 /* bootstrap increased glyphicon sizes */
 .glyphicon-2x{
-    font-size: 40px;
+    font-size: 28px;
 }
 
 .glyphicon-3x{
-    font-size: 60px;
+    font-size: 42px;
 }
 
 /* bootstrap multiple navbar-right needs padding */
 .navbar-right {
     padding-right: 15px;
+}
+
+.spacer {
+    margin-top: 40px; /* define margin as you see fit */
 }
 
 /* gravatar images */
