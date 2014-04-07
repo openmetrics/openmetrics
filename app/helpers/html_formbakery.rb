@@ -1,11 +1,7 @@
 # encoding: utf-8 # source files receive a US-ASCII Encoding, unless you say otherwise.
 module HTMLFormbakery
 
-
-
   public
-
-
   def info_for(object)
     attributes = object.attributes
     attributes.each do |attribute|
@@ -44,6 +40,7 @@ module HTMLFormbakery
   # :include_join_tables (array) - EXPERIMENTAL include join tables linking to the object in form of lists<br/>
   # :html_class - form class attribute (will be merged with default form classes) <br/>
   # :help_text ( object ) - help text for form fields
+  # :within_tab - set this to true if form is rendered within a ui tab. as a result a hidden input _anchor with name of current page anchor is inserted to form
   # <br/>
   # Not implemented:<br/>
   # :include_subobjects<br/>
@@ -61,7 +58,9 @@ module HTMLFormbakery
     submit_text = nil
     help_text = nil
     nested = false
+    include_page_anchor = false
     form_classes = "form-horizontal" # may be be expanded with :html_class
+    form_id="#{object_name.pluralize}_#{is_new_object ? "new" : update}" # default html id, e.g. systems_new
     # TODO proper placeholder control; currently if a object is new (Object.id ==nil) placeholders aren't set
 
     # *args is an Array and not a hash, so we need to make it a little more
@@ -101,13 +100,18 @@ module HTMLFormbakery
           nested = args_object[:nested]
         end
 
+        if args_object.include? :within_tab
+          include_page_anchor = args_object[:within_tab]
+        end
+
       end
     end
 
-    html_result = ""
+    html_result = ''
+    js = ''
 
     # start the form
-    html_result += "<form class=\"#{form_classes}\" role=\"form\" method=\"#{default_method}\" action=\"/#{object_name.pluralize}/#{object.id}\">" unless nested
+    html_result += "<form class=\"#{form_classes}\" role=\"form\" method=\"#{default_method}\" id=\"#{form_id}\" action=\"/#{object_name.pluralize}/#{object.id}\">" unless nested
 
     addtional_fields = "" # here go the fields for linked subobjects
 
@@ -153,8 +157,7 @@ module HTMLFormbakery
         html_result += '</div>'
       end
 
-
-
+      # nested attributes
       if args.include? :include_linked_objects
         # check for linked subobjects
         if attribute[0][((attribute[0].length)-3)..attribute[0].length].include? "_id"
@@ -200,11 +203,30 @@ module HTMLFormbakery
       html_result += '</form>'
     end
 
-    return html_result
+    # append some javascript
+    js += js_include_page_anchor(form_id)
+    return html_result+js
   end
 
 
   protected
+
+  def js_include_page_anchor(form_id)
+    "
+    <script type=\"text/javascript\">
+      $(function() {
+      var form = $('##{form_id}');
+      if ( form.length ) {
+        form.submit(function( event ) {
+          var page_anchor = window.location.hash;
+          form.append('<input name=\"anchor\" type=\"hidden\" value=\"'+page_anchor+'\">');
+          return;
+        });
+      }
+      });
+    </script>
+    "
+  end
 
   def wrap_label(html, labeltext, helptext)
     l =  "<label class=\"col-md-4 control-label\" for=\"textinput\">#{labeltext}</label>"

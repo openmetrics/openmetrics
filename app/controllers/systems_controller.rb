@@ -17,7 +17,7 @@ class SystemsController < ApplicationController
       redirect_to systems_path
     else
       flash[:warn] = "Oh snap! That didn't work."
-      redirect_to new_system_path
+      redirect_to_anchor_or_back
     end
   end
 
@@ -37,7 +37,7 @@ class SystemsController < ApplicationController
       logger.error "Failed to schedule job on IpLookupWorker"
       flash[:error] = "That IpLookup didn't work."
     ensure
-      redirect_to :back
+      redirect_to_anchor_or_back
     end
   end
 

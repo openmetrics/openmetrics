@@ -39,7 +39,7 @@
       <div class="panel-heading">Fill out form to create a new system</div>
       <div class="panel-body">
         <p>Here you can add a minimalistic System skeleton. Services and Metrics can be attached after successful creation.</p>
-        <%= raw htmlform_for @system, {:html_class => 'spacer',
+        <%= raw htmlform_for @system, {:html_class => 'spacer', :within_tab => true,
                                        :except => [:id, :created_at, :updated_at, :operating_system, :operating_system_flavour],
                                        :caption => t('om.views.system.new.html_input.caption'),
                                        :help_text => {:fqdn => t('om.views.system.new.html_input.help_text.fqdn'),
@@ -64,20 +64,20 @@
   </div>
 </div>
 
-<!-- javascript to make tabs clickable and store location -->
+<!-- make tabs clickable and store location -->
 <script>
     $('#system_new_tab a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
     });
 
-    // store the currently selected tab in the hash value
+    // store the currently selected tab in the window location hash
     $("ul.nav-tabs > li > a").on("shown.bs.tab", function (e) {
-        var id = $(e.target).attr("href").substr(1);
-        window.location.hash = id;
+        var tab_name = $(e.target).attr("href").substr(1);
+        window.location.hash = tab_name;
     });
 
     // on load of the page: switch to the currently selected tab
-    var hash = window.location.hash;
-    $('#system_new_tab a[href="' + hash + '"]').tab('show');
+    var anchor = window.location.hash;
+    $('#system_new_tab a[href="' + anchor + '"]').tab('show');
 </script>
