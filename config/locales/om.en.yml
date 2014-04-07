@@ -17,6 +17,7 @@ en:
       inventory: "Inventory"
       systems: "Systems"
       services: "Services"
+      admin: "Admin Area"
       logoff: "Exit"
     views:
       system:
