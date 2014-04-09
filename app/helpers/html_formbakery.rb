@@ -204,14 +204,16 @@ module HTMLFormbakery
     end
 
     # append some javascript
-    js += js_include_page_anchor(form_id)
+    js += js_input_for_page_anchor(form_id) if include_page_anchor
     return html_result+js
   end
 
 
   protected
 
-  def js_include_page_anchor(form_id)
+  # passed hidden input field 'page_anchor' with form to make bounce back to ui panel possbile
+  # this is only useful in conjunction with :within_tab option
+  def js_input_for_page_anchor(form_id)
     "
     <script type=\"text/javascript\">
       $(function() {

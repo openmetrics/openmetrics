@@ -39,7 +39,7 @@ class SystemsController < ApplicationController
       end
     rescue
       logger.error "Failed to schedule job on IpLookupWorker"
-      flash[:error] = "That IpLookup didn't work."
+      flash[:error] = "That IpLookup schedule didn't work."
     ensure
       redirect_to_anchor_or_back
     end

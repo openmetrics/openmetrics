@@ -1,0 +1,10 @@
+<h3>
+    <%= raw t('om.views.system.index.title') %>
+    <%= link_to raw('<span class="glyphicon glyphicon-plus"></span> ' + t("om.views.service.index.new_service")),
+            new_service_path, :class => "btn btn-success pull-right" %>
+    <small>all</small>
+</h3>
+
+
+<%= raw htmltable_for @services, {:html_class => "spacer"} %>
+
