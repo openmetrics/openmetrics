@@ -63,6 +63,9 @@ gem 'i18n-tasks', '~> 0.3.9'
 # xlsx spreadsheet export; required by `i18n-tasks xlsx-report` command
 gem 'axlsx', '~> 2.0'
 
+# use selenium webdriver for automated webtests
+gem 'selenium-webdriver'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'

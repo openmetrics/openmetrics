@@ -18,6 +18,7 @@ en:
       systems: "Systems"
       services: "Services"
       admin: "Admin Area"
+      webtests: "Webtests"
       logoff: "Exit"
     views:
       system:
