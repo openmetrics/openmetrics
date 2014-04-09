@@ -1,8 +1,8 @@
 class System < ActiveRecord::Base
-  has_many :running_services
-  has_many :services, :through => :running_services
+  has_many :running_service
+  has_many :services, :through => :running_service
   # has_many :active_services, ->{ where(active: true).order(:name) },
-  #           through: :running_services,
+  #           through: :running_service,
   #           class_name: 'Service',
   #           source: :system
 

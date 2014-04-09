@@ -3,30 +3,41 @@ module HTMLFormbakery
 
   public
   def info_for(object)
+    puts "Object class_name: #{object.class.name}"
+    puts "Attributes:"
     attributes = object.attributes
     attributes.each do |attribute|
-      puts "Attribute: »#{attribute[0]}« has a value of »#{attribute[1]}« and is a »#{attribute[1].class}«"
-
+      attr, value = attribute[0], attribute[1]
+      puts "»#{attr}« has a value of »#{value}« and is a »#{value.class}«"
       # check for linked subobjects
-      if attribute[0][((attribute[0].length)-3)..attribute[0].length].include? "_id"
+      if attr[((attr.length)-3)..attr.length].include? "_id"
         puts "    and it is a linked Object"
         # lets see, if we can get info in this too!
-        object_class_name = attribute[0][0..((attribute[0].length)-4)]
+        object_class_name = attr[0..((attr.length)-4)]
         puts "    - Classname = #{object_class_name}"
         caller = object_class_name.camelize # make CamelCase
-        # TODO Check attribute[1] to be really a FixNum/Integer
-        newobj = eval("#{caller}.find(#{attribute[1]})")
+        # TODO Check value to be really a FixNum/Integer
+        newobj = eval("#{caller}.find(#{value})")
         puts " . . subobject: . . "
         self.form_for newobj
         puts " . . . . . . . . . ."
       end
 
       # serialized data?
-      if attribute[1].is_a? Hash
-        self.form_for_hash attribute[1]
+      if value.is_a? Hash
+        self.form_for_hash value
       end
     end
-    puts " "
+
+    # analyze and print associations
+    object_class_name = object.class.name
+    object_class = object_class_name.constantize
+    reflections = object_class.reflect_on_all_associations(:has_many) # :has_many, :has_one, :belongs_to
+    #puts reflections.inspect
+    reflections.each_with_index do |reflection, i|
+        reflection_opts = ( reflection.options.empty? ? "(#{reflection.options.to_s})"  : "(no options)" )
+        puts "#{object_class_name} »#{reflection.macro}« »#{reflection.plural_name}« #{reflection_opts}"
+    end
   end
 
   # Returns a html-form for the given RAILS-object
