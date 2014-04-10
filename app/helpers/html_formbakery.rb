@@ -29,7 +29,7 @@ module HTMLFormbakery
       end
     end
 
-    # analyze and print associations
+    # analyze and print associations (:has_many only)
     object_class_name = object.class.name
     object_class = object_class_name.constantize
     reflections = object_class.reflect_on_all_associations(:has_many) # :has_many, :has_one, :belongs_to
@@ -72,7 +72,7 @@ module HTMLFormbakery
     include_page_anchor = false
     form_classes = "form-horizontal" # may be be expanded with :html_class
     form_id="#{object_name.pluralize}_#{is_new_object ? "new" : update}" # default html id, e.g. systems_new
-    # TODO proper placeholder control; currently if a object is new (Object.id ==nil) placeholders aren't set
+    # TODO proper placeholder control; currently if a object is new (Object.id ==nil) placeholders are set
 
     # *args is an Array and not a hash, so we need to make it a little more
     # usable first! Scan for known options and use them
@@ -122,13 +122,13 @@ module HTMLFormbakery
     js = ''
 
     # start the form
-    html_result += "<form class=\"#{form_classes}\" role=\"form\" method=\"#{default_method}\" id=\"#{form_id}\" action=\"/#{object_name.pluralize}/#{object.id}\">" unless nested
+    html_result << "<form class=\"#{form_classes}\" role=\"form\" method=\"#{default_method}\" id=\"#{form_id}\" action=\"/#{object_name.pluralize}/#{object.id}\">" unless nested
 
     addtional_fields = "" # here go the fields for linked subobjects
 
     attributes = object.attributes
-    html_result += "<fieldset>"
-    html_result += "<legend>#{caption || object.class.to_s}</legend>" if caption
+    html_result << "<fieldset>"
+    html_result << "<legend>#{caption || object.class.to_s}</legend>" if caption
     attributes.each do |attribute|
       #puts "Attribute: »#{attribute[0]}« has a value of »#{attribute[1]}« and is a »#{attribute[1].class}«"
       field_symbol = attribute[0].to_sym
@@ -146,28 +146,29 @@ module HTMLFormbakery
       # just given list_only attributes
       unless list_only.nil?
         if list_only.include? field_symbol
-          html_result += '<div class="form-group">'
-          html_result += input_for(object_name, attribute[1], attribute[0], is_new_object, h)
-          html_result += '</div>'
+          html_result << '<div class="form-group">'
+          html_result << input_for(object_name, attribute[1], attribute[0], is_new_object, h)
+          html_result << '</div>'
         end
       end
 
       # all attributes except the given ones
       if !list_except.nil? and list_only.nil?
         unless list_except.include? field_symbol
-          html_result += '<div class="form-group">'
-          html_result += input_for(object_name, attribute[1], attribute[0], is_new_object, h)
-          html_result += '</div>'
+          html_result << '<div class="form-group">'
+          html_result << input_for(object_name, attribute[1], attribute[0], is_new_object, h)
+          html_result << '</div>'
         end
       end
 
       # show all attributes
       if list_only.nil? and list_except.nil?
-        html_result += '<div class="form-group">'
-        html_result += input_for(object_name, attribute[1], attribute[0], is_new_object, h)
-        html_result += '</div>'
+        html_result << '<div class="form-group">'
+        html_result << input_for(object_name, attribute[1], attribute[0], is_new_object, h)
+        html_result << '</div>'
       end
 
+      # TODO doesnt seem to be good yet
       # nested attributes
       if args.include? :include_linked_objects
         # check for linked subobjects
@@ -179,11 +180,11 @@ module HTMLFormbakery
           caller = object_class_name.camelize # make CamelCase
 
           newobj = eval("#{caller}.find(#{attribute[1]})")
-          #html_result += " . . subobject: . . "
-          #html_result += "</fieldset>"
+          #html_result << " . . subobject: . . "
+          #html_result << "</fieldset>"
           addtional_fields += self.form_for newobj, true
-          #html_result += "<fieldset>"
-          #html_result += " . . . . . . . . . ."
+          #html_result << "<fieldset>"
+          #html_result << " . . . . . . . . . ."
         end
       end
       # serialized data?
@@ -191,27 +192,27 @@ module HTMLFormbakery
         self.form_for_hash attribute[1]
       end
     end
-    html_result += "</fieldset>"
-    html_result += addtional_fields
+    html_result << "</fieldset>"
+    html_result << addtional_fields
 
     unless list_include_join_tables.nil?
-      html_result += join_table_input(object, object_name, list_include_join_tables)
+      html_result << join_table_input(object, object_name, list_include_join_tables)
     end
 
     unless nested
       # add csrf token
-      html_result += "<input type=\"hidden\" value=\"#{form_authenticity_token}\" name=\"authenticity_token\">"
+      html_result << "<input type=\"hidden\" value=\"#{form_authenticity_token}\" name=\"authenticity_token\">"
 
       # buttons
-      html_result += '<div class="form-group"><label class="col-md-4 control-label"></label><div class="col-md-4">'
+      html_result << '<div class="form-group"><label class="col-md-4 control-label"></label><div class="col-md-4">'
       if is_new_object
-        html_result += "<button type=\"submit\" class=\"btn btn-default btn-success bt-lg pull-right\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
+        html_result << "<button type=\"submit\" class=\"btn btn-default btn-success bt-lg pull-right\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
       else
-        html_result += "<input type=\"hidden\" value=\"put\" name=\"_method\">"
-        html_result += "<button type=\"submit\" class=\"btn btn-default\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
+        html_result << "<input type=\"hidden\" value=\"put\" name=\"_method\">"
+        html_result << "<button type=\"submit\" class=\"btn btn-default\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
       end
-      html_result += '</div></div>'
-      html_result += '</form>'
+      html_result << '</div></div>'
+      html_result << '</form>'
     end
 
     # append some javascript
@@ -242,12 +243,12 @@ module HTMLFormbakery
   end
 
   def wrap_label(html, labeltext, helptext)
-    l =  "<label class=\"col-md-4 control-label\" for=\"textinput\">#{labeltext}</label>"
-    l += '<div class="col-md-4">'
-    l += html
+    l =  "<label class=\"col-md-4 control-label\" for=\"textinput\">#{labeltext.humanize}</label>"
+    l << '<div class="col-md-4">'
+    l << html
     # help text set?
-    l += "<span class=\"help-block\">#{helptext}</span>" unless helptext.nil?
-    l += '</div>'
+    l << "<span class=\"help-block\">#{helptext}</span>" unless helptext.nil?
+    l << '</div>'
     l
   end
 

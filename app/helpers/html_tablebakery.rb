@@ -41,7 +41,7 @@ module HTMLTablebakery
     html += '<tr>'
 
     attr_sorted.each do |attr|
-      html += "<th>#{attr}</th>"
+      html += "<th>#{attr.humanize}</th>"
     end
 
     html += '</tr>'

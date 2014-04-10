@@ -44,7 +44,6 @@ en:
             submit_text: "Create service"
             help_text:
               name: "A name easy to remember"
-
     forms:
       submit_text:
         new:  "Create"
