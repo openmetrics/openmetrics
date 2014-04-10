@@ -3,7 +3,7 @@ module HTMLFormbakery
 
   public
   def info_for(object)
-    puts "Object class_name: #{object.class.name}"
+    puts "Object class_name: #{object.class.name}\n"
     puts "Attributes:"
     attributes = object.attributes
     attributes.each do |attribute|
@@ -30,14 +30,17 @@ module HTMLFormbakery
     end
 
     # analyze and print associations (:has_many only)
+    puts "Associations\n"
     object_class_name = object.class.name
     object_class = object_class_name.constantize
     reflections = object_class.reflect_on_all_associations(:has_many) # :has_many, :has_one, :belongs_to
-    #puts reflections.inspect
     reflections.each_with_index do |reflection, i|
-        reflection_opts = ( reflection.options.empty? ? "(#{reflection.options.to_s})"  : "(no options)" )
+        #puts reflection.inspect
+        reflection_opts = reflection.options.empty? ?  '(no options)' : "(#{reflection.options.to_s})"
         puts "#{object_class_name} »#{reflection.macro}« »#{reflection.plural_name}« #{reflection_opts}"
     end
+
+    nil
   end
 
   # Returns a html-form for the given RAILS-object
