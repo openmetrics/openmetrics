@@ -84,33 +84,27 @@ module HTMLTablebakery
 
       # process cells
       attr_sorted.each do |attr|
-        # special treat for type (=date) and partner_netto (+gameserver revs)column
-        # case attr
-        #   when "type"
-        #     html += "<td>"
-        #     if resolution == "monthly"
-        #       the_date = Date.parse(item[attr.to_sym].gsub(/.*PaymentStats(....)(..)/, '\1/\2'))
-        #       html+=I18n.localize(the_date, :format => :long_my)
-        #     else
-        #       the_date = Date.parse(item[attr.to_sym].gsub(/DailyPaymentStats(.*)/, '\1'))
-        #       html+=I18n.localize(the_date, :format => :short)
-        #     end
-        #     html += "</td>"
-        #   else
-        #     html += "<td class=\"#{attr_type(attr,item[attr.to_sym])}\">#{item[attr.to_sym]}</td>"
-        # end
-        html += "<td>#{item[attr.to_sym]}</td>"
+        #special treat for date columns
+        case attr
+          when /(updated_at|created_at)/
+            html+= "<td>"
+            html+=I18n.localize(item[attr.to_sym], :format => :short)
+            html += "</td>"
+          else
+            html += "<td>#{item[attr.to_sym]}</td>"
+         end
+
       end
 
       # render additional action cell?
       ac=''
       if append_actions_cell && append_actions_cell[:show]
         show_link = "#{obj_class_name.underscore}_path(#{item[:id]})"
-        ac += link_to raw('<span class="glyphicon glyphicon-edit"></span> show'), eval(show_link), :class => 'btn btn-default btn-xs'
+        ac += link_to raw('<span class="glyphicon glyphicon-eye-open"></span> show'), eval(show_link), :class => 'btn btn-default btn-xs'
       end
       if append_actions_cell && append_actions_cell[:edit]
         edit_link = "edit_#{obj_class_name.underscore}_path(#{item[:id]})"
-        ac += link_to raw('<span class="glyphicon glyphicon-edit"></span> Edit'), eval(edit_link), :class => 'btn btn-default btn-xs'
+        ac += link_to raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), eval(edit_link), :class => 'btn btn-default btn-xs'
       end
       html += "<td>#{ac}</td>" if append_actions_cell
     end

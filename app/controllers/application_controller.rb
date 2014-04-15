@@ -1,8 +1,5 @@
 class ApplicationController < ActionController::Base
 
-  include HTMLFormbakery
-  include HTMLFormbakery
-
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -36,12 +33,12 @@ class ApplicationController < ActionController::Base
   # store last url - this is needed for post-login redirect to whatever the user last visited.
   # https://github.com/plataformatec/devise/wiki/How-To:-Redirect-back-to-current-page-after-sign-in,-sign-out,-sign-up,-update
   def store_location
-    if (request.fullpath != "/users/sign_in" &&
+    if  request.fullpath != "/users/sign_in" &&
         request.fullpath != "/users/sign_up" &&
         request.fullpath != "/users/password" &&
         request.fullpath != "/users/sign_out" &&
         !request.xhr? && # don't store ajax calls
-        request.get?) # only store GET requests (no POST, PUT, DELETE, ...)
+        request.get? # only store GET requests (no POST, PUT, DELETE, ...)
       session[:previous_url] = request.fullpath
     end
   end
