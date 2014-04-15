@@ -1,0 +1,2 @@
+class SshService < Service
+end

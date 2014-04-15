@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140409154835) do
+ActiveRecord::Schema.define(version: 20140415154651) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
@@ -25,15 +25,17 @@ ActiveRecord::Schema.define(version: 20140409154835) do
   create_table "running_services", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type"
     t.integer  "system_id"
     t.integer  "service_id"
+    t.text     "description"
+    t.string   "type"
   end
 
   create_table "services", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type"
   end
 
   create_table "sidekiq_jobs", force: true do |t|
@@ -64,6 +66,35 @@ ActiveRecord::Schema.define(version: 20140409154835) do
     t.string   "fqdn"
     t.string   "operating_system"
     t.string   "operating_system_flavour"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "test_cases", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "test_items", force: true do |t|
+    t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "test_plans", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "user_id"
+    t.integer  "test_item_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "test_suites", force: true do |t|
+    t.string   "name"
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
