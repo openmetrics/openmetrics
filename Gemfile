@@ -7,12 +7,12 @@ gem 'rails', '4.0.3'
 gem 'sqlite3'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails', '~> 4.0.3'
 
 # pin sprockets to specific version due to bug??
 # otherwise adding 'sass-rails' gem failed with:
 # ActionView::Template::Error (undefined method `environment' for nil:NilClass
-#gem 'sprockets', '2.12.0'
+gem 'sprockets', '2.11.0'
 
 
 # Use Uglifier as compressor for JavaScript assets
