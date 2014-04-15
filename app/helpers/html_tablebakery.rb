@@ -40,6 +40,7 @@ module HTMLTablebakery
 
     # get attributes via first element of passed collection and apply column visibility & ordering based on presets
     sample_obj = collection.first
+    obj_id = sample_obj.id
     obj_class_name = sample_obj.class.name
     obj_class_symbol = obj_class_name.underscore.to_sym
     # resolve default presets (ignore and order)
@@ -64,47 +65,54 @@ module HTMLTablebakery
       attr_sorted = attr_available.sort
     end
 
-
-
-    logger.info attr_available.inspect
-    logger.info attr_diff.inspect
-    logger.info config_attr_order.inspect
-    logger.info attr_sorted.inspect
-
-
+    # create table & headings
     html = "<table class=\"#{table_classes}\">"
     html += '<thead>'
     html += '<tr>'
-
     attr_sorted.each do |attr|
       html += "<th>#{attr.humanize}</th>"
     end
-
+    # append action cell header if there is any action configured
+    html += '<th>Actions</th>' if append_actions_cell && append_actions_cell.has_value?(true)
     html += '</tr>'
     html += '</thead>'
+
+    # generate table cells
     html += '<tbody>'
-    collection.each do |val|
-      # generate table cells
+    collection.each do |item|
       html += '<tr>'
+
+      # process cells
       attr_sorted.each do |attr|
         # special treat for type (=date) and partner_netto (+gameserver revs)column
         # case attr
         #   when "type"
         #     html += "<td>"
         #     if resolution == "monthly"
-        #       the_date = Date.parse(val[attr.to_sym].gsub(/.*PaymentStats(....)(..)/, '\1/\2'))
+        #       the_date = Date.parse(item[attr.to_sym].gsub(/.*PaymentStats(....)(..)/, '\1/\2'))
         #       html+=I18n.localize(the_date, :format => :long_my)
         #     else
-        #       the_date = Date.parse(val[attr.to_sym].gsub(/DailyPaymentStats(.*)/, '\1'))
+        #       the_date = Date.parse(item[attr.to_sym].gsub(/DailyPaymentStats(.*)/, '\1'))
         #       html+=I18n.localize(the_date, :format => :short)
         #     end
         #     html += "</td>"
         #   else
-        #     html += "<td class=\"#{attr_type(attr,val[attr.to_sym])}\">#{val[attr.to_sym]}</td>"
+        #     html += "<td class=\"#{attr_type(attr,item[attr.to_sym])}\">#{item[attr.to_sym]}</td>"
         # end
-        html += "<td>#{val[attr.to_sym]}</td>"
+        html += "<td>#{item[attr.to_sym]}</td>"
       end
-      html += "<td>Actions</td>" if append_actions_cell
+
+      # render additional action cell?
+      ac=''
+      if append_actions_cell && append_actions_cell[:show]
+        show_link = "#{obj_class_name.underscore}_path(#{item[:id]})"
+        ac += link_to raw('<span class="glyphicon glyphicon-edit"></span> show'), eval(show_link), :class => 'btn btn-default btn-xs'
+      end
+      if append_actions_cell && append_actions_cell[:edit]
+        edit_link = "edit_#{obj_class_name.underscore}_path(#{item[:id]})"
+        ac += link_to raw('<span class="glyphicon glyphicon-edit"></span> Edit'), eval(edit_link), :class => 'btn btn-default btn-xs'
+      end
+      html += "<td>#{ac}</td>" if append_actions_cell
     end
     html += '</tr>'
     html += '</tbody>'

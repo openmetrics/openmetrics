@@ -45,6 +45,14 @@ class SystemsController < ApplicationController
     end
   end
 
+  def show
+    @system = System.find(params[:id])
+  end
+
+  def edit
+    @system = System.find(params[:id])
+  end
+
   private
   # Use this method to whitelist the permissible parameters. Example:
   # params.require(:person).permit(:name, :age)

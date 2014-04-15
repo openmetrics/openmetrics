@@ -75,7 +75,7 @@ module HTMLFormbakery
     nested = false
     include_page_anchor = false
     form_classes = "form-horizontal" # may be be expanded with :html_class
-    form_id="#{object_name.pluralize}_#{is_new_object ? "new" : update}" # default html id, e.g. systems_new
+    form_id="#{object_name.pluralize}_#{is_new_object ? 'new' : 'update'}" # default html id, e.g. systems_new
     # TODO proper placeholder control; currently if a object is new (Object.id ==nil) placeholders are set
 
     # *args is an Array and not a hash, so we need to make it a little more
