@@ -11,15 +11,16 @@ module HTMLFormbakery
       puts "»#{attr}« has a value of »#{value}« and is a »#{value.class}«"
       # check for linked subobjects
       if attr[((attr.length)-3)..attr.length].include? "_id"
-        puts "    and it is a linked Object"
+        puts "    "
         # lets see, if we can get info in this too!
         object_class_name = attr[0..((attr.length)-4)]
-        puts "    - Classname = #{object_class_name}"
         caller = object_class_name.camelize # make CamelCase
+        puts "... and it is a linked Object of class #{caller}"
+
         # TODO Check value to be really a FixNum/Integer
-        newobj = eval("#{caller}.find(#{value})")
-        puts " . . subobject: . . "
-        self.form_for newobj
+        newobj = eval("#{caller}.find #{value} ")
+        puts "\n\n . . Subobject: . . "
+        self.info_for newobj
         puts " . . . . . . . . . ."
       end
 
@@ -30,7 +31,7 @@ module HTMLFormbakery
     end
 
     # analyze and print associations (:has_many only)
-    puts "Associations\n"
+    puts "Associations:\n"
     object_class_name = object.class.name
     object_class = object_class_name.constantize
     reflections = object_class.reflect_on_all_associations(:has_many) # :has_many, :has_one, :belongs_to
@@ -176,10 +177,7 @@ module HTMLFormbakery
       if args.include? :include_linked_objects
         # check for linked subobjects
         if attribute[0][((attribute[0].length)-3)..attribute[0].length].include? "_id"
-
-          # lets see, if we can get info in this too!
           object_class_name = attribute[0][0..((attribute[0].length)-4)]
-          #puts "    - Classname = #{object_class_name}"
           caller = object_class_name.camelize # make CamelCase
 
           newobj = eval("#{caller}.find(#{attribute[1]})")
