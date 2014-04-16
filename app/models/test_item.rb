@@ -5,6 +5,6 @@ class TestItem < ActiveRecord::Base
   before_create :set_type
 
   def set_type()
-      test_item_type = cProjectType.find_by_model_name(this.class)
+      test_item_type = TestItemType.find_by_model_name(self.class)
   end
 end

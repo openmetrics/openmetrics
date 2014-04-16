@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140408155158) do
+ActiveRecord::Schema.define(version: 20140416130908) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
@@ -25,6 +25,9 @@ ActiveRecord::Schema.define(version: 20140408155158) do
   create_table "running_services", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "system_id"
+    t.integer  "service_id"
+    t.text     "description"
     t.string   "type"
   end
 
@@ -32,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140408155158) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type"
   end
 
   create_table "sidekiq_jobs", force: true do |t|
@@ -73,17 +77,29 @@ ActiveRecord::Schema.define(version: 20140408155158) do
     t.datetime "updated_at"
   end
 
+  create_table "test_item_types", force: true do |t|
+    t.string   "model_name",  null: false
+    t.string   "name",        null: false
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "test_item_types", ["model_name"], name: "index_test_item_types_on_model_name", unique: true
+
   create_table "test_items", force: true do |t|
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "test_plan_id"
   end
 
   create_table "test_plans", force: true do |t|
     t.string   "name"
     t.text     "description"
     t.integer  "user_id"
-    t.integer  "test_item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -93,6 +109,11 @@ ActiveRecord::Schema.define(version: 20140408155158) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "test_suites_test_cases", id: false, force: true do |t|
+    t.integer "test_suite_id"
+    t.integer "test_case_id"
   end
 
   create_table "users", force: true do |t|
