@@ -1,5 +1,5 @@
-# default presets for HTMLTablebakery
-HTMLTablebakery::PRESETS = {
+# default presets for HtmlTablebakery
+HtmlTablebakery::PRESETS = {
     system: {
         attr_ignore: %w( created_at ),
         attr_order:  %w( id name fqdn operating_system operating_system_flavour )

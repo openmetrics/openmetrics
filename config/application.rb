@@ -7,6 +7,7 @@ require 'rails/all'
 Bundler.require(:default, Rails.env)
 
 module Openmetrics
+  MY_PRESET = "foo"
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -14,6 +15,9 @@ module Openmetrics
 
     # load services types
     config.autoload_paths += %W(#{config.root}/app/models/services)
+
+    # dont load all the helpers all the time
+    config.action_controller.include_all_helpers = false
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.

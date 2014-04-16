@@ -1,5 +1,5 @@
 # encoding: utf-8 # source files receive a US-ASCII Encoding, unless you say otherwise.
-module HTMLTablebakery
+module HtmlTablebakery
 
   public
 
@@ -45,8 +45,8 @@ module HTMLTablebakery
     obj_class_symbol = obj_class_name.underscore.to_sym
     # resolve default presets (ignore and order)
     [:attr_order, :attr_ignore].each do |a|
-      if (PRESETS[obj_class_symbol] && PRESETS[obj_class_symbol][a])
-        eval("config_#{a.to_s} = PRESETS[obj_class_symbol][a]")
+      if (ApplicationController::HtmlTablebakery::PRESETS[obj_class_symbol] && ApplicationController::HtmlTablebakery::PRESETS[obj_class_symbol][a])
+        eval("config_#{a.to_s} = ApplicationController::HtmlTablebakery::PRESETS[obj_class_symbol][a]")
       end
     end
 
