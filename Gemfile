@@ -64,7 +64,12 @@ gem 'i18n-tasks', '~> 0.3.9'
 gem 'axlsx', '~> 2.0'
 
 # use selenium webdriver for automated webtests
-gem 'selenium-webdriver'
+#gem 'selenium-webdriver', '~> 2.41.0'
+group :development do
+  gem 'cucumber-rails', :require => false
+  # database_cleaner is not required, but highly recommended
+  gem 'database_cleaner'
+end
 
 
 # Use ActiveModel has_secure_password
