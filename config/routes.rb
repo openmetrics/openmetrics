@@ -1,5 +1,4 @@
 Openmetrics::Application.routes.draw do
-
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -17,6 +16,12 @@ Openmetrics::Application.routes.draw do
   # system's routes
   resources :systems
   post 'systems/scan' => 'systems#scan', as: :system_scan
+ 
+  # ip lookups
+  resources :ip_lookups
+
+  # services's routes
+  resources :services
 
   # webtest routes
   resources :webtests

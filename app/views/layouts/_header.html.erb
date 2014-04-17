@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
 
       <!-- search bar-->
-      <form class="navbar-form navbar-left" role="search">
+      <form class="navbar-form navbar-left" id="main-search" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
         </div>
@@ -32,8 +32,8 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t("om.navigation.inventory") %> <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><%= link_to t("om.navigation.systems"), systems_path %></li>
-            <!--<li><a href="#">Services</a></li>-->
-            <li><%= link_to t("om.navigation.webtests"), webtests_path %></li>
+            <li><%= link_to t("om.navigation.services"), services_path %></li>
+			<li><%= link_to t("om.navigation.webtests"), webtests_path %></li>
             <li><%= link_to raw('<span class="glyphicon glyphicon-cog pull-right"></span> ')+t('om.navigation.admin'), admin_path %></li>
             <!--<li><a href="#">Incidents</a></li>-->
             <!--<li class="divider"></li>-->

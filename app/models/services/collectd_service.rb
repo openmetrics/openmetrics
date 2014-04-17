@@ -1,0 +1,2 @@
+class CollectdService < Service
+end

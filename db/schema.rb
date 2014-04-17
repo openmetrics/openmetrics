@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20140417102922) do
     t.string   "name"
     t.text     "description"
     t.integer  "user_id"
+    t.integer  "test_item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
