@@ -1,0 +1,2 @@
+class HttpService < Service
+end

@@ -32,10 +32,17 @@ en:
             help_text:
               target: "A fully qualified domain name (FQDN) or IP address or network address (CIDR notation)"
           html_input:
-            caption: "Basic information"
+            caption: "Please provide some basic information"
             submit_text: "Create system"
+      service:
+        index:
+          title: "Services List"
+          new_service: "Add a new Service"
+        new:
+          html_input:
+            caption: "Please provide some basic information"
+            submit_text: "Create service"
             help_text:
-              fqdn: "A fully qualified domain name (FQDN)"
               name: "A name easy to remember"
     forms:
       submit_text:

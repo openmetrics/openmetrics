@@ -1,0 +1,44 @@
+@import 'core/bootstrap';
+@import 'layout/fonts';
+
+
+.spacer {
+    margin-top: 40px; /* define margin as you see fit */
+}
+
+
+/* searchbar should expand on focus */
+/*#main-search input {*/
+    /*width: 350px;*/
+    /*transition: width 0.75s;*/
+    /*-webkit-transition: width .75s;*/
+    /*-moz-transition: width 0.75s;*/
+/*}*/
+
+/*#main-search input:active,*/
+/*#main-search input:focus {*/
+    /*width: auto;*/
+
+
+/*}*/
+
+/* gravatar images */
+.gravatar-s {
+    margin-right: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.gravatar-l {
+  border: 1px solid #ddd;
+  padding: 2px;
+  margin-right: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}

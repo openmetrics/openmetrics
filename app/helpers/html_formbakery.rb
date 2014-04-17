@@ -1,32 +1,47 @@
 # encoding: utf-8 # source files receive a US-ASCII Encoding, unless you say otherwise.
-module HTMLFormbakery
+module HtmlFormbakery
 
   public
   def info_for(object)
+    puts "Object class_name: #{object.class.name}\n"
+    puts "Attributes:"
     attributes = object.attributes
     attributes.each do |attribute|
-      puts "Attribute: »#{attribute[0]}« has a value of »#{attribute[1]}« and is a »#{attribute[1].class}«"
-
+      attr, value = attribute[0], attribute[1]
+      puts "»#{attr}« has a value of »#{value}« and is a »#{value.class}«"
       # check for linked subobjects
-      if attribute[0][((attribute[0].length)-3)..attribute[0].length].include? "_id"
-        puts "    and it is a linked Object"
+      if attr[((attr.length)-3)..attr.length].include? "_id"
+        puts "    "
         # lets see, if we can get info in this too!
-        object_class_name = attribute[0][0..((attribute[0].length)-4)]
-        puts "    - Classname = #{object_class_name}"
+        object_class_name = attr[0..((attr.length)-4)]
         caller = object_class_name.camelize # make CamelCase
-        # TODO Check attribute[1] to be really a FixNum/Integer
-        newobj = eval("#{caller}.find(#{attribute[1]})")
-        puts " . . subobject: . . "
-        self.form_for newobj
+        puts "... and it is a linked Object of class #{caller}"
+
+        # TODO Check value to be really a FixNum/Integer
+        newobj = eval("#{caller}.find #{value} ")
+        puts "\n\n . . Subobject: . . "
+        self.info_for newobj
         puts " . . . . . . . . . ."
       end
 
       # serialized data?
-      if attribute[1].is_a? Hash
-        self.form_for_hash attribute[1]
+      if value.is_a? Hash
+        self.form_for_hash value
       end
     end
-    puts " "
+
+    # analyze and print associations (:has_many only)
+    puts "Associations:\n"
+    object_class_name = object.class.name
+    object_class = object_class_name.constantize
+    reflections = object_class.reflect_on_all_associations(:has_many) # :has_many, :has_one, :belongs_to
+    reflections.each_with_index do |reflection, i|
+        #puts reflection.inspect
+        reflection_opts = reflection.options.empty? ?  '(no options)' : "(#{reflection.options.to_s})"
+        puts "#{object_class_name} »#{reflection.macro}« »#{reflection.plural_name}« #{reflection_opts}"
+    end
+
+    nil
   end
 
   # Returns a html-form for the given RAILS-object
@@ -60,8 +75,8 @@ module HTMLFormbakery
     nested = false
     include_page_anchor = false
     form_classes = "form-horizontal" # may be be expanded with :html_class
-    form_id="#{object_name.pluralize}_#{is_new_object ? "new" : update}" # default html id, e.g. systems_new
-    # TODO proper placeholder control; currently if a object is new (Object.id ==nil) placeholders aren't set
+    form_id="#{object_name.pluralize}_#{is_new_object ? 'new' : 'update'}" # default html id, e.g. systems_new
+    # TODO proper placeholder control; currently if a object is new (Object.id ==nil) placeholders are set
 
     # *args is an Array and not a hash, so we need to make it a little more
     # usable first! Scan for known options and use them
@@ -111,13 +126,13 @@ module HTMLFormbakery
     js = ''
 
     # start the form
-    html_result += "<form class=\"#{form_classes}\" role=\"form\" method=\"#{default_method}\" id=\"#{form_id}\" action=\"/#{object_name.pluralize}/#{object.id}\">" unless nested
+    html_result << "<form class=\"#{form_classes}\" role=\"form\" method=\"#{default_method}\" id=\"#{form_id}\" action=\"/#{object_name.pluralize}/#{object.id}\">" unless nested
 
     addtional_fields = "" # here go the fields for linked subobjects
 
     attributes = object.attributes
-    html_result += "<fieldset>"
-    html_result += "<legend>#{caption || object.class.to_s}</legend>" if caption
+    html_result << "<fieldset>"
+    html_result << "<legend>#{caption || object.class.to_s}</legend>" if caption
     attributes.each do |attribute|
       #puts "Attribute: »#{attribute[0]}« has a value of »#{attribute[1]}« and is a »#{attribute[1].class}«"
       field_symbol = attribute[0].to_sym
@@ -135,44 +150,42 @@ module HTMLFormbakery
       # just given list_only attributes
       unless list_only.nil?
         if list_only.include? field_symbol
-          html_result += '<div class="form-group">'
-          html_result += input_for(object_name, attribute[1], attribute[0], is_new_object, h)
-          html_result += '</div>'
+          html_result << '<div class="form-group">'
+          html_result << input_for(object_name, attribute[1], attribute[0], is_new_object, h)
+          html_result << '</div>'
         end
       end
 
       # all attributes except the given ones
       if !list_except.nil? and list_only.nil?
         unless list_except.include? field_symbol
-          html_result += '<div class="form-group">'
-          html_result += input_for(object_name, attribute[1], attribute[0], is_new_object, h)
-          html_result += '</div>'
+          html_result << '<div class="form-group">'
+          html_result << input_for(object_name, attribute[1], attribute[0], is_new_object, h)
+          html_result << '</div>'
         end
       end
 
       # show all attributes
       if list_only.nil? and list_except.nil?
-        html_result += '<div class="form-group">'
-        html_result += input_for(object_name, attribute[1], attribute[0], is_new_object, h)
-        html_result += '</div>'
+        html_result << '<div class="form-group">'
+        html_result << input_for(object_name, attribute[1], attribute[0], is_new_object, h)
+        html_result << '</div>'
       end
 
+      # TODO doesnt seem to be good yet
       # nested attributes
       if args.include? :include_linked_objects
         # check for linked subobjects
         if attribute[0][((attribute[0].length)-3)..attribute[0].length].include? "_id"
-
-          # lets see, if we can get info in this too!
           object_class_name = attribute[0][0..((attribute[0].length)-4)]
-          #puts "    - Classname = #{object_class_name}"
           caller = object_class_name.camelize # make CamelCase
 
           newobj = eval("#{caller}.find(#{attribute[1]})")
-          #html_result += " . . subobject: . . "
-          #html_result += "</fieldset>"
+          #html_result << " . . subobject: . . "
+          #html_result << "</fieldset>"
           addtional_fields += self.form_for newobj, true
-          #html_result += "<fieldset>"
-          #html_result += " . . . . . . . . . ."
+          #html_result << "<fieldset>"
+          #html_result << " . . . . . . . . . ."
         end
       end
       # serialized data?
@@ -180,38 +193,40 @@ module HTMLFormbakery
         self.form_for_hash attribute[1]
       end
     end
-    html_result += "</fieldset>"
-    html_result += addtional_fields
+    html_result << "</fieldset>"
+    html_result << addtional_fields
 
     unless list_include_join_tables.nil?
-      html_result += join_table_input(object, object_name, list_include_join_tables)
+      html_result << join_table_input(object, object_name, list_include_join_tables)
     end
 
     unless nested
       # add csrf token
-      html_result += "<input type=\"hidden\" value=\"#{form_authenticity_token}\" name=\"authenticity_token\">"
+      html_result << "<input type=\"hidden\" value=\"#{form_authenticity_token}\" name=\"authenticity_token\">"
 
       # buttons
-      html_result += '<div class="form-group"><label class="col-md-4 control-label"></label><div class="col-md-4">'
+      html_result << '<div class="form-group"><label class="col-md-4 control-label"></label><div class="col-md-4">'
       if is_new_object
-        html_result += "<button type=\"submit\" class=\"btn btn-default btn-success bt-lg pull-right\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
+        html_result << "<button type=\"submit\" class=\"btn btn-default btn-success bt-lg pull-right\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
       else
-        html_result += "<input type=\"hidden\" value=\"put\" name=\"_method\">"
-        html_result += "<button type=\"submit\" class=\"btn btn-default\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
+        html_result << "<input type=\"hidden\" value=\"put\" name=\"_method\">"
+        html_result << "<button type=\"submit\" class=\"btn btn-default\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
       end
-      html_result += '</div></div>'
-      html_result += '</form>'
+      html_result << '</div></div>'
+      html_result << '</form>'
     end
 
     # append some javascript
-    js += js_include_page_anchor(form_id)
+    js += js_input_for_page_anchor(form_id) if include_page_anchor
     return html_result+js
   end
 
 
   protected
 
-  def js_include_page_anchor(form_id)
+  # passed hidden input field 'page_anchor' with form to make bounce back to ui panel possbile
+  # this is only useful in conjunction with :within_tab option
+  def js_input_for_page_anchor(form_id)
     "
     <script type=\"text/javascript\">
       $(function() {
@@ -229,12 +244,12 @@ module HTMLFormbakery
   end
 
   def wrap_label(html, labeltext, helptext)
-    l =  "<label class=\"col-md-4 control-label\" for=\"textinput\">#{labeltext}</label>"
-    l += '<div class="col-md-4">'
-    l += html
+    l =  "<label class=\"col-md-4 control-label\" for=\"textinput\">#{labeltext.humanize}</label>"
+    l << '<div class="col-md-4">'
+    l << html
     # help text set?
-    l += "<span class=\"help-block\">#{helptext}</span>" unless helptext.nil?
-    l += '</div>'
+    l << "<span class=\"help-block\">#{helptext}</span>" unless helptext.nil?
+    l << '</div>'
     l
   end
 

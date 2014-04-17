@@ -1,6 +1,6 @@
 module ApplicationHelper
-  include HTMLFormbakery
-  include HTMLTablebakery
+  include HtmlFormbakery
+  include HtmlTablebakery
 
   def flash_class(severity)
     case severity
@@ -8,9 +8,11 @@ module ApplicationHelper
         when :success then "alert alert-success"
         when :warning then "alert alert-warning"
         when :warn then "alert alert-warning"
-        when :error then "alert alert-warning"
-        when :alert then "alert alert-warning"
-        when :danger then "alert alert-warning"
+        when :fail then "alert alert-warning"
+        when :failure then "alert alert-warning"
+        when :error then "alert alert-danger"
+        when :alert then "alert alert-danger"
+        when :danger then "alert alert-danger"
         else "alert alert-info"
     end
   end

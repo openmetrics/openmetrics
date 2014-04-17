@@ -17,6 +17,11 @@ Openmetrics::Application.routes.draw do
   resources :systems
   post 'systems/scan' => 'systems#scan', as: :system_scan
 
+  # ip lookups
+  resources :ip_lookups
+
+  # services's routes
+  resources :services
 
   # Enable this route for sidekiq monitoring
   # Remember to add 'sinatra' in Gemfile

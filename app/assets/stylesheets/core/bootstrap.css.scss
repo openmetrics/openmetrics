@@ -1,0 +1,41 @@
+@import 'bootstrap/bootstrap';
+@import 'bootstrap/bootstrap-tabdrop';
+@import 'bootstrap/bootstrap-multiselect';
+
+/* bootstrap vertical dividers in navbar */
+.navbar .divider-vertical {
+  height: 50px;
+  margin: 0 9px;
+  border-right: 1px solid #ffffff;
+  border-left: 1px solid #f2f2f2;
+}
+
+.navbar-inverse .divider-vertical {
+  border-right-color: #222222;
+  border-left-color: #111111;
+}
+
+@media (max-width: 767px) {
+  .navbar-collapse .nav > .divider-vertical {
+    display: none;
+  }
+}
+
+/* bootstrap make glyphicon in navbar appear more vertical aligned */
+.glyphicon {
+  top: 3px;
+}
+
+/* bootstrap increased glyphicon sizes */
+.glyphicon-2x{
+  font-size: 28px;
+}
+
+.glyphicon-3x{
+  font-size: 42px;
+}
+
+/* bootstrap multiple navbar-right needs padding */
+.navbar-right {
+  padding-right: 15px;
+}

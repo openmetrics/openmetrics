@@ -5,7 +5,11 @@
 # Mime::Type.register_alias "text/html", :iphone
 
 # tell Rack (and Sprockets) about modern font MIME types:
-Mime::Type.register "application/x-font-woff", :woff
-Mime::Type.register "application/x-font-ttf", :ttf
-Mime::Type.register "application/vnd.ms-fontobject", :eot
-Mime::Type.register "image/svg+xml", :svg
+Rack::Mime::MIME_TYPES['.woff'] = 'application/x-font-woff'
+Rack::Mime::MIME_TYPES['.ttf'] = 'application/x-font-ttf'
+Rack::Mime::MIME_TYPES['.eot'] = 'application/vnd.ms-fontobject'
+Rack::Mime::MIME_TYPES['.svg'] = 'image/svg+xml'
+Mime::Type.register 'application/x-font-woff', :woff
+Mime::Type.register 'application/x-font-ttf', :ttf
+Mime::Type.register 'application/vnd.ms-fontobject', :eot
+Mime::Type.register 'image/svg+xml', :svg
