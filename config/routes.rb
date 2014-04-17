@@ -1,4 +1,5 @@
 Openmetrics::Application.routes.draw do
+
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -17,6 +18,11 @@ Openmetrics::Application.routes.draw do
   resources :systems
   post 'systems/scan' => 'systems#scan', as: :system_scan
 
+  # webtest routes
+  resources :webtests
+  resources :test_plans
+  resources :test_suites
+  resources :test_cases
 
   # Enable this route for sidekiq monitoring
   # Remember to add 'sinatra' in Gemfile
