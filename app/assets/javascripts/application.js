@@ -13,10 +13,10 @@
 //= require jquery-2.1.0.min.js
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
 //= require bootstrap.min
 //= require bootstrap-tabdrop
 //= require bootstrap-multiselect
+//= require i18n/i18n
 //= require i18n/translations
 
 
@@ -26,5 +26,7 @@ $( document ).ready(function() {
     // if tab-nav does not fit into space, show mobile icon nav
     $('.nav-pills, .nav-tabs').tabdrop();
     // bootstrap multiselect
-    $('.multiselect').multiselect();
+//    $('.multiselect').multiselect({
+//        buttonClass: 'btn btn-link' // make dropdown appear as inline link, not like a regular button
+//    });
 });

@@ -45,8 +45,8 @@ module HtmlTablebakery
     obj_class_symbol = obj_class_name.underscore.to_sym
     # resolve default presets (ignore and order)
     [:attr_order, :attr_ignore].each do |a|
-      if (ApplicationController::HtmlTablebakery::PRESETS[obj_class_symbol] && ApplicationController::HtmlTablebakery::PRESETS[obj_class_symbol][a])
-        eval("config_#{a.to_s} = ApplicationController::HtmlTablebakery::PRESETS[obj_class_symbol][a]")
+      if (TABLEBAKERY_PRESETS[obj_class_symbol] && TABLEBAKERY_PRESETS[obj_class_symbol][a])
+        eval("config_#{a.to_s} = TABLEBAKERY_PRESETS[obj_class_symbol][a]")
       end
     end
 

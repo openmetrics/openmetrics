@@ -44,7 +44,7 @@ class SystemsController < ApplicationController
       i.scanresult = 'error while scheduling'.to_json
       flash[:error] = "That IpLookup schedule didn't work."
     ensure
-      redirect_to_anchor_or_back
+      redirect_to_anchotesr_or_back
     end
   end
 

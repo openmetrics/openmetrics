@@ -1,21 +1,26 @@
-<h1>Webtest#index</h1>
-<p>Find me in app/views/webtest/index.html.erb</p>
+<% javascript 'webtest' %>
+
+<h3>Webtests</h3>
 
 <div class="panel panel-default">
-  <div class="panel-heading">Create webtest</div>
   <div class="panel-body">
 
-    <%= form_tag(new_test_plan_path, method: 'post', class: "form-horizontal spacer", role: 'form') do %>
-        <%= raw htmlform_for @test_plan, {:nested => true, :only => [:name, :description],
-                :caption => 'New test plan'
-        }
-        %>
+    <%= form_tag(test_plans_path, method: 'post', class: "form-horizontal", role: 'form') do %>
+        <%= raw htmlform_for @test_plan, {:nested => true, :only => [:name, :description], :caption => 'Create new test plan' } %>
+
+        <h4>Attach test items</h4>
 
         <div class="form-group">
-          <label class="col-md-4 control-label">Attach test items</label>
+          <label class="col-md-4 control-label">Suites</label>
           <div class="col-md-4">
-            <%= select_tag "test suites", options_from_collection_for_select(@test_suites, "id", "name"), multiple: true, class: 'multiselect' %>
-            <%= select_tag "test cases", options_from_collection_for_select(@test_cases, "id", "name"), multiple: true, class: 'multiselect' %>
+            <%= select_tag 'test_suites', options_from_collection_for_select(@test_suites, "id", "name"), multiple: true, class: 'multiselect' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label">Cases</label>
+          <div class="col-md-4">
+            <%= select_tag 'test_cases', options_from_collection_for_select(@test_cases, "id", "name"), multiple: true, class: 'multiselect' %>
           </div>
         </div>
 
@@ -25,8 +30,11 @@
             <button class="btn btn-default btn-success" type="submit">Create</button>
           </div>
         </div>
-    <% end %>
 
+        <div id="webtest_test_items">
+        </div>
+
+    <% end %>
 
     <ul>
       <li><%= link_to 'New test case', new_test_case_path %></li>
@@ -34,3 +42,6 @@
     </ul>
   </div>
 </div>
+
+
+<%= raw htmltable_for @test_plans, { :html_class => 'spacer' } %>

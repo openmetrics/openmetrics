@@ -4,6 +4,7 @@
   <title>Openmetrics</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= yield :additional_js %>
   <%= csrf_meta_tags %>
 
   <script type="text/javascript">

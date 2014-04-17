@@ -2,6 +2,12 @@ module ApplicationHelper
   include HtmlFormbakery
   include HtmlTablebakery
 
+  def javascript(*files)
+    content_for(:additional_js) do
+      javascript_include_tag(*files)
+    end
+  end
+
   def flash_class(severity)
     case severity
         when :notice then "alert alert-info"
