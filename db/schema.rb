@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140417102922) do
+ActiveRecord::Schema.define(version: 20140420123118) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
@@ -25,10 +25,10 @@ ActiveRecord::Schema.define(version: 20140417102922) do
   create_table "running_services", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type"
     t.integer  "system_id"
     t.integer  "service_id"
     t.text     "description"
-    t.string   "type"
   end
 
   create_table "services", force: true do |t|
@@ -70,13 +70,6 @@ ActiveRecord::Schema.define(version: 20140417102922) do
     t.datetime "updated_at"
   end
 
-  create_table "test_cases", force: true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "test_item_types", force: true do |t|
     t.string   "model_name",  null: false
     t.string   "name",        null: false
@@ -93,16 +86,21 @@ ActiveRecord::Schema.define(version: 20140417102922) do
     t.datetime "updated_at"
     t.string   "name"
     t.text     "description"
-    t.integer  "test_plan_id"
+    t.string   "format"
+    t.text     "markup"
   end
 
   create_table "test_plans", force: true do |t|
     t.string   "name"
     t.text     "description"
     t.integer  "user_id"
-    t.integer  "test_item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "test_plans_test_items", force: true do |t|
+    t.integer "test_plan_id"
+    t.integer "test_item_id"
   end
 
   create_table "test_suites", force: true do |t|

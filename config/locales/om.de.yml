@@ -34,8 +34,8 @@ de:
             caption: "Basisinformationen"
             submit_text: "System erstellen"
             help_text:
-              fqdn: "Ein vollqualifizierter Hostname (FQDN)"
-              name: "Ein einprägsamer Name"
+              fqdn: "Ein vollqualifizierter Domänenname (FQDN)"
+              name: "Ein wohlklingender & einprägsamer Name"
     forms:
       submit_text:
         new:  "Erstellen"

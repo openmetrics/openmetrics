@@ -1,6 +1,9 @@
 class TestPlansController < ApplicationController
   before_action :authenticate_user!
 
+  def show
+    @test_plan = TestPlan.find(params[:id])
+  end
 
   def create
     @test_plan = TestPlan.new(test_plan_params)

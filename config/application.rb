@@ -7,7 +7,6 @@ require 'rails/all'
 Bundler.require(:default, Rails.env)
 
 module Openmetrics
-  MY_PRESET = "foo"
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -37,6 +36,9 @@ module Openmetrics
     # make rake assets:precompile happy
     # otherwise "Cannot precompile i18n-js translations unless environment is initialized."
     config.assets.initialize_on_precompile = true
+
+    # Precompile *all* assets, except those that start with underscore
+    #config.assets.precompile << /(^[^_\/]|\/[^_])[^\/]*$/
 
     # load rails env into sidekiq
     #config.eager_load_paths += ["#{config.root}/lib/workers"]

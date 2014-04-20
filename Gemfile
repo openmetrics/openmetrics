@@ -70,13 +70,16 @@ gem 'i18n-tasks', '~> 0.3.9'
 gem 'axlsx', '~> 2.0'
 
 # use selenium webdriver for automated webtests
-#gem 'selenium-webdriver', '~> 2.41.0'
+gem 'selenium-webdriver', '~> 2.41.0'
 group :development do
   gem 'cucumber-rails', :require => false
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
 end
 
+# synthax highlight
+gem 'RedCloth', :require => 'redcloth'
+gem 'coderay', :require => ['coderay', 'coderay/for_redcloth']
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'

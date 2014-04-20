@@ -8,7 +8,7 @@ module HtmlFormbakery
     attributes = object.attributes
     attributes.each do |attribute|
       attr, value = attribute[0], attribute[1]
-      puts "»#{attr}« has a value of »#{value}« and is a »#{value.class}«"
+      puts "»#{attr}« has a value of »#{value}« and is a »#{value.class}« (of #{object.class.columns_hash[attr].type})"
       # check for linked subobjects
       if attr[((attr.length)-3)..attr.length].include? "_id"
         puts "    "
@@ -128,7 +128,7 @@ module HtmlFormbakery
     # start the form
     html_result << "<form class=\"#{form_classes}\" role=\"form\" method=\"#{default_method}\" id=\"#{form_id}\" action=\"/#{object_name.pluralize}/#{object.id}\">" unless nested
 
-    addtional_fields = "" # here go the fields for linked subobjects
+    additional_fields = "" # here go the fields for linked subobjects
 
     attributes = object.attributes
     html_result << "<fieldset>"
@@ -151,7 +151,7 @@ module HtmlFormbakery
       unless list_only.nil?
         if list_only.include? field_symbol
           html_result << '<div class="form-group">'
-          html_result << input_for(object_name, attribute[1], attribute[0], is_new_object, h)
+          html_result << input_for(object_name, field_value, attribute[0], is_new_object, h, object)
           html_result << '</div>'
         end
       end
@@ -160,7 +160,7 @@ module HtmlFormbakery
       if !list_except.nil? and list_only.nil?
         unless list_except.include? field_symbol
           html_result << '<div class="form-group">'
-          html_result << input_for(object_name, attribute[1], attribute[0], is_new_object, h)
+          html_result << input_for(object_name, field_value, attribute[0], is_new_object, h, object)
           html_result << '</div>'
         end
       end
@@ -168,7 +168,7 @@ module HtmlFormbakery
       # show all attributes
       if list_only.nil? and list_except.nil?
         html_result << '<div class="form-group">'
-        html_result << input_for(object_name, attribute[1], attribute[0], is_new_object, h)
+        html_result << input_for(object_name, field_value, attribute[0], is_new_object, h, object)
         html_result << '</div>'
       end
 
@@ -183,7 +183,7 @@ module HtmlFormbakery
           newobj = eval("#{caller}.find(#{attribute[1]})")
           #html_result << " . . subobject: . . "
           #html_result << "</fieldset>"
-          addtional_fields += self.form_for newobj, true
+          additional_fields += self.form_for newobj, true
           #html_result << "<fieldset>"
           #html_result << " . . . . . . . . . ."
         end
@@ -194,23 +194,21 @@ module HtmlFormbakery
       end
     end
     html_result << "</fieldset>"
-    html_result << addtional_fields
+    html_result << additional_fields
 
     unless list_include_join_tables.nil?
       html_result << join_table_input(object, object_name, list_include_join_tables)
     end
 
+    # add csrf token and submit button when not :nested
     unless nested
-      # add csrf token
       html_result << "<input type=\"hidden\" value=\"#{form_authenticity_token}\" name=\"authenticity_token\">"
-
-      # buttons
       html_result << '<div class="form-group"><label class="col-md-4 control-label"></label><div class="col-md-4">'
       if is_new_object
         html_result << "<button type=\"submit\" class=\"btn btn-default btn-success bt-lg pull-right\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
       else
         html_result << "<input type=\"hidden\" value=\"put\" name=\"_method\">"
-        html_result << "<button type=\"submit\" class=\"btn btn-default\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
+        html_result << "<button type=\"submit\" class=\"btn btn-default\">#{submit_text||I18n.t("om.forms.submit_text.update")}</button>"
       end
       html_result << '</div></div>'
       html_result << '</form>'
@@ -262,21 +260,34 @@ module HtmlFormbakery
     end
   end
 
-  def input_for(formholder_object_name,object,object_name,is_new_object, helptext)
+  def input_for(formobject_name,attr_value,object_name,is_new_object,helptext,object)
     result = ''
-    if object.is_a? String
-
+    # regular input field for strings
+    if object.class.columns_hash[object_name].type == :string
       result += '<input type="text" class="form-control input-md" '
       # if object is new (id == nil) add value as placeholder
       if is_new_object
-        result += "placeholder=\"#{object.to_s}\" name=\"#{formholder_object_name}[#{object_name}]\" id=\"#{formholder_object_name}_#{object_name}\">"
+        result += "placeholder=\"#{attr_value.to_s}\" name=\"#{formobject_name}[#{object_name}]\" id=\"#{formobject_name}_#{object_name}\">"
       else
-        result += "value=\"#{object.to_s}\" name=\"#{formholder_object_name}[#{object_name}]\" id=\"#{formholder_object_name}_#{object_name}\">"
+        result += "value=\"#{attr_value.to_s}\" name=\"#{formobject_name}[#{object_name}]\" id=\"#{formobject_name}_#{object_name}\">"
       end
       return wrap_label(result, object_name, helptext)
     end
 
-    if object.is_a? Fixnum
+    # text area for strings saved as :text
+    if object.class.columns_hash[object_name].type == :text
+      result += '<textarea class="form-control input-md" '
+      # if object is new (id == nil) add value as placeholder
+      if is_new_object
+        result += "placeholder=\"#{attr_value.to_s}\" name=\"#{formobject_name}[#{object_name}]\" id=\"#{formobject_name}_#{object_name}\"></textarea>"
+      else
+        result += "name=\"#{formobject_name}[#{object_name}]\" id=\"#{formobject_name}_#{object_name}\">#{attr_value.to_s}</textarea> "
+      end
+      return wrap_label(result, object_name, helptext)
+    end
+
+
+    if attr_value.class.is_a? Fixnum
       # Note: this could be an ID linked to another Object/Objectlist, this could be made a 'select' instead!
 
       # check if it is an ID_field
@@ -288,17 +299,17 @@ module HtmlFormbakery
         list = eval("#{caller}.find(:all, :select => \"name,id\")") # we assume the objects have a 'name'
         result += "<select name=\"[#{object_name}(1i)]\" id=\"#{object_name}_1i\">"
         list.each do |item|
-          result += "<option #{"selected=\"selected\"" unless item.id != object} value=\"#{item.id}\">#{item.name}</option>"
+          result += "<option #{"selected=\"selected\"" unless item.id != attr_value} value=\"#{item.id}\">#{item.name}</option>"
         end
         result += "</select>"
 
       else
         # just a normal Integer!
-        result += "<input type=\"text\" value=\"#{object.to_s}\" name=\"#{formholder_object_name}[#{object_name}]\" id=\"#{formholder_object_name}_#{object_name}\">"
+        result += "<input type=\"text\" value=\"#{attr_value.to_s}\" name=\"#{formobject_name}[#{object_name}]\" id=\"#{formobject_name}_#{object_name}\">"
       end
       return wrap_label(result, object_name,helptext)
     end
-    if object.is_a? Time
+    if attr_value.is_a? Time
       # usually you wont need to change this, but we can generate an input too:
       # TODO : BROKEN!
       #result += ActionView::Helpers::DateHelper.select_datetime object
@@ -308,9 +319,9 @@ module HtmlFormbakery
     # unknown object type
     result += '<input type="text" class="form-control input-md" '
       if is_new_object
-        result += "value=\"\" name=\"#{formholder_object_name}[#{object_name}]\" id=\"#{formholder_object_name}_#{object_name}\">"
+        result += "value=\"\" name=\"#{formobject_name}[#{object_name}]\" id=\"#{formobject_name}_#{object_name}\">"
       else
-        result += "placeholder=\"unknown ObjectType for input: #{object.class}\" name=\"#{formholder_object_name}[#{object_name}]\">"
+        result += "placeholder=\"unknown ObjectType for input: #{attr_value.class}\" name=\"#{formobject_name}[#{object_name}]\">"
       end
 
     return wrap_label(result, object_name, helptext)

@@ -1,0 +1,2 @@
+class TestScript < TestItem
+end

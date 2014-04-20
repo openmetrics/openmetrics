@@ -1,0 +1,35 @@
+<div class="row">
+
+
+  <!-- left column -->
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-heading"><%= @test_plan.name %></div>
+      <div class="panel-body">
+        <ul class="test_plan">
+        <% @test_plan.test_items.each_with_index do |test_item, n| %>
+            <li><span class="itemNumber"><%= n+1 %></span>
+              <%= test_item.type %>: <%= test_item.name %> <span class="label label-info"><%= test_item.format %></span>
+              <!--<%= coderay(test_item.markup, test_item.format) %>-->
+            </li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- right column -->
+  <div class="col-md-4">
+    <p>Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.</p>
+
+    <p>Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's
+      literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.</p>
+  </div>
+
+</div>
+
+
+
+
+
+

@@ -8,6 +8,16 @@ module ApplicationHelper
     end
   end
 
+  def coderay(text, format)
+    case format
+      when 'selenese'
+        format = 'html'
+      when 'bash'
+        format = 'sh'
+    end
+   raw CodeRay.scan("#{text}", format).div(:line_numbers => :table)
+  end
+
   def flash_class(severity)
     case severity
         when :notice then "alert alert-info"
