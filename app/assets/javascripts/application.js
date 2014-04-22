@@ -12,13 +12,12 @@
 //
 //= require jquery-2.1.0.min.js
 //= require jquery_ujs
-//= require turbolinks
 //= require bootstrap.min
 //= require bootstrap-tabdrop
 //= require bootstrap-multiselect
 //= require i18n/i18n
 //= require i18n/translations
-
+//= require turbolinks
 
 $( document ).ready(function() {
     // toggle bootstrap dropdowns

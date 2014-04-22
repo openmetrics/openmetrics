@@ -1,4 +1,5 @@
 Openmetrics::Application.routes.draw do
+  get "test_execution/show"
   get "test_cases/new"
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
@@ -16,7 +17,7 @@ Openmetrics::Application.routes.draw do
 
   # system's routes
   resources :systems
-  post 'systems/scan' => 'systems#scan', as: :system_scan
+  post 'systems/scan' => 'systems#scan', as: :scan_system
  
   # ip lookups
   resources :ip_lookups
@@ -27,6 +28,7 @@ Openmetrics::Application.routes.draw do
   # webtest routes
   resources :webtests
   resources :test_plans
+  post 'test_plans/run' => 'test_plans#run', as: :run_test_plan
   resources :test_suites
   resources :test_cases
 

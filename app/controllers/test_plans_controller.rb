@@ -15,6 +15,15 @@ class TestPlansController < ApplicationController
     redirect_to :back
   end
 
+  def run
+    tp = TestPlan.find(params[:id])
+    te = TestExecution.new
+    te.name = "TestExecution of #{tp.name}"
+    te.test_plan = tp
+    te.save
+    redirect_to :back
+  end
+
   def test_plan_params
     params.require(:test_plan).permit(:name, :description,
                                       {:test_items => [:id, :type]})

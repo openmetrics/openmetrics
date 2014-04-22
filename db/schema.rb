@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140420123118) do
+ActiveRecord::Schema.define(version: 20140421155057) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
@@ -68,6 +68,15 @@ ActiveRecord::Schema.define(version: 20140420123118) do
     t.string   "operating_system_flavour"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "test_executions", force: true do |t|
+    t.integer  "test_plan_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "job_id"
   end
 
   create_table "test_item_types", force: true do |t|

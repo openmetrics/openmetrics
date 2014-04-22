@@ -1,7 +1,7 @@
 require 'selenium-webdriver'
 require 'webtest_automagick'
 
-class TestPlanWorker
+class TestExecutionWorker
   include Sidekiq::Worker
   sidekiq_options retry: false
   include WebtestAutomagick
