@@ -7,8 +7,14 @@
   <div class="col-md-8">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <%= @test_plan.name %>
-        <button class="btn btn-default btn-success" id="run_test_plan" data-id="<%= @test_plan.id %>">Run</button>
+        <h3>
+          <button class="btn btn-default btn-success pull-right" id="run_test_plan" data-id="<%= @test_plan.id %>">
+            <i class="glyphicon glyphicon-play-circle"></i>
+            Run now
+          </button>
+          <%= @test_plan.name %>
+        </h3>
+
       </div>
       <div class="panel-body">
         <ul class="test_plan">

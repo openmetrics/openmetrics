@@ -1,27 +1,24 @@
-$(document).ready(function() {
-    console.log("webtest.js document ready");
-
-    $('button#run_test_plan').click(function(e) {
-        var test_plan_id = $(this).data('id');
-        $.ajax({
-            type: "POST",
-            // FIXME hardcoded path
-            url: '/test_plans/run',
-            data: 'id='+test_plan_id,
-            success: function(data, textStatus){
-                if(textStatus=="success") {
-                    //notify('notice', 'Successfully updated widget!');
-                    console.log("run baby, run!")
-                }
-            },
-            error: function(data, textStatus) {
-                //notify('error','Widget#'+id, textStatus + data  );
+$(document).on('click', '#run_test_plan', function(e) {
+    var test_plan_id = $(this).data('id');
+    $.ajax({
+        type: "POST",
+        // FIXME hardcoded path
+        url: '/test_plans/run',
+        data: 'id='+test_plan_id,
+        success: function(data, textStatus){
+            if(textStatus=="success") {
+                //notify('notice', 'Successfully updated widget!');
+                console.log("run baby, run!")
             }
-        });
-
+        },
+        error: function(data, textStatus) {
+            //notify('error','Widget#'+id, textStatus + data  );
+        }
     });
+    e.preventDefault();
+});
 
-
+$(document).on('page:change', function() {
     /* stylish dropdowns for test items */
     var test_suites_select = $('#test_suites');
     var test_cases_select = $('#test_cases');

@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery-2.1.0.min.js
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require bootstrap.min
 //= require bootstrap-tabdrop
@@ -19,13 +20,33 @@
 //= require i18n/translations
 //= require turbolinks
 
-$( document ).ready(function() {
+
+/* loading indicator (turbolink fetch/change event and jquery ajax) */
+$(document).on('page:fetch', function() {
+    $("#loading-indicator").fadeIn(300);
+});
+
+$(document).on('page:change', function() {
+    $("#loading-indicator").fadeOut(450);
+});
+$(document).ajaxSend(function () {
+    $('#loading-indicator').fadeIn(300);
+});
+$(document).ajaxComplete(function () {
+    //alert("ajax complete");
+    $('#loading-indicator').fadeOut(450);
+});
+
+
+/* misc */
+
+$(document).on('page:change', function() {
     // toggle bootstrap dropdowns
     $('.dropdown-toggle').dropdown();
     // if tab-nav does not fit into space, show mobile icon nav
     $('.nav-pills, .nav-tabs').tabdrop();
     // bootstrap multiselect
-//    $('.multiselect').multiselect({
-//        buttonClass: 'btn btn-link' // make dropdown appear as inline link, not like a regular button
-//    });
+    $('.multiselect').multiselect({
+        buttonClass: 'btn btn-link' // make dropdown appear as inline link, not like a regular button
+    });
 });

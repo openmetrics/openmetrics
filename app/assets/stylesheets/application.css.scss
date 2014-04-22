@@ -24,6 +24,14 @@
 
 /*}*/
 
+/* loading indicator positioning, will be show/hidden by turbolink page:fetch and page:change */
+#loading-indicator {
+//  display: none;
+  width: 16px;
+  height: 11px;
+  margin-top: 18px;
+}
+
 /* gravatar images */
 .gravatar-s {
     margin-right: 2px;
