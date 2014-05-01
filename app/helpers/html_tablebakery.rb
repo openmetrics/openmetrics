@@ -10,6 +10,7 @@ module HTMLTablebakery
   def htmltable_for(collection, *args)
     table_classes = "table table-hover table-striped" # may be be expanded with :html_class
     append_actions_cell = nil
+    append_join_cell = nil
     # *args is an Array and not a hash, so we need to make it a little more
     # usable first! Scan for known options and use them
     args.each do |args_object|
@@ -21,6 +22,10 @@ module HTMLTablebakery
 
         if args_object.include? :actions
            append_actions_cell = args_object[:actions]
+        end
+
+        if args_object.include? :join
+          append_join_cell = args_object[:join]
         end
 
       end
@@ -65,6 +70,28 @@ module HTMLTablebakery
       attr_sorted = attr_available.sort
     end
 
+    # get the join attributes
+    join_class= nil
+    join_collection=nil
+    puts "Associations:\n"
+    object_class_name = sample_obj.class.name
+    object_class = object_class_name.constantize
+    reflections = object_class.reflect_on_all_associations(:has_many) # :has_many, :has_one, :belongs_to
+    reflections.each_with_index do |reflection, i|
+      puts reflection.inspect
+      reflection_opts = reflection.options.empty? ?  '(no options)' : "(#{reflection.options.to_s})"
+      puts "#{object_class_name} »#{reflection.macro}« »#{reflection.plural_name}« #{reflection_opts}"
+      # we want class that belongs to configured :join attribute name
+      if append_join_cell == reflection.plural_name || append_join_cell == reflection.name
+        join_class=reflection.name.to_s
+      end
+
+      # for :has_many through associations use the origin class name
+      #if reflection_opts.to_s.include?(":through=>:#{append_join_cell}")
+      #  join_class=reflection.name.to_s
+      #end
+    end
+
     # create table & headings
     html = "<table class=\"#{table_classes}\">"
     html += '<thead>'
@@ -73,6 +100,7 @@ module HTMLTablebakery
       html += "<th>#{attr.humanize}</th>"
     end
     # append action cell header if there is any action configured
+    html += '<th>Join</th>' if append_join_cell
     html += '<th>Actions</th>' if append_actions_cell && append_actions_cell.has_value?(true)
     html += '</tr>'
     html += '</thead>'
@@ -95,6 +123,18 @@ module HTMLTablebakery
          end
 
       end
+
+      # render cell for join objects?
+      jc=''
+      if append_join_cell && join_class
+        jc+="#{join_class}: <br>"
+        join_collection=eval("item.#{join_class}")
+        join_collection.each do |item|
+          jc+=item.id.to_s
+        end
+
+      end
+      html += "<td>#{jc}</td>" if append_join_cell
 
       # render additional action cell?
       ac=''

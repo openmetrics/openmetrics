@@ -2,7 +2,7 @@ class SystemsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @systems = System.all
+    @systems = System.includes(:running_services)
     respond_with(@systems)
   end
 
