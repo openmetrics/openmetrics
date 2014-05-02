@@ -24,18 +24,6 @@ namespace :openmetrics do
   	puts "#{'*'*(`tput cols`.to_i)}\nChecking Environment... The database will be cleared of all content before populating.\n"
     # Removes content before populating with data to avoid duplication
     Rake::Task['db:reset'].invoke
- 
-    # INSERT BELOW
- 
-    #[
-    #  {:first_name => "Darth",     :last_name => "Vader"},
-    #  {:first_name => "Commander", :last_name => "Praji"},
-    #  {:first_name => "Biggs",     :last_name => "Darklighter"},
-    #  {:first_name => "Luke",      :last_name => "Skywalker"},
-    #  {:first_name => "Han",       :last_name => "Solo"},
-    #].each do |attributes|
-    #  User.find_or_create_by_first_name_and_last_name(attributes)
-    #end
     
     # create admin user
     user = User.new()
