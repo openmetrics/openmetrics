@@ -12,4 +12,7 @@ i18n-tasks add missing
 
 // export translations from /config/locale/* to js
 rake i18n:js:export
+
+// load sample data and run setup
+rake openmetrics:setup
 ```

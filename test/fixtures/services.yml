@@ -1,7 +1,23 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
+1:
+  name: Apache HTTP Server
 
-two:
-  name: MyString
+2:
+  name: nginx
+
+3:
+  name: Apache Tomcat
+
+4:
+  name: Jetty
+
+5:
+  name: Lighttpd
+
+6:
+  name: Microsoft Internet Information Services
+
+7:
+  name: Mongrel
+
