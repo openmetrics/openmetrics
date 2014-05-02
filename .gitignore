@@ -16,5 +16,16 @@
 /tmp
 Gemfile.lock
 
-# Ignore RubyMine IDE files
+# Ignore IDE files
+# RubyMine
 .idea/
+# Komodo Edit
+*.komodoproject 
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
