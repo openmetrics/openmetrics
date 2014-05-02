@@ -1,23 +1,57 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+#  
+# collectd
+#
+collectd:
+  name: Collectd Server
+  type: CollectdService
 
-1:
+
+#  
+# DNS
+#
+bind:
+  name: Berkeley Internet Name Domain Server
+  type: DnsService
+
+
+#
+# HTTP
+#
+apache_httpd:
   name: Apache HTTP Server
+  type: HttpService
 
-2:
+nginx:
   name: nginx
+  type: HttpService
 
-3:
+apache_tomcat:
   name: Apache Tomcat
+  type: HttpService
 
-4:
+jetty:
   name: Jetty
+  type: HttpService
 
-5:
+lighttpd:
   name: Lighttpd
-
-6:
+  type: HttpService
+  
+iis:
   name: Microsoft Internet Information Services
-
-7:
+  type: HttpService
+  
+mongrel:
   name: Mongrel
-
+  type: HttpService
+  
+#  
+# SSH
+#
+openssh:
+  name: OpenSSH
+  type: SshService
+  
+freesshd:
+  name: freeSSHd
+  type: SshService

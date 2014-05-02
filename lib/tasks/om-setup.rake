@@ -39,7 +39,7 @@ namespace :openmetrics do
     
     # load some fixtures
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_items')
-
+    ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'services')
  
     puts "#{'*'*(`tput cols`.to_i)}\nThe database has been populated!\n#{'*'*(`tput cols`.to_i)}"
     puts "Setup complete."
