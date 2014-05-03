@@ -53,17 +53,16 @@
     </div>
   </div>
 
+  <div class="tab-pane" id="scanresult">
+    <h3 class="spacer">Recent scan results</h3>
+    <%= raw htmltable_for @recent_ip_lookups, { :html_class => 'spacer', :actions => { :show => true } } %>
+  </div>
 
   <div class="tab-pane" id="file-input">
     <h3 class="spacer">Upload CSV file <small>FIXME</small></h3>
     <p>not yet</p>
   </div>
 
-
-  <div class="tab-pane" id="scanresult">
-  <h3 class="spacer">Recent scan results <small>FIXME</small></h3>
-  <p>not yet</p>
-  </div>
 </div>
 
 <!-- make tabs clickable and store location -->

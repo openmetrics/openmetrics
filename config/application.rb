@@ -20,6 +20,9 @@ module Openmetrics
       #{config.root}/lib/html_formbakery
     )
 
+    # dont load all the helpers all the time
+    config.action_controller.include_all_helpers = false
+
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = 'Europe/Berlin'

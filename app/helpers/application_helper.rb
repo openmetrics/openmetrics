@@ -1,6 +1,6 @@
 module ApplicationHelper
-  include HTMLFormbakery
-  include HTMLTablebakery
+  include HtmlFormbakery
+  include HtmlTablebakery
 
   def flash_class(severity)
     case severity

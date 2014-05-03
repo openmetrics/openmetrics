@@ -10,7 +10,7 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
+//= require jquery-2.1.0.min.js
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
@@ -25,4 +25,6 @@ $( document ).ready(function() {
     $('.dropdown-toggle').dropdown();
     // if tab-nav does not fit into space, show mobile icon nav
     $('.nav-pills, .nav-tabs').tabdrop();
+    // bootstrap multiselect
+    $('.multiselect').multiselect();
 });
