@@ -7,6 +7,6 @@ TABLEBAKERY_PRESETS = {
     },
     service: {
         attr_ignore: %w( updated_at created_at ),
-        attr_order:  %w( id name )
+        attr_order:  %w( id name type actions)
     }
 }
