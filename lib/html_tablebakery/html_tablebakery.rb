@@ -61,15 +61,6 @@ module HtmlTablebakery
     # which attr are available for collection sample?
     sample_obj.attributes.each_key {|attr| attr_available.push(attr) unless attr_ignore.include?(attr) || attr_hide.include?(attr) }
 
-    # ordering
-    #attr_order = attr_available.sort
-    if config_attr_order
-      attr_diff = attr_available.sort - config_attr_order.sort
-      attr_sorted = (config_attr_order & attr_available) + attr_diff
-    else
-      attr_sorted = attr_available.sort
-    end
-
     # get the join attributes from associations of sample object
     join_class= nil
     join_collection=nil
@@ -87,8 +78,21 @@ module HtmlTablebakery
 
       # for :has_many through associations use the origin class name
       if reflection_opts.to_s.include?(":through=>:#{append_join_cell}")
-      join_through_class=reflection.name.to_s
+        join_through_class=reflection.name.to_s
       end
+    end
+
+    # make sorting of 'actions' and join cells possible
+    attr_available.push('actions') if append_actions_cell && append_actions_cell.has_value?(true)
+    attr_available.push('join') if append_join_cell
+
+    # ordering
+    #attr_order = attr_available.sort
+    if config_attr_order
+      attr_diff = attr_available.sort - config_attr_order.sort
+      attr_sorted = (config_attr_order & attr_available) + attr_diff
+    else
+      attr_sorted = attr_available.sort
     end
 
     # create table & headings
@@ -96,12 +100,13 @@ module HtmlTablebakery
     html += '<thead>'
     html += '<tr>'
     attr_sorted.each do |attr|
-      html += "<th>#{attr.humanize}</th>"
-    end
+      if attr == 'join'
+        html += "<th>#{join_through_class.humanize || join_class.humanize}</th>"
+      else
+        html += "<th>#{attr.humanize}</th>"
+      end
 
-    # append action cell header if there is any action configured
-    html += "<th>#{join_class.humanize}</th>" if append_join_cell
-    html += '<th>Actions</th>' if append_actions_cell && append_actions_cell.has_value?(true)
+    end
     html += '</tr>'
     html += '</thead>'
 
@@ -114,40 +119,45 @@ module HtmlTablebakery
       attr_sorted.each do |attr|
         #special treat for date columns
         case attr
+          when 'actions'
+            # render additional action cell?
+            ac=''
+            if append_actions_cell && append_actions_cell[:show]
+              show_link = "#{obj_class_name.underscore}_path(#{item[:id]})"
+              ac += link_to raw('<span class="glyphicon glyphicon-eye-open"></span> show'), eval(show_link), :class => 'btn btn-default btn-xs'
+            end
+            if append_actions_cell && append_actions_cell[:edit]
+              edit_link = "edit_#{obj_class_name.underscore}_path(#{item[:id]})"
+              ac += link_to raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), eval(edit_link), :class => 'btn btn-default btn-xs'
+            end
+            html += "<td class=\"actions\">#{ac}</td>"
+
+          when 'join'
+            # render cell for join objects?
+            jc=''
+            if append_join_cell && join_class
+              join_collection=eval("item.#{join_class}")
+              # genereate link to join_class or through_class (if set)
+              jc+=join_collection.map{|obj|
+                join_through_class ? (link_to eval("obj.#{join_through_class.singularize}.name"), eval("obj.#{join_through_class.singularize}")) :
+                    (link_to eval("obj.#{join_class.singularize}.name"), eval("obj.#{join_class.singularize}"))
+              }.join(", ")
+            end
+            html += "<td class=\"join\">#{jc}</td>"
+
           when /(updated_at|created_at)/
             html+= "<td>"
             html+=I18n.localize(item[attr.to_sym], :format => :short)
             html += "</td>"
+
+          # render just a regular text cell
           else
             html += "<td>#{item[attr.to_sym]}</td>"
-         end
+         end #end case attr
 
-      end
+      end # end attr_sorted.each
 
-      # render cell for join objects?
-      jc=''
-      if append_join_cell && join_class
-        join_collection=eval("item.#{join_class}")
-        # genereate link to join_class or through_class (if set)
-        jc+=join_collection.map{|obj|
-          join_through_class ? (link_to eval("obj.#{join_through_class.singularize}.name"), eval("obj.#{join_through_class.singularize}")) :
-                               (link_to eval("obj.#{join_class.singularize}.name"), eval("obj.#{join_class.singularize}"))
-        }.join(", ")
-      end
-      html += "<td>#{jc}</td>" if append_join_cell
-
-      # render additional action cell?
-      ac=''
-      if append_actions_cell && append_actions_cell[:show]
-        show_link = "#{obj_class_name.underscore}_path(#{item[:id]})"
-        ac += link_to raw('<span class="glyphicon glyphicon-eye-open"></span> show'), eval(show_link), :class => 'btn btn-default btn-xs'
-      end
-      if append_actions_cell && append_actions_cell[:edit]
-        edit_link = "edit_#{obj_class_name.underscore}_path(#{item[:id]})"
-        ac += link_to raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), eval(edit_link), :class => 'btn btn-default btn-xs'
-      end
-      html += "<td>#{ac}</td>" if append_actions_cell
-    end
+    end # end collection.each
     html += '</tr>'
     html += '</tbody>'
     html += '</table>'

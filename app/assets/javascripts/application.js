@@ -20,12 +20,11 @@
 //= require i18n/i18n
 //= require i18n/translations
 //= require unobtrusive_flash
-//= require unobtrusive_flash_bootstrap
 //= require turbolinks
 
 /* flash handler */
 flashHandler = function(e, params) {
-    console.log('Received flash message '+params.message+' with type '+params.type);
+    console.log('Received flash message "'+params.message+'" of type '+params.type);
 };
 
 $(window).bind('rails:flash', flashHandler);

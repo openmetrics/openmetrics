@@ -1,8 +1,8 @@
 # default presets for HtmlTablebakery
 TABLEBAKERY_PRESETS = {
     system: {
-        attr_ignore: %w( created_at ),
-        attr_order:  %w( id name fqdn operating_system operating_system_flavour )
+        attr_ignore: %w( id created_at operating_system_flavour ),
+        attr_order:  %w( name fqdn operating_system join updated_at actions )
 
     },
     service: {
