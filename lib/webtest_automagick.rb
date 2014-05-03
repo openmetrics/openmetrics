@@ -22,7 +22,7 @@ module WebtestAutomagick
     wd='' #webdriver markup
 
     # prepare head
-    wd << %Q[
+    wd += %Q[
 require "selenium-webdriver"
 driver = Selenium::WebDriver.for :firefox
 driver.navigate.to "http://google.com"
@@ -54,14 +54,14 @@ driver.navigate.to "http://google.com"
       #wd << "#{command} ::: #{target} ::: #{value}"
       case command
         when /click|clickAndWait/
-          wd << "driver.find_element(#{how}, \"#{what}\").click\n"
+          wd += "driver.find_element(#{how}, \"#{what}\").click\n"
         when /open/
-          wd << "driver.open(\"#{target}\")\n"
+          wd += "driver.open(\"#{target}\")\n"
         when /type/
-          wd << "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
+          wd += "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
       end
     end
-    wd << "driver.quit"
+    wd += "driver.quit\n"
     wd
   end
 end
