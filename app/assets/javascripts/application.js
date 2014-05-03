@@ -41,13 +41,13 @@ $(document).ajaxComplete(function () {
 
 /* misc */
 
-$(document).on('page:change', function() {
+$(document).on('page:fetch', function() {
     // toggle bootstrap dropdowns
     $('.dropdown-toggle').dropdown();
     // if tab-nav does not fit into space, show mobile icon nav
-    $('.nav-pills, .nav-tabs').tabdrop();
+//    $('.nav-pills, .nav-tabs').tabdrop();
     // bootstrap multiselect
-    $('.multiselect').multiselect({
-        buttonClass: 'btn btn-link' // make dropdown appear as inline link, not like a regular button
-    });
+//    $('.multiselect').multiselect({
+//        buttonClass: 'btn btn-link' // make dropdown appear as inline link, not like a regular button
+//    });
 });

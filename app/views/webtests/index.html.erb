@@ -8,19 +8,18 @@
     <%= form_tag(test_plans_path, method: 'post', class: "form-horizontal", role: 'form') do %>
         <%= raw htmlform_for @test_plan, {:nested => true, :only => [:name, :description], :caption => 'Create new test plan' } %>
 
-        <h4>Attach test items</h4>
-
         <div class="form-group">
-          <label class="col-md-4 control-label">Suites</label>
+          <label class="col-md-4 control-label">Attach test items</label>
           <div class="col-md-4">
-            <%= select_tag 'test_suites', options_from_collection_for_select(@test_suites, "id", "name"), multiple: true %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-md-4 control-label">Cases</label>
-          <div class="col-md-4">
-            <%= select_tag 'test_cases', options_from_collection_for_select(@test_cases, "id", "name"), multiple: true %>
+            <% unless @test_scripts.empty? %>
+                Scripts<%= select_tag 'test_scripts', options_from_collection_for_select(@test_scripts, "id", "name"), multiple: true %><br>
+            <% end %>
+            <% unless @test_cases.empty? %>
+                Cases <%= select_tag 'test_cases', options_from_collection_for_select(@test_cases, "id", "name"), multiple: true %><br>
+            <% end %>
+            <% unless @test_suites.empty? %>
+                Suites<%= select_tag 'test_suites', options_from_collection_for_select(@test_suites, "id", "name"), multiple: true %><br>
+            <% end %>
           </div>
         </div>
 

@@ -19,9 +19,10 @@ $(document).on('click', '#run_test_plan', function(e) {
 });
 
 $(document).on('page:change', function() {
-    /* stylish dropdowns for test items */
+    /* dropdowns for testplan testitems */
     var test_suites_select = $('#test_suites');
     var test_cases_select = $('#test_cases');
+    var test_scripts_select = $('#test_scripts');
     var test_items = $('#webtest_test_items');
 
     var multiselectOptions = {
@@ -29,9 +30,7 @@ $(document).on('page:change', function() {
     };
 
     var selectedItems = [];
-
-
-    test_suites_select.multiselect({
+    test_scripts_select.multiselect({
         buttonClass: 'btn btn-default',
         onChange: function(element, checked) {
             if (checked == true) {
@@ -41,15 +40,14 @@ $(document).on('page:change', function() {
 //                $('#test_suites').multiselect('refresh');
             }
             else if (checked == false) {
-                console.log('unchecked ', selectedOptions);
 //                $('#test_suites').multiselect('select', element.val());
 //                $('#test_suites').multiselect('refresh');
             }
 
         }
     });
-
     test_cases_select.multiselect(multiselectOptions);
+    test_suites_select.multiselect(multiselectOptions);
 
 });
 
