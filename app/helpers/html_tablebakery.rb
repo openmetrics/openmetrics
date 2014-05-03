@@ -73,6 +73,7 @@ module HTMLTablebakery
     # get the join attributes from associations of sample object
     join_class= nil
     join_collection=nil
+    join_through_class=nil
     object_class_name = sample_obj.class.name
     object_class = object_class_name.constantize
     reflections = object_class.reflect_on_all_associations(:has_many) # :has_many, :has_one, :belongs_to
@@ -85,9 +86,9 @@ module HTMLTablebakery
       end
 
       # for :has_many through associations use the origin class name
-      #if reflection_opts.to_s.include?(":through=>:#{append_join_cell}")
-      #  join_class=reflection.name.to_s
-      #end
+      if reflection_opts.to_s.include?(":through=>:#{append_join_cell}")
+      join_through_class=reflection.name.to_s
+      end
     end
 
     # create table & headings
@@ -97,8 +98,9 @@ module HTMLTablebakery
     attr_sorted.each do |attr|
       html += "<th>#{attr.humanize}</th>"
     end
+
     # append action cell header if there is any action configured
-    html += '<th>Join</th>' if append_join_cell
+    html += "<th>#{join_class.humanize}</th>" if append_join_cell
     html += '<th>Actions</th>' if append_actions_cell && append_actions_cell.has_value?(true)
     html += '</tr>'
     html += '</thead>'
@@ -125,13 +127,12 @@ module HTMLTablebakery
       # render cell for join objects?
       jc=''
       if append_join_cell && join_class
-        jc+="#{join_class}: <br><ul>"
         join_collection=eval("item.#{join_class}")
-        join_collection.each do |item|
-          jc+='<li>'+item.service.name+'</li>'
-        end
-        jc+='</ul>'
-
+        # genereate link to join_class or through_class (if set)
+        jc+=join_collection.map{|obj|
+          join_through_class ? (link_to eval("obj.#{join_through_class.singularize}.name"), eval("obj.#{join_through_class.singularize}")) :
+                               (link_to eval("obj.#{join_class.singularize}.name"), eval("obj.#{join_class.singularize}"))
+        }.join(", ")
       end
       html += "<td>#{jc}</td>" if append_join_cell
 
