@@ -70,17 +70,15 @@ module HTMLTablebakery
       attr_sorted = attr_available.sort
     end
 
-    # get the join attributes
+    # get the join attributes from associations of sample object
     join_class= nil
     join_collection=nil
-    puts "Associations:\n"
     object_class_name = sample_obj.class.name
     object_class = object_class_name.constantize
     reflections = object_class.reflect_on_all_associations(:has_many) # :has_many, :has_one, :belongs_to
     reflections.each_with_index do |reflection, i|
-      puts reflection.inspect
       reflection_opts = reflection.options.empty? ?  '(no options)' : "(#{reflection.options.to_s})"
-      puts "#{object_class_name} »#{reflection.macro}« »#{reflection.plural_name}« #{reflection_opts}"
+      #puts "#{object_class_name} »#{reflection.macro}« »#{reflection.plural_name}« #{reflection_opts}"
       # we want class that belongs to configured :join attribute name
       if append_join_cell == reflection.plural_name || append_join_cell == reflection.name
         join_class=reflection.name.to_s
@@ -127,11 +125,12 @@ module HTMLTablebakery
       # render cell for join objects?
       jc=''
       if append_join_cell && join_class
-        jc+="#{join_class}: <br>"
+        jc+="#{join_class}: <br><ul>"
         join_collection=eval("item.#{join_class}")
         join_collection.each do |item|
-          jc+=item.id.to_s
+          jc+='<li>'+item.service.name+'</li>'
         end
+        jc+='</ul>'
 
       end
       html += "<td>#{jc}</td>" if append_join_cell
