@@ -11,6 +11,7 @@ module HtmlTablebakery
     table_classes = "table table-hover table-striped" # may be be expanded with :html_class
     append_actions_cell = nil
     append_join_cell = nil
+    threat_as = nil # use this class to decide attributes of passed collection, may be overridden by :threat_as option
     # *args is an Array and not a hash, so we need to make it a little more
     # usable first! Scan for known options and use them
     args.each do |args_object|
@@ -26,6 +27,10 @@ module HtmlTablebakery
 
         if args_object.include? :join
           append_join_cell = args_object[:join]
+        end
+
+        if args_object.include? :threat_as
+          threat_as = args_object[:threat_as]
         end
 
       end
@@ -47,7 +52,7 @@ module HtmlTablebakery
     sample_obj = collection.first
     obj_id = sample_obj.id
     obj_class_name = sample_obj.class.name
-    obj_class_symbol = obj_class_name.underscore.to_sym
+    obj_class_symbol = threat_as ? threat_as.underscore.to_sym : obj_class_name.underscore.to_sym
     # resolve default presets (ignore and order)
     [:attr_order, :attr_ignore].each do |a|
       if (TABLEBAKERY_PRESETS[obj_class_symbol] && TABLEBAKERY_PRESETS[obj_class_symbol][a])
