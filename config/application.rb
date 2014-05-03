@@ -15,6 +15,11 @@ module Openmetrics
     # load services types
     config.autoload_paths += %W(#{config.root}/app/models/services)
 
+    config.eager_load_paths += %W(
+      #{config.root}/lib/html_tablebakery
+      #{config.root}/lib/html_formbakery
+    )
+
     # dont load all the helpers all the time
     config.action_controller.include_all_helpers = false
 

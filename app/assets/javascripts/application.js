@@ -14,8 +14,9 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require bootstrap.min
-//= require bootstrap-tabdrop
 //= require bootstrap-multiselect
+// tabdrop doesnt work well for left handed tabs
+// require bootstrap-tabdrop
 //= require i18n/i18n
 //= require i18n/translations
 //= require turbolinks
