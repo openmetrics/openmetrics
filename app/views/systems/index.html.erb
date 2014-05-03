@@ -6,4 +6,4 @@
 </h3>
 
 
-<%= raw htmltable_for @systems, { :html_class => 'spacer', :actions => { :edit => true, :show => true } } %>
+<%= raw htmltable_for @systems, { :html_class => 'spacer', :join => 'running_services', :actions => { :edit => true, :show => true } } %>

@@ -15,8 +15,8 @@
 //= require turbolinks
 //= require_tree .
 //= require bootstrap.min
-//= require bootstrap-tabdrop
-//= require bootstrap-multiselect
+// tabdrop doesnt work well for left handed tabs
+// require bootstrap-tabdrop
 //= require i18n/translations
 
 

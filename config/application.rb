@@ -7,7 +7,6 @@ require 'rails/all'
 Bundler.require(:default, Rails.env)
 
 module Openmetrics
-  MY_PRESET = "foo"
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -15,6 +14,11 @@ module Openmetrics
 
     # load services types
     config.autoload_paths += %W(#{config.root}/app/models/services)
+
+    config.eager_load_paths += %W(
+      #{config.root}/lib/html_tablebakery
+      #{config.root}/lib/html_formbakery
+    )
 
     # dont load all the helpers all the time
     config.action_controller.include_all_helpers = false
