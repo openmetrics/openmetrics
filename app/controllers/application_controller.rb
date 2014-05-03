@@ -19,6 +19,9 @@ class ApplicationController < ActionController::Base
   # stores current location within session[:previous_url]
   before_filter :store_location
 
+  # use unobstrusive flash messages https://github.com/leonid-shevtsov/unobtrusive_flash
+  after_filter :prepare_unobtrusive_flash
+
   private
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale

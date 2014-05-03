@@ -1,4 +1,4 @@
-class TestPlansController < ApplicationController
+     class TestPlansController < ApplicationController
   before_action :authenticate_user!
 
   def show
@@ -16,11 +16,12 @@ class TestPlansController < ApplicationController
   end
 
   def run
+    flash[:success] = "Test plan saved."
     tp = TestPlan.find(params[:id])
     te = TestExecution.new
     te.name = "TestExecution of #{tp.name}"
     te.test_plan = tp
-    te.save
+    te.save ? flash[:success] = "Test plan saved." : flash[:warn] = "Oh snap! That didn't work."
     redirect_to :back
   end
 
