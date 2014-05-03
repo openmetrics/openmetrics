@@ -24,6 +24,12 @@ Openmetrics::Application.routes.draw do
 
   # services's routes
   resources :services
+  # organize services under /service_name and use ServicesController for all
+  resources :collectd_service, controller: 'services', type: 'collect_service'
+  resources :dns_service, controller: 'services', type: 'dns_service'
+  resources :http_service, controller: 'services', type: 'http_service'
+  resources :ssh_service, controller: 'services', type: 'ssh_service'
+
 
   # webtest routes
   resources :webtests
