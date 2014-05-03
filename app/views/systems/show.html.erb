@@ -1,13 +1,44 @@
-<div class="row">
+<script type="application/javascript">
 
+$( document ).ready(function() {
+
+//    $.ajax({
+//        url: '/systems/<%= @system.id %>',
+//        type: "GET",
+//        complete: function(data,stat){
+//            if(stat=="success") {
+//                ResponseData = JSON.parse(data.responseText);
+//                var widgets = ResponseData.widgets;
+//                renderWidget(widgets);
+//            }
+//        }
+//    });
+});
+</script>
+
+
+<div class="row">
 
   <!-- left column -->
   <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading"><%= @system.name %></div>
-      <div class="panel-body">
+
+    <!-- tabs left -->
+    <div class="tabbable tabs-left">
+      <ul class="nav nav-tabs">
+        <li><a href="#a" data-toggle="tab">System Load</a></li>
+        <li class="active"><a href="#b" data-toggle="tab">Two</a></li>
+        <li><a href="#c" data-toggle="tab">Twee</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="a">Lorem ipsum dolor sit amet, charetra varius quam sit amet vulputate.
+          Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero.</div>
+        <div class="tab-pane" id="b">Secondo sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan.
+          Aliquam in felis sit amet augue.</div>
+        <div class="tab-pane" id="c">Thirdamuno, ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate.
+          Quisque mauris augue, molestie tincidunt condimentum vitae. </div>
       </div>
     </div>
+    <!-- /tabs -->
   </div>
 
   <!-- right column -->
