@@ -15,14 +15,19 @@
     redirect_to :back
   end
 
+  # run TestPlan by creating a new TestExecution
   def run
-    flash[:success] = "Test plan saved."
     tp = TestPlan.find(params[:id])
     te = TestExecution.new
     te.name = "TestExecution of #{tp.name}"
     te.test_plan = tp
-    te.save ? flash[:success] = "Test plan saved." : flash[:warn] = "Oh snap! That didn't work."
-    redirect_to :back
+    if te.save
+      redirect_via_turbolinks_to(test_execution_url(te))
+    else
+      flash[:warn] = "Oh snap! That didn't work."
+      redirect_to :back
+    end
+
   end
 
   def test_plan_params

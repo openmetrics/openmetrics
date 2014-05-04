@@ -1,3 +1,4 @@
+//button to run test plan
 $(document).on('click', '#run_test_plan', function(e) {
     var test_plan_id = $(this).data('id');
     $.ajax({
@@ -18,8 +19,9 @@ $(document).on('click', '#run_test_plan', function(e) {
     e.preventDefault();
 });
 
+
+/* dropdowns for testplan testitems */
 $(document).on('page:change', function() {
-    /* dropdowns for testplan testitems */
     var test_suites_select = $('#test_suites');
     var test_cases_select = $('#test_cases');
     var test_scripts_select = $('#test_scripts');

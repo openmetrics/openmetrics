@@ -6,9 +6,9 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3>
-          <button class="btn btn-default btn-success pull-right" id="run_test_plan" data-id="<%= @test_plan.id %>">
-            <i class="glyphicon glyphicon-play-circle"></i>
-            Run now
+          <button class="btn btn-default btn-info pull-right" id="status_indicator">
+            <i class="fa fa-spinner fa-spin"></i>
+            Running
           </button>
           <%= @test_plan.name %>
           <small><%= @test_plan.description %></small>

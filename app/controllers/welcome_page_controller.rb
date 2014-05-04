@@ -5,7 +5,7 @@ class WelcomePageController < ApplicationController
 
   def display
     @user = current_user
-    respond_with @text
+    @recent_test_executions = TestExecution.order('created_at desc').limit(5)
   end
 
   def admin

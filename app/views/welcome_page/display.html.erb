@@ -1,2 +1,11 @@
 <h3>Hallo! <small>auf WelcomePageController::display</small></h3>
 <p>Hier gibt es noch nicht so viel zu sehen ;)</p>
+
+<% unless @recent_test_executions.nil? %>
+    <h4>Recent test executions</h4>
+    <ul>
+    <% @recent_test_executions.each do |te| %>
+        <li><%= link_to("#{te.test_plan.name} executed at #{I18n.localize(te.created_at, :format => :short)}", te) %></li>
+    <% end %>
+    </ul>
+<% end %>

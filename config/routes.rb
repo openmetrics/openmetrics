@@ -1,6 +1,4 @@
 Openmetrics::Application.routes.draw do
-  get "test_execution/show"
-  get "test_cases/new"
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -37,6 +35,7 @@ Openmetrics::Application.routes.draw do
   post 'test_plans/run' => 'test_plans#run', as: :run_test_plan
   resources :test_suites
   resources :test_cases
+  resources :test_executions
 
   # Enable this route for sidekiq monitoring
   # Remember to add 'sinatra' in Gemfile
