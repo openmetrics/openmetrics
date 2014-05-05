@@ -1,0 +1,25 @@
+<div class="row">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>
+          <%= @test_case.name %>
+        </h3>
+
+      </div>
+      <div class="panel-body">
+        <blockquote><%= @test_case.description %></blockquote>
+        <%= badge(@test_case.format, 'info') %>
+        <%= coderay(@test_case.markup, @test_case.format) %><br>
+
+      </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+
