@@ -12,6 +12,7 @@ class TestCasesController < ApplicationController
 
   def new
     @test_case = TestCase.new
+    @upload = Upload.new # for test case upload
   end
 
   def create

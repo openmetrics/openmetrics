@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   # accept & respond to following formats
-  respond_to :html, :xml, :json
+  respond_to :html, :xml, :js, :json
 
   # set layout depending on user is authenticated or not
   layout :determine_layout

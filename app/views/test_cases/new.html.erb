@@ -1,2 +1,15 @@
-<h1>TestCases#new</h1>
-<%= raw htmlform_for(@test_case) %>
+<h3>Create TestCase</h3>
+
+<div class="panel panel-default spacer">
+  <div class="panel-heading">Your input</div>
+  <div class="panel-body">
+    <%= raw htmlform_for(@test_case, {:except => [:id, :type, :created_at, :updated_at]}) %>
+  </div>
+</div>
+
+<div class="panel panel-default spacer">
+  <div class="panel-heading">File import</div>
+  <div class="panel-body">
+    <%= render 'upload_form' %>
+  </div>
+</div>
