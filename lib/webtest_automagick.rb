@@ -10,7 +10,13 @@ module WebtestAutomagick
   def selenese_to_webdriver(markup)
     #doc = Nokogiri::HTML(open("/tmp/tc1.html"))
     doc = Nokogiri::HTML(markup)
+    # extract title
     title = doc.css('title').text
+    # extract base url
+    unless doc.css('link[rel=selenium.base]').nil?
+      base_url = doc.css('link[rel=selenium.base]').attribute("href").value
+    end
+    # extract selenese commands
     sel_commands = []
     doc.css("tbody tr").each do |x|
       command = x.css("td")[0].text
@@ -25,7 +31,7 @@ module WebtestAutomagick
     wd += %Q[
 require "selenium-webdriver"
 driver = Selenium::WebDriver.for :firefox
-driver.navigate.to "http://google.com"
+driver.navigate.to "#{base_url}"
 ]
 
     sel_commands.each do |command, target, value|
@@ -56,7 +62,7 @@ driver.navigate.to "http://google.com"
         when /click|clickAndWait/
           wd += "driver.find_element(#{how}, \"#{what}\").click\n"
         when /open/
-          wd += "driver.open(\"#{target}\")\n"
+          wd << "driver.get(\"#{base_url}#{target}\")\n"
         when /type/
           wd += "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
       end

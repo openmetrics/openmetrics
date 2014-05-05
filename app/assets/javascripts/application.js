@@ -13,6 +13,9 @@
 //= require jquery-2.1.0.min.js
 //= require jquery.turbolinks
 //= require jquery_ujs
+//= require jquery-fileupload/basic
+//= require jquery-fileupload/vendor/tmpl
+//= require uploads
 //= require bootstrap.min
 //= require bootstrap-multiselect
 // tabdrop doesnt work well for left handed tabs
@@ -29,7 +32,7 @@ flashHandler = function(e, params) {
 
 $(window).bind('rails:flash', flashHandler);
 
-/* loading indicator (turbolink fetch/change event and jquery ajax) */
+/* loading indicator (turbolinks fetch/change event and jquery ajax) */
 $(document).on('page:fetch', function() {
     $("#loading-indicator").fadeIn(300);
 });
@@ -57,4 +60,14 @@ $(document).on('page:change', function() {
 //    $('.multiselect').multiselect({
 //        buttonClass: 'btn btn-link' // make dropdown appear as inline link, not like a regular button
 //    });
+
+    // fancy file uploads
+    $('#test_case_upload').fileupload({
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo(document.body);
+            });
+        }
+    });
 });

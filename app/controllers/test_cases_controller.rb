@@ -1,6 +1,28 @@
 class TestCasesController < ApplicationController
+  before_action :authenticate_user!
+  helper WebtestsHelper
+
+  def index
+    @test_cases = TestCase.all
+  end
+
+  def show
+    @test_case = TestCase.find(params[:id])
+  end
+
   def new
     @test_case = TestCase.new
+    @upload = Upload.new # for test case upload
+  end
+
+  def create
+    @test_case = TestCase.new(test_case_params)
+    if @test_case.save
+      flash[:success] = "Test case saved."
+    else
+      flash[:warn] = "Oh snap! That didn't work."
+    end
+    redirect_to :back
   end
 
   def edit
@@ -23,6 +45,6 @@ class TestCasesController < ApplicationController
   # permit list between create and update. Also, you can specialize
   # this method with per-user checking of permissible attributes.
   def test_case_params
-    params.require(:test_case).permit(:name, :description, :markup)
+    params.require(:test_case).permit(:name, :description, :markup, :format)
   end
 end

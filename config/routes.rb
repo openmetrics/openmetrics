@@ -45,6 +45,8 @@ Openmetrics::Application.routes.draw do
   # temp admin area with sidekiq within iframe
   get 'admin' => 'welcome_page#admin'
 
+  # fileuploads
+  resources :uploads
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

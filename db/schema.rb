@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140504003834) do
+ActiveRecord::Schema.define(version: 20140505150510) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
@@ -132,6 +132,15 @@ ActiveRecord::Schema.define(version: 20140504003834) do
   create_table "test_suites_test_cases", id: false, force: true do |t|
     t.integer "test_suite_id"
     t.integer "test_case_id"
+  end
+
+  create_table "uploads", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "uploaded_file_file_name"
+    t.string   "uploaded_file_content_type"
+    t.integer  "uploaded_file_file_size"
+    t.datetime "uploaded_file_updated_at"
   end
 
   create_table "users", force: true do |t|

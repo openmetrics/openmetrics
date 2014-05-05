@@ -88,6 +88,10 @@ end
 gem 'RedCloth', :require => 'redcloth'
 gem 'coderay', :require => ['coderay', 'coderay/for_redcloth']
 
+# fileupload
+gem 'paperclip', "~> 4.1"
+gem 'jquery-fileupload-rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
