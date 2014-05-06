@@ -7,15 +7,18 @@
       <div class="panel-heading">
         <h3>
           <% if @test_execution.test_execution_result %>
-              <% if @test_execution.test_execution_result.exitstatus.nil? && @test_execution.test_execution_result.result == 'scheduled' %>
+              <% if @test_execution.test_execution_result.exitstatus.nil? and (@test_execution.test_execution_result.result == 'scheduled' or @test_execution.test_execution_result.result == 'prepared') %>
                 <button class="btn btn-default btn-info pull-right" id="status_indicator"><i class="fa fa-spinner fa-spin"></i> Running</button>
               <% else %>
                   <% if @test_execution.test_execution_result.result == 'finished' %>
                       <% if @test_execution.test_execution_result.exitstatus == 0 %>
                             <button class="btn btn-default btn-success pull-right"><i class="fa fa-thumbs-up"></i> Success</button>
                       <% else %>
-                            <button class="btn btn-default btn-danger pull-right"><i class="fa fa-thumbs-down"></i> Fail</button>
+                            <button class="btn btn-default btn-danger pull-right"><i class="fa fa-frown-o"></i> Fail</button>
                       <% end %>
+                  <% end %>
+                  <% if (@test_execution.test_execution_result.result == 'scheduled' or @test_execution.test_execution_result.result == 'prepared') and !@test_execution.test_execution_result.exitstatus.nil? %>
+                      <button class="btn btn-default btn-warning pull-right"> <i class="fa fa-spinner fa-meh-o"></i>Unknown</button>
                   <% end %>
               <% end %>
           <% end %>
@@ -34,8 +37,9 @@
   <div class="col-md-4">
     <div class="panel panel-default">
       <div class="panel-body">
-        Test execution was requested <%= time_ago_in_words(@test_execution.created_at) %> ago<br>
-        Status: <%= @test_execution.test_execution_result.inspect %>
+        <small>Test execution requested <%= time_ago_in_words(@test_execution.created_at) %> ago</small><br>
+        Status: <%= @test_execution.test_execution_result.result %><br>
+        Exit Status: <%= @test_execution.test_execution_result.exitstatus.nil? ? "not yet decided" : @test_execution.test_execution_result.exitstatus %>
       </div>
     </div>
   </div>

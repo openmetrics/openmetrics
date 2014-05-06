@@ -21,17 +21,21 @@ class TestExecutionWorker
     begin
       t0 = Time.now  #measure duration of preparation & execution
       te_items = prepare(te, tp)
+      te_result.update_attributes!(result: 'prepared')
       te_items.each do |tei|
         execute(tei[0], tei[1], tei[2])
       end
       te_result.update_attributes!(duration: Time.now - t0)
       # mark result success if status not yet decided
       te_result.update_attributes!(exitstatus: 0) if te_result.exitstatus.nil?
-      # TODO add better fail handling
-      te_result.update_attributes!(exitstatus: 1) if te_result.output.include?("false")
-    rescue
-      # job preparation or execution failed, mark this in result
-      te_result.update_attributes!(result: 'finished', exitstatus: 42)
+      # check test execution items for exitstatus indicating a fail
+      failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
+      te_result.update_attributes!(exitstatus: failed.last.exitstatus) if failed.any?
+    rescue Exception => e
+      # job preparation or execution failed,
+      # use the 'newest' TestExecutionItem exitstatus to mark for overall result:
+      logger.warn "preparation or execution of TestExecution##{te.id} thrown exception #{e.message}"
+      logger.debug e.backtrace.inspect
     end
     te_result.update_attributes!(result: 'finished')
   end
@@ -61,7 +65,7 @@ class TestExecutionWorker
       executable_markup = if item.type == 'TestCase' && item.format == 'selenese'
                             selenese_to_webdriver(item.markup)
                           else
-                            item.markup # default item.markup
+                            item.markup+"\n" # default item.markup
                           end
 
       # persist as TestExecutionItem
@@ -85,7 +89,7 @@ class TestExecutionWorker
       # TODO run command with systemu or other ways: we need capture of STDOUT (and probably STDERR) and proper return codes
       # status = systemu cmd, 1=>stdout='', 2=>stderr=''
       status = system(exec_with, executable)
-      logger.info("execution of TestExecutionItem##{te_item_id} returned with status: #{status} (exitstatus #{$?.exitstatus})")
+      logger.info "#{executable} returned with status: #{status} (exitstatus #{$?.exitstatus})"
 
       # TODO for the moment save exit code as strings to :content
       current_output = te_item.output
@@ -97,7 +101,7 @@ class TestExecutionWorker
 
       te_item.update_attributes!(output: new_output, exitstatus: $?.exitstatus)
     else
-      logger.error("Couln't execute #{executable}")
+      logger.warn("Couldn't execute #{executable}")
     end
   end
 
