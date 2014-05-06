@@ -1,0 +1,57 @@
+<% javascript 'webtest' %>
+
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+
+      <%= form_tag(test_plans_path, method: 'post', class: "form-horizontal", role: 'form') do %>
+          <%= raw htmlform_for @test_plan, {:nested => true, :only => [:name, :description], :caption => 'Create new test plan' } %>
+
+          <div class="form-group">
+            <label class="col-md-4 control-label">Attach test items</label>
+            <div class="col-md-4">
+              <% unless @test_scripts.nil? %>
+                  Scripts<%= select_tag 'test_scripts', options_from_collection_for_select(@test_scripts, "id", "name"), multiple: true %><br>
+              <% end %>
+              <% unless @test_cases.empty? %>
+                  Cases <%= select_tag 'test_cases', options_from_collection_for_select(@test_cases, "id", "name"), multiple: true %><br>
+              <% end %>
+              <% unless @test_suites.empty? %>
+                  Suites<%= select_tag 'test_suites', options_from_collection_for_select(@test_suites, "id", "name"), multiple: true %><br>
+              <% end %>
+
+              <div id="jstree_demo_div">
+                <ul>
+                  <li data-jstree='{"opened":true,"selected":true}'>Root
+                    <ul>
+                      <li>Child</li>
+                      <li>Child</li>
+                      <li data-jstree='{"icon":"glyphicon glyphicon-leaf"}'>
+                        Child</li>
+                    </ul>
+                  </li>
+                  <li>Root node 3
+                    <ul>
+                      <li>Child node 1</li>
+                      <li><a href="#">Child node 2</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-4 control-label"></label>
+            <div class="col-md-4">
+              <button class="btn btn-default btn-success" type="submit">Create</button>
+            </div>
+          </div>
+
+          <div id="webtest_test_items">
+          </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

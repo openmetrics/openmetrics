@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  test_execution_id: 1
+  result: MyText
+  duration: 1
+  output: MyText
+  exitstatus: 1
+
+two:
+  test_execution_id: 1
+  result: MyText
+  duration: 1
+  output: MyText
+  exitstatus: 1
