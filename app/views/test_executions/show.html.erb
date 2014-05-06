@@ -1,7 +1,9 @@
 <% javascript('webtest') %>
 
 <div class="row">
-  <!-- left column -->
+
+
+  <!-- left column, top column when mobile -->
   <div class="col-md-8">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -33,13 +35,17 @@
     </div>
   </div>
 
-  <!-- right column -->
+  <!-- right column, top column when mobile -->
   <div class="col-md-4">
     <div class="panel panel-default">
       <div class="panel-body">
         <small>Test execution requested <%= time_ago_in_words(@test_execution.created_at) %> ago</small><br>
-        Status: <%= @test_execution.test_execution_result.result %><br>
-        Exit Status: <%= @test_execution.test_execution_result.exitstatus.nil? ? "not yet decided" : @test_execution.test_execution_result.exitstatus %>
+        <% if @test_execution.test_execution_result %>
+            Status: <%= @test_execution.test_execution_result.result %><br>
+            Exit Status: <%= @test_execution.test_execution_result.exitstatus.nil? ? "not yet decided" : @test_execution.test_execution_result.exitstatus %>
+        <% else %>
+            There is no result yet.
+        <% end %>
       </div>
     </div>
   </div>
