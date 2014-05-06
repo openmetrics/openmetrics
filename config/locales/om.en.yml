@@ -35,6 +35,9 @@ en:
           html_input:
             caption: "Please provide some basic information"
             submit_text: "Create system"
+            help_text:
+              fqdn: "Fully qualified domain name (FQDN)"
+              name: "A name easy to remember"
       service:
         index:
           title: "Services List"
