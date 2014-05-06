@@ -57,20 +57,40 @@ ti1:
 
 ti2:
   id: 2
-  name: TestScript Example
+  name: bash exit non-successful
   description: print a random number and exit with a return code indicating failure
   type: TestScript
   format: bash
   markup: |
     echo $RANDOM
-    exit 42
+    exit 1
 
 ti3:
   id: 3
-  name: TestScript Example
+  name: bash exit successful
   description: print a random number and exit with a return code indicating success
   type: TestScript
   format: bash
   markup: |
     echo $RANDOM
     exit 0
+
+ti4:
+  id: 4
+  name: bash wait 5s and exit successful
+  description: sleep for 5 seconds and exit with a return code indicating success
+  type: TestScript
+  format: bash
+  markup: |
+    sleep 5
+    exit 0
+
+ti5:
+  id: 5
+  name: bash wait 5s and exit non-successful
+  description: sleep for 5 seconds and exit with a return code indicating failure
+  type: TestScript
+  format: bash
+  markup: |
+    sleep 5
+    exit 1

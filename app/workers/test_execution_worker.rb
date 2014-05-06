@@ -4,7 +4,10 @@ require 'systemu'
 
 class TestExecutionWorker
   include Sidekiq::Worker
-  sidekiq_options retry: false
+  # queue : use a named queue for this Worker, default 'default'
+  # retry : enable the RetryJobs middleware for this Worker, default true. Alternatively, you can specify the max. number of times a job is retried (ie. :retry => 3)
+  # backtrace : whether to save any error backtrace in the retry payload to display in web UI, can be true, false or an integer number of lines to save, default false
+  sidekiq_options retry: false, backtrace: true
   include WebtestAutomagick
 
   TMPDIR="#{Rails.root}/tmp/tp" # working dir
@@ -12,44 +15,43 @@ class TestExecutionWorker
   def perform(test_execution_id, test_plan_id)
     tp = TestPlan.find(test_plan_id)
     te = TestExecution.find(test_execution_id)
-    result = TestExecutionResult.create!(test_execution: te, result: 'scheduled')
+    te_result = TestExecutionResult.create!(test_execution_id: te.id, result: 'scheduled')
     Dir.exist?(TMPDIR) || system('mkdir', '-p', "#{TMPDIR}")
     # try preparation and execution of testplan
     begin
-      test_execution_items = prepare(tp)
-      t0 = Time.now  #measure duration of execution
-      test_execution_items.each do |tei|
-        execute(tei[0],tei[1], result)
+      t0 = Time.now  #measure duration of preparation & execution
+      te_items = prepare(te, tp)
+      te_items.each do |tei|
+        execute(tei[0], tei[1], tei[2])
       end
-      result.update_attributes!(duration: Time.now - t0)
+      te_result.update_attributes!(duration: Time.now - t0)
       # mark result success if status not yet decided
-      result.update_attributes!(exitstatus: 0) if result.exitstatus.nil?
+      te_result.update_attributes!(exitstatus: 0) if te_result.exitstatus.nil?
       # TODO add better fail handling
-      result.update_attributes!(exitstatus: 1) if result.output.include?("false")
+      te_result.update_attributes!(exitstatus: 1) if te_result.output.include?("false")
     rescue
       # job preparation or execution failed, mark this in result
-      result.update_attributes!(result: 'finished', exitstatus: 42)
+      te_result.update_attributes!(result: 'finished', exitstatus: 42)
     end
-    result.update_attributes!(result: 'finished')
+    te_result.update_attributes!(result: 'finished')
   end
 
-  # reads test plans test_items and generate executables depending on item format/markup
-  # returns pairs of arrays (filename, interpreter)
-  def prepare(tp)
+  # reads test plans test_items and generates executables of it (TestExecutionItem) depending on item format/markup
+  # returns pairs of arrays (test_execution_item_id, filename, interpreter)
+  def prepare(te, tp)
     ret = []
     items = tp.test_items
     items.each_with_index { |item, n|
-
-      #  executable header (shebang) and extension
-      header = ""
-      exec = ""
+      # executable header (shebang) and extension
+      header = ''
+      interpreter = ''
       case item.format
         when 'selenese'
           header = "#!/usr/bin/env ruby\n"
-          exec = "ruby"
+          interpreter = 'ruby'
         when 'bash'
           header = "#!/bin/bash\n"
-          exec = "bash"
+          interpreter = 'bash'
       end
 
       # create tempfile
@@ -62,33 +64,41 @@ class TestExecutionWorker
                             item.markup # default item.markup
                           end
 
-      # write executable file
-      begin
-        File.open(tmpfile, 'w') { |f| f.write(header+executable_markup) }
-        ret.push([tmpfile, exec]) #return object
-      rescue
-        logger.error("Couldn't write executable file")
-      end
+      # persist as TestExecutionItem
+      te_item = TestExecutionItem.create!(markup: header+executable_markup, format: item.format, test_item_id: item.id, test_execution_id: te.id)
+
+      # write executable file to filesystem
+      File.open(tmpfile, 'w') { |f| f.write(header+executable_markup) }
+
+      # add executable filename and interpreter to return array
+      ret.push([te_item.id, tmpfile, interpreter])
+
     }
-    ret
+
+    # return array of test_execution_id, filename & interpreter
+    return ret
   end
 
-  def execute(executable, exec_with='bash', result)
-    logger.info("executing #{executable.inspect} with #{exec_with}")
-    cmd = "#{exec_with} #{executable}"
-    # run command with systemu, capture stdout and stderr
-    # status = systemu cmd, 1=>stdout='', 2=>stderr=''
-    status = system(exec_with, executable)
-    logger.info("returned status: #{status} (exitstatus #{$?.exitstatus})")
+  def execute(te_item_id, executable, exec_with='bash')
+    te_item = TestExecutionItem.find(te_item_id)
+    unless te_item.nil?
+      # TODO run command with systemu or other ways: we need capture of STDOUT (and probably STDERR) and proper return codes
+      # status = systemu cmd, 1=>stdout='', 2=>stderr=''
+      status = system(exec_with, executable)
+      logger.info("execution of TestExecutionItem##{te_item_id} returned with status: #{status} (exitstatus #{$?.exitstatus})")
 
-    # TODO for the moment save exit code as strings to :content
-    current_output = result.output
-    result.output = if current_output.nil?
-                      "returned status: #{status} (exitstatus #{$?.exitstatus})"
-                      else
-                        current_output + "; returned status: #{status} (exitstatus #{$?.exitstatus})"
-                    end
-    result.save
+      # TODO for the moment save exit code as strings to :content
+      current_output = te_item.output
+      new_output = if current_output.nil?
+                        "returned status: #{status} (exitstatus #{$?.exitstatus})"
+                        else
+                          current_output + "; returned status: #{status} (exitstatus #{$?.exitstatus})"
+                        end
+
+      te_item.update_attributes!(output: new_output, exitstatus: $?.exitstatus)
+    else
+      logger.error("Couln't execute #{executable}")
+    end
   end
 
 end

@@ -45,7 +45,7 @@ module HtmlTablebakery
 
     # test collection for validity
     if collection.empty?
-      return "No collection passed"
+      return 'None yet <i class="fa fa-meh-o"></i>'
     end
 
     # get attributes via first element of passed collection and apply column visibility & ordering based on presets
@@ -120,8 +120,9 @@ module HtmlTablebakery
     collection.each do |item|
       html += '<tr>'
 
-      # process cells
+      # process cells and format value according to column name or values class name
       attr_sorted.each do |attr|
+
         #special treat for date columns
         case attr
           when 'actions'
@@ -141,6 +142,20 @@ module HtmlTablebakery
               ac += link_to(raw('<span class="glyphicon glyphicon-eye-open"></span> show'), eval(show_link), :class => 'btn btn-default btn-xs')
             end
             html += "<td class=\"actions\">#{ac}</td>"
+
+          # markup columns should receive syntax highlight; depends on ApplicationHelper methods!
+          when 'markup'
+            # try to find value of attribute "format" to decide type of markup, otherwise use text
+            format = !item["format"] ? "text" : item["format"]
+            html += "<td>#{item[attr.to_sym].html_safe? ? short_markup : coderay(item[attr.to_sym], format)}</td>"
+
+          # wrap format in a nice badge; depends on ApplicationHelper methods!
+          when 'format'
+            html += "<td>#{badge(item[attr.to_sym], 'info')}</td>"
+
+          # wrap type (TestCase, TestScript..) in a nice badge; depends on ApplicationHelper methods!
+          when 'type'
+            html += "<td>#{badge(item[attr.to_sym], 'primary')}</td>"
 
           when 'join'
             # render cell for join objects?

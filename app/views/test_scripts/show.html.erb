@@ -1,0 +1,25 @@
+<div class="row">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>
+          <%= @test_script.name %>
+        </h3>
+
+      </div>
+      <div class="panel-body">
+        <blockquote><%= @test_script.description %></blockquote>
+        <%= badge(@test_script.format, 'info') %>
+        <%= coderay(@test_script.markup, @test_script.format, "div") %><br>
+
+      </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+

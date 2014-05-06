@@ -1,0 +1,15 @@
+<h3>Create Test Script</h3>
+
+<div class="panel panel-default spacer">
+  <div class="panel-heading">Your input</div>
+  <div class="panel-body">
+    <%= raw htmlform_for(@test_script, {:except => [:id, :type, :created_at, :updated_at]}) %>
+  </div>
+</div>
+
+<div class="panel panel-default spacer">
+  <div class="panel-heading">File import</div>
+  <div class="panel-body">
+    <%= render 'upload_form' %>
+  </div>
+</div>

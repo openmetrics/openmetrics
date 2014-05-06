@@ -13,9 +13,17 @@ TABLEBAKERY_PRESETS = {
         attr_ignore: %w( id updated_at created_at user_id base_url ),
         attr_order:  %w( name description actions)
     },
+    test_item: {
+        attr_ignore: %w( id updated_at created_at ),
+        attr_order:  %w( name description type format markup actions)
+    },
     test_case: {
-        attr_ignore: %w( id updated_at created_at markup type ),
-        attr_order:  %w( name description format actions)
+        attr_ignore: %w( updated_at created_at type ),
+        attr_order:  %w( id name description format markup actions)
+    },
+    test_script: {
+        attr_ignore: %w( updated_at created_at type ),
+        attr_order:  %w( id name description format markup actions)
     },
     test_execution: {
         attr_ignore: %w( id updated_at user_id ),

@@ -35,6 +35,7 @@ Openmetrics::Application.routes.draw do
   post 'test_plans/run' => 'test_plans#run', as: :run_test_plan
   resources :test_suites
   resources :test_cases
+  resources :test_scripts
   resources :test_executions
 
   # Enable this route for sidekiq monitoring

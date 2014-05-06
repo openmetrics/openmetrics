@@ -18,7 +18,6 @@ module WebtestAutomagick
       base_url = doc.css('link[rel="selenium.base"]').attribute("href").value
     end
     base_url.gsub!(/(.*)\/$/, "#{$1}") #remove trailing slash
-    base_url = 'http://localhost:3000'
 
     # extract selenese commands
     sel_commands = []

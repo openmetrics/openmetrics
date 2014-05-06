@@ -37,8 +37,10 @@ namespace :openmetrics do
     system.update_attributes!(:name => 'localhost',
                               :fqdn => Socket.gethostbyname(Socket.gethostname).first)
     
-    # load some fixtures
+    # load fixtures
+    ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_item_types')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_items')
+    #ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_plans')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'services')
  
     puts "#{'*'*(`tput cols`.to_i)}\nThe database has been populated!\n#{'*'*(`tput cols`.to_i)}"

@@ -1,9 +1,17 @@
+<%# this partial is used to show TestPlan AND to show their execution status aswell (TestExecution) %>
+<% te_items = nil if local_assigns[:te_items].nil? %>
+
 <ul class="test_plan">
-<% test_plan.test_items.each_with_index do |test_item, n| %>
+<% tp.test_items.each_with_index do |test_item, n| %>
     <li>
       <span class="itemNumber"><%= n+1 %></span>
       <strong><%= test_item.name %></strong> <span class="label label-primary"><%= test_item.type %></span> <span class="label label-info"><%= test_item.format %></span>
       <%= coderay(test_item.markup, test_item.format, "div") if controller.controller_name == 'test_executions' %>
+
+      <%# display matching TestExecutionItem markup %>
+      <% if !te_items.nil? && te_items[n] %>
+        <%= te_items[n].inspect %>
+      <% end %>
     </li>
 <% end %>
 </ul>

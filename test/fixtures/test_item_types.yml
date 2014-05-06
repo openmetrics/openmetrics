@@ -1,0 +1,14 @@
+test_script:
+  id: 1
+  name: test_script
+  model_name: TestScript
+
+test_case:
+  id: 2
+  name: test_case
+  model_name: TestCase
+
+test_suite:
+  id: 3
+  name: test_suite
+  model_name: TestSuite

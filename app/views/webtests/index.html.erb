@@ -1,15 +1,18 @@
 <% javascript 'webtest' %>
 
+<h3>Webtests</h3>
+<h4 class="spacer">Test Plans</h4>
+<%= raw htmltable_for @test_plans, { :actions => { :show => true} } %>
+<br>
+<%= link_to 'Create a new test plan', new_test_plan_path %>
 
-<h4>Test Plans</h4>
-<%= raw htmltable_for @test_plans, { :html_class => 'spacer', :actions => { :show => true} } %>
+<h4 class="spacer">Test Scripts</h4>
+<%= raw htmltable_for @test_scripts, { :actions => { :show => true} } %>
+<%= link_to 'View all test scripts', test_scripts_path %>
 
-<h4>Test Cases</h4>
-<%= raw htmltable_for @test_cases, { :html_class => 'spacer', :actions => { :show => true} } %>
+<h4 class="spacer">Test Cases</h4>
+<%= raw htmltable_for @test_cases, { :actions => { :show => true} } %>
+<%= link_to 'View all test cases', test_cases_path %><br>
 
-<ul>
-  <li><%= link_to 'New test case', new_test_case_path %></li>
-  <li><%= link_to 'New test plan', new_test_plan_path %></li>
-</ul>
 
 <%= render partial: 'shared/recent_test_executions' %>
