@@ -41,6 +41,7 @@ namespace :openmetrics do
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_item_types')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_items')
     #ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_plans')
+    TestPlan.create!(name: 'all bash scripts', description: 'all bash scripts', test_items: TestScript.where(format: 'bash'))
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'services')
  
     puts "#{'*'*(`tput cols`.to_i)}\nThe database has been populated!\n#{'*'*(`tput cols`.to_i)}"

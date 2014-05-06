@@ -40,9 +40,6 @@ gem 'jbuilder', '~> 1.2'
 # use sidekiq as for background processing
 gem 'sidekiq'
 
-# use systemu for command execution (provides methods for handling stdin,stdin and stderr) https://github.com/ahoward/systemu
-gem 'systemu'
-
 # needed for sidekiq monitoring web mount
 # if you require 'sinatra' you get the DSL extended to Object
 gem 'sinatra', '>= 1.3.0', :require => nil

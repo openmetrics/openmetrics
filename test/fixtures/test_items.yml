@@ -94,3 +94,22 @@ ti5:
   markup: |
     sleep 5
     exit 1
+ti6:
+  id: 6
+  name: bash print random number 1
+  type: TestScript
+  description: print a random number
+  format: bash
+  markup: |
+    echo $RANDOM
+ti6:
+  id: 6
+  name: bash print random number 2
+  type: TestScript
+  description: print a random number, wait 5 seconds and repeat
+  format: bash
+  markup: |
+    echo $RANDOM
+    sleep 5
+    echo $RANDOM
+    sleep 5

@@ -1,13 +1,10 @@
 require 'selenium-webdriver'
 require 'webtest_automagick'
-require 'systemu'
+require 'open3'
 
 class TestExecutionWorker
   include Sidekiq::Worker
-  # queue : use a named queue for this Worker, default 'default'
-  # retry : enable the RetryJobs middleware for this Worker, default true. Alternatively, you can specify the max. number of times a job is retried (ie. :retry => 3)
-  # backtrace : whether to save any error backtrace in the retry payload to display in web UI, can be true, false or an integer number of lines to save, default false
-  sidekiq_options retry: false, backtrace: true
+  sidekiq_options retry: false
   include WebtestAutomagick
 
   TMPDIR="#{Rails.root}/tmp/tp" # working dir
@@ -29,6 +26,7 @@ class TestExecutionWorker
       # mark result success if status not yet decided
       te_result.update_attributes!(exitstatus: 0) if te_result.exitstatus.nil?
       # check test execution items for exitstatus indicating a fail
+      # FIXME when sidekiq is killed, failure detection of is not reliable. output may contain 'returned status: false (exitstatus )' (which indicates error) while exit status is not set. nevertheless exitstatus remains successful
       failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
       te_result.update_attributes!(exitstatus: failed.last.exitstatus) if failed.any?
     rescue Exception => e
@@ -83,23 +81,38 @@ class TestExecutionWorker
     return ret
   end
 
-  def execute(te_item_id, executable, exec_with='bash')
+  def execute(te_item_id, executable, interpreter='bash')
     te_item = TestExecutionItem.find(te_item_id)
     unless te_item.nil?
-      # TODO run command with systemu or other ways: we need capture of STDOUT (and probably STDERR) and proper return codes
-      # status = systemu cmd, 1=>stdout='', 2=>stderr=''
-      status = system(exec_with, executable)
-      logger.info "#{executable} returned with status: #{status} (exitstatus #{$?.exitstatus})"
+      captured_stdout = ''
+      captured_stderr = ''
+      # run command, pass current environment
+      #exit_status = Open3.popen3(ENV, exec_with, executable) {|stdin, stdout, stderr, wait_thr|
+      #  pid = wait_thr.pid # pid of the started process.
+      #  stdin.close
+      #  captured_stdout = stdout.read
+      #  captured_stderr = stderr.read
+      #  wait_thr.value # Process::Status object returned.
+      #}
+      stdout, stderr, exit_status = Open3.capture3(ENV, interpreter, executable)
+      exitstatus = exit_status.exitstatus # numeric return code of command
+      textstatus = exit_status.success? ? 'succeeded' : 'failed'
+
+      logger.debug "Executed #{interpreter} #{executable}"
+      logger.debug "STDOUT: #{stdout}"
+      logger.debug "STDERR: #{stderr}"
+      logger.info "TestExecutionItem##{te_item.id} (TestExecution##{te_item.test_execution_id}) returned with status: #{textstatus} (exitstatus #{exitstatus})"
 
       # TODO for the moment save exit code as strings to :content
       current_output = te_item.output
       new_output = if current_output.nil?
-                        "returned status: #{status} (exitstatus #{$?.exitstatus})"
+                        "returned status: #{textstatus} (exitstatus #{exitstatus})"
                         else
-                          current_output + "; returned status: #{status} (exitstatus #{$?.exitstatus})"
+                          current_output + "; returned status: #{textstatus} (exitstatus #{exitstatus})"
                         end
+      new_output+="; STDOuT: #{stdout}"
 
-      te_item.update_attributes!(output: new_output, exitstatus: $?.exitstatus)
+      te_item.update_attributes!(output: new_output, exitstatus: exitstatus)
     else
       logger.warn("Couldn't execute #{executable}")
     end
