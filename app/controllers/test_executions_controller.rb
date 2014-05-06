@@ -6,4 +6,8 @@ class TestExecutionsController < ApplicationController
     @test_plan = @test_execution.test_plan
   end
 
+  def index
+    @test_executions = TestExecution.order("created_at desc")
+  end
+
 end

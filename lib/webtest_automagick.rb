@@ -13,9 +13,13 @@ module WebtestAutomagick
     # extract title
     title = doc.css('title').text
     # extract base url
-    unless doc.css('link[rel=selenium.base]').nil?
-      base_url = doc.css('link[rel=selenium.base]').attribute("href").value
+    base_url=''
+    if doc.css('link[rel="selenium.base"]')
+      base_url = doc.css('link[rel="selenium.base"]').attribute("href").value
     end
+    base_url.gsub!(/(.*)\/$/, "#{$1}") #remove trailing slash
+    base_url = 'http://localhost:3000'
+
     # extract selenese commands
     sel_commands = []
     doc.css("tbody tr").each do |x|
@@ -67,7 +71,7 @@ driver.navigate.to "#{base_url}"
           wd += "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
       end
     end
-    wd += "driver.quit\n"
+    wd += "driver.close\n"
     wd
   end
 end

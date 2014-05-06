@@ -2,6 +2,11 @@
 //@import 'bootstrap/bootstrap-tabdrop';
 @import 'bootstrap/bootstrap-multiselect';
 
+/* always show vertical scrollbar to prevent layout jumps */
+//html {
+//  overflow-y: scroll;
+//}
+
 /* bootstrap vertical dividers in navbar */
 .navbar .divider-vertical {
   height: 50px;

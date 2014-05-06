@@ -3,7 +3,7 @@
     <li>
       <span class="itemNumber"><%= n+1 %></span>
       <strong><%= test_item.name %></strong> <span class="label label-primary"><%= test_item.type %></span> <span class="label label-info"><%= test_item.format %></span>
-      <%= coderay(test_item.markup, test_item.format) if controller.controller_name == 'test_executions' %>
+      <%= coderay(test_item.markup, test_item.format, "div") if controller.controller_name == 'test_executions' %>
     </li>
 <% end %>
 </ul>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140505150510) do
+ActiveRecord::Schema.define(version: 20140505210554) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20140505150510) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "job_id"
+    t.string   "base_url"
   end
 
   create_table "test_item_types", force: true do |t|
@@ -115,6 +116,7 @@ ActiveRecord::Schema.define(version: 20140505150510) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "base_url"
   end
 
   create_table "test_plans_test_items", force: true do |t|

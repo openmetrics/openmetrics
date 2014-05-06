@@ -10,7 +10,7 @@
       <div class="panel-body">
         <blockquote><%= @test_case.description %></blockquote>
         <%= badge(@test_case.format, 'info') %>
-        <%= coderay(@test_case.markup, @test_case.format) %><br>
+        <%= coderay(@test_case.markup, @test_case.format, "div") %><br>
 
       </div>
     </div>

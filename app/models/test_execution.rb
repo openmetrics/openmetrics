@@ -4,6 +4,9 @@ class TestExecution < ActiveRecord::Base
 
   after_create :schedule_test_execution
 
+  # most recent
+  scope :recent, ->(num=5) { order('created_at DESC').limit(num) }
+
   # try to perform async, otherwise fail
   def schedule_test_execution()
     begin

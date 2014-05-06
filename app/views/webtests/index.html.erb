@@ -1,46 +1,15 @@
 <% javascript 'webtest' %>
 
-<h3>Webtests</h3>
 
-<div class="panel panel-default">
-  <div class="panel-body">
-
-    <%= form_tag(test_plans_path, method: 'post', class: "form-horizontal", role: 'form') do %>
-        <%= raw htmlform_for @test_plan, {:nested => true, :only => [:name, :description], :caption => 'Create new test plan' } %>
-
-        <div class="form-group">
-          <label class="col-md-4 control-label">Attach test items</label>
-          <div class="col-md-4">
-            <% unless @test_scripts.empty? %>
-                Scripts<%= select_tag 'test_scripts', options_from_collection_for_select(@test_scripts, "id", "name"), multiple: true %><br>
-            <% end %>
-            <% unless @test_cases.empty? %>
-                Cases <%= select_tag 'test_cases', options_from_collection_for_select(@test_cases, "id", "name"), multiple: true %><br>
-            <% end %>
-            <% unless @test_suites.empty? %>
-                Suites<%= select_tag 'test_suites', options_from_collection_for_select(@test_suites, "id", "name"), multiple: true %><br>
-            <% end %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-md-4 control-label"></label>
-          <div class="col-md-4">
-            <button class="btn btn-default btn-success" type="submit">Create</button>
-          </div>
-        </div>
-
-        <div id="webtest_test_items">
-        </div>
-
-    <% end %>
-
-    <ul>
-      <li><%= link_to 'New test case', new_test_case_path %></li>
-      <li><%= link_to 'New test suite', new_test_case_path %></li>
-    </ul>
-  </div>
-</div>
-
-
+<h4>Test Plans</h4>
 <%= raw htmltable_for @test_plans, { :html_class => 'spacer', :actions => { :show => true} } %>
+
+<h4>Test Cases</h4>
+<%= raw htmltable_for @test_cases, { :html_class => 'spacer', :actions => { :show => true} } %>
+
+<ul>
+  <li><%= link_to 'New test case', new_test_case_path %></li>
+  <li><%= link_to 'New test plan', new_test_plan_path %></li>
+</ul>
+
+<%= render partial: 'shared/recent_test_executions' %>

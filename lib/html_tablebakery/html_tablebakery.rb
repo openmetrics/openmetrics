@@ -127,13 +127,18 @@ module HtmlTablebakery
           when 'actions'
             # render additional action cell?
             ac=''
-            if append_actions_cell && append_actions_cell[:show]
-              show_link = "#{obj_class_name.underscore}_path(#{item[:id]})"
-              ac += link_to raw('<span class="glyphicon glyphicon-eye-open"></span> show'), eval(show_link), :class => 'btn btn-default btn-xs'
+            if append_actions_cell && append_actions_cell[:destroy]
+              classname = obj_class_name.underscore
+              destroy_link = "#{classname}_path(#{item[:id]})"
+              ac += link_to(raw('<span class="fa fa-times"></span> delete'), eval(destroy_link), method: :delete, class: "btn btn-default btn-xs tablebakery_delete delete_#{classname}", data: { id: obj_id, confirm: 'Are you sure?'} )
             end
             if append_actions_cell && append_actions_cell[:edit]
               edit_link = "edit_#{obj_class_name.underscore}_path(#{item[:id]})"
-              ac += link_to raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), eval(edit_link), :class => 'btn btn-default btn-xs'
+              ac += link_to(raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), eval(edit_link), :class => 'btn btn-default btn-xs')
+            end
+            if append_actions_cell && append_actions_cell[:show]
+              show_link = "#{obj_class_name.underscore}_path(#{item[:id]})"
+              ac += link_to(raw('<span class="glyphicon glyphicon-eye-open"></span> show'), eval(show_link), :class => 'btn btn-default btn-xs')
             end
             html += "<td class=\"actions\">#{ac}</td>"
 

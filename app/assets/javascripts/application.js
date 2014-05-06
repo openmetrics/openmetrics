@@ -15,7 +15,6 @@
 //= require jquery_ujs
 //= require jquery-fileupload/basic
 //= require jquery-fileupload/vendor/tmpl
-//= require uploads
 //= require bootstrap.min
 //= require bootstrap-multiselect
 // tabdrop doesnt work well for left handed tabs
@@ -23,6 +22,8 @@
 //= require i18n/i18n
 //= require i18n/translations
 //= require unobtrusive_flash
+//= require jstree
+//= require uploads
 //= require turbolinks
 
 /* flash handler */

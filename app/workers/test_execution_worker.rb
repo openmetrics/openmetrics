@@ -12,14 +12,25 @@ class TestExecutionWorker
   def perform(test_execution_id, test_plan_id)
     tp = TestPlan.find(test_plan_id)
     te = TestExecution.find(test_execution_id)
-    result = TestExecutionResult.create!(test_execution: te)
+    result = TestExecutionResult.create!(test_execution: te, result: 'scheduled')
     Dir.exist?(TMPDIR) || system('mkdir', '-p', "#{TMPDIR}")
-    test_execution_items = prepare(tp)
-    t0 = Time.now  #measure duration of execution
-    test_execution_items.each do |tei|
-      execute(tei[0],tei[1], result)
+    # try preparation and execution of testplan
+    begin
+      test_execution_items = prepare(tp)
+      t0 = Time.now  #measure duration of execution
+      test_execution_items.each do |tei|
+        execute(tei[0],tei[1], result)
+      end
+      result.update_attributes!(duration: Time.now - t0)
+      # mark result success if status not yet decided
+      result.update_attributes!(exitstatus: 0) if result.exitstatus.nil?
+      # TODO add better fail handling
+      result.update_attributes!(exitstatus: 1) if result.output.include?("false")
+    rescue
+      # job preparation or execution failed, mark this in result
+      result.update_attributes!(result: 'finished', exitstatus: 42)
     end
-    result.update_attributes!(duration: Time.now - t0)
+    result.update_attributes!(result: 'finished')
   end
 
   # reads test plans test_items and generate executables depending on item format/markup
@@ -69,9 +80,14 @@ class TestExecutionWorker
     # status = systemu cmd, 1=>stdout='', 2=>stderr=''
     status = system(exec_with, executable)
     logger.info("returned status: #{status} (exitstatus #{$?.exitstatus})")
-    result.output=status
-    #result.output = old_output.nil? ? stdout : old_output + stdout
-    result.exitstatus = $?.exitstatus
+
+    # TODO for the moment save exit code as strings to :content
+    current_output = result.output
+    result.output = if current_output.nil?
+                      "returned status: #{status} (exitstatus #{$?.exitstatus})"
+                      else
+                        current_output + "; returned status: #{status} (exitstatus #{$?.exitstatus})"
+                    end
     result.save
   end
 

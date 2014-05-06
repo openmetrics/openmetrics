@@ -11,7 +11,7 @@ class TestCasesController < ApplicationController
   end
 
   def new
-    @test_case = TestCase.new
+    @test_case = TestCase.new(name: 'unholy exit', description: 'perform a noop and exit with a non-successful return code', format: 'bash', markup: ": && exit42")
     @upload = Upload.new # for test case upload
   end
 
@@ -30,11 +30,19 @@ class TestCasesController < ApplicationController
   end
 
   def update
-    test_case = TestCase.find(params[:id])
-    if test_case.update!(test_case_params)
+    @test_case = TestCase.find(params[:id])
+    if @test_case.update!(test_case_params)
       flash[:success] = "Test case updated."
     else
       flash[:warn] = 'Something went wrong while updating test case.'
+    end
+    redirect_to :back
+  end
+
+  def destroy
+    @test_case = TestCase.find(params[:id])
+    if @test_case.destroy!
+      flash[:success] = "Test case deleted."
     end
     redirect_to :back
   end

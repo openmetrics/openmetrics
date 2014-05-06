@@ -1,8 +1,16 @@
-     class TestPlansController < ApplicationController
+class TestPlansController < ApplicationController
   before_action :authenticate_user!
+
+  def new
+    @test_plan = TestPlan.new
+    @test_cases = TestCase.all
+    @test_scripts = TestScript.all
+    @test_suites = TestSuite.all
+  end
 
   def show
     @test_plan = TestPlan.find(params[:id])
+    @recent_test_executions = TestExecution.recent
   end
 
   def create

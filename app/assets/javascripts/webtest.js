@@ -20,8 +20,14 @@ $(document).on('click', '#run_test_plan', function(e) {
 });
 
 
-/* dropdowns for testplan testitems */
+
 $(document).on('page:change', function() {
+
+    $('#jstree_demo_div').jstree({
+        "plugins" : [ "wholerow" ]
+    });
+
+    /* dropdowns for testplan testitems */
     var test_suites_select = $('#test_suites');
     var test_cases_select = $('#test_cases');
     var test_scripts_select = $('#test_scripts');

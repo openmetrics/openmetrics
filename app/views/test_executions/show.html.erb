@@ -6,16 +6,31 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3>
-          <button class="btn btn-default btn-info pull-right" id="status_indicator">
-            <i class="fa fa-spinner fa-spin"></i>
-            Running
-          </button>
-          <%= @test_plan.name %>
+          <% if @test_execution.test_execution_result %>
+              <% if @test_execution.test_execution_result.exitstatus.nil? && @test_execution.test_execution_result.result == 'scheduled' %>
+                <button class="btn btn-default btn-info pull-right" id="status_indicator"><i class="fa fa-spinner fa-spin"></i> Running</button>
+              <% else %>
+                  <% if @test_execution.test_execution_result.result == 'finished' %>
+                      <% if @test_execution.test_execution_result.exitstatus == 0 %>
+                            <button class="btn btn-default btn-success pull-right"><i class="fa fa-thumbs-up"></i> Success</button>
+                      <% else %>
+                            <button class="btn btn-default btn-danger pull-right"><i class="fa fa-thumbs-down"></i> Fail</button>
+                      <% end %>
+                  <% end %>
+              <% end %>
+          <% end %>
+          <%= link_to(@test_plan.name, @test_plan) %>
           <small><%= @test_plan.description %></small>
         </h3>
 
       </div>
       <div class="panel-body">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            Test execution <%= time_ago_in_words(@test_execution.created_at) %> ago<br>
+            Status: <%= @test_execution.test_execution_result.inspect %>
+          </div>
+        </div>
         <%= render partial: 'shared/test_plan', locals: { test_plan: @test_plan } %>
       </div>
     </div>
@@ -23,16 +38,6 @@
 
   <!-- right column -->
   <div class="col-md-4">
-    <p>Consectetur art party Tonx culpa <%= coderay("exit 42", "bash") %>semiotics. Pinterest assumenda minim organic quis.</p>
-
-    <p>Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's
-      literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.</p>
   </div>
 
 </div>
-
-
-
-
-
-
