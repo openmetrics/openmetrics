@@ -1,5 +1,6 @@
 module WebtestsHelper
 
+  # print bootstrap button indicating processing status ('Running', 'Success', 'Fail')
   def test_execution_status(test_execution)
     def is_scheduled_or_prepared?(te)
       return (te.status == TEST_EXECUTION_STATUS.key('scheduled') or te.status == TEST_EXECUTION_STATUS.key('prepared'))
@@ -31,7 +32,6 @@ module WebtestsHelper
         #end
       end
     end
-
   end
 
 end

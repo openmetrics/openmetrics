@@ -23,10 +23,11 @@
   <div class="col-md-4">
     <div class="panel panel-default">
       <div class="panel-body">
+        <h3>Result</h3>
         <small>Test execution requested <%= time_ago_in_words(@test_execution.created_at) %> ago</small><br>
         <%= test_execution_status(@test_execution) %><br>
         <% if @test_execution.test_execution_result %>
-            Status: <%= @test_execution.test_execution_result.result %><br>
+            Duration: <%= @test_execution.duration.nil? ? 'not yet decided' : "#{@test_execution.duration} seconds" %><br>
             Exit Status: <%= @test_execution.test_execution_result.exitstatus.nil? ? "not yet decided" : @test_execution.test_execution_result.exitstatus %>
         <% else %>
             There is no result yet.

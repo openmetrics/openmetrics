@@ -1,5 +1,6 @@
 class TestExecutionItem < ActiveRecord::Base
   belongs_to :test_item
+  belongs_to :test_execution
 
   # virtual attribute execution time in millisecond precision, calculated from started_at and finished_at
   def duration
