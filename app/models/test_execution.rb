@@ -4,8 +4,8 @@ class TestExecution < ActiveRecord::Base
   # has_many :test_execution_items
   has_one :test_execution_result
 
-  # schedule execution directly after create
-  after_create :schedule_test_execution
+  # create result and schedule execution directly after create
+  after_create :create_result, :schedule_test_execution
 
   # most recent test executions
   scope :recent, ->(num=5) { order('created_at DESC').limit(num) }
@@ -18,6 +18,10 @@ class TestExecution < ActiveRecord::Base
 
   def test_execution_items
     TestExecutionItem.where(test_execution_id: self.id).order('id')
+  end
+
+  def create_result()
+    TestExecutionResult.create!(test_execution: self)
   end
 
   # try to perform async, otherwise fail

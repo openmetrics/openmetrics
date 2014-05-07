@@ -1,7 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 ti1:
-  id: 1
   name: TestCase Example
   description: open website and search for some term, afterwards follow link of first search result
   type: TestCase
@@ -56,7 +55,6 @@ ti1:
     </html>
 
 ti2:
-  id: 2
   name: bash exit non-successful
   description: print a random number and exit with a return code indicating failure
   type: TestScript
@@ -66,7 +64,6 @@ ti2:
     exit 1
 
 ti3:
-  id: 3
   name: bash exit successful
   description: print a random number and exit with a return code indicating success
   type: TestScript
@@ -76,7 +73,6 @@ ti3:
     exit 0
 
 ti4:
-  id: 4
   name: bash wait 5s and exit successful
   description: sleep for 5 seconds and exit with a return code indicating success
   type: TestScript
@@ -86,7 +82,6 @@ ti4:
     exit 0
 
 ti5:
-  id: 5
   name: bash wait 5s and exit non-successful
   description: sleep for 5 seconds and exit with a return code indicating failure
   type: TestScript
@@ -94,16 +89,16 @@ ti5:
   markup: |
     sleep 5
     exit 1
+
 ti6:
-  id: 6
   name: bash print random number 1
   type: TestScript
   description: print a random number
   format: bash
   markup: |
     echo $RANDOM
-ti6:
-  id: 6
+
+ti7:
   name: bash print random number 2
   type: TestScript
   description: print a random number, wait 5 seconds and repeat

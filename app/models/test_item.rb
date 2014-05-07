@@ -1,6 +1,6 @@
 class TestItem < ActiveRecord::Base
   attr_readonly(:type)
-  #belongs_to :test_plan
+  has_and_belongs_to_many :test_plans, :join_table => :test_plans_test_items
   belongs_to :test_item_type
   before_create :set_type
 

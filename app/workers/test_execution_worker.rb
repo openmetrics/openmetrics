@@ -12,7 +12,7 @@ class TestExecutionWorker
   def perform(test_execution_id, test_plan_id)
     tp = TestPlan.find(test_plan_id)
     te = TestExecution.find(test_execution_id)
-    te_result = TestExecutionResult.create!(test_execution_id: te.id)
+    te_result = te.test_execution_result
     Dir.exist?(TMPDIR) || system('mkdir', '-p', "#{TMPDIR}")
     te.update_attributes!(started_at: Time.now, status: TEST_EXECUTION_STATUS.key('scheduled'))
 

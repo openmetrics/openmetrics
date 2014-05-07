@@ -3,13 +3,13 @@ module WebtestsHelper
   # print bootstrap button indicating processing status ('Running', 'Success', 'Fail')
   def test_execution_status(test_execution)
     def is_scheduled_or_prepared?(te)
-      return (te.status == TEST_EXECUTION_STATUS.key('scheduled') or te.status == TEST_EXECUTION_STATUS.key('prepared'))
+      te.status == TEST_EXECUTION_STATUS.key('scheduled') or te.status == TEST_EXECUTION_STATUS.key('prepared')
     end
     def is_finished?(te)
-      return te.status == TEST_EXECUTION_STATUS.key('finished')
+      te.status == TEST_EXECUTION_STATUS.key('finished')
     end
     def is_running?(te)
-      return (te.test_execution_result.exitstatus.nil? and self.is_scheduled_or_prepared?(te))
+      te.test_execution_result.exitstatus.nil? and self.is_scheduled_or_prepared?(te)
     end
 
     capture do

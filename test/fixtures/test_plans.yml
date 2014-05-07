@@ -1,6 +1,4 @@
 tp1:
-  id: 1
   name: bash example
   description: none
-  # this doesn't work :(
   test_items: ti3, ti4
