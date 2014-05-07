@@ -6,16 +6,17 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3>
-          <button class="btn btn-default btn-success pull-right" id="run_test_plan" data-id="<%= @test_plan.id %>">
+          <button class="btn btn-default btn-success pull-right run_test_plan" data-id="<%= @test_plan.id %>">
             <i class="glyphicon glyphicon-play-circle"></i>
             Run now
           </button>
+          <%= raw badge "TestPlan", 'primary' %>
           <%= @test_plan.name %>
-          <small><%= @test_plan.description %></small>
         </h3>
 
       </div>
       <div class="panel-body">
+        <p><%= @test_plan.description %></p>
         <%= render partial: 'shared/test_plan', locals: { tp: @test_plan } %>
       </div>
     </div>

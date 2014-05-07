@@ -7,6 +7,7 @@ module HtmlTablebakery
   # Possible options:<br/>
   #<br/>
   # :html_class - tables class attribute (will be merged with default table classes) <br/>
+  # :actions - to be documented,
   def htmltable_for(collection, *args)
     table_classes = "table table-hover table-striped" # may be be expanded with :html_class
     append_actions_cell = nil
@@ -44,7 +45,7 @@ module HtmlTablebakery
     config_attr_order = nil
 
     # test collection for validity
-    if collection.empty?
+    if collection.nil? or collection.empty?
       return 'None yet <i class="fa fa-meh-o"></i>'
     end
 
@@ -127,19 +128,25 @@ module HtmlTablebakery
         case attr
           when 'actions'
             # render additional action cell?
+            # TODO add more cleverness here, :destroy definitely needs special threatment, any other action could use <actionname>_<objectname>_path routes, move this into own helper method
             ac=''
+            # destroy links need special handling
             if append_actions_cell && append_actions_cell[:destroy]
               classname = obj_class_name.underscore
-              destroy_link = "#{classname}_path(#{item[:id]})"
-              ac += link_to(raw('<span class="fa fa-times"></span> delete'), eval(destroy_link), method: :delete, class: "btn btn-default btn-xs tablebakery_delete delete_#{classname}", data: { id: obj_id, confirm: 'Are you sure?'} )
+              l = "#{classname}_path(#{item[:id]})"
+              ac += link_to(raw('<span class="fa fa-times"></span> delete'), eval(l), method: :delete, class: "btn btn-default btn-xs tablebakery_delete delete_#{classname}", data: { id: obj_id, confirm: 'Are you sure?'} )
             end
             if append_actions_cell && append_actions_cell[:edit]
-              edit_link = "edit_#{obj_class_name.underscore}_path(#{item[:id]})"
-              ac += link_to(raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), eval(edit_link), :class => 'btn btn-default btn-xs')
+              l = "edit_#{obj_class_name.underscore}_path(#{item[:id]})"
+              ac += link_to(raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), eval(l), :class => 'btn btn-default btn-xs')
+            end
+            # run action should append data-id, have empty href and .run_test_plan to trigger js handlers
+            if append_actions_cell && append_actions_cell[:run]
+              ac += link_to(raw('<span class="glyphicon glyphicon-play-circle"></span> Run'), '#', class: 'btn btn-success btn-xs run_test_plan', data: { id: obj_id})
             end
             if append_actions_cell && append_actions_cell[:show]
-              show_link = "#{obj_class_name.underscore}_path(#{item[:id]})"
-              ac += link_to(raw('<span class="glyphicon glyphicon-eye-open"></span> show'), eval(show_link), :class => 'btn btn-default btn-xs')
+              l = "#{obj_class_name.underscore}_path(#{item[:id]})"
+              ac += link_to(raw('<span class="glyphicon glyphicon-eye-open"></span> Show'), eval(l), :class => 'btn btn-default btn-xs')
             end
             html += "<td class=\"actions\">#{ac}</td>"
 

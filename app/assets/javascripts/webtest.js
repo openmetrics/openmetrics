@@ -1,5 +1,5 @@
 //button to run test plan
-$(document).on('click', '#run_test_plan', function(e) {
+$(document).on('click', '.run_test_plan', function(e) {
     var test_plan_id = $(this).data('id');
     $.ajax({
         type: "POST",

@@ -70,7 +70,7 @@ driver.navigate.to "#{base_url}"
           wd += "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
       end
     end
-    wd += "driver.close\n"
+    wd += "driver.close"
     wd
   end
 end

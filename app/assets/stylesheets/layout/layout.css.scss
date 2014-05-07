@@ -1,11 +1,20 @@
+.container {
+  margin-bottom: 50px;
+}
 
 .spacer {
   margin-top: 40px; /* define margin as you see fit */
 }
 
 
-/* some margin within tablebakery actions and join cell */
+
+/* tablebakery */
 .table .actions a {
   margin-right: 3px;
+}
+
+/* at least two actions should fit in, otherwise table breaks */
+.table .actions {
+  min-width: 130px;
 }
 

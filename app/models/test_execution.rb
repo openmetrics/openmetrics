@@ -20,21 +20,52 @@ class TestExecution < ActiveRecord::Base
     TestExecutionItem.where(test_execution_id: self.id).order('id')
   end
 
+  # execution status related methods
+  def not_scheduled?
+    self.job_id.nil?
+  end
+  def is_scheduled?
+    self.status == TEST_EXECUTION_STATUS.key('scheduled')
+  end
+
+  def is_scheduled_and_not_executed?
+    self.status == TEST_EXECUTION_STATUS.key('scheduled') and self.test_execution_result.exitstatus.nil?
+  end
+
+  def is_scheduled_or_prepared?
+    self.status == TEST_EXECUTION_STATUS.key('scheduled') or self.status == TEST_EXECUTION_STATUS.key('prepared')
+  end
+
+  def is_prepared?
+    self.status == TEST_EXECUTION_STATUS.key('prepared')
+  end
+
+  def is_finished?
+    self.status == TEST_EXECUTION_STATUS.key('finished')
+  end
+
+  def is_running?
+    self.test_execution_result.exitstatus.nil? and (self.is_prepared? or self.is_scheduled?) and not self.is_scheduled_and_not_executed?
+  end
+
+
+  # create associated TestExecutionResult for latter processing
   def create_result()
     TestExecutionResult.create!(test_execution: self)
   end
 
-  # try to perform async, otherwise fail
+  # try to perform async, otherwise fail with meaningful status
   def schedule_test_execution()
+    self.update_columns(status: 5) #init with 'none' state, as scheduling may fail
     begin
       self.job_id = TestExecutionWorker.perform_async(self.id, self.test_plan_id)
+      self.status = TEST_EXECUTION_STATUS.key('scheduled')
       if self.save
-        logger.info 'TestExecution scheduled successfully.'
-      else
-        logger.warn 'TestExecution failed to save.'
+        logger.info "TestPlan #{self.test_plan_id} scheduled for execution (jid: #{self.job_id})."
       end
-    rescue
-      logger.error 'Failed to schedule job TestExecution'
+    rescue Exception => e
+      # job scheduling failed
+      logger.error "Failed to schedule TestPlan #{self.test_plan_id} due to exception #{e.message}"
     end
   end
 

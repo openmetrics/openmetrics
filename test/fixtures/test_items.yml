@@ -1,110 +1,25 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-ti1:
-  name: TestCase Example
-  description: open website and search for some term, afterwards follow link of first search result
-  type: TestCase
-  format: selenese
-  markup: |
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="selenium.base" href="http://localhost/" />
-    <title>login_user</title>
-    </head>
-    <body>
-    <table cellpadding="1" cellspacing="1" border="1">
-    <thead>
-    <tr><td rowspan="1" colspan="3">login_user</td></tr>
-    </thead><tbody>
-    <tr>
-      <td>open</td>
-      <td>/login</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>clickAndWait</td>
-      <td>css=#menu-main &gt; li.first &gt; div &gt; a &gt; span</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>//ul[@id='menu-top']/li/div/a/span</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>type</td>
-      <td>id=username</td>
-      <td>grobi</td>
-    </tr>
-    <tr>
-      <td>type</td>
-      <td>id=password</td>
-      <td>123456</td>
-    </tr>
-    <tr>
-      <td>clickAndWait</td>
-      <td>id=_submit</td>
-      <td></td>
-    </tr>
-
-    </tbody></table>
-    </body>
-    </html>
-
-ti2:
-  name: bash exit non-successful
-  description: print a random number and exit with a return code indicating failure
+# bash
+bashsleep30:
+  name: selftest bashsleep30
+  description: Sleep for 30 seconds and exit with a return code indicating success.
   type: TestScript
   format: bash
   markup: |
-    echo $RANDOM
-    exit 1
+    sleep 30
 
-ti3:
-  name: bash exit successful
-  description: print a random number and exit with a return code indicating success
+bashexitsuccess:
+  name: selftest bashexitsuccess
+  description: Exit with a return code indicating success.
   type: TestScript
   format: bash
   markup: |
-    echo $RANDOM
     exit 0
 
-ti4:
-  name: bash wait 5s and exit successful
-  description: sleep for 5 seconds and exit with a return code indicating success
+bashexiterror:
+  name: selftest bash exit error
+  description: Exit with a return code indicating an error (integer greater zero).
   type: TestScript
   format: bash
   markup: |
-    sleep 5
-    exit 0
+    exit 42
 
-ti5:
-  name: bash wait 5s and exit non-successful
-  description: sleep for 5 seconds and exit with a return code indicating failure
-  type: TestScript
-  format: bash
-  markup: |
-    sleep 5
-    exit 1
-
-ti6:
-  name: bash print random number 1
-  type: TestScript
-  description: print a random number
-  format: bash
-  markup: |
-    echo $RANDOM
-
-ti7:
-  name: bash print random number 2
-  type: TestScript
-  description: print a random number, wait 5 seconds and repeat
-  format: bash
-  markup: |
-    echo $RANDOM
-    sleep 5
-    echo $RANDOM
-    sleep 5

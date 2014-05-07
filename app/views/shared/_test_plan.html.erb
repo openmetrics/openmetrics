@@ -3,6 +3,7 @@
 
 <ul class="test_plan">
 <% tp.test_items.each_with_index do |test_item, n| %>
+    <hr>
     <li>
       <span class="itemNumber"><%= n+1 %></span>
       <strong><%= test_item.name %></strong>
@@ -24,7 +25,9 @@
         <!--arrow down graphic, centered, block  -->
         <div class="text-center"><i class="fa fa-arrow-down"></i></div>
         <%= coderay(te_items[n].markup, te_items[n].format, "div") %>
+        <%#= te_items[n].inspect %>
       <% end %>
+
     </li>
 <% end %>
 </ul>

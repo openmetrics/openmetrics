@@ -16,7 +16,6 @@
       <div class="panel-heading">Scan network for a system</div>
       <div class="panel-body">
         <p><%= raw t('om.views.system.new.ip_lookup.note') %></p>
-        <p><span class="fa fa-bug"></span> Yeah this is <span class="badge badge-blue"> font awesome</span>'s bug</p>
         <%= form_tag(scan_system_path, method: 'post', class: 'form-horizontal spacer', role: 'form') do %>
             <%= raw htmlform_for @ip_lookup, {:nested => true, :only => [:target],
                     # :caption => t('om.views.system.new.ip_lookup.caption'),
