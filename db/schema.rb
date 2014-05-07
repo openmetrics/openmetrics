@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140506155023) do
+ActiveRecord::Schema.define(version: 20140507131014) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
@@ -75,19 +75,20 @@ ActiveRecord::Schema.define(version: 20140506155023) do
     t.text     "markup"
     t.integer  "test_execution_id"
     t.integer  "exitstatus"
-    t.text     "result"
-    t.integer  "duration"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "test_item_id"
     t.text     "output"
+    t.integer  "status"
+    t.text     "error"
+    t.datetime "started_at"
+    t.datetime "finished_at"
   end
 
   create_table "test_execution_results", force: true do |t|
     t.integer  "test_execution_id"
     t.text     "result"
-    t.integer  "duration"
-    t.text     "output"
+    t.decimal  "duration"
     t.integer  "exitstatus"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -96,11 +97,13 @@ ActiveRecord::Schema.define(version: 20140506155023) do
   create_table "test_executions", force: true do |t|
     t.integer  "test_plan_id"
     t.integer  "user_id"
-    t.string   "name"
+    t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "job_id"
     t.string   "base_url"
+    t.datetime "started_at"
+    t.datetime "finished_at"
   end
 
   create_table "test_item_types", force: true do |t|

@@ -27,7 +27,6 @@ class TestPlansController < ApplicationController
   def run
     tp = TestPlan.find(params[:id])
     te = TestExecution.new
-    te.name = "TestExecution of #{tp.name}"
     te.test_plan = tp
     if te.save
       redirect_via_turbolinks_to(test_execution_url(te))

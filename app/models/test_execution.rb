@@ -11,7 +11,7 @@ class TestExecution < ActiveRecord::Base
   scope :recent, ->(num=5) { order('created_at DESC').limit(num) }
 
   def test_execution_items
-    TestExecutionItem.where(test_execution_id: self.id).order("id")
+    TestExecutionItem.where(test_execution_id: self.id).order('id')
   end
 
   # try to perform async, otherwise fail

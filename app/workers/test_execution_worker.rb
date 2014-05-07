@@ -12,30 +12,36 @@ class TestExecutionWorker
   def perform(test_execution_id, test_plan_id)
     tp = TestPlan.find(test_plan_id)
     te = TestExecution.find(test_execution_id)
-    te_result = TestExecutionResult.create!(test_execution_id: te.id, result: 'scheduled')
+    te_result = TestExecutionResult.create!(test_execution_id: te.id)
     Dir.exist?(TMPDIR) || system('mkdir', '-p', "#{TMPDIR}")
+    te.update_attributes!(started_at: Time.now, status: TEST_EXECUTION_STATUS.key('scheduled'))
+
     # try preparation and execution of testplan
     begin
-      t0 = Time.now  #measure duration of preparation & execution
       te_items = prepare(te, tp)
-      te_result.update_attributes!(result: 'prepared')
+      te.update_attributes!(status: TEST_EXECUTION_STATUS.key('prepared'))
       te_items.each do |tei|
         execute(tei[0], tei[1], tei[2])
       end
-      te_result.update_attributes!(duration: Time.now - t0)
+      te.update_attributes!(finished_at: Time.now)
       # mark result success if status not yet decided
       te_result.update_attributes!(exitstatus: 0) if te_result.exitstatus.nil?
       # check test execution items for exitstatus indicating a fail
+      # use the 'newest' TestExecutionItem exitstatus to mark for overall result:
       # FIXME when sidekiq is killed, failure detection of is not reliable. output may contain 'returned status: false (exitstatus )' (which indicates error) while exit status is not set. nevertheless exitstatus remains successful
       failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
       te_result.update_attributes!(exitstatus: failed.last.exitstatus) if failed.any?
     rescue Exception => e
       # job preparation or execution failed,
-      # use the 'newest' TestExecutionItem exitstatus to mark for overall result:
       logger.warn "preparation or execution of TestExecution##{te.id} thrown exception #{e.message}"
       logger.debug e.backtrace.inspect
+    ensure
+      # persist execution finished
+      te.update_attributes!(finished_at: Time.now)
     end
-    te_result.update_attributes!(result: 'finished')
+
+    # test execution finished
+    te.update_attributes!(status: TEST_EXECUTION_STATUS.key('finished'))
   end
 
   # reads test plans test_items and generates executables of it (TestExecutionItem) depending on item format/markup
@@ -94,25 +100,21 @@ class TestExecutionWorker
       #  captured_stderr = stderr.read
       #  wait_thr.value # Process::Status object returned.
       #}
+      te_item.update_attributes!(started_at: Time.now, status: TEST_EXECUTION_STATUS.key("started"))
       stdout, stderr, exit_status = Open3.capture3(ENV, interpreter, executable)
+      te_item.update_attributes!(finished_at: Time.now, status: TEST_EXECUTION_STATUS.key("finished"))
+
+      # persist status
       exitstatus = exit_status.exitstatus # numeric return code of command
       textstatus = exit_status.success? ? 'succeeded' : 'failed'
+      stdout = nil if stdout.blank? # make sure this is nil if there are no stdout contents
+      stderr = nil if stderr.blank? # make sure this is nil if there are no stderr contents
 
       logger.debug "Executed #{interpreter} #{executable}"
       logger.debug "STDOUT: #{stdout}"
       logger.debug "STDERR: #{stderr}"
       logger.info "TestExecutionItem##{te_item.id} (TestExecution##{te_item.test_execution_id}) returned with status: #{textstatus} (exitstatus #{exitstatus})"
-
-      # TODO for the moment save exit code as strings to :content
-      current_output = te_item.output
-      new_output = if current_output.nil?
-                        "returned status: #{textstatus} (exitstatus #{exitstatus})"
-                        else
-                          current_output + "; returned status: #{textstatus} (exitstatus #{exitstatus})"
-                        end
-      new_output+="; STDOuT: #{stdout}"
-
-      te_item.update_attributes!(output: new_output, exitstatus: exitstatus)
+      te_item.update_attributes!(output: stdout, error: stderr, exitstatus: exitstatus)
     else
       logger.warn("Couldn't execute #{executable}")
     end

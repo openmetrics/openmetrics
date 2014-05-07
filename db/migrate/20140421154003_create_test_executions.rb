@@ -3,7 +3,7 @@ class CreateTestExecutions < ActiveRecord::Migration
     create_table :test_executions do |t|
       t.integer :test_plan_id
       t.integer :user_id
-      t.string :name
+      t.integer :status
 
       t.timestamps
     end
