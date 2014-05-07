@@ -1,5 +1,6 @@
 class TestExecutionsController < ApplicationController
   before_action :authenticate_user!
+  helper WebtestsHelper
 
   def show
     @test_execution = TestExecution.find(params[:id])

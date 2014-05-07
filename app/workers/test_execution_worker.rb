@@ -62,8 +62,8 @@ class TestExecutionWorker
           interpreter = 'bash'
       end
 
-      # create tempfile
-      tmpfile = `mktemp -p #{TMPDIR} #{tp.id}_#{n}_#{item.id}.XXXXXX`
+      # create executable file
+      filename = `mktemp -p #{TMPDIR} #{tp.id}_#{n}_#{item.id}.XXXXXX`
 
       # convert markup
       executable_markup = if item.type == 'TestCase' && item.format == 'selenese'
@@ -73,13 +73,13 @@ class TestExecutionWorker
                           end
 
       # persist as TestExecutionItem
-      te_item = TestExecutionItem.create!(markup: header+executable_markup, format: item.format, test_item_id: item.id, test_execution_id: te.id)
+      te_item = TestExecutionItem.create!(markup: header+executable_markup, format: item.format, executable: filename, test_item_id: item.id, test_execution_id: te.id)
 
       # write executable file to filesystem
-      File.open(tmpfile, 'w') { |f| f.write(header+executable_markup) }
+      File.open(filename, 'w') { |f| f.write(header+executable_markup) }
 
       # add executable filename and interpreter to return array
-      ret.push([te_item.id, tmpfile, interpreter])
+      ret.push([te_item.id, filename, interpreter])
 
     }
 
@@ -90,16 +90,7 @@ class TestExecutionWorker
   def execute(te_item_id, executable, interpreter='bash')
     te_item = TestExecutionItem.find(te_item_id)
     unless te_item.nil?
-      captured_stdout = ''
-      captured_stderr = ''
       # run command, pass current environment
-      #exit_status = Open3.popen3(ENV, exec_with, executable) {|stdin, stdout, stderr, wait_thr|
-      #  pid = wait_thr.pid # pid of the started process.
-      #  stdin.close
-      #  captured_stdout = stdout.read
-      #  captured_stderr = stderr.read
-      #  wait_thr.value # Process::Status object returned.
-      #}
       te_item.update_attributes!(started_at: Time.now, status: TEST_EXECUTION_STATUS.key("started"))
       stdout, stderr, exit_status = Open3.capture3(ENV, interpreter, executable)
       te_item.update_attributes!(finished_at: Time.now, status: TEST_EXECUTION_STATUS.key("finished"))

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140507131014) do
+ActiveRecord::Schema.define(version: 20140507141146) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20140507131014) do
     t.text     "error"
     t.datetime "started_at"
     t.datetime "finished_at"
+    t.text     "executable"
   end
 
   create_table "test_execution_results", force: true do |t|

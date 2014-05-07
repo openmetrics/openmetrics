@@ -10,6 +10,12 @@ class TestExecution < ActiveRecord::Base
   # most recent test executions
   scope :recent, ->(num=5) { order('created_at DESC').limit(num) }
 
+  # virtual attribute execution time in millisecond precision, calculated from started_at and finished_at
+  def duration
+    return nil if self.started_at.nil? or self.finished_at.nil?
+    (self.finished_at - self.started_at).round(3) #milisecond precision
+  end
+
   def test_execution_items
     TestExecutionItem.where(test_execution_id: self.id).order('id')
   end
