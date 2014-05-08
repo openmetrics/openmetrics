@@ -4,4 +4,5 @@ class TestPlan < ActiveRecord::Base
   accepts_nested_attributes_for :test_items
 
   validates :name, :presence => true, length: {minimum: 3}
+  #TODO validate base_url to be there and valid url (?)
 end

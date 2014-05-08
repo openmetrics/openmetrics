@@ -153,8 +153,8 @@ module HtmlTablebakery
           # markup columns should receive syntax highlight; depends on ApplicationHelper methods!
           when 'markup'
             # try to find value of attribute "format" to decide type of markup, otherwise use text
-            format = !item["format"] ? "text" : item["format"]
-            html += "<td>#{item[attr.to_sym].html_safe? ? short_markup : coderay(item[attr.to_sym], format)}</td>"
+            format = item["format"].nil? ? "text" : item["format"]
+            html += "<td>#{item[attr.to_sym].html_safe? ? item[attr.to_sym] : coderay(item[attr.to_sym],format)}</td>"
 
           # wrap format in a nice badge; depends on ApplicationHelper methods!
           when 'format'

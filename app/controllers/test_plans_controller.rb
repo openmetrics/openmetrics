@@ -2,7 +2,7 @@ class TestPlansController < ApplicationController
   before_action :authenticate_user!
 
   def new
-    @test_plan = TestPlan.new
+    @test_plan = TestPlan.new(base_url: 'http://www.example.com', name: 'My Testplan')
     @test_cases = TestCase.all
     @test_scripts = TestScript.all
     @test_suites = TestSuite.all
@@ -38,7 +38,7 @@ class TestPlansController < ApplicationController
   end
 
   def test_plan_params
-    params.require(:test_plan).permit(:name, :description,
+    params.require(:test_plan).permit(:name, :description, :base_url,
                                       {:test_items => [:id, :type]})
   end
 

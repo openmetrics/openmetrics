@@ -11,7 +11,7 @@
 <%= link_to 'View all test scripts', test_scripts_path %>
 
 <h4 class="spacer">Test Cases</h4>
-<% if @test_cases.empty? %>
+<% unless @test_cases.empty? %>
     <%= raw htmltable_for @test_cases, { :actions => { :show => true} } %><br>
     <%= link_to 'View all test cases', test_cases_path %><br>
 <% else %>

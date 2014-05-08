@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   # renders text with synthax highligh
-  def coderay(text, format, container="span")
+  def coderay(text, format='plain', container='span')
     case format
       when 'selenese'
         format = 'html'

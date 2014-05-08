@@ -10,8 +10,8 @@ TABLEBAKERY_PRESETS = {
         attr_order:  %w( name type actions)
     },
     test_plan: {
-        attr_ignore: %w( id updated_at created_at user_id base_url ),
-        attr_order:  %w( name description actions)
+        attr_ignore: %w( id updated_at created_at user_id ),
+        attr_order:  %w( name description base_url actions)
     },
     test_item: {
         attr_ignore: %w( id updated_at created_at ),

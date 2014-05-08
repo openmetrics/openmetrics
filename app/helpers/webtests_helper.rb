@@ -24,6 +24,7 @@ module WebtestsHelper
           #  finished and exitstatus is nil: unknown
           if test_execution.test_execution_result.exitstatus.nil?
             concat '<button class="btn btn-warning btn-lg btn-block"> Unknown</button>'.html_safe
+            concat '<p class="text-muted">Test preparation may have failed.</p>'.html_safe
           else
             # finished and exitstatus equals 0: success
             if test_execution.test_execution_result.exitstatus == 0

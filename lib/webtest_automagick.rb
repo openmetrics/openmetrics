@@ -14,10 +14,14 @@ module WebtestAutomagick
     title = doc.css('title').text
     # extract base url
     base_url=''
-    if doc.css('link[rel="selenium.base"]')
-      base_url = doc.css('link[rel="selenium.base"]').attribute("href").value
+    if doc.xpath "//link[@rel='selenium.base']"
+      base_url = doc.xpath("//link[@rel='selenium.base']").attribute("href").value
     end
-    base_url.gsub!(/(.*)\/$/, "#{$1}") #remove trailing slash
+
+    # remove trailing slash
+    if base_url.ends_with? '/'
+      base_url.gsub!(/\/$/, '') #remove trailing slash
+    end
 
     # extract selenese commands
     sel_commands = []
