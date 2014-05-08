@@ -1,0 +1,41 @@
+<ul class="test_plan">
+  <% tp.test_items.each_with_index do |te_item, n| %>
+      <hr>
+      <li>
+        <span class="itemNumber"><%= n+1 %></span>
+        <strong><%= te_item.name %></strong>
+        <span class="label label-primary"><%= te_item.type %></span>
+        <span class="label label-info"><%= te_item.format %></span>
+
+
+        <%# is there already an exitstatus available? %>
+        <% if te.test_execution_items[n] and te.test_execution_items[n].exitstatus.is_a? Integer and te.test_execution_items[n].exitstatus > 0 %>
+            <%= '<span class="label label-danger">Failure</span>'.html_safe %>
+            <!--in case of failure show the error message-->
+            <%#= te.test_execution_items[n] and te.test_execution_items[n].error.nil? ? coderay("no STDERR output", "plain", "div") : coderay(te.test_execution_items[n].error, te.test_execution_items[n].format , "div") %>
+            <!--in case of success show the output-->
+            <%#= te.test_execution_items[n] and te.test_execution_items[n].output.nil? ? coderay("no STDOUT output", "plain", "div") : coderay(te.test_execution_items[n].output, "plain", "div") %>
+            <!--<div class="text-center"><i class="fa fa-arrow-up"></i></div>-->
+        <% elsif te.test_execution_items[n] and te.test_execution_items[n].exitstatus.is_a? Integer and te.test_execution_items[n].exitstatus == 0 %>
+            <%= '<span class="label label-success">Success</span>'.html_safe %>
+        <% else %>
+            <%= '<span class="label label-default">not yet processed</span>'.html_safe %>
+        <% end %>
+
+        <%# if already processed show execution time %>
+        <% if te.test_execution_items[n] and !te.test_execution_items[n].duration.nil? %>
+            <%= "<code class=\"pull-right\">#{te.test_execution_items[n].duration.to_s} s</code>".html_safe %>
+        <% end %>
+
+        <%# display matching TestExecutionItem markup %>
+        <% if te.test_execution_items[n] %>
+            <%#= coderay(te.test_execution_items[n].markup, te.test_execution_items[n].format, "div") %>
+            <!--<div class="text-center"><i class="fa fa-arrow-up"></i></div>-->
+            <%#= te_items[n].inspect %>
+        <% end %>
+
+        <%# display origin TestItem markup %>
+        <%#= coderay(te_item.markup, te_item.format, "div") %>
+      </li>
+  <% end %>
+</ul>

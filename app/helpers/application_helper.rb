@@ -12,13 +12,15 @@ module ApplicationHelper
   # renders text with synthax highligh
   def coderay(text, format='plain', container='span')
     case format
-      when 'selenese'
-        format = 'html'
       when 'bash'
         format = 'sh'
+      when 'selenese'
+        format = 'html'
+      when 'ruby'
+        format = 'ruby'
     end
 
-    raw container == "span" ? CodeRay.scan("#{text}", format).span() : CodeRay.scan("#{text}", format).div()
+    raw container == "span" ? CodeRay.scan("#{text}", format.to_sym).span() : CodeRay.scan("#{text}", format.to_sym).div()
   end
 
   # helper to insert bootstrap badge

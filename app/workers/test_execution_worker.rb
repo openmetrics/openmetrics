@@ -39,9 +39,9 @@ class TestExecutionWorker
       # persist execution finished
       te.update_attributes!(finished_at: Time.now)
     end
-
     # test execution finished
     te.update_attributes!(status: TEST_EXECUTION_STATUS.key('finished'))
+    # FIXME remove (delete) create executable
   end
 
   # reads test plans test_items and generates executables of it (TestExecutionItem) depending on item format/markup
@@ -65,18 +65,30 @@ class TestExecutionWorker
       # create executable file
       filename = `mktemp -p #{TMPDIR} #{tp.id}_#{n}_#{item.id}.XXXXXX`
 
-      # convert markup
+      # prepare (and convert) markup and format
+      conversion_format = item.format
       executable_markup = if item.type == 'TestCase' && item.format == 'selenese'
-                            selenese_to_webdriver(item.markup)
+                            selenese_to_webdriver(item.markup) # translates to ruby
                           else
-                            item.markup # default item.markup
+                            item.markup # use item.markup by default
                           end
 
+      # overwrite format for converted if needed
+      if item.type == 'TestCase' && item.format == 'selenese'
+        conversion_format = 'ruby' # format should be ruby
+      end
+
       # append newline to make humans interacting via terminals happy
-      executable_markup+="\n"
+      executable_markup+="\n" unless executable_markup.ends_with? "\n"
 
       # persist as TestExecutionItem
-      te_item = TestExecutionItem.create!(markup: header+executable_markup, format: item.format, executable: filename, test_item_id: item.id, test_execution_id: te.id)
+      te_item = TestExecutionItem.create!(
+          markup: header+executable_markup,
+          format: conversion_format,
+          executable: filename,
+          test_item_id: item.id,
+          test_execution_id: te.id
+      )
 
       # write executable file to filesystem
       File.open(filename, 'w') { |f| f.write(header+executable_markup) }

@@ -5,32 +5,30 @@
 
   <!-- left column, top column when mobile -->
   <div class="col-md-8">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3>
-          <%= raw badge "TestPlan", 'primary' %>
-          <%= link_to "#{@test_plan.name}", @test_plan %>
-        </h3>
-      </div>
+    <h3>
+      <%= raw badge "TestPlan", 'primary' %>
+      <%= link_to "#{@test_plan.name}", @test_plan %>
+    </h3>
+    <div class="panel panel-default spacer">
       <div class="panel-body">
         <%#= @test_execution.inspect %>
-        <p><%= @test_plan.description %></p>
-        <%= render partial: 'shared/test_plan', locals: { tp: @test_plan, te_items: @test_execution.test_execution_items } %>
+        <blockquote><p><%= @test_plan.description %></p></blockquote>
+        <%= render partial: 'test_plan_execution', locals: { tp: @test_plan, te: @test_execution } %>
       </div>
     </div>
   </div>
 
   <!-- right column, top column when mobile -->
   <div class="col-md-4">
-    <div class="panel panel-default">
+    <h3>Result</h3>
+    <div class="panel panel-default spacer">
       <div class="panel-body">
-        <h3>Result</h3>
-        Base URL: <%= @test_execution.test_plan.base_url %><br>
+        Base URL <code><%= @test_execution.test_plan.base_url %></code><br>
         <small>Test execution requested <%= time_ago_in_words(@test_execution.created_at) %> ago.</small><br>
         <%= test_execution_status(@test_execution) %><br>
         <% if @test_execution.status > 10 %>
-            Duration: <%= @test_execution.duration.nil? ? 'not yet decided' : "#{@test_execution.duration} seconds" %><br>
-            Exit Status: <%= @test_execution.test_execution_result.exitstatus.nil? ? "not yet decided" : @test_execution.test_execution_result.exitstatus %>
+            Duration <code><%= @test_execution.duration.nil? ? 'not yet decided' : "#{@test_execution.duration} s" %></code><br>
+            Exit Status <code><%= @test_execution.test_execution_result.exitstatus.nil? ? "not yet decided" : @test_execution.test_execution_result.exitstatus %></code>
         <% else %>
             There is no result yet.
         <% end %>

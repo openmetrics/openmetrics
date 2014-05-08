@@ -1,6 +1,6 @@
 <% unless TestExecution.recent.empty? %>
     <h3>Recent test executions</h3>
-    <ul class="fa-ul">
+    <ul class="fa-ul spacer">
       <% TestExecution.recent.each do |te| %>
           <li>
             <i class="fa-li fa fa-caret-right"></i><%= link_to("#{te.test_plan.name} executed at #{I18n.localize(te.created_at, :format => :short)}", te) %>

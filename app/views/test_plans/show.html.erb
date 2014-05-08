@@ -3,20 +3,18 @@
 <div class="row">
   <!-- left column -->
   <div class="col-md-8">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3>
-          <button class="btn btn-default btn-success pull-right run_test_plan" data-id="<%= @test_plan.id %>">
-            <i class="glyphicon glyphicon-play-circle"></i>
-            Run now
-          </button>
-          <%= raw badge "TestPlan", 'primary' %>
-          <%= @test_plan.name %>
-        </h3>
+    <h3>
+      <button class="btn btn-default btn-success pull-right run_test_plan" data-id="<%= @test_plan.id %>">
+        <i class="glyphicon glyphicon-play-circle"></i>
+        Run now
+      </button>
+      <%= raw badge "TestPlan", 'primary' %>
+      <%= @test_plan.name %>
+    </h3>
 
-      </div>
+    <div class="panel panel-default spacer">
       <div class="panel-body">
-        <p><%= @test_plan.description %></p>
+        <blockquote><p><%= @test_plan.description %></p></blockquote>
         <%= render partial: 'shared/test_plan', locals: { tp: @test_plan } %>
       </div>
     </div>

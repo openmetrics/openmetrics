@@ -1,28 +1,49 @@
-st1:
+# misc
+tp1:
+  name: run an selenese testcase on google.com
+  description:
+  test_items: sel1
+  base_url: https://www.google.li
+
+# self tests
+st100:
   name: selftest UI processing status
   description: UI should show "processing" status of execution. Therefore run a script that sleeps 30 seconds and exits successful afterwards.
   test_items: bashsleep30, bashexitsuccess
+  base_url: http://localhost:3000
 
-st2:
+st101:
   name: selftest UI success status
   description: UI should indicate success status of execution. Run a script that exits successful.
   test_items: bashexitsuccess
+  base_url: http://localhost:3000
 
-st3:
+st102:
   name: selftest UI fail status
   description: UI should indicate fail status of execution. Run a script that exits with error.
   test_items: bashexiterror
+  base_url: http://localhost:3000
 
-st4:
+st103:
   name: selftest UI neutral status
   description: UI should indicate senseful status of execution, even when there is no TestItem.
+  # there are no test_items for this test plan
+  base_url: http://localhost:3000
 
-st5:
+st104:
   name: selftest UI exitcode inheritance 1
   description: UI should indicate senseful exitcodes for each test item. Run a script that exits with success, error and success in this particual order.
   test_items: bashexitsuccess, bashexiterror, bashexitsuccess
+  base_url: http://localhost:3000
 
-st6:
+st105:
   name: selftest UI exitcode inheritance 2
   description: UI should indicate senseful exitcodes for each test item. Run a script that exits with error, success and error in this particual order.
   test_items: bashexiterror, bashexitsuccess, bashexiterror
+  base_url: http://localhost:3000
+
+st106:
+  name: selftest UI exitcode inheritance 3
+  description: UI should indicate senseful exitcodes for each test item. Run a script that exits with error, success and error in this particual order with some delay in the beginning of each step.
+  test_items: bashsleep5, bashexiterror, bashsleep5, bashexitsuccess, bashsleep5, bashexiterror
+  base_url: http://localhost:3000

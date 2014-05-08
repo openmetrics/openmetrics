@@ -43,14 +43,24 @@ driver.navigate.to "#{base_url}"
 
     sel_commands.each do |command, target, value|
 
-      # decide kind of element locator
+      # decide strategy for element locator
       # see http://selenium.googlecode.com/git/ide/main/src/content/selenium-core/reference.html#locators
       # and http://rubydoc.info/gems/selenium-webdriver/0.0.28/Selenium/WebDriver/Find for
-      how=nil
-      what=nil
+      # Without an explicit locator prefix, Selenium uses the following default strategies:
+      # dom, for locators starting with "document."
+      # xpath, for locators starting with "//"
+      # identifier, otherwise
+      how=':id' #set default behavior
+      what=target #set default behavior
       case target
         when /^css=(.*)/
           how = ':css'
+          what = $1
+        when /^link=(.*)/
+          how = ':link'
+          what = $1
+        when /^name=(.*)/
+          how = ':name'
           what = $1
         when /^\/{2}(.*)/ # xpath shortcut '//'
           how = ':xpath'
@@ -63,8 +73,9 @@ driver.navigate.to "#{base_url}"
           what = $2
       end
 
+      # translate selenese commands to selenium-webdriver markup
       # see http://selenium.googlecode.com/git/docs/api/rb/Selenium/Client/GeneratedDriver.html
-      #wd << "#{command} ::: #{target} ::: #{value}"
+      wd << "\n\n# DEBUG #{command}|#{target}|#{value}\n"
       case command
         when /click|clickAndWait/
           wd += "driver.find_element(#{how}, \"#{what}\").click\n"
@@ -72,9 +83,13 @@ driver.navigate.to "#{base_url}"
           wd << "driver.get(\"#{base_url}#{target}\")\n"
         when /type/
           wd += "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
+        when /waitForElementPresent/
+          wd += '# wait for a specific element to show up' + "\n"
+          wd += 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
+          wd += "wait.until { driver.find_element(#{how}, \"#{what}\") } \n"
       end
     end
-    wd += "driver.close"
+    wd += "driver.quit"
     wd
   end
 end

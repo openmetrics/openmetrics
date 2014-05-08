@@ -1,12 +1,4 @@
 # bash
-bashsleep30:
-  name: selftest bashsleep30
-  description: Sleep for 30 seconds and exit with a return code indicating success.
-  type: TestScript
-  format: bash
-  markup: |
-    sleep 30
-
 bashexitsuccess:
   name: selftest bashexitsuccess
   description: Exit with a return code indicating success.
@@ -23,3 +15,61 @@ bashexiterror:
   markup: |
     exit 42
 
+<% [5,15,30,60,300,600].each do |n| %>
+bashsleep<%= n %>:
+  name: selftest bashsleep<%= n %>
+  description: Sleep for <%= n %> seconds and exit with a return code indicating success.
+  type: TestScript
+  format: bash
+  markup: |
+    sleep <%= n %>
+<% end %>
+
+# selenese
+sel1:
+  name: Find the answer to all questions
+  description: Try to find an answer to all questions by invoking a search request on google.
+  type: TestCase
+  format: selenese
+  markup: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link rel="selenium.base" href="https://www.google.li/" />
+      <title>answer_to_all_questions</title>
+    </head>
+    <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+      <thead>
+      <tr><td rowspan="1" colspan="3">answer_to_all_questions</td></tr>
+      </thead><tbody>
+    <tr>
+      <td>open</td>
+      <td>/</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>name=q</td>
+      <td>answer to all questions</td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>name=btnG</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForElementPresent</td>
+      <td>link=42 - Wikipedia</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>link=42 - Wikipedia</td>
+      <td></td>
+    </tr>
+    </tbody></table>
+    </body>
+    </html>
