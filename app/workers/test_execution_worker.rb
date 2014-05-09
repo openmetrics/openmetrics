@@ -68,7 +68,7 @@ class TestExecutionWorker
       # prepare (and convert) markup and format
       conversion_format = item.format
       executable_markup = if item.type == 'TestCase' && item.format == 'selenese'
-                            selenese_to_webdriver(item.markup) # translates to ruby
+                            selenese_to_webdriver(item.markup, tp.base_url) # translates to ruby, pass
                           else
                             item.markup # use item.markup by default
                           end
@@ -89,6 +89,7 @@ class TestExecutionWorker
           test_item_id: item.id,
           test_execution_id: te.id
       )
+
 
       # write executable file to filesystem
       File.open(filename, 'w') { |f| f.write(header+executable_markup) }

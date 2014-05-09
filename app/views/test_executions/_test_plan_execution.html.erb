@@ -2,7 +2,7 @@
   <% tp.test_items.each_with_index do |te_item, n| %>
       <hr>
       <li>
-        <span class="itemNumber"><%= n+1 %></span>
+        <span class="item-number"><%= n+1 %></span>
         <strong><%= te_item.name %></strong>
         <span class="label label-primary"><%= te_item.type %></span>
         <span class="label label-info"><%= te_item.format %></span>
@@ -29,7 +29,7 @@
 
         <%# display matching TestExecutionItem markup %>
         <% if te.test_execution_items[n] %>
-            <%#= coderay(te.test_execution_items[n].markup, te.test_execution_items[n].format, "div") %>
+            <%= coderay(te.test_execution_items[n].markup, te.test_execution_items[n].format, "div") %>
             <!--<div class="text-center"><i class="fa fa-arrow-up"></i></div>-->
             <%#= te_items[n].inspect %>
         <% end %>

@@ -53,3 +53,6 @@
 .monospace {
   font-family: monospace;
 }
+
+/* .css3-blink http://www.john-smith.me/emulating--lt-blink-gt--using-webkit-css3-animation */
+@-webkit-keyframes blinker { from { opacity: 1.0; } to { opacity: 0.0; } } .css3-blink { -webkit-animation-name: blinker; -webkit-animation-iteration-count: infinite; -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0); -webkit-animation-duration: 1.5s; }

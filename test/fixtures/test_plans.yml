@@ -47,3 +47,19 @@ st106:
   description: UI should indicate senseful exitcodes for each test item. Run a script that exits with error, success and error in this particual order with some delay in the beginning of each step.
   test_items: bashsleep5, bashexiterror, bashsleep5, bashexitsuccess, bashsleep5, bashexiterror
   base_url: http://localhost:3000
+
+
+#
+# bodymass.de (BMC) related test items
+#
+bmc100:
+  name: perform registration slim
+  description: Try to register an account by using slim variant of registration.
+  test_items: bmcsetregistrationvariables, bmcregistrationslim, bmcverifyregistrationfinished
+  base_url: https://wwww.bodymass.de
+
+bmc101:
+  name: Guided Tour
+  description: Checks guided tour
+  test_items: bmcsetregistrationvariables, bmcregistrationslim, bmcguidedtour
+  base_url: https://www.bodymass.de

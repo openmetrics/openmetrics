@@ -7,18 +7,22 @@ module WebtestAutomagick
 
   # translates selenese to ruby-webdriver
   # http://release.seleniumhq.org/selenium-core/1.0.1/reference.html
-  def selenese_to_webdriver(markup)
+  def selenese_to_webdriver(markup, base_url)
     #doc = Nokogiri::HTML(open("/tmp/tc1.html"))
     doc = Nokogiri::HTML(markup)
+
     # extract title
     title = doc.css('title').text
-    # extract base url
-    base_url=''
-    if doc.xpath "//link[@rel='selenium.base']"
-      base_url = doc.xpath("//link[@rel='selenium.base']").attribute("href").value
+
+    # extract base url from test case if not set
+    if base_url.nil?
+      base_url=''
+      if doc.xpath "//link[@rel='selenium.base']"
+        base_url = doc.xpath("//link[@rel='selenium.base']").attribute("href").value
+      end
     end
 
-    # remove trailing slash
+    # remove trailing slash from base_url
     if base_url.ends_with? '/'
       base_url.gsub!(/\/$/, '') #remove trailing slash
     end

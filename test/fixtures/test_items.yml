@@ -18,7 +18,7 @@ bashexiterror:
 <% [5,15,30,60,300,600].each do |n| %>
 bashsleep<%= n %>:
   name: selftest bashsleep<%= n %>
-  description: Sleep for <%= n %> seconds and exit with a return code indicating success.
+  description: Sleep for <%= n %> seconds.
   type: TestScript
   format: bash
   markup: |
@@ -69,6 +69,367 @@ sel1:
       <td>click</td>
       <td>link=42 - Wikipedia</td>
       <td></td>
+    </tr>
+    </tbody></table>
+    </body>
+    </html>
+
+
+#
+# bodymass.de (BMC) related test items
+#
+
+# BMC generic
+bmcsetregistrationvariables:
+  name: BMC set registration variables
+  description: Sets email, username and password for further use.
+  type: TestCase
+  format: selenese
+  markup: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="selenium.base" href="http://localhost/" />
+    <title>set_registration_variables</title>
+    </head>
+    <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+    <thead>
+    <tr><td rowspan="1" colspan="3">set_registration_variables</td></tr>
+    </thead><tbody>
+    <tr>
+        <td>echo</td>
+        <td>setze Variablen email=${email}, username=${username} und password=${password}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>store</td>
+        <td>horst53439@example.com</td>
+        <td>email</td>
+    </tr>
+    <tr>
+        <td>store</td>
+        <td>horst53439</td>
+        <td>username</td>
+    </tr>
+    <tr>
+        <td>store</td>
+        <td>123456</td>
+        <td>password</td>
+    </tr>
+    </tbody></table>
+    </body>
+    </html>
+
+
+# BMC registration
+bmcregistrationslim:
+  name: BMC registration slim
+  description: Register by using slim variant of registration form.
+  type: TestCase
+  format: selenese
+  markup: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="selenium.base" href="http://localhost/" />
+    <title>registration</title>
+    </head>
+    <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+    <thead>
+    <tr><td rowspan="1" colspan="3">register_user.html</td></tr>
+    </thead><tbody>
+    <tr>
+      <td>open</td>
+      <td>/registration/slim</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=registration_email</td>
+      <td>${email}</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=registration_username</td>
+      <td>${username}</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=registration_plainPassword</td>
+      <td>${password}</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=registration_birthdate_day</td>
+      <td>01</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=registration_birthdate_month</td>
+      <td>01</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=registration_birthdate_year</td>
+      <td>1976</td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>id=registration_gender_1</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=registration_height</td>
+      <td>187</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=registration_weightWatches_0_weight</td>
+      <td>88</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=registration_weightTargets_0_weightTarget</td>
+      <td>83</td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>id=registration_flags_4_1</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>id=registration_flags_5_1</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>id=registration_flags_1_1</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>id=registration_flags_6_1</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>id=registration_flags_7_1</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>id=registration_agreeTerms</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>//button[@type='submit']</td>
+      <td></td>
+    </tr>
+    </tbody></table>
+    </body>
+    </html>
+
+# BMC post-registration
+bmcverifyregistrationfinished:
+  name: BMC verify registration finished
+  description: Check that we are on MyHome by testing Users username to appear within Greeter.
+  type: TestCase
+  format: selenese
+  markup: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="selenium.base" href="http://localhost/" />
+    <title>verify_registration_finished</title>
+    </head>
+    <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+    <thead>
+    <tr><td rowspan="1" colspan="3">verify_registration_finished</td></tr>
+    </thead><tbody>
+    <!--Die Registrierung war erfolgreich, wenn nach Absenden des Registrierungsformulars die MyHome-Seite geladen wurde.-->
+    <tr>
+        <td>echo</td>
+        <td>gib /myhome Zeit fertig zu laden</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>pause</td>
+        <td>3500</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>echo</td>
+        <td>prüfe, dass die Seite den MyHome-Container .content-myhome enthält</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>verifyElementPresent</td>
+        <td>css=div.content-myhome</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>echo</td>
+        <td>prüfe, dass der MyHome &quot;Greeter&quot; existiert und den Text&nbsp;&nbsp;&quot;Hallo, &lt;username&gt;&quot; enthält</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>verifyElementPresent</td>
+        <td>css=div.greeting</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>verifyText</td>
+        <td>css=div.greeting-headline</td>
+        <td>Hallo, ${username},</td>
+    </tr>
+    </tbody></table>
+    </body>
+    </html>
+
+
+bmcguidedtour:
+  name: BMC guided tour
+  description: Guided tour should appear after some seconds on MyHome
+  type: TestCase
+  format: selenese
+  markup: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="selenium.base" href="http://localhost/" />
+    <title>guided_tour</title>
+    </head>
+    <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+    <thead>
+    <tr><td rowspan="1" colspan="3">guided_tour</td></tr>
+    </thead><tbody>
+    <tr>
+      <td>echo</td>
+      <td>wait some seconds as guided tour appears after some delay</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>pause</td>
+      <td>3000</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>echo</td>
+      <td>check if the guided tour container (.introjs-tooltiptext) is visible</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>verifyVisible</td>
+      <td>css=div.introjs-tooltiptext</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>echo</td>
+      <td>guided tour should greet new users with a welcome text &quot;Herzlich Willkommen[...]&quot;</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>verifyText</td>
+      <td>css=div.introjs-tooltiptext</td>
+      <td>glob:Herzlich Willkommen*</td>
+    </tr>
+    </tbody></table>
+    </body>
+    </html>
+
+bmcloginuser:
+  name: BMC login user
+  description: Open login page and login User.
+  type: TestCase
+  format: selenese
+  markup: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="selenium.base" href="http://localhost/" />
+    <title>login_user</title>
+    </head>
+    <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+    <thead>
+    <tr><td rowspan="1" colspan="3">login_user</td></tr>
+    </thead><tbody>
+    <tr>
+        <td>open</td>
+        <td>/login</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>clickAndWait</td>
+        <td>css=#menu-main &gt; li.first &gt; div &gt; a &gt; span</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>click</td>
+        <td>//ul[@id='menu-top']/li/div/a/span</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>id=username</td>
+        <td>grobi</td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>id=password</td>
+        <td>123456</td>
+    </tr>
+    <tr>
+        <td>clickAndWait</td>
+        <td>id=_submit</td>
+        <td></td>
+    </tr>
+
+    </tbody></table>
+    </body>
+    </html>
+
+# BMC logout
+bmclogoutuser:
+  name: BMC logout user
+  description: Open /logout
+  type: TestCase
+  format: selenese
+  markup: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="selenium.base" href="http://localhost/" />
+    <title>ensure logout</title>
+    </head>
+    <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+    <thead>
+    <tr><td rowspan="1" colspan="3">ensure_logout.html</td></tr>
+    </thead><tbody>
+    <tr>
+        <td>open</td>
+        <td>/logout</td>
+        <td></td>
     </tr>
     </tbody></table>
     </body>
