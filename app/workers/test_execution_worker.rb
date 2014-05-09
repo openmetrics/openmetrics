@@ -16,31 +16,31 @@ class TestExecutionWorker
     Dir.exist?(TMPDIR) || system('mkdir', '-p', "#{TMPDIR}")
 
     # try preparation and execution of testplan
-    te.update_attributes!(started_at: Time.now)
+    te.update_attributes(started_at: Time.now)
     begin
       te_items = prepare(te, tp)
-      te.update_attributes!(status: TEST_EXECUTION_STATUS.key('prepared'))
+      te.update_attributes(status: TEST_EXECUTION_STATUS.key('prepared'))
       te_items.each do |tei|
         execute(tei[0], tei[1], tei[2])
       end
-      te.update_attributes!(finished_at: Time.now)
+      te.update_attributes(finished_at: Time.now)
       # check test execution items for exitstatus indicating a fail
       # use the 'newest' TestExecutionItem exitstatus to mark for overall result:
       # FIXME when sidekiq is killed, failure detection of is not reliable. output may contain 'returned status: false (exitstatus )' (which indicates error) while exit status is not set. nevertheless exitstatus remains successful
       failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
-      te_result.update_attributes!(exitstatus: failed.last.exitstatus) if failed.any?
+      te_result.update_attributes(exitstatus: failed.last.exitstatus) if failed.any?
       # mark result success if status not yet decided
-      te_result.update_attributes!(exitstatus: 0) if te_result.exitstatus.nil?
+      te_result.update_attributes(exitstatus: 0) if te_result.exitstatus.nil?
     rescue Exception => e
       # job preparation or execution failed,
       logger.warn "preparation or execution of TestExecution##{te.id} thrown exception #{e.message}"
       logger.debug e.backtrace.inspect
     ensure
       # persist execution finished
-      te.update_attributes!(finished_at: Time.now)
+      te.update_attributes(finished_at: Time.now)
     end
     # test execution finished
-    te.update_attributes!(status: TEST_EXECUTION_STATUS.key('finished'))
+    te.update_attributes(status: TEST_EXECUTION_STATUS.key('finished'))
     # FIXME remove (delete) create executable
   end
 
@@ -106,9 +106,9 @@ class TestExecutionWorker
     te_item = TestExecutionItem.find(te_item_id)
     unless te_item.nil?
       # run command, pass current environment
-      te_item.update_attributes!(started_at: Time.now, status: TEST_EXECUTION_STATUS.key("started"))
+      te_item.update_attributes(started_at: Time.now, status: TEST_EXECUTION_STATUS.key("started"))
       stdout, stderr, exit_status = Open3.capture3(ENV, interpreter, executable)
-      te_item.update_attributes!(finished_at: Time.now, status: TEST_EXECUTION_STATUS.key("finished"))
+      te_item.update_attributes(finished_at: Time.now, status: TEST_EXECUTION_STATUS.key("finished"))
 
       # persist status
       exitstatus = exit_status.exitstatus # numeric return code of command
@@ -120,7 +120,7 @@ class TestExecutionWorker
       logger.debug "STDOUT: #{stdout}"
       logger.debug "STDERR: #{stderr}"
       logger.info "TestExecutionItem##{te_item.id} (TestExecution##{te_item.test_execution_id}) returned with status: #{textstatus} (exitstatus #{exitstatus})"
-      te_item.update_attributes!(output: stdout, error: stderr, exitstatus: exitstatus)
+      te_item.update_attributes(output: stdout, error: stderr, exitstatus: exitstatus)
     else
       logger.warn("Couldn't execute #{executable}")
     end
