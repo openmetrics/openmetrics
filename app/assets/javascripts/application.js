@@ -11,7 +11,7 @@
 // about supported directives.
 //
 //= require jquery-2.1.0.min.js
-//= require jquery.turbolinks
+// require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery-fileupload/basic
 //= require jquery-fileupload/vendor/tmpl
@@ -24,6 +24,7 @@
 //= require unobtrusive_flash
 //= require jstree
 //= require uploads
+// require test_executions
 //= require turbolinks
 
 /* flash handler */

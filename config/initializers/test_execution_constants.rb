@@ -6,5 +6,3 @@ TEST_EXECUTION_STATUS = {
   30 => 'started',
   40 => 'finished'
 }
-
-# TEST_EXECUTION_

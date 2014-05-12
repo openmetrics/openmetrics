@@ -9,7 +9,7 @@ $(document).on('click', '.run_test_plan', function(e) {
         success: function(data, textStatus){
             if(textStatus=="success") {
                 //notify('notice', 'Successfully updated widget!');
-                console.log("run baby, run!")
+                //console.log("run baby, run!")
             }
         },
         error: function(data, textStatus) {

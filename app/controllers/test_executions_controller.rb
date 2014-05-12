@@ -13,6 +13,7 @@ class TestExecutionsController < ApplicationController
   # observe status changes for TestExecution
   def poll
     te = TestExecution.find(params[:id])
+    tei = te.test_execution_items
 
      # SSE expects the `text/event-stream` content type
     response.headers['Content-Type'] = 'text/event-stream'
@@ -21,7 +22,8 @@ class TestExecutionsController < ApplicationController
 
     begin
       loop do
-        sse.write({ :time => Time.now, :event => 'refresh'})
+        status = tei.map{|i| {id: i.id, status: i.status }}
+        sse.write({:id => te.id, :status => status, :event => 'executionStatus'})
         sleep 1
       end
     rescue IOError
