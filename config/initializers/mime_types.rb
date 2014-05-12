@@ -13,3 +13,6 @@ Mime::Type.register 'application/x-font-woff', :woff
 Mime::Type.register 'application/x-font-ttf', :ttf
 Mime::Type.register 'application/vnd.ms-fontobject', :eot
 Mime::Type.register 'image/svg+xml', :svg
+
+# ActionController:Live uses text/event-stream for SSE
+Mime::Type.register "text/event-stream", :stream
