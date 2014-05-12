@@ -16,6 +16,14 @@
     </tr>
     <tr>
       <td colspan="3">
+        <%= f.label :remember_me do %>
+          <%= f.check_box :remember_me %>
+          Remember Me?
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
         <div id="devise-links">
           <%= render "devise/shared/links" %>
             <!--<span class="glyphicon glyphicon-info-sign"></span>-->
