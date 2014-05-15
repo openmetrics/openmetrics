@@ -24,7 +24,6 @@
 //= require unobtrusive_flash
 //= require jstree
 //= require uploads
-// require test_executions
 //= require turbolinks
 
 /* flash handler */
