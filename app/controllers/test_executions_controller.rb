@@ -8,6 +8,7 @@ class TestExecutionsController < ApplicationController
   def show
     @test_execution = TestExecution.find(params[:id])
     @test_plan = @test_execution.test_plan
+    add_breadcrumb 'Test Execution'
   end
 
   # observe status changes for TestExecution

@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.3'
 
+# we want to have user sessions (breadcrumbs et al.)
+gem 'activerecord-session_store'
+
 # WEBrick sucks, use Puma as default webserver
 gem 'puma'
 

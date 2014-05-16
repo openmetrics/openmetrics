@@ -11,6 +11,7 @@ class TestPlansController < ApplicationController
   def show
     @test_plan = TestPlan.find(params[:id])
     @recent_test_executions = TestExecution.recent
+    add_breadcrumb @test_plan.name, 'testplan'
   end
 
   def create

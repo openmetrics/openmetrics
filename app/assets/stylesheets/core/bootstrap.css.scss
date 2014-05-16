@@ -7,6 +7,9 @@
 //  overflow-y: scroll;
 //}
 
+/* negate navbar bottom margin */
+.navbar { margin-bottom: 0 !important;}
+
 /* bootstrap vertical dividers in navbar */
 .navbar .divider-vertical {
   height: 50px;

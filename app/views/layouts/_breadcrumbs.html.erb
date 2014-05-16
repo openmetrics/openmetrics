@@ -1,0 +1,12 @@
+<div id="breadcrumbs-container">
+  <ol class="breadcrumb">
+        <% session[:breadcrumbs].each do |breadcrumb|  %>
+            <% unless breadcrumb[0].nil? %>
+                <% title ='Go to '+ ((breadcrumb[1] ? breadcrumb[1] + ' ' : '')  +breadcrumb[0]) %>
+            <% else %>
+                <% title = 'untitled' %>
+            <% end %>
+            <li><%= link_to breadcrumb[0], breadcrumb[2], {:title => title }  %>
+        <%  end %>
+  </ol>
+</div>

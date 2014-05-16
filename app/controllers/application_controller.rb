@@ -19,10 +19,18 @@ class ApplicationController < ActionController::Base
   # stores current location within session[:previous_url]
   before_filter :store_location
 
+  # sessions are lazy loaded, make sure there are breadcrumbs inside
+  before_filter :init_breadcrumbs
+
   # use unobstrusive flash messages https://github.com/leonid-shevtsov/unobtrusive_flash
   after_filter :prepare_unobtrusive_flash
 
   private
+
+  def init_breadcrumbs
+    session[:breadcrumbs] ||= []
+  end
+
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
     # appends _locale=<locale> parameter to url
@@ -68,5 +76,26 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :email, :password, :password_confirmation, :remember_me) }
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:login, :username, :email, :password, :remember_me) }
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :email, :password, :password_confirmation, :current_password) }
+  end
+
+  # adds entry for GET requests to user session and cookie
+  # number of entries is limited
+  #
+  # arguments
+  # name => link text for breadcrumb entry
+  # controller_name => text to complete the title-tag phrase "Go to controller_name name", defaults to nil
+  # url => href, defaults to request.url
+  def add_breadcrumb name, controller_name = nil, url = request.url
+    if !request.get?  # dont set breadcrumb for POST/PUT reqs
+      return
+    end
+    url = eval(url) if url =~ /_path|_url|@/
+    if session[:breadcrumbs].size > 6
+      session[:breadcrumbs].shift
+    end
+    session[:breadcrumbs] << [name, controller_name, url] if !session[:breadcrumbs].last or (session[:breadcrumbs].last and session[:breadcrumbs].last[2].to_s != url)
+    # breadcrumbs are persisted to cookie aswell, to have them available after relogin
+    # => base64 encoded json structure
+    cookies[:breadcrumbs] = Base64.encode64(session[:breadcrumbs].to_json)
   end
 end
