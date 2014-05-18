@@ -42,6 +42,7 @@ module WebtestAutomagick
     wd += %Q[
 require "selenium-webdriver"
 driver = Selenium::WebDriver.for :firefox
+driver.manage.timeouts.page_load = 20 # page load timeout in seconds
 driver.navigate.to "#{base_url}"
 ]
 
@@ -66,7 +67,7 @@ driver.navigate.to "#{base_url}"
         when /^name=(.*)/
           how = ':name'
           what = $1
-        when /^\/{2}(.*)/ # xpath shortcut '//'
+        when /^(\/{2}.*)/ # xpath shortcut '//'
           how = ':xpath'
           what = $1
         when /^xpath=(.*)/
@@ -77,23 +78,37 @@ driver.navigate.to "#{base_url}"
           what = $2
       end
 
+      # if value is of format ${foo} reference to its environment variable ENV['foo'] instead
+      unless (value =~ /^\$\{[a-zA-Z0-9]*\}/).nil?
+        value.gsub!(/^\$\{([a-zA-Z0-9]*)\}/, '#{ENV[\'\1\']}')
+      end
+
       # translate selenese commands to selenium-webdriver markup
       # see http://selenium.googlecode.com/git/docs/api/rb/Selenium/Client/GeneratedDriver.html
-      wd << "\n\n# DEBUG #{command}|#{target}|#{value}\n"
+      #wd << "\n\n# DEBUG #{command}|#{target}|#{value}\n"
       case command
         when /click|clickAndWait/
-          wd += "driver.find_element(#{how}, \"#{what}\").click\n"
+          wd << "driver.find_element(#{how}, \"#{what}\").click\n"
+        when /echo/
+          wd << "# #{target}\n"
         when /open/
           wd << "driver.get(\"#{base_url}#{target}\")\n"
+        when /pause/
+          wd << "sleep #{target}\n"
+        when /store/
+          wd << "ENV['#{value}'] = '#{target}'\n"
         when /type/
-          wd += "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
+          wd << "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
         when /waitForElementPresent/
-          wd += '# wait for a specific element to show up' + "\n"
-          wd += 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
-          wd += "wait.until { driver.find_element(#{how}, \"#{what}\") } \n"
+          wd << '# wait for a specific element to show up' + "\n"
+          wd << 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
+          wd << "wait.until { driver.find_element(#{how}, \"#{what}\") } \n"
+        else
+          wd << "# unimplemented command: #{command}|#{target}|#{value}\n"
+          wd << "exit 42\n"
       end
     end
-    wd += "driver.quit"
+    wd << "driver.quit"
     wd
   end
 end

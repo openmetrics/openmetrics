@@ -7,13 +7,12 @@ class TestExecutionWorker
   sidekiq_options retry: false
   include WebtestAutomagick
 
-  TMPDIR="#{Rails.root}/tmp/tp" # working dir
+  TMPDIR="#{Rails.root}/tmp/test_executions" # working dir
 
   def perform(test_execution_id, test_plan_id)
     tp = TestPlan.find(test_plan_id)
     te = TestExecution.find(test_execution_id)
     te_result = te.test_execution_result
-    Dir.exist?(TMPDIR) || system('mkdir', '-p', "#{TMPDIR}")
 
     # try preparation and execution of testplan
     te.update_attributes(started_at: Time.now)
@@ -62,8 +61,13 @@ class TestExecutionWorker
           interpreter = 'bash'
       end
 
-      # create executable file
-      filename = `mktemp -p #{TMPDIR} #{tp.id}_#{n}_#{item.id}.XXXXXX`
+      # create executable file and change pwd (ugly way w/ ruby core utils)
+      Dir.mkdir(TMPDIR) unless Dir.exist?(TMPDIR)
+      Dir.chdir(TMPDIR)
+      Dir.mkdir(te.id.to_s) unless Dir.exist?(te.id.to_s)
+      Dir.chdir(te.id.to_s)
+      dir = Dir.pwd
+      filename = dir+"/#{n+1}_#{item.id}"
 
       # prepare (and convert) markup and format
       conversion_format = item.format

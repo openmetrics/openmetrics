@@ -10,14 +10,10 @@
 
         <%# is there already an exitstatus available? %>
         <% if te.test_execution_items[n] and te.test_execution_items[n].exitstatus.is_a? Integer and te.test_execution_items[n].exitstatus > 0 %>
-            <%= '<span class="label label-danger">Failure</span>'.html_safe %>
-            <!--in case of failure show the error message-->
-            <%#= te.test_execution_items[n] and te.test_execution_items[n].error.nil? ? coderay("no STDERR output", "plain", "div") : coderay(te.test_execution_items[n].error, te.test_execution_items[n].format , "div") %>
-            <!--in case of success show the output-->
-            <%#= te.test_execution_items[n] and te.test_execution_items[n].output.nil? ? coderay("no STDOUT output", "plain", "div") : coderay(te.test_execution_items[n].output, "plain", "div") %>
+            <%= '<span class="label label-danger">Fail</span>'.html_safe %>
             <!--<div class="text-center"><i class="fa fa-arrow-up"></i></div>-->
         <% elsif te.test_execution_items[n] and te.test_execution_items[n].exitstatus.is_a? Integer and te.test_execution_items[n].exitstatus == 0 %>
-            <%= '<span class="label label-success">Success</span>'.html_safe %>
+            <%= '<span class="label label-success">Pass</span>'.html_safe %>
         <% else %>
             <%= '<span class="label label-default">not yet processed</span>'.html_safe %>
         <% end %>
@@ -27,15 +23,31 @@
             <%= "<code class=\"pull-right\">#{te.test_execution_items[n].duration.to_s} s</code>".html_safe %>
         <% end %>
 
+        <!--generate a list of stdout, stderr and the markup (-file) -->
+        <ul class="fa-ul">
+          <!--in case of failure show the error message-->
+          <li><i class="fa-li fa fa-bug"></i>
+            <%= te.test_execution_items[n] and te.test_execution_items[n].error.nil? ? coderay("STDERR empty", "plain", "div") : coderay(te.test_execution_items[n].error, te.test_execution_items[n].format , "div") %>
+          </li>
+          <!--in case of success show the output-->
+          <li><i class="fa-li fa fa-sign-out"></i>
+            <%= te.test_execution_items[n] and te.test_execution_items[n].output.nil? ? coderay("STDOUT empty", "plain", "div") : coderay(te.test_execution_items[n].output, "plain", "div") %>
+          </li>
+
+
         <%# display matching TestExecutionItem markup %>
         <% if te.test_execution_items[n] %>
+              <li><i class="fa-li fa fa-file-code-o"></i></li>
+              <li><i class="fa-li fa fa-code"></i><%= File.basename(te.test_execution_items[n].executable) %>
             <%= coderay(te.test_execution_items[n].markup, te.test_execution_items[n].format, "div") %>
+              </li>
             <!--<div class="text-center"><i class="fa fa-arrow-up"></i></div>-->
             <%#= te_items[n].inspect %>
         <% end %>
 
         <%# display origin TestItem markup %>
         <%#= coderay(te_item.markup, te_item.format, "div") %>
+        </ul>
       </li>
   <% end %>
 </ul>
