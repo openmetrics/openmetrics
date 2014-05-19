@@ -3,10 +3,9 @@
       <hr>
       <li>
         <span class="item-number"><%= n+1 %></span>
-        <strong><%= te_item.name %></strong>
         <span class="label label-primary"><%= te_item.type %></span>
         <span class="label label-info"><%= te_item.format %></span>
-
+        <%= link_to te_item.name, te_item %>
 
         <%# is there already an exitstatus available? %>
         <% if te.test_execution_items[n] and te.test_execution_items[n].exitstatus.is_a? Integer and te.test_execution_items[n].exitstatus > 0 %>
