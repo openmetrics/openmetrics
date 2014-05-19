@@ -20,7 +20,7 @@
 
         <%# if already processed show execution time %>
         <% if te.test_execution_items[n] and !te.test_execution_items[n].duration.nil? %>
-            <%= "<code class=\"pull-right\">#{te.test_execution_items[n].duration.to_s} s</code>".html_safe %>
+            <%= "<span class=\"duration\">#{te.test_execution_items[n].duration.to_s} s</span>".html_safe %>
         <% end %>
 
         <!--generate a list of stdout, stderr and the markup (-file) -->

@@ -1,3 +1,5 @@
+
+/* test plan styles */
 ul.test_plan {
   list-style-type: none;
   margin: 0;
@@ -6,6 +8,23 @@ ul.test_plan {
 
 ul.test_plan li {
   margin-bottom: 20px;
+  //background-color: #efefef;
+}
+
+ul.test_plan li > * {
+  vertical-align: middle !important;
+}
+
+/* handle like a label */
+ul.test_plan li span.duration {
+  padding: .2em .6em .3em;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  white-space: nowrap;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: .25em;
 }
 
 .item-number {

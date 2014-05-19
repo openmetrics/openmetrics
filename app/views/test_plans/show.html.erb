@@ -6,24 +6,31 @@
   <!-- right column, top column when mobile -->
   <div class="col-md-4 col-md-push-8">
     <%= render partial: 'execution_input' %>
-    <%= render partial: 'shared/recent_test_executions' %>
+    <!--<%= render partial: 'shared/recent_test_executions' %>-->
   </div>
 
   <!-- left column, top column when mobile -->
   <div class="col-md-8 col-md-pull-4">
     <h3>
-      <button class="btn btn-default btn-success pull-right run_test_plan" data-id="<%= @test_plan.id %>">
-        <i class="glyphicon glyphicon-play-circle"></i>
-        Run now
-      </button>
+      <div class="btn-group pull-right">
+        <%= link_to(raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), edit_test_plan_path(@test_plan), :class => 'btn btn-default') %>
+        <button class="btn btn-default btn-success run_test_plan" data-id="<%= @test_plan.id %>">
+          <i class="glyphicon glyphicon-play-circle"></i>
+          Run now
+        </button>
+      </div>
       <%= raw badge "TestPlan", 'primary' %>
       <%= @test_plan.name %>
     </h3>
 
     <div class="panel panel-default spacer">
       <div class="panel-body">
-        <blockquote><p><%= @test_plan.description %></p></blockquote>
-        <%= render partial: 'shared/test_plan', locals: { tp: @test_plan } %>
+        <blockquote>
+          <p>
+            <%= @test_plan.description %>
+          </p>
+        </blockquote>
+        <%= render partial: 'shared/test_plan', locals: {tp: @test_plan} %>
       </div>
     </div>
   </div>
