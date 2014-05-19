@@ -1,8 +1,16 @@
 <% javascript('webtest') %>
 
 <div class="row">
-  <!-- left column -->
-  <div class="col-md-8">
+
+
+  <!-- right column, top column when mobile -->
+  <div class="col-md-4 col-md-push-8">
+    <%= render partial: 'execution_input' %>
+    <%= render partial: 'shared/recent_test_executions' %>
+  </div>
+
+  <!-- left column, top column when mobile -->
+  <div class="col-md-8 col-md-pull-4">
     <h3>
       <button class="btn btn-default btn-success pull-right run_test_plan" data-id="<%= @test_plan.id %>">
         <i class="glyphicon glyphicon-play-circle"></i>
@@ -18,12 +26,6 @@
         <%= render partial: 'shared/test_plan', locals: { tp: @test_plan } %>
       </div>
     </div>
-  </div>
-
-  <!-- right column -->
-  <div class="col-md-4">
-    <%= render partial: 'execution_input' %>
-    <%= render partial: 'shared/recent_test_executions' %>
   </div>
 
 </div>

@@ -4,24 +4,8 @@
 
 <div class="row">
 
-
-  <!-- left column, top column when mobile -->
-  <div class="col-md-8">
-    <h3>
-      <%= raw badge "TestPlan", 'primary' %>
-      <%= link_to "#{@test_plan.name}", @test_plan %>
-    </h3>
-    <div class="panel panel-default spacer">
-      <div class="panel-body">
-        <%#= @test_execution.inspect %>
-        <blockquote><p><%= @test_plan.description %></p></blockquote>
-        <%= render partial: 'test_plan_execution', locals: { tp: @test_plan, te: @test_execution } %>
-      </div>
-    </div>
-  </div>
-
   <!-- right column, top column when mobile -->
-  <div class="col-md-4">
+  <div class="col-md-4 col-md-push-8">
     <h3>Result</h3>
     <div class="panel panel-default spacer">
       <div class="panel-body">
@@ -38,5 +22,22 @@
     </div>
     <%#= @test_execution.test_execution_result.inspect %>
   </div>
+
+  <!-- left column, top column when mobile -->
+  <div class="col-md-8 col-md-pull-4">
+    <h3>
+      <%= raw badge "TestPlan", 'primary' %>
+      <%= link_to "#{@test_plan.name}", @test_plan %>
+    </h3>
+    <div class="panel panel-default spacer">
+      <div class="panel-body">
+        <%#= @test_execution.inspect %>
+        <blockquote><p><%= @test_plan.description %></p></blockquote>
+        <%= render partial: 'test_plan_execution', locals: { tp: @test_plan, te: @test_execution } %>
+      </div>
+    </div>
+  </div>
+
+
 
 </div>
