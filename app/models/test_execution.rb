@@ -60,7 +60,7 @@ class TestExecution < ActiveRecord::Base
     begin
       self.job_id = TestExecutionWorker.perform_async(self.id, self.test_plan_id)
       self.status = TEST_EXECUTION_STATUS.key('scheduled')
-      if self.save
+      if self.save!
         logger.info "TestPlan #{self.test_plan_id} scheduled for execution (jid: #{self.job_id})."
       end
     rescue Exception => e
