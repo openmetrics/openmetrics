@@ -25,6 +25,13 @@ bashsleep<%= n %>:
     sleep <%= n %>
 <% end %>
 
+bashprintenv:
+  name: selftest bashprintenv
+  type: TestScript
+  format: bash
+  markup: |
+    env
+
 # selenese
 sel1:
   name: Find the answer to all questions

@@ -48,6 +48,11 @@ st106:
   test_items: bashsleep5, bashexiterror, bashsleep5, bashexitsuccess, bashsleep5, bashexiterror
   base_url: http://localhost:3000
 
+st107:
+  name: selftest UI environment variables
+  description: Show environment for test execution.
+  test_items: bmcsetregistrationvariables, bashprintenv
+  base_url: http://localhost:3000
 
 #
 # bodymass.de (BMC) related test items
