@@ -4,8 +4,9 @@ class TestExecution < ActiveRecord::Base
   # has_many :test_execution_items
   has_one :test_execution_result
 
-  # create result and schedule execution directly after create
-  after_create :create_result, :schedule_test_execution
+  # create result and schedule execution
+  after_create :create_result
+  after_commit :schedule_test_execution, on: :create
 
   # most recent test executions
   scope :recent, ->(num=5) { order('created_at DESC').limit(num) }
@@ -55,14 +56,13 @@ class TestExecution < ActiveRecord::Base
   end
 
   # try to perform async, otherwise fail with meaningful status
+  # use update_column here to bypass callbacks (were already within transaction here due to after_commit callback)
   def schedule_test_execution()
-    self.update_columns(status: 5) #init with 'none' state, as scheduling may fail
     begin
-      self.job_id = TestExecutionWorker.perform_async(self.id, self.test_plan_id)
-      self.status = TEST_EXECUTION_STATUS.key('scheduled')
-      if self.save!
-        logger.info "TestPlan #{self.test_plan_id} scheduled for execution (jid: #{self.job_id})."
-      end
+      update_column :status, 5 #init with 'none' state, as scheduling may fail
+      update_column :job_id, TestExecutionWorker.perform_async(self.id, self.test_plan_id)
+      update_column :status, TEST_EXECUTION_STATUS.key('scheduled')
+      logger.info "TestPlan #{self.test_plan_id} scheduled for execution (jid: #{self.job_id})."
     rescue Exception => e
       # job scheduling failed
       logger.error "Failed to schedule TestPlan #{self.test_plan_id} due to exception #{e.message}"
