@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140516092258) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
     t.text     "scanresult"
@@ -45,8 +48,8 @@ ActiveRecord::Schema.define(version: 20140516092258) do
     t.datetime "updated_at"
   end
 
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true
-  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
   create_table "sidekiq_jobs", force: true do |t|
     t.string   "jid"
@@ -62,14 +65,14 @@ ActiveRecord::Schema.define(version: 20140516092258) do
     t.text     "result"
   end
 
-  add_index "sidekiq_jobs", ["class_name"], name: "index_sidekiq_jobs_on_class_name"
-  add_index "sidekiq_jobs", ["enqueued_at"], name: "index_sidekiq_jobs_on_enqueued_at"
-  add_index "sidekiq_jobs", ["finished_at"], name: "index_sidekiq_jobs_on_finished_at"
-  add_index "sidekiq_jobs", ["jid"], name: "index_sidekiq_jobs_on_jid"
-  add_index "sidekiq_jobs", ["queue"], name: "index_sidekiq_jobs_on_queue"
-  add_index "sidekiq_jobs", ["retry"], name: "index_sidekiq_jobs_on_retry"
-  add_index "sidekiq_jobs", ["started_at"], name: "index_sidekiq_jobs_on_started_at"
-  add_index "sidekiq_jobs", ["status"], name: "index_sidekiq_jobs_on_status"
+  add_index "sidekiq_jobs", ["class_name"], name: "index_sidekiq_jobs_on_class_name", using: :btree
+  add_index "sidekiq_jobs", ["enqueued_at"], name: "index_sidekiq_jobs_on_enqueued_at", using: :btree
+  add_index "sidekiq_jobs", ["finished_at"], name: "index_sidekiq_jobs_on_finished_at", using: :btree
+  add_index "sidekiq_jobs", ["jid"], name: "index_sidekiq_jobs_on_jid", using: :btree
+  add_index "sidekiq_jobs", ["queue"], name: "index_sidekiq_jobs_on_queue", using: :btree
+  add_index "sidekiq_jobs", ["retry"], name: "index_sidekiq_jobs_on_retry", using: :btree
+  add_index "sidekiq_jobs", ["started_at"], name: "index_sidekiq_jobs_on_started_at", using: :btree
+  add_index "sidekiq_jobs", ["status"], name: "index_sidekiq_jobs_on_status", using: :btree
 
   create_table "systems", force: true do |t|
     t.string   "name"
@@ -125,7 +128,7 @@ ActiveRecord::Schema.define(version: 20140516092258) do
     t.datetime "updated_at"
   end
 
-  add_index "test_item_types", ["model_name"], name: "index_test_item_types_on_model_name", unique: true
+  add_index "test_item_types", ["model_name"], name: "index_test_item_types_on_model_name", unique: true, using: :btree
 
   create_table "test_items", force: true do |t|
     t.string   "type"
@@ -188,9 +191,9 @@ ActiveRecord::Schema.define(version: 20140516092258) do
     t.string   "username"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["username"], name: "index_users_on_username", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   create_table "webtests", force: true do |t|
     t.text     "description"
