@@ -1,0 +1,23 @@
+<!--<div class="btn-group pull-right">-->
+  <!--<%= link_to(raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), edit_test_plan_path(@test_plan), :class => 'btn btn-default') %>-->
+  <!--<button class="btn btn-default btn-success run_test_plan" data-id="<%= @test_plan.id %>">-->
+    <!--<i class="glyphicon glyphicon-play-circle"></i>-->
+    <!--Run now-->
+  <!--</button>-->
+<!--</div>-->
+
+
+<div class="btn-group pull-right">
+
+  <%= link_to(raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), edit_test_plan_path(@test_plan), :class => 'btn btn-default') %>
+
+  <button class="btn btn-default run_test_plan" data-id="<%= @test_plan.id %>">
+    <i class="fa fa-play"></i>
+    Run now
+  </button>
+
+  <button class="btn btn-default run_options">
+    <i class="glyphicon glyphicon-cog"></i>
+  </button>
+
+</div>

@@ -23,6 +23,7 @@ $(document).on('click', '.run_test_plan', function(e) {
 
 $(document).on('page:change', function() {
 
+    // jstree within _test_item_browser
     $('#jstree_demo_div').jstree({
         "plugins" : [ "wholerow" ]
     });

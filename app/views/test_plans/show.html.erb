@@ -12,13 +12,7 @@
   <!-- left column, top column when mobile -->
   <div class="col-md-8 col-md-pull-4">
     <h3>
-      <div class="btn-group pull-right">
-        <%= link_to(raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), edit_test_plan_path(@test_plan), :class => 'btn btn-default') %>
-        <button class="btn btn-default btn-success run_test_plan" data-id="<%= @test_plan.id %>">
-          <i class="glyphicon glyphicon-play-circle"></i>
-          Run now
-        </button>
-      </div>
+      <%= render partial: 'controls' %>
       <%= raw badge "TestPlan", 'primary' %>
       <%= @test_plan.name %>
     </h3>

@@ -1,8 +1,12 @@
 class TestPlansController < ApplicationController
   before_action :authenticate_user!
 
+  def edit
+    @test_plan = TestPlan.find(params[:id])
+  end
+
   def new
-    @test_plan = TestPlan.new(base_url: 'http://www.example.com', name: 'My Testplan')
+    @test_plan = TestPlan.new(base_url: 'http://www.example.com', name: 'My Testplan', user_id: current_user.id)
     @test_cases = TestCase.all
     @test_scripts = TestScript.all
     @test_suites = TestSuite.all
@@ -38,6 +42,18 @@ class TestPlansController < ApplicationController
 
   end
 
+  def update
+    @test_plan = TestPlan.find(params[:id])
+    if @test_plan.update_attributes(test_plan_params)
+      redirect_to @test_plan, notice: 'Upload was successfully updated.'
+
+    else
+      flash[:warn] = "Oh snap! That didn't work."
+      redirect_to @test_plan
+    end
+  end
+
+  private
   def test_plan_params
     params.require(:test_plan).permit(:name, :description, :base_url,
                                       {:test_items => [:id, :type]})

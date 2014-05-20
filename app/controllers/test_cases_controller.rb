@@ -12,7 +12,6 @@ class TestCasesController < ApplicationController
 
   def new
     @test_case = TestCase.new(name: 'unholy exit', description: 'perform a noop and exit with a non-successful return code', format: 'bash', markup: ": && exit42")
-    @upload = Upload.new # for test case upload
   end
 
   def create
