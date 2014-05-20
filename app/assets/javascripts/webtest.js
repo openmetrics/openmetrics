@@ -20,8 +20,10 @@ $(document).on('click', '.run_test_plan', function(e) {
 });
 
 
-
 $(document).on('page:change', function() {
+
+    // popover run options
+    $('.run_options').popover();
 
     // jstree within _test_item_browser
     $('#jstree_demo_div').jstree({
