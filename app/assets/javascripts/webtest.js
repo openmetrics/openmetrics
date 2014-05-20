@@ -22,8 +22,52 @@ $(document).on('click', '.run_test_plan', function(e) {
 
 $(document).on('page:change', function() {
 
-    // popover run options
-    $('.run_options').popover();
+    // popover for test plan run options, takes placement and title from data attributes
+    // content comes dynamicially from within a div #popover_content_container
+    // taken from https://github.com/twbs/bootstrap/issues/3722
+    // see http://getbootstrap.com/javascript/#popovers for popover reference
+    $('.run_options').popover({
+        trigger: 'click',
+        html: true,
+        content: function () {
+            return $("#run_options_popover");
+        }
+    }).on('hidden.bs.popover', function () {
+        $("#popover_content_container").append($("#run_options_popover"));
+    });
+
+    // scheduling test plan execution (https://github.com/arnapou/jqCron/tree/master/demo)
+    $('.schedule').jqCron();
+    $('.schedule2').jqCron({
+        enabled_minute: true,
+        multiple_dom: true,
+        multiple_month: true,
+        multiple_mins: true,
+        multiple_dow: true,
+        multiple_time_hours: true,
+        multiple_time_minutes: true,
+        default_period: 'week',
+        default_value: '15 10-12 * * 1-5',
+        no_reset_button: false,
+        lang: 'en'
+    });
+    $('.schedule4').jqCron({
+        lang: 'en',
+        numeric_zero_pad: true,
+        default_value: '30 2 1 * *',
+        multiple_dom: true,
+        multiple_month: true,
+        multiple_mins: true,
+        multiple_dow: true,
+        multiple_time_hours: true,
+        multiple_time_minutes: true,
+        bind_to: $('.schedule4-span'),
+        bind_method: {
+            set: function($element, value) {
+                $element.html(value);
+            }
+        }
+    });
 
     // jstree within _test_item_browser
     $('#jstree_demo_div').jstree({

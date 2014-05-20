@@ -22,7 +22,8 @@
 //= require i18n/i18n
 //= require i18n/translations
 //= require unobtrusive_flash
-//= require jstree
+//= require jstree.min
+//= require jqCron
 //= require uploads
 //= require turbolinks
 

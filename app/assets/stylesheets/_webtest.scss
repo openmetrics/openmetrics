@@ -15,6 +15,17 @@ ul.test_plan li > * {
   vertical-align: middle !important;
 }
 
+/* popover test plan execution scheduling */
+#run_options_popover {
+  width: 450px;
+  font-size: xx-small;
+}
+#run_options_popover .jqCron {
+  display: block;
+  margin-top: 15px;
+}
+
+
 /* handle like a label */
 ul.test_plan li span.duration {
   padding: .2em .6em .3em;

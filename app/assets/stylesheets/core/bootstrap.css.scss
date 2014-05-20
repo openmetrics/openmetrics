@@ -7,6 +7,13 @@
 //  overflow-y: scroll;
 //}
 
+/* auto width for popovers */
+.popover {
+	max-width: 800px;
+	width: auto;
+}
+
+
 /* negate navbar bottom margin */
 .navbar { margin-bottom: 0 !important;}
 
