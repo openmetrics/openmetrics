@@ -69,6 +69,12 @@ $(document).on('page:change', function() {
         }
     });
 
+
+    var editor = ace.edit("test_case_markup");
+    editor.setTheme("ace/theme/github");
+    editor.getSession().setMode("ace/mode/html");
+    console.log(editor);
+
     // jstree within _test_item_browser
     $('#jstree_demo_div').jstree({
         "plugins" : [ "wholerow" ]

@@ -91,6 +91,9 @@ end
 gem 'RedCloth', :require => 'redcloth'
 gem 'coderay', :require => ['coderay', 'coderay/for_redcloth']
 
+# https://github.com/codykrieger/ace-rails-ap for code edit textarea
+gem 'ace-rails-ap'
+
 # fileupload
 gem 'paperclip', "~> 4.1"
 gem 'jquery-fileupload-rails'

@@ -25,6 +25,9 @@
 //= require jstree.min
 //= require jqCron
 //= require uploads
+//= require ace/ace
+//= require ace/mode-html
+//= require ace/theme-github
 //= require turbolinks
 
 /* flash handler */
