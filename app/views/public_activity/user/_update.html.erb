@@ -1,0 +1,7 @@
+updated profile of user
+<% if activity.trackable %>
+    <%= link_to activity.trackable.username, activity.trackable %>
+<% else %>
+    which has since been removed
+<% end %>
+

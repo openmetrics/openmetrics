@@ -6,6 +6,9 @@ class System < ActiveRecord::Base
   #           class_name: 'Service',
   #           source: :system
 
+  # Concerns
+  include Trackable
+
   validates :name, :presence => true, length: {minimum: 3},
                    :uniqueness => true, :format => { :with => /[A-Za-z0-9::space::]+/ }
 end

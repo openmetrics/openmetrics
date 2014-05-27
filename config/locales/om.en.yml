@@ -14,6 +14,7 @@ en:
       password_confirmation: "Password confirm"
       register: "Sign up"
     navigation:
+      activities: "Activities"
       inventory: "Inventory"
       systems: "Systems"
       services: "Services"

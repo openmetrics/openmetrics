@@ -98,6 +98,9 @@ gem 'jquery-fileupload-rails'
 # nice urls https://github.com/norman/friendly_id
 gem 'friendly_id', '~> 5.0.0'
 
+# activity feed https://github.com/pokonski/public_activity
+gem 'public_activity'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

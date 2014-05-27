@@ -26,6 +26,9 @@ class User < ActiveRecord::Base
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
+  # Concerns
+  include Trackable
+
   # Overwrite Devise's find_for_database_authentication method in User model
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup

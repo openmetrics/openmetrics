@@ -6,6 +6,8 @@ Openmetrics::Application.routes.draw do
   # start at welcomepage
   root 'welcome_page#display'
 
+  resources :activities
+
   # devise and user related routes
   devise_for :users, :controllers => { :registrations => "registrations" } # use our own RegistrationsController
 
