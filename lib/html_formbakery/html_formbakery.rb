@@ -1,4 +1,7 @@
 # encoding: utf-8 # source files receive a US-ASCII Encoding, unless you say otherwise.
+
+require 'securerandom' # for generating random form id's
+
 module HtmlFormbakery
 
   public
@@ -49,6 +52,7 @@ module HtmlFormbakery
   #<br/>
   # :caption - form legend value of created form <br/>
   # :nested - does not create neiter 'form'-tags, nor buttons and csrf token<br/>
+  # :action - overwrite form action<br/>
   # :only (array) - only create inputs for the given fields<br/>
   # :except (array) - create all inputs except for the given fields<br/>
   # :include_linked_objects - if set, FB will try to create fields for linked objects too.<br/>
@@ -62,7 +66,7 @@ module HtmlFormbakery
   # :include_timestamps<br/>
   #
   def htmlform_for(object, *args)
-    default_action = "update"
+    default_action = "update" # may be overrridden by :action option
     default_method = "post"
     object_name = object.class.to_s.underscore # makes "RunningService" become "running_service"
     is_new_object = object.id.nil? # affects placeholder behavoir
@@ -75,7 +79,8 @@ module HtmlFormbakery
     nested = false
     include_page_anchor = false
     form_classes = "form-horizontal" # may be be expanded with :html_class
-    form_id="#{object_name.pluralize}_#{is_new_object ? 'new' : 'update'}" # default html id, e.g. systems_new
+    form_id="#{object_name.pluralize}_#{ is_new_object ? 'new' : "update_#{object.id}_#{SecureRandom.hex(4)}" }" # default html id, e.g. systems_new
+    forced_action = nil
     # TODO proper placeholder control; currently if a object is new (Object.id ==nil) placeholders are set
 
     # *args is an Array and not a hash, so we need to make it a little more
@@ -97,6 +102,10 @@ module HtmlFormbakery
 
         if args_object.include? :caption
           caption = args_object[:caption]
+        end
+
+        if args_object.include? :action
+          forced_action = args_object[:action]
         end
 
         if args_object.include? :html_class
@@ -125,12 +134,27 @@ module HtmlFormbakery
     html_result = ''
     js = ''
 
-    # start the form
-    html_result << "<form class=\"#{form_classes}\" role=\"form\" method=\"#{default_method}\" id=\"#{form_id}\" action=\"/#{object_name.pluralize}/#{object.id}\">" unless nested
+    # start the form, set form action
+    form_action = if forced_action
+                    forced_action
+                  elsif object_name == 'user'
+                    "/#{object_name.pluralize}" # devise registrations edit
+                  else
+                    "/#{object_name.pluralize}/#{object.id}"
+                  end
+
+    html_result << "<form class=\"#{form_classes}\" role=\"form\" method=\"#{default_method}\" id=\"#{form_id}\" action=\"#{form_action}\">" unless nested
 
     additional_fields = "" # here go the fields for linked subobjects
 
+    # attributes comes from passed object or by option :only => [ :whateverfield ]
     attributes = object.attributes
+
+    # this is useful for devise user password update
+    if list_only and object_name == 'user' and list_only.include?(:password) and list_only.include?(:password_confirmation)
+      attributes = { :password => nil, :password_confirmation => nil}
+    end
+
     html_result << "<fieldset>"
     html_result << "<legend>#{caption || object.class.to_s}</legend>" if caption
     attributes.each do |attribute|
@@ -262,6 +286,14 @@ module HtmlFormbakery
 
   def input_for(formobject_name,attr_value,object_name,is_new_object,helptext,object)
     result = ''
+
+    # nil (e.g. for non-existant field password & password_confirmation on user object)
+    if attr_value.nil? and formobject_name == 'user'
+      result += '<input type="password" class="form-control input-md" type="password" '
+      result += "value=\"\" name=\"#{formobject_name}[#{object_name}]\" id=\"#{formobject_name}_#{object_name}\">"
+      return wrap_label(result, object_name.to_s, helptext)
+    end
+
     # regular input field for strings
     if object.class.columns_hash[object_name].type == :string
       result += '<input type="text" class="form-control input-md" '
