@@ -95,6 +95,9 @@ gem 'coderay', :require => ['coderay', 'coderay/for_redcloth']
 gem 'paperclip', "~> 4.1"
 gem 'jquery-fileupload-rails'
 
+# nice urls https://github.com/norman/friendly_id
+gem 'friendly_id', '~> 5.0.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

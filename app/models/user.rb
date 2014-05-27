@@ -1,5 +1,10 @@
 class User < ActiveRecord::Base
 
+  # Use username within profile url
+  extend FriendlyId
+  friendly_id :username, use: :slugged
+
+  # Validations
   validates :username,
             :uniqueness => {
                 :case_sensitive => false

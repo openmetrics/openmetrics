@@ -1,5 +1,5 @@
 Openmetrics::Application.routes.draw do
-  devise_for :users
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -7,11 +7,19 @@ Openmetrics::Application.routes.draw do
   root 'welcome_page#display'
 
   # devise and user related routes
+  devise_for :users, :controllers => { :registrations => "registrations" } # use our own RegistrationsController
+
   as :user do
-    get "/login" => "devise/sessions#new"
-    delete "/logout" => "devise/sessions#destroy"
+    get '/login' => 'devise/sessions#new'
+    delete '/logout' => 'devise/sessions#destroy'
+    put '/users/update_password', :to => 'registrations#update_password'
   end
-  get '/users/:id', :to => 'users#show', :as => :user  # provides user_path
+
+  # provides user_path, e.g. /users/1 and due to friendly_id /users/<username>
+  get '/users/:id', :to => 'users#show', :as => :user
+
+  # use dedicated update_password method in RegistrationsController
+
 
   # system's routes
   resources :systems
