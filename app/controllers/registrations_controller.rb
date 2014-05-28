@@ -12,7 +12,7 @@ class RegistrationsController < Devise::RegistrationsController
 
     @user = User.find(current_user.id)
     if @user.update_attributes(account_update_params)
-      set_flash_message :notice, :updated
+      #set_flash_message :notice, :updated
       @user.create_activity :update, :owner => current_user
       # Sign in the user bypassing validation in case his password changed
       sign_in @user, :bypass => true
@@ -28,7 +28,7 @@ class RegistrationsController < Devise::RegistrationsController
   def update_password
     @user = User.find(current_user.id)
     if @user.update(user_password_params)
-      @user.create_activity :update_password, :owner => current_user
+      #@user.create_activity :update_password, :owner => current_user
       # Sign in the user by passing validation in case his password changed
       sign_in @user, :bypass => true
       #redirect_to root_path

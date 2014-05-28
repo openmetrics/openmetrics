@@ -1,0 +1,5 @@
+<% if activity.trackable %>
+    did <%= activity.key %> on <%= link_to activity.trackable.class, activity.trackable %>
+<% else %>
+    which has since been removed
+<% end %>
