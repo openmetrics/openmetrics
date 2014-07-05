@@ -1,3 +1,3 @@
 # set log level
-Sidekiq.logger.level = Logger::INFO
+Sidekiq.logger.level = Logger::DEBUG
 
