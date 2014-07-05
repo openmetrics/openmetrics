@@ -28,5 +28,9 @@ TABLEBAKERY_PRESETS = {
     test_execution: {
         attr_ignore: %w( id updated_at user_id ),
         attr_order:  %w( created_at job_id name test_plan_id base_url actions)
+    },
+    ip_lookup: {
+        attr_ignore: %w( id created_at updated_at user_id ),
+        attr_order:  %w( created_at target status job_id started_at finished_at actions )
     }
 }

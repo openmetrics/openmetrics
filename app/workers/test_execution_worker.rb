@@ -18,7 +18,7 @@ class TestExecutionWorker
     te.update_attributes(started_at: Time.now)
     begin
       te_items = prepare(te, tp)
-      te.update_attributes(status: TEST_EXECUTION_STATUS.key('prepared'))
+      te.update_attributes(status: EXECUTION_STATUS.key('prepared'))
       te_items.each do |tei|
         execute(tei[0], tei[1], tei[2])
       end
@@ -39,7 +39,7 @@ class TestExecutionWorker
       te.update_attributes(finished_at: Time.now)
     end
     # test execution finished
-    te.update_attributes(status: TEST_EXECUTION_STATUS.key('finished'))
+    te.update_attributes(status: EXECUTION_STATUS.key('finished'))
     # FIXME remove (delete) create executable
   end
 
@@ -111,9 +111,9 @@ class TestExecutionWorker
     te_item = TestExecutionItem.find(te_item_id)
     unless te_item.nil?
       # run command, pass current environment
-      te_item.update_attributes(started_at: Time.now, status: TEST_EXECUTION_STATUS.key("started"))
+      te_item.update_attributes(started_at: Time.now, status: EXECUTION_STATUS.key("started"))
       stdout, stderr, exit_status = Open3.capture3(ENV, interpreter, executable)
-      te_item.update_attributes(finished_at: Time.now, status: TEST_EXECUTION_STATUS.key("finished"))
+      te_item.update_attributes(finished_at: Time.now, status: EXECUTION_STATUS.key("finished"))
 
       # persist status
       exitstatus = exit_status.exitstatus # numeric return code of command

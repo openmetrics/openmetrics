@@ -1,6 +1,6 @@
 module WebtestsHelper
 
-  # print bootstrap button indicating processing status, see TEST_EXECUTION_STATUS constant in
+  # print bootstrap button indicating processing status, see EXECUTION_STATUS constant in
   def test_execution_status(test_execution)
     capture do
       # not even scheduled, show unknown staus and link to admin area

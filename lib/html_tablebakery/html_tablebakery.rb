@@ -177,9 +177,10 @@ module HtmlTablebakery
             end
             html += "<td class=\"join\">#{jc}</td>"
 
-          when /(updated_at|created_at)/
+          # usually date columns are ending with *_at
+          when /.*_at$/
             html+= "<td>"
-            html+=I18n.localize(item[attr.to_sym], :format => :short)
+            html+=I18n.localize(item[attr.to_sym], :format => :short) unless item[attr.to_sym].nil?
             html += "</td>"
 
           # render just a regular text cell

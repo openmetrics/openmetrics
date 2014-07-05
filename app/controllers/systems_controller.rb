@@ -2,6 +2,7 @@ class SystemsController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    add_breadcrumb 'Systems'
     @systems = System.includes(:running_services)
     respond_with(@systems)
   end
@@ -10,7 +11,7 @@ class SystemsController < ApplicationController
     # passing to new causes formbakery placeholders to appear
     @system = System.new(name: 'my example host', fqdn: 'host.example.com')
     @ip_lookup = IpLookup.new(:target => 'www.example.com or 127.0.0.1/32')
-    @recent_ip_lookups = IpLookup.where(user: current_user)
+    @recent_ip_lookups = IpLookup.recent.where(user: current_user)
   end
 
   def create
@@ -31,17 +32,13 @@ class SystemsController < ApplicationController
     i = IpLookup.new(ip_lookup_params)
     i.user_id = current_user.id
     begin
-      # try to perform async, otherwise fail
-      i.job_id = IpLookupWorker.perform_async(i.target)
-      i.scanresult = 'not yet processed'.to_json
       if i.save
-        flash[:success] = 'IpLookup scheduled successfully. You will be noticed as soon as scanresult is available.'
+        flash[:success] = 'IpLookup scheduled successfully.'
       else
         flash[:warn] = 'Oh snap! Scheduling IpLookup on that target failed. ;('
       end
     rescue
       logger.error 'Failed to schedule job on IpLookupWorker'
-      i.scanresult = 'error while scheduling'.to_json
       flash[:error] = "That IpLookup schedule didn't work."
     ensure
       redirect_to_anchor_or_back
