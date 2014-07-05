@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
 
+  # PublicActivity make current user available to model to set owner of activity
+  #include PublicActivity::StoreController
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception

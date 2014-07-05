@@ -45,8 +45,8 @@ class TestPlansController < ApplicationController
   def update
     @test_plan = TestPlan.find(params[:id])
     if @test_plan.update_attributes(test_plan_params)
+      @test_plan.create_activity :update, owner: current_user
       redirect_to @test_plan, notice: 'Upload was successfully updated.'
-
     else
       flash[:warn] = "Oh snap! That didn't work."
       redirect_to @test_plan

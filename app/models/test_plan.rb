@@ -5,4 +5,6 @@ class TestPlan < ActiveRecord::Base
 
   validates :name, :presence => true, length: {minimum: 3}
   #TODO validate base_url to be there and valid url (?)
+
+  include Trackable
 end

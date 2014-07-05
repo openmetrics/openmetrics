@@ -1,5 +1,10 @@
 class User < ActiveRecord::Base
 
+  # Use username within profile url
+  extend FriendlyId
+  friendly_id :username, use: :slugged
+
+  # Validations
   validates :username,
             :uniqueness => {
                 :case_sensitive => false
@@ -20,6 +25,9 @@ class User < ActiveRecord::Base
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
+
+  # Concerns
+  include Trackable
 
   # Overwrite Devise's find_for_database_authentication method in User model
   def self.find_first_by_auth_conditions(warden_conditions)

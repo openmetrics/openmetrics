@@ -22,6 +22,17 @@ $(document).on('click', '.run_test_plan', function(e) {
 
 $(document).on('page:change', function() {
 
+    // popover for test execution display settings
+    $('.display_options').popover({
+        trigger: 'click',
+        html: true,
+        content: function () {
+            return $("#display_options_popover");
+        }
+    }).on('hidden.bs.popover', function () {
+        $("#popover_content_container").append($("#display_options_popover"));
+    });
+
     // popover for test plan run options, takes placement and title from data attributes
     // content comes dynamicially from within a div #popover_content_container
     // taken from https://github.com/twbs/bootstrap/issues/3722

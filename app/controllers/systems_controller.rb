@@ -17,6 +17,7 @@ class SystemsController < ApplicationController
   def create
     @system = System.new(system_params)
     if @system.save
+      @system.create_activity :create, :owner => current_user
       flash[:success] = "System saved."
       redirect_to systems_path
     else
@@ -53,12 +54,23 @@ class SystemsController < ApplicationController
     @system = System.find(params[:id])
   end
 
+  def update
+    @system = System.find(params[:id])
+    if @system.update!(system_params)
+      @system.create_activity :update, :owner => current_user
+      flash[:success] = "System updated."
+    else
+      flash[:warn] = 'Something went wrong while updating system.'
+    end
+    redirect_to :back
+  end
+
   private
   # Use this method to whitelist the permissible parameters. Example:
   # params.require(:person).permit(:name, :age)
   # Also, you can specialize this method with per-user checking of permissible attributes.
   def system_params
-    params.require(:system).permit(:name, :fqdn, :title)
+    params.require(:system).permit(:name, :fqdn)
   end
 
   def ip_lookup_params

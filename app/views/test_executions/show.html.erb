@@ -26,6 +26,7 @@
   <!-- left column, top column when mobile -->
   <div class="col-md-8 col-md-pull-4">
     <h3>
+      <%= render partial: 'controls' %>
       <%= raw badge "TestPlan", 'primary' %>
       <%= link_to "#{@test_plan.name}", @test_plan %>
     </h3>
