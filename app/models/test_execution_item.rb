@@ -3,6 +3,11 @@ class TestExecutionItem < ActiveRecord::Base
   belongs_to :test_item
   belongs_to :test_execution
 
+  # TODO add simple test if there is any occurance in self's and self.test_item's markup of String ENV: e.g. ENV['foo'] = 'bar' or doWhatever(ENV['foo'])
+  def provides_input?
+    true
+  end
+
   # virtual attribute execution time in millisecond precision, calculated from started_at and finished_at
   def duration
     return nil if self.started_at.nil? or self.finished_at.nil?

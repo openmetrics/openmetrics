@@ -8,7 +8,6 @@ module WebtestAutomagick
   # translates selenese to ruby-webdriver
   # http://release.seleniumhq.org/selenium-core/1.0.1/reference.html
   def selenese_to_webdriver(markup, base_url)
-    #doc = Nokogiri::HTML(open("/tmp/tc1.html"))
     doc = Nokogiri::HTML(markup)
 
     # extract title

@@ -20,7 +20,7 @@ class TestExecutionWorker
       te_items = prepare(te, tp)
       te.update_attributes(status: EXECUTION_STATUS.key('prepared'))
       te_items.each do |tei|
-        execute(tei[0], tei[1], tei[2])
+        execute(tei[0], tei[1], tei[2]) # test_execution_item_id, filename, interpreter
       end
       te.update_attributes(finished_at: Time.now)
       # check test execution items for exitstatus indicating a fail
@@ -40,7 +40,7 @@ class TestExecutionWorker
     end
     # test execution finished
     te.update_attributes(status: EXECUTION_STATUS.key('finished'))
-    # FIXME remove (delete) create executable
+    # TODO remove (delete) create executable
   end
 
   # reads test plans test_items and generates executables of it (TestExecutionItem) depending on item format/markup
@@ -109,10 +109,19 @@ class TestExecutionWorker
 
   def execute(te_item_id, executable, interpreter='bash')
     te_item = TestExecutionItem.find(te_item_id)
-    unless te_item.nil?
-      # run command, pass current environment
+    if te_item.nil?
+      logger.warn("Couldn't execute #{executable}")
+    else
+
+      # prepare environment
+      custom_env = ENV.clone
+      if te_item.provides_input?
+        custom_env.store('OM_TEST', 'foobar')
+      end
+
+      # run command, pass in environment
       te_item.update_attributes(started_at: Time.now, status: EXECUTION_STATUS.key("started"))
-      stdout, stderr, exit_status = Open3.capture3(ENV, interpreter, executable)
+      stdout, stderr, exit_status = Open3.capture3(custom_env, interpreter, executable)
       te_item.update_attributes(finished_at: Time.now, status: EXECUTION_STATUS.key("finished"))
 
       # persist status
@@ -126,8 +135,6 @@ class TestExecutionWorker
       logger.debug "STDERR: #{stderr}"
       logger.info "TestExecutionItem##{te_item.id} (TestExecution##{te_item.test_execution_id}) returned with status: #{textstatus} (exitstatus #{exitstatus})"
       te_item.update_attributes(output: stdout, error: stderr, exitstatus: exitstatus)
-    else
-      logger.warn("Couldn't execute #{executable}")
     end
   end
 
