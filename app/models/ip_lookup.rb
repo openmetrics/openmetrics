@@ -1,5 +1,6 @@
 class IpLookup < ActiveRecord::Base
   include Executable
+  include Trackable
 
   belongs_to :user
   has_one :ip_lookup_result

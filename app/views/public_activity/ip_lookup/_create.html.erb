@@ -1,0 +1,6 @@
+initiated an
+<% if activity.trackable %>
+    <%= link_to 'IpLookup', activity.trackable %> on target <%= activity.trackable.target %>
+<% else %>
+    which has since been removed
+<% end %>

@@ -34,6 +34,7 @@ class SystemsController < ApplicationController
     i.user_id = current_user.id
     begin
       if i.save
+        i.create_activity :create, :owner => current_user
         flash[:success] = 'IpLookup scheduled successfully.'
       else
         flash[:warn] = 'Oh snap! Scheduling IpLookup on that target failed. ;('
