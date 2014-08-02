@@ -6,6 +6,12 @@
 @import 'webtest';
 @import 'jqcron/jqCron';
 
+
+
+$darkgrey: #9b9b9b;
+
+
+
 /* searchbar should expand on focus */
 /*#main-search input {*/
     /*width: 350px;*/
@@ -20,6 +26,11 @@
 
 
 /*}*/
+
+
+label {
+  color: $darkgrey;
+}
 
 /* loading indicator positioning, will be show/hidden by turbolink page:fetch and page:change */
 #loading-indicator {

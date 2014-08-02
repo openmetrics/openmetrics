@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Openmetrics</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => false %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => false %>
   <%= yield :additional_js %>
   <%= csrf_meta_tags %>
 
@@ -16,7 +16,7 @@
     <%= render "layouts/header" %>
     <%= render "layouts/breadcrumbs" %>
 
-    <div class="container">
+    <div class="container <%= controller.controller_name %> <%= controller.action_name %>">
         <%= render "layouts/notifications" %>
         <%= yield %>
     </div>

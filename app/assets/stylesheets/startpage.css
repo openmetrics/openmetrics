@@ -1,17 +1,41 @@
 
+.openmetrics-banner {
+    font-family: monospace;
+    color: black;
+    background-color: white;
+    line-height: 100%;
+    position: absolute;
+    top: 20px;
+    padding: 10px;
+}
+
+.openmetrics-banner a {
+    text-decoration: none;
+    /*color: orangered;*/
+}
+
+.front-box {
+    margin-top:45px;
+
+}
+
+
 .container { width: 628px; margin-top:42px; }
-table { width: 560px; }
-td { padding: 5px 15px; }
 
 .center-block {
+    width: 700px;
     border: medium double #e7e7e7;
     padding: 28px;
 }
 
 /* element styles */
+h3 { margin-left: 15px;}
 h2 {
     margin-bottom: 42px;
 }
+
+table { width: 640px; border-spacing: 0; border-collapse: collapse; }
+td { padding: 5px 10px; }
 
 input[type='text'],
 input[type='email'],
@@ -22,10 +46,18 @@ input[type='password'] {
         text-align:center;
 }
 
+
+.registrations.new input[type='text'],
+.registrations.new input[type='email'],
+.registrations.new input[type='password'] {
+    width: 360px;
+}
+
 label[for=user_remember_me] {
     display: block;
     float: left;
     padding-right: 10px;
+    margin-top:10px;
     white-space: nowrap;
 }
 
@@ -35,7 +67,7 @@ label[for=user_remember_me] {
 }
 
 #devise-links {
-        margin-top: 42px;
+        margin-top: 20px;
         color: slategray;
         padding: 0.7em;
         background-color: #f9f9f9;

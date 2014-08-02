@@ -1,36 +1,42 @@
-  <h3>
-    <span class="glyphicon glyphicon-lock"></span> <%= t('om.login.greeter') %>
-  </h3>
+<%= render 'shared/openmetrics_banner' %>
 
-  <table class="spacer">
+<div class="front-box">
+  <h3><span class="glyphicon glyphicon-lock"></span> <%= t('om.login.greeter') %></h3>
+
+  <table>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <tr>
-      <td><%= f.text_field :login, autofocus: true, :class => "form-control" %></td>
-      <td><%= f.password_field :password, autocomplete: "off", :class => "form-control" %></td>
-      <td><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span></button></td>
-    </tr>
-    <tr>
-      <td><%= f.label :login, t("om.login.login") %></td>
-      <td><%= f.label :password, t("om.login.password")  %></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td colspan="3">
-        <%= f.label :remember_me do %>
-          <%= f.check_box :remember_me %>
-          Remember Me?
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="3">
-        <div id="devise-links">
-          <%= render "devise/shared/links" %>
-            <!--<span class="glyphicon glyphicon-info-sign"></span>-->
-            <!--Your session will be invalidated automatically on 20 minutes of-->
-            <!--inactivity.-->
-        </div>
-      </td>
-    </tr>
-<!--<% end %>-->
-</table>
+        <tr>
+          <td><%= f.text_field :login, autofocus: true, :class => "form-control" %></td>
+          <td><%= f.password_field :password, autocomplete: "off", :class => "form-control" %></td>
+          <td>
+            <%= image_submit_tag('arrow-right.gif') %>
+            <!--<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span></button>-->
+          </td>
+        </tr>
+        <tr>
+          <td><%= f.label :login, t("om.login.login") %></td>
+          <td><%= f.label :password, t("om.login.password") %></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <%= f.label :remember_me do %>
+                <%= f.check_box :remember_me %>
+                Remember Me?
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <div id="devise-links">
+              <%= render "devise/shared/links" %>
+              <!--<span class="glyphicon glyphicon-info-sign"></span>-->
+              <!--Your session will be invalidated automatically on 20 minutes of-->
+              <!--inactivity.-->
+            </div>
+          </td>
+        </tr>
+    <% end %>
+  </table>
+
+</div>

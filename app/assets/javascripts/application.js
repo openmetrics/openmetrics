@@ -28,7 +28,7 @@
 //= require ace/ace
 //= require ace/mode-html
 //= require ace/theme-github
-//= require turbolinks
+////= require turbolinks
 
 /* flash handler */
 flashHandler = function(e, params) {
