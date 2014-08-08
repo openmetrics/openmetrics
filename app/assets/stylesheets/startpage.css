@@ -19,6 +19,12 @@
 
 }
 
+/* no rounded corners */
+* {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
 
 .container { width: 628px; margin-top:42px; }
 
@@ -40,10 +46,12 @@ td { padding: 5px 10px; }
 input[type='text'],
 input[type='email'],
 input[type='password'] {
-        border-color: grey;
-        border-style:none none dotted;
-        border-width:medium medium 2px;
-        text-align:center;
+    border-color: grey;
+    border-style:none none dotted;
+    border-width:medium medium 2px;
+    text-align:center;
+    outline: none;
+    box-shadow:none !important;
 }
 
 
