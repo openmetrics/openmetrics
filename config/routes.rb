@@ -10,18 +10,16 @@ Openmetrics::Application.routes.draw do
 
   # devise and user related routes
   devise_for :users, :controllers => { :registrations => "registrations" } # use our own RegistrationsController
-
   as :user do
     get '/login' => 'devise/sessions#new'
     delete '/logout' => 'devise/sessions#destroy'
     put '/users/update_password', :to => 'registrations#update_password'
+    post '/users/generate_token', :to => 'registrations#generate_token', as: :generate_user_token
+    delete '/users/remove_token', :to => 'registrations#delete_token', as: :remove_user_token
   end
 
   # provides user_path, e.g. /users/1 and due to friendly_id /users/<username>
   get '/users/:id', :to => 'users#show', :as => :user
-
-  # use dedicated update_password method in RegistrationsController
-
 
   # system's routes
   resources :systems

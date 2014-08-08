@@ -39,6 +39,22 @@ class RegistrationsController < Devise::RegistrationsController
     redirect_to_anchor_or_back
   end
 
+  # Create or re-generate the API key
+  # POST
+  def generate_token
+    current_user.enable_api!
+    flash[:success] = "Token (re)generated."
+    params[:anchor] = '#authentication' # to jump back to right ui tab
+    redirect_to_anchor_or_back
+  end
+
+  # DELETE
+  def delete_token
+    current_user.disable_api!
+    flash[:success] = "Token removed."
+    params[:anchor] = '#authentication' # to jump back to right ui tab
+    redirect_to_anchor_or_back
+  end
 
   protected
 

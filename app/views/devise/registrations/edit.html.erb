@@ -1,6 +1,7 @@
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" id="user_edit_tab">
-  <li class="active"><a href="#profile" data-toggle="tab">Profile Settings</a></li>
+  <li><a href="#appearance" data-toggle="tab">Appearance</a></li>
+  <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
   <li><a href="#authentication" data-toggle="tab">Authentication</a></li>
 </ul>
 
@@ -8,14 +9,22 @@
 <div class="tab-content">
 
   <div class="tab-pane active" id="profile">
-    <%= raw htmlform_for resource, { :html_class => 'spacer', :within_tab => true,
+    <%= raw htmlform_for resource, {:html_class => 'spacer', :within_tab => true,
                                     :only => [:username, :email],
-                                    :help_text => {:email => 'We use email for notifications and avatar detection if no avatar is uploaded.',
+                                    :help_text => {:email => 'We use email for notifications and (gr)avatar detection.',
                                                    :username => 'Enter your name, so people you know can recognize you.'}
 
     }
     %>
+  </div>
 
+  <div class="tab-pane" id="appearance">
+    <ul>
+      <li>add options for show/hide breadcrumbs</li>
+      <li>add avatar upload</li>
+      <li>may add theme chooser</li>
+      <li>may add code highlight chooser</li>
+    </ul>
   </div>
 
   <div class="tab-pane" id="authentication">
@@ -23,15 +32,42 @@
     <div class="panel panel-default spacer">
       <div class="panel-heading">Change Password</div>
       <div class="panel-body">
-        <%= raw htmlform_for resource, { :html_class => 'spacer', :within_tab => true, :action => 'update_password',
-                                    :only => [:password, :password_confirmation],
-                                    :help_text => {:password_confirmation => 'We need your current password to confirm your changes.',
-                                                   }
+        <%= raw htmlform_for resource, {:html_class => 'spacer', :within_tab => true, :action => 'update_password',
+                                        :only => [:password, :password_confirmation],
+                                        :help_text => {
+                                                :password => 'Enter your new password',
+                                                :password_confirmation => 'Enter it again.',
+                                        }
 
         }
         %>
       </div>
     </div>
+
+    <div class="panel panel-default spacer">
+      <div class="panel-heading">API Access</div>
+      <div class="panel-body">
+        <% if @user.api_is_enabled? %>
+            <p>
+              Your API Token:
+              <strong><%= @user.api_token.empty? ? "unset" : @user.api_token %></strong>
+              <br/><br/>
+              <%= link_to raw('<span class="glyphicon glyphicon-refresh"></span> Regenerate'),
+                          generate_user_token_path, :method => :post, :class => 'btn btn-default' %>
+              <%= link_to raw('<span class="glyphicon glyphicon-remove"></span> Disable'),
+                          remove_user_token_path, :method => :delete, :class => 'btn btn-default' %>
+            </p>
+        <% else %>
+            <p>
+              You'll need a unique key to make calls to the API. Remember <strong>to keep this token secret</strong>, as
+              it can be used to access your account.
+              <br/><br/>
+              <%= link_to "Generate API token", generate_user_token_path, :method => :post, :class => 'btn btn-default' %>
+            </p>
+        <% end %>
+      </div>
+    </div>
+
 
     <div class="panel panel-danger">
       <div class="panel-heading">Delete profile</div>
