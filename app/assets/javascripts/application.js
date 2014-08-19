@@ -23,6 +23,7 @@
 //= require i18n/translations
 //= require unobtrusive_flash
 //= require jstree.min
+//= require search
 //= require jqCron
 //= require uploads
 //= require ace/ace

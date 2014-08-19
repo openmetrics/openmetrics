@@ -1,0 +1,67 @@
+<%#*you are in a div with id ajax_search_result here, see search/_input.html.erb%>
+
+<div>
+  <%= @systems.inspect %>
+
+  <% if @systems %>
+      <div style='padding: 5px 0px; font-size: 12px;'>
+        <p class="ui-state-default" style="padding:2px;">Systems (<%= @systems.size %> found)</p>
+        <% for @system in @systems[0..3] %>
+            <%
+               # inject html highlight to match
+               @s = @system.clone
+               @s.name = @system.name.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if @system.name
+               @s.ip = @system.ip.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if @system.ip
+               @s.fqdn = @system.fqdn.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if @system.fqdn
+               @s.description = @system.description.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if @system.description
+            %>
+            <p style='padding: 2px 5px; font-size: 11px; border-bottom: 1px solid #ddd '>
+              <a id="system-<%= @s.id %>" href="/systems/<%= @system.id %>" title="Show">
+                <b>Name:&nbsp;</b><%= @s.name %>...
+                <b>IP:&nbsp;</b><%= @s.ip %>...
+                <b>FQDN:&nbsp;</b><%= @s.fqdn %>...
+                <b>Description:&nbsp;</b><%= @s.description %>
+              </a>
+            </p>
+        <% end %>
+        <% if @systems.size > 5 %>
+            <p style="padding: 2px 5px; font-size: 9px;">
+              <a href="/search?search=<%= url_encode(@search_string) %>#tab-systems" title="Show">
+                <b>or show all found systems...</b>
+              </a>
+            </p>
+        <% end %>
+      </div>
+  <% end %>
+
+  <% if @services %>
+      <div style='padding: 5px 0px; font-size: 12px;'>
+        <p class="ui-state-default">Services (<%= @services.size %> found)</p>
+        <% for @service in @services[0..3] %>
+            <%
+               @service.name = @service.name.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if @service.name
+               @service.dns_name = @service.dns_name.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if @service.dns_name
+               @service.type = @service.type.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if @service.type
+               @service.typ = @service.typ.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if @service.type
+               @service.description = @service.description.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if @service.description
+            %>
+            <p style='padding: 2px 5px; font-size: 11px; border-bottom: 1px solid #ddd'>
+              <a href="/services/<%= @service.id %>" title="Show">
+                <b>Name:&nbsp;</b><%= @service.name %>...
+                <b>DNS&nbsp;name:&nbsp;</b><%= @service.dns_name %>...
+                <b>Typ:&nbsp;</b><%= @service.typ %>...
+                <b>Description:&nbsp;</b><%= @service.description %>
+              </a>
+            </p>
+        <% end %>
+        <% if @services.size > 5 %>
+            <p style="padding: 2px 5px; font-size: 9px;">
+              <a href="/search?search=<%= url_encode(@search_string) %>#tab-services" title="Show">
+                <b>or show all found services...</b>
+              </a>
+            </p>
+        <% end %>
+      </div>
+  <% end %>
+
+</div>

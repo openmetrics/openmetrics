@@ -1,0 +1,71 @@
+<%# FIXME sanitize search string!  searching for <script>alert('foo');</script> results in js execution!! %>
+<% content_for :search do %>
+    <%= @search_string %>
+<% end %>
+
+
+<h2>Search results for: <i><%= @search_string %></i></h2>
+
+<% if @services.nil? and @systems.nil? %>
+
+    <div style='padding: 5px 0px; font-size: 10px; width: 250px; font-size: 14px; font-weight: bold; color: #333;' >
+      No matches were found!
+    </div>
+
+<% else %>
+
+    <div id="tabs" style='padding: 5px 10px 0px 10px; margin: 0px; overflow:hidden;'>
+      <ul>
+        <% if @systems %><li><a href="#tab-systems">Systems (<%= (@systems.size > 0) ? @systems.size : 0 %> found)</a></li><% end  %>
+        <% if @services %><li><a href="#tab-services">Services (<%= (@services.size > 0) ? @services.size : 0 %> found)</a></li><% end  %>
+      </ul>
+
+
+
+      <% if @systems.size > 0 %>
+          <div id="tab-systems" style='padding: 5px 10px; overflow:hidden;'>
+            <% @systems.each do |system| %>
+                <%
+                   system.name          = system.name.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if system.name
+                   # system.ip            = system.ip.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if system.ip
+                   system.fqdn          = system.fqdn.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if system.fqdn
+                   # system.description   = system.description.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if system.description
+                %>
+                <p style='margin: 0; padding: 2px 5px; font-size: 12px; border-bottom: 1px solid #ddd ' >
+                  <a href="/systems/<%=system.id%>" title="Show">
+                    <b>Name:&nbsp;</b><%= system.name %>,
+
+                    <b>FQDN:&nbsp;</b><%= system.fqdn %>,
+
+                    <%#*<span class="ui-icon ui-icon-newwin" style="display:inline-block; cursor:pointer;"></span>%>
+                  </a>
+                </p>
+            <% end %>
+          </div>
+      <% end %>
+      <% if @services %>
+          <div id="tab-services" style='padding: 5px 10px; overflow:hidden;'>
+            <% for service in @services%>
+                <%
+                   service.name         = service.name.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if service.name
+                   service.dns_name     = service.dns_name.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if service.dns_name
+                   service.type         = service.type.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if service.type
+                   service.typ         = service.typ.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if service.typ
+                   service.description  = service.description.gsub(/(#{@search_string})/i, '<b style="background: #ff0;color:#000;">\1</b>') if service.description
+                %>
+                <p style='margin: 0; padding: 2px 5px; font-size: 12px; border-bottom: 1px solid #ddd ' >
+                  <a href="/services/<%=service.id%>" title="Show">
+                    <b>Name:&nbsp;</b><%= service.name %>,
+                    <b>DNS&nbsp;name:&nbsp;</b><%= service.dns_name %>,
+                    <b>Typ:&nbsp;</b><%= service.typ %>,
+                    <b>Type:&nbsp;</b><%= service.type %>,
+                    <b>Description:&nbsp;</b><%= service.description %>
+                    <%#*<span class="ui-icon ui-icon-newwin" style="display:inline-block;"></span>%>
+                  </a>
+                </p>
+            <% end %>
+          </div>
+      <% end %>
+    </div>
+
+<% end %>
