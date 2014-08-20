@@ -45,6 +45,14 @@
   }
 }
 
+/* navbar-form input-group (search) inline and 100% with when collapsed , https://github.com/twbs/bootstrap/issues/9950 */
+@media (min-width:768px) {
+  .navbar-form .input-group-btn,
+  .navbar-form .input-group-addon {
+    width: auto;
+  }
+}
+
 /* bootstrap make glyphicon in navbar appear more vertical aligned */
 .glyphicon {
   top: 3px;

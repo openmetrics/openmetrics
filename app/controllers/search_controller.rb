@@ -29,12 +29,10 @@ class SearchController < ApplicationController
       # @cids.uniq! { |x| x[:p] }
 
 
-      #@systems = System.where(:conditions => ["(name ILIKE ?)  OR (fqdn ILIKE ?)", "#{q}", "#{q}"])
-      @systems = System.where("name like ? or fqdn like ?", q, q)
-
-      puts @systems.inspect
-
-      @dashboards = Service.where('(name like ?)', q)
+      @systems = System.where("name ilike ? or fqdn ilike ?", q, q)
+      @services = Service.where("name ilike ?", q)
+      @test_plans = TestPlan.where("name ilike ? or slug ilike ?", q, q)
+      @dashboards = Service.where('(name ilike ?)', q)
 
       #@services = Service.where(:all, :limit => limit, :conditions => ["(name ILIKE ?) OR (dns_name ILIKE ?) OR (typ ILIKE ?) OR (description ILIKE ?)", query, query, query, query])
 

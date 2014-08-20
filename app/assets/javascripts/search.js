@@ -1,6 +1,6 @@
 $(document).ready(function ($) {
 
-    console.log("serach ready");
+    console.log("Search Ready");
     var search_delay = undefined;
     var selectedItem = 0; // used to highlight searchresult by keyboard
     var searchInput = $('#main-search');
@@ -24,8 +24,8 @@ $(document).ready(function ($) {
         }
 
         switch (e) {
-            case 38: // up arrow
-                //alert("keypress up");
+            case 38: // up arrow, hightlight previous item of resultset
+                //console.log("keypress up");
                 var allItems = $("#ajax_search_result").find('a');
                 if (allItems.size() > 0) {
                     if (selectedItem > 0 && selectedItem <= allItems.size()) {
@@ -51,9 +51,8 @@ $(document).ready(function ($) {
                 return false;
                 break;
 
-            case 40: // down arrow
-                // hightlight next item of resultset
-                //alert("keypress down");
+            case 40: // down arrow, hightlight next item of resultset
+                //console.log("keypress down");
                 var allItems = $("#ajax_search_result").find('a');
                 if (allItems.size() > 0) {
                     if (selectedItem <= allItems.size() - 1) {
@@ -78,13 +77,13 @@ $(document).ready(function ($) {
                     if (searchInput.val()) {
                         $('#ajax_search_result').fadeOut("fast");
                         $.ajax({
-                            url: '/search/search?q' + encodeURIComponent(searchInput.val().trim()),
+                            url: '/search/search?q=' + encodeURIComponent(searchInput.val().trim()),
                             type: "GET",
                             complete: function (data, textStatus) {
                                 if (textStatus == "success") {
                                     // callback for systems loading; create systems selection input
                                     var result = data.responseText;
-                                    console.log(data);
+//                                    console.log(result);
                                     if (result != "false") {
                                         showAjaxSearchResults(result);
                                     }
@@ -112,7 +111,7 @@ $(document).ready(function ($) {
 });
 
 function showAjaxSearchResults(result) {
-    var pos = $('#main-search').position();
+    var pos = $('#main-search').offset();
     $('#ajax_search_result')
         .css({position: "absolute", top: pos.top + 25, left: pos.left})
         .empty()

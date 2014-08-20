@@ -45,6 +45,7 @@ label {
 }
 
 /* search */
+#main-search {min-width: 280px}
 #ajax_search_result {
   background-color: #ffffff;
   color: #888888;
@@ -60,6 +61,13 @@ label {
   position: absolute;
   z-index: 300000;
 }
+/* search match highlight */
+.match {
+  background: #ff0;
+  color:#000;
+}
+
+
 
 /* gravatar images */
 .gravatar-s {
