@@ -2,13 +2,11 @@
 <% content_for :main_search do %><%= @search_string %><% end %>
 
 
-<h3>Search results for: <i><%= @search_string %></i></h3>
+<h3>Search results for "<%= @search_string %>"</h3>
 
-<% if @services.nil? and @systems.nil? %>
+<% if @services.blank? and @systems.blank? %>
 
-    <div style='padding: 5px 0px; font-size: 10px; width: 250px; font-size: 14px; font-weight: bold; color: #333;'>
-      No matches were found!
-    </div>
+    <strong>No matches were found!</strong>
 
 <% else %>
 
