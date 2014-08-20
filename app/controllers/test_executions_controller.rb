@@ -1,7 +1,6 @@
 require 'reloader/sse' # server side events for execution status
 
 class TestExecutionsController < ApplicationController
-  before_action :authenticate_user!
   include ActionController::Live
   helper WebtestsHelper
 

@@ -1,11 +1,10 @@
 class ServicesController < ApplicationController
-  before_action :authenticate_user!
-
   def show
     @service = Service.find(params[:id])
   end
 
   def index
+    add_breadcrumb 'Services'
     @services = Service.all
     respond_with(@services)
   end

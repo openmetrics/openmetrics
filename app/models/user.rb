@@ -39,9 +39,12 @@ class User < ActiveRecord::Base
     end
   end
 
+
+
   # API stuff from http://www.justinbritten.com/work/2009/05/rails-api-authentication-using-restful-authentication/
+  # devise reads: https://gist.github.com/josevalim/fb706b1e933ef01e4fb6
   def enable_api!
-    self.generate_api_token!
+    self.update_attribute(:api_token , self.generate_api_token)
   end
 
   def disable_api!
@@ -59,8 +62,12 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest(args.flatten.join('--'))
   end
 
-  def generate_api_token!
-    self.update_attribute(:api_token, secure_digest(Time.now, (1..10).map{ rand.to_s }))
+  def generate_api_token
+    loop do
+       token = Devise.friendly_token # devise token generator: 20 of a-zA-Z0-9_-
+       #token = secure_digest(Time.now, (1..10).map{ rand.to_s }) # custom token generator: 40 of a-f0-9
+       break token unless User.where(api_token: token).first
+     end
   end
 
 end

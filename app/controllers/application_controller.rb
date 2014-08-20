@@ -1,5 +1,9 @@
 class ApplicationController < ActionController::Base
 
+  # first try to authenticate by api_token, then with devise's one
+  before_filter :authenticate_user_from_token!
+  before_filter :authenticate_user!
+
   # PublicActivity make current user available to model to set owner of activity
   #include PublicActivity::StoreController
 
@@ -29,6 +33,18 @@ class ApplicationController < ActionController::Base
   after_filter :prepare_unobtrusive_flash
 
   private
+
+  # using token authentication via 'api_token' parameter. However, anyone could use Rails's token
+  # authentication features to get the token from a header.
+  # see https://gist.github.com/josevalim/fb706b1e933ef01e4fb6
+  def authenticate_user_from_token!
+    api_token = params[:api_token].presence
+    user       = api_token && User.find_by_api_token(api_token.to_s)
+
+    if user
+      sign_in user
+    end
+  end
 
   def init_breadcrumbs
     session[:breadcrumbs] ||= []

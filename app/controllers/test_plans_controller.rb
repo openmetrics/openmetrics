@@ -1,6 +1,4 @@
 class TestPlansController < ApplicationController
-  before_action :authenticate_user!
-
   def edit
     @test_plan = TestPlan.friendly.find(params[:id])
   end

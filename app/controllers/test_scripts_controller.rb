@@ -1,5 +1,4 @@
 class TestScriptsController < ApplicationController
-  before_action :authenticate_user!
   helper WebtestsHelper
 
   def index

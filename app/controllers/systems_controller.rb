@@ -1,5 +1,4 @@
 class SystemsController < ApplicationController
-  before_action :authenticate_user!
 
   def index
     add_breadcrumb 'Systems'
