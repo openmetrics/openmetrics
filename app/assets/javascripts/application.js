@@ -24,6 +24,7 @@
 //= require unobtrusive_flash
 //= require pnotify.custom.min
 //= require jstree.min
+//= require search
 //= require jqCron
 //= require uploads
 //= require ace/ace

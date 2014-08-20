@@ -55,6 +55,9 @@ Openmetrics::Application.routes.draw do
   # temp admin area with sidekiq within iframe
   get 'admin' => 'welcome_page#admin'
 
+  #search
+  get '/search/:query' => 'search#search', :as => 'search'
+
   # fileuploads
   resources :uploads
 

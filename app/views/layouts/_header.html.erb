@@ -15,12 +15,7 @@
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
 
       <!-- search bar-->
-      <form class="navbar-form navbar-left" id="main-search" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
+      <%= render 'search/input' %>
 
       <!-- loading indicator -->
       <%#= image_tag 'ajax-loader.gif', {:id => 'loading-indicator'} %>

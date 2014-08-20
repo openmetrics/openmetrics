@@ -44,6 +44,23 @@ label {
   margin-top: 18px;
 }
 
+/* search */
+#ajax_search_result {
+  background-color: #ffffff;
+  color: #888888;
+  padding: 3px;
+  border: 5px solid #bbbbbb;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 5px 5px 5px #666;
+  -webkit-box-shadow: 5px 5px 5px #666;
+  box-shadow: 5px 5px 5px #666;
+  opacity: 1.0;
+  filter: alpha(opacity=80);
+  position: absolute;
+  z-index: 300000;
+}
+
 /* gravatar images */
 .gravatar-s {
     margin-right: 2px;

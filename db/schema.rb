@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20140808115113) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
-    t.text     "scanresult"
     t.string   "job_id"
     t.integer  "user_id"
     t.datetime "created_at"
