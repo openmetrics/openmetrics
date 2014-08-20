@@ -1,3 +1,7 @@
+$darkgrey: #9b9b9b;
+$font-size: 14px;
+$font-size-small: 12px;
+
 @import 'core/bootstrap';
 @import 'layout/fonts';
 @import 'layout/layout';
@@ -5,11 +9,7 @@
 @import 'jstree/jstree';
 @import 'webtest';
 @import 'jqcron/jqCron';
-
-
-
-$darkgrey: #9b9b9b;
-
+@import 'pnotify.custom.min';
 
 
 /* searchbar should expand on focus */
@@ -30,6 +30,10 @@ $darkgrey: #9b9b9b;
 
 label {
   color: $darkgrey;
+}
+
+.checkbox > label {
+  font-size: $font-size-small;
 }
 
 /* loading indicator positioning, will be show/hidden by turbolink page:fetch and page:change */

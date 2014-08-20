@@ -28,4 +28,9 @@ module ApplicationHelper
     raw "<span class=\"label label-#{label_class}\">" + (text.is_a?(String) ? text : '') + '</span>'
   end
 
+  # sets data-no-turbolink attribute to html body tag, to disable turbolinks on a specific page
+  def disable_turbolinks!
+    content_for :body_tags, 'data-no-turbolink'
+  end
+
 end

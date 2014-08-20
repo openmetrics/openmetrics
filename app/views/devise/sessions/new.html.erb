@@ -20,10 +20,13 @@
         </tr>
         <tr>
           <td colspan="3">
-            <%= f.label :remember_me do %>
-                <%= f.check_box :remember_me %>
-                Remember Me?
-            <% end %>
+            <div class="checkbox checkbox-circle">
+              <input type="checkbox" id="checkbox_remember">
+              <label for="checkbox_remember">
+                Remember me?
+              </label>
+            </div>
+
           </td>
         </tr>
         <tr>

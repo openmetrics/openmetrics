@@ -22,6 +22,7 @@
 //= require i18n/i18n
 //= require i18n/translations
 //= require unobtrusive_flash
+//= require pnotify.custom.min
 //= require jstree.min
 //= require jqCron
 //= require uploads
@@ -33,9 +34,49 @@
 /* flash handler */
 flashHandler = function(e, params) {
     console.log('Received flash message "'+params.message+'" of type '+params.type);
+    //notify(params.message, params.type);
 };
-
 $(window).bind('rails:flash', flashHandler);
+
+// display notifications (currently with pnotify)
+function notify(message, severity, title) {
+    var title = typeof title !== 'undefined' ? title : null;
+    var severity = typeof severity !== 'undefined' ? severity : 'notice';
+
+    var opts = {
+        text: message,
+        hide: false,
+        shadow: false,
+        buttons: { closer_hover: true, sticker: false},
+        confirm: { confirm: false }
+    };
+
+    switch (severity) {
+    case 'alert':
+    case 'error':
+        opts.title = "Error";
+        opts.type = "error";
+        break;
+    case 'warn':
+    case 'warning':
+    case 'notice':
+        opts.title = "Notice";
+        opts.type = "notice";
+        break;
+    case 'info':
+        opts.title = "Info";
+        opts.type = "info";
+        break;
+    case 'success':
+        opts.title = "Success";
+        opts.type = "success";
+        break;
+    }
+
+    new PNotify(opts);
+
+}
+
 
 /* loading indicator (turbolinks fetch/change event and jquery ajax) */
 $(document).on('page:fetch', function() {

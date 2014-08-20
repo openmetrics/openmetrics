@@ -26,27 +26,27 @@
 
         <!--generate a list of stdout, stderr and the markup (-file) -->
         <% if te.test_execution_items[n] %>
-            <ul class="fa-ul spacer">
+            <ul class="items fa-ul spacer">
               <!--in case of failure show the error message-->
-              <li><i class="fa-li fa fa-bug"></i>
+              <li class="stderr"><i class="fa-li fa fa-bug"></i>
                 <%= te.test_execution_items[n] and te.test_execution_items[n].error.nil? ? coderay("STDERR empty", "plain", "div") : coderay(te.test_execution_items[n].error, te.test_execution_items[n].format, "div") %>
               </li>
+
               <!--in case of success show the output-->
-              <li><i class="fa-li fa fa-sign-out"></i>
+              <li class="stdout"><i class="fa-li fa fa-sign-out"></i>
                 <%= te.test_execution_items[n] and te.test_execution_items[n].output.nil? ? coderay("STDOUT empty", "plain", "div") : coderay(te.test_execution_items[n].output, "plain", "div") %>
               </li>
 
+              <%# display origin TestItem markup %>
+              <li class="markup_raw"><i class="fa-li fa fa-code"></i>
+                <%= coderay(te_item.markup, te_item.format, "div") %>
+              </li>
 
               <%# display matching TestExecutionItem markup %>
-              <li><i class="fa-li fa fa-file-code-o"></i></li>
-              <li><i class="fa-li fa fa-code"></i><%= File.basename(te.test_execution_items[n].executable) %>
+              <li class="markup"><i class="fa-li fa fa-file-o"></i><%= File.basename(te.test_execution_items[n].executable) %>
                 <%= coderay(te.test_execution_items[n].markup, te.test_execution_items[n].format, "div") %>
               </li>
-              <!--<div class="text-center"><i class="fa fa-arrow-up"></i></div>-->
-              <%#= te_items[n].inspect %>
 
-              <%# display origin TestItem markup %>
-              <%#= coderay(te_item.markup, te_item.format, "div") %>
             </ul>
         <% end %>
 

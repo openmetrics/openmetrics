@@ -140,9 +140,10 @@ module HtmlTablebakery
               l = "edit_#{obj_class_name.underscore}_path(#{item[:id]})"
               ac += link_to(raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), eval(l), :class => 'btn btn-default btn-xs')
             end
-            # run action should append data-id, have empty href and .run_test_plan to trigger js handlers
+            # run action should append data-id, have empty href and .run_test_plan to trigger js handlers; also disable turbolinks here
             if append_actions_cell && append_actions_cell[:run]
-              ac += link_to(raw('<span class="glyphicon glyphicon-play-circle"></span> Run'), '#', class: 'btn btn-success btn-xs run_test_plan', data: { id: item[:id]})
+              ac += link_to(raw('<span class="glyphicon glyphicon-play-circle"></span> Run'), '#',
+                            class: 'btn btn-success btn-xs run_test_plan', data: { id: item[:id]})
             end
             if append_actions_cell && append_actions_cell[:show]
               l = "#{obj_class_name.underscore}_path(#{item[:id]})"

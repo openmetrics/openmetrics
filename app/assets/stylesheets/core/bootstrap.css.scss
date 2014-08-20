@@ -1,6 +1,7 @@
 @import 'bootstrap/bootstrap.min';
 //@import 'bootstrap/bootstrap-tabdrop';
 @import 'bootstrap/bootstrap-multiselect';
+@import 'bootstrap/awesome-bootstrap-checkbox';
 
 /* always show vertical scrollbar to prevent layout jumps */
 //html {
@@ -13,6 +14,14 @@
 	width: auto;
 }
 
+/* some static popover width's, template needs to be overridden on initialization of popover, see http://getbootstrap.com/javascript/#popovers */
+.popover-small {
+  width: 210px;
+}
+
+.popover-medium {
+  width: 380px;
+}
 
 /* negate navbar bottom margin */
 .navbar { margin-bottom: 0 !important;}

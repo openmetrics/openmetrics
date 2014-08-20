@@ -1,18 +1,30 @@
-<div class="btn-group pull-right">
 
-  <button class="btn btn-default display_options" data-placement="bottom">
+<button class="btn btn-default pull-right display_options" data-placement="bottom">
     <i class="glyphicon glyphicon-cog"></i>
-  </button>
-
-  <!--add help for cron syntax, may copy from http://help.sap.com/saphelp_xmii120/helpdata/en/44/89a17188cc6fb5e10000000a155369/content.htm-->
-</div>
-
+</button>
 
 <div id="popover_content_container" class="hidden">
+
   <div id="display_options_popover">
-    show STDOUT
-    show STDERR
-    show origin markup
-    show prepared markup
+      <h5>Display settings</h5>
+      <div class="checkbox checkbox-circle">
+        <input type="checkbox" id="checkbox_stdout" checked>
+        <label for="checkbox_stdout">STDOUT</label>
+
+        <br>
+
+        <input type="checkbox" id="checkbox_stderr" checked>
+        <label for="checkbox_stderr">STDERR</label>
+
+        <br>
+
+        <input type="checkbox" id="checkbox_markup" checked>
+        <label for="checkbox_markup">executable markup</label>
+
+        <br>
+
+        <input type="checkbox" id="checkbox_markup_raw" checked>
+        <label for="checkbox_markup_raw">raw markup</label>
+      </div>
   </div>
 </div>

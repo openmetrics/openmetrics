@@ -12,7 +12,7 @@
     I18n.locale = "<%= I18n.locale %>";
   </script>
 </head>
-<body>
+<body <%= yield :body_tags %>>
     <%= render "layouts/header" %>
     <%= render "layouts/breadcrumbs" %>
 

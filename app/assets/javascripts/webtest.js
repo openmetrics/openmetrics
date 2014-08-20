@@ -3,35 +3,18 @@ $(document).on('click', '.run_test_plan', function(e) {
     var test_plan_id = $(this).data('id');
     $.ajax({
         type: "POST",
-        // FIXME hardcoded path
         url: '/test_plans/run',
         data: 'id='+test_plan_id,
-        success: function(data, textStatus){
-            if(textStatus=="success") {
-                //notify('notice', 'Successfully updated widget!');
-                //console.log("run baby, run!")
-            }
-        },
-        error: function(data, textStatus) {
-            //notify('error','Widget#'+id, textStatus + data  );
+        success: function(data, textStatus) {
+            console.log('Run baby, run!');
         }
     });
-    e.preventDefault();
 });
 
 
-$(document).on('page:change', function() {
+$(document).ready(function() {
 
-    // popover for test execution display settings
-    $('.display_options').popover({
-        trigger: 'click',
-        html: true,
-        content: function () {
-            return $("#display_options_popover");
-        }
-    }).on('hidden.bs.popover', function () {
-        $("#popover_content_container").append($("#display_options_popover"));
-    });
+    console.log("JavaScript Ready Webtest");
 
     // popover for test plan run options, takes placement and title from data attributes
     // content comes dynamicially from within a div #popover_content_container
@@ -81,10 +64,13 @@ $(document).on('page:change', function() {
     });
 
 
-    var editor = ace.edit("test_case_markup");
-    editor.setTheme("ace/theme/github");
-    editor.getSession().setMode("ace/mode/html");
-    console.log(editor);
+    // code editor
+    if ( $('#test_case_markup').length ) {
+        var editor = ace.edit("test_case_markup");
+        editor.setTheme("ace/theme/github");
+        editor.getSession().setMode("ace/mode/html");
+        console.log(editor);
+    }
 
     // jstree within _test_item_browser
     $('#jstree_demo_div').jstree({

@@ -1,3 +1,4 @@
+<% disable_turbolinks! %>
 <% javascript('webtest') %>
 
 <div class="row">
@@ -11,11 +12,10 @@
 
   <!-- left column, top column when mobile -->
   <div class="col-md-8 col-md-pull-4">
-    <h3>
-      <%= render partial: 'controls' %>
+    <div class="page-header">
       <%= raw badge "TestPlan", 'primary' %>
       <%= @test_plan.name %>
-    </h3>
+    </div>
 
     <div class="panel panel-default spacer">
       <div class="panel-body">
