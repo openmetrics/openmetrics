@@ -13,7 +13,7 @@ class TestPlansController < ApplicationController
   end
 
   def show
-    @test_plan = TestPlan.find(params[:id])
+    @test_plan = TestPlan.friendly.find(params[:id])
     @recent_test_executions = TestExecution.recent
     add_breadcrumb @test_plan.name, 'testplan'
   end

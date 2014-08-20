@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140808115113) do
+ActiveRecord::Schema.define(version: 20140820103237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,19 @@ ActiveRecord::Schema.define(version: 20140808115113) do
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
 
+  create_table "friendly_id_slugs", force: true do |t|
+    t.string   "slug",                      null: false
+    t.integer  "sluggable_id",              null: false
+    t.string   "sluggable_type", limit: 50
+    t.string   "scope"
+    t.datetime "created_at"
+  end
+
+  add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
   create_table "ip_lookup_results", force: true do |t|
     t.integer  "ip_lookup_id"
     t.text     "result"
@@ -42,6 +55,7 @@ ActiveRecord::Schema.define(version: 20140808115113) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
+    t.text     "scanresult"
     t.string   "job_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -107,7 +121,10 @@ ActiveRecord::Schema.define(version: 20140808115113) do
     t.string   "operating_system_flavour"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug"
   end
+
+  add_index "systems", ["slug"], name: "index_systems_on_slug", unique: true, using: :btree
 
   create_table "test_execution_items", force: true do |t|
     t.string   "format"
@@ -173,7 +190,10 @@ ActiveRecord::Schema.define(version: 20140808115113) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "base_url"
+    t.string   "slug"
   end
+
+  add_index "test_plans", ["slug"], name: "index_test_plans_on_slug", unique: true, using: :btree
 
   create_table "test_plans_test_items", force: true do |t|
     t.integer "test_plan_id"

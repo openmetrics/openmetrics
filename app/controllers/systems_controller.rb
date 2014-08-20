@@ -48,7 +48,7 @@ class SystemsController < ApplicationController
   end
 
   def show
-    @system = System.find(params[:id])
+    @system = System.friendly.find(params[:id])
   end
 
   def edit

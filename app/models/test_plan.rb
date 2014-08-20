@@ -7,4 +7,5 @@ class TestPlan < ActiveRecord::Base
   #TODO validate base_url to be there and valid url (?)
 
   include Trackable
+  include Sluggable
 end

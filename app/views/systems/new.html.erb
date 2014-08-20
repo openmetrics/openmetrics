@@ -41,7 +41,7 @@
       <div class="panel-body">
         <p>Here you can add a minimalistic System skeleton. Services and Metrics can be attached after successful creation.</p>
         <%= raw htmlform_for @system, {:html_class => 'spacer', :within_tab => true,
-                                       :except => [:id, :created_at, :updated_at, :operating_system, :operating_system_flavour],
+                                       :except => [:id, :slug, :created_at, :updated_at, :operating_system, :operating_system_flavour],
                                        :caption => t('om.views.system.new.html_input.caption'),
                                        :help_text => {:fqdn => t('om.views.system.new.html_input.help_text.fqdn'),
                                                       :name => t('om.views.system.new.html_input.help_text.name')},
