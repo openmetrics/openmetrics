@@ -1,6 +1,7 @@
 class System < ActiveRecord::Base
   include Trackable
   include Sluggable
+  include Exportable
 
   has_many :running_services
   has_many :services, :through => :running_services

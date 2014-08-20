@@ -61,6 +61,18 @@ Openmetrics::Application.routes.draw do
   # fileuploads
   resources :uploads
 
+  # API v1 routes
+  # http://jes.al/2013/10/architecting-restful-rails-4-api/
+  # http://andrewberls.com/blog/post/api-versioning-with-rails-4
+  constraints do
+    scope module: 'api' do
+      namespace :v1 do
+        resources :systems
+        resources :services
+      end
+    end
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
