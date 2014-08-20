@@ -26,24 +26,24 @@
 
         <!--generate a list of stdout, stderr and the markup (-file) -->
         <% if te.test_execution_items[n] %>
-            <ul class="items fa-ul spacer">
+            <ul class="items fa-ul">
               <!--in case of success show the output-->
-              <li class="stdout"><i class="fa-li fa fa-sign-out"></i>
+              <li class="stdout spacer"><i class="fa-li fa fa-sign-out"></i>
                 <%= te.test_execution_items[n] and te.test_execution_items[n].output.nil? ? coderay("STDOUT empty", "plain", "div") : coderay(te.test_execution_items[n].output, "plain", "div") %>
               </li>
 
               <!--in case of failure show the error message-->
-              <li class="stderr"><i class="fa-li fa fa-bug"></i>
+              <li class="stderr spacer"><i class="fa-li fa fa-bug"></i>
                 <%= te.test_execution_items[n] and te.test_execution_items[n].error.nil? ? coderay("STDERR empty", "plain", "div") : coderay(te.test_execution_items[n].error, te.test_execution_items[n].format, "div") %>
               </li>
 
               <%# display origin TestItem markup %>
-              <li class="markup_raw"><i class="fa-li fa fa-code"></i>
+              <li class="markup_raw spacer"><i class="fa-li fa fa-code"></i>
                 <%= coderay(te_item.markup, te_item.format, "div") %>
               </li>
 
               <%# display matching TestExecutionItem markup %>
-              <li class="markup"><i class="fa-li fa fa-file-code-o"></i>
+              <li class="markup spacer"><i class="fa-li fa fa-file-code-o"></i>
                 <span title="<%= te.test_execution_items[n].executable %>"><%= File.basename(te.test_execution_items[n].executable) %></span>
                 <%= coderay(te.test_execution_items[n].markup, te.test_execution_items[n].format, "div") %>
               </li>
