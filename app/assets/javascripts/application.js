@@ -23,6 +23,7 @@
 //= require i18n/translations
 //= require unobtrusive_flash
 //= require pnotify.custom.min
+//= require vis
 //= require jstree.min
 //= require search
 //= require jqCron
