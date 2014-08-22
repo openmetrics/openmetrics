@@ -5,12 +5,14 @@ $font-size-small: 12px;
 @import 'core/bootstrap';
 @import 'layout/fonts';
 @import 'layout/layout';
+@import 'jquery-ui';
 @import 'coderay';
 @import 'jstree/jstree';
 @import 'webtest';
 @import 'jqcron/jqCron';
 @import 'pnotify.custom.min';
 @import 'vis';
+@import 'ui.multiselect';
 
 /* searchbar should expand on focus */
 /*#main-search input {*/

@@ -48,10 +48,13 @@ class SystemsController < ApplicationController
 
   def show
     @system = System.friendly.find(params[:id])
+    add_breadcrumb @system.name, 'system'
   end
 
   def edit
-    @system = System.find(params[:id])
+    @system = System.friendly.find(params[:id])
+    add_breadcrumb "edit #{@system.name}", "system"
+    @services = Service.all
   end
 
   def update

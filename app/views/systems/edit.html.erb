@@ -1,4 +1,20 @@
 <div class="row">
+  <div class="col-lg-12">
+  <%= link_to 'Delete', @system, :confirm => 'Are you sure?', :method => :delete, :style => "float:left;", :class => "deleteSystemButton button" %>
+
+  <div style ="float:left; margin: 0 5px;"> | </div>
+  <%#= link_to 'Reboot', {:controller => "systems", :action => "reboot", :id => @system.id}, :method => :post, :confirm => 'Are you sure to reboot that system?',
+              :style => "float:left;", :id => "rebootSystemButton", :class => "button" %>
+  <a class="button" style="float: left">Reboot</a>
+  <div style ="float:left; margin:0 5px;"> | </div>
+  <%= link_to 'Back', @system, :style => "float:left;", :class => "backSystemButton button" %>
+
+  <div style ="float:left; margin:0 5px;"> | </div>
+  <%= link_to 'Save', "#", :style => "float:left;", :class => "saveSystemButton button" %>
+    </div>
+</div>
+
+<div class="row">
 
   <!-- left column -->
   <div class="col-md-6">
@@ -17,6 +33,7 @@
 
   <!-- right column -->
   <div class="col-md-6">
+    <%= render partial: 'running_services_edit' %>
     <p>Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.</p>
 
     <p>Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's
