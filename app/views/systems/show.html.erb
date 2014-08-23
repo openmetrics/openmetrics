@@ -48,7 +48,7 @@ $( document ).ready(function() {
         nodes: nodes,
         edges: edges
     };
-    var options = {};
+    var options = { height: '450px', navigation: true, keyboard: false};
     var network = new vis.Network(container, data, options);
 
 //    $.ajax({
@@ -66,8 +66,8 @@ $( document ).ready(function() {
 </script>
 
 <div class="row">
-  <div class="col-lg-12">
 
+  <div class="col-lg-12">
     <%= link_to 'Delete', @system, :confirm => 'Are you sure?', :method => :delete, :style => "float:left;", :id => "deleteSystemButton", :class => "button" %>
 
     <div style ="float:left; margin:0 5px;"> | </div>
@@ -85,12 +85,8 @@ $( document ).ready(function() {
 
   <!-- left column -->
   <div class="col-md-6">
-    <!-- system graph (will be filled by js) -->
-    <div class="panel panel-default">
-      <div class="panel-heading"><h5>Relations</h5></div>
-      <div class="panel-body"><div id="system-graph"></div></div>
-    </div>
-    <!-- tabs left -->
+    <h3>Metrics</h3>
+    <!-- metrics tabs left -->
     <div class="tabbable tabs-left">
       <ul class="nav nav-tabs">
         <li><a href="#a" data-toggle="tab">System Load</a></li>
@@ -108,22 +104,32 @@ $( document ).ready(function() {
     </div>
     <!-- /tabs -->
 
+
     <div class="clearfix"></div>
 
+    <p class="spacer">Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's
+      literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.</p>
 
+    <!-- timeline (will be filled by js) -->
+    <div class="panel panel-default spacer">
+      <div class="panel-heading"><h5>Events & Activity</h5></div>
+      <div class="panel-body"><div id="timeline"></div></div>
+    </div>
 
   </div>
 
   <!-- right column -->
   <div class="col-md-6">
 
-    <p>Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's
-      literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.</p>
+    <h3>Running Services</h3>
+    <%= render :partial => 'running_services', :collection => @system.running_services %>
 
-    <!-- timeline (will be filled by js) -->
-    <div class="panel panel-default">
-      <div class="panel-heading"><h5>Events & Activity</h5></div>
-      <div class="panel-body"><div id="timeline"></div></div>
+    <!-- system graph (will be filled by js) -->
+    <div class="clearfix"></div>
+    <div class="panel panel-default spacer">
+      <div class="panel-heading"><h5>Relations</h5></div>
+      <div class="panel-body"><div id="system-graph"></div></div>
     </div>
+
   </div>
 </div>

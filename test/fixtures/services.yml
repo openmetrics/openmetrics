@@ -1,33 +1,57 @@
 #  
-# collectd
+# misc
 #
 collectd:
   name: Collectd Server
+  daemon_name: collectd
   type: CollectdService
+  description: Collectd gathers statistics about the system it is running on
 
+ntpd:
+  name: Time Server
+  daemon_name: ntpd
+  type: NtpService
 
-#  
-# DNS
-#
 bind:
-  name: Berkeley Internet Name Domain Server
+  name: BIND
+  daemon_name: named
+  description: Berkeley Internet Name Daemon (BIND) DNS server
   type: DnsService
+
+#
+# DB
+#
+mysql:
+  name: MySQL DB
+  daemon_name: mysqld
+  description: MySQL database server
+
+postgres:
+  name: PostgreSQL DB
+  daemon_name: postgres
+  description: PostgreSQL database server
 
 
 #
 # HTTP
 #
 apache_httpd:
-  name: Apache HTTP Server
+  name: Apache HTTPD
+  daemon_name: httpd
   type: HttpService
+  description: Apache HTTP server (Web Server)
 
 nginx:
-  name: nginx
+  name: nginx HTTPD
+  daemon_name: nginx
+  description: Nginx HTTP server and IMAP/POP3 proxy server (Web Server)
   type: HttpService
 
 apache_tomcat:
   name: Apache Tomcat
+  daemon_name: tomcat
   type: HttpService
+  description: Tomcat is an open source HTTP server and servlet container
 
 jetty:
   name: Jetty
@@ -50,6 +74,8 @@ mongrel:
 #
 openssh:
   name: OpenSSH
+  daemon_name: sshd
+  description: OpenSSH (secure shell) daemon
   type: SshService
   
 freesshd:

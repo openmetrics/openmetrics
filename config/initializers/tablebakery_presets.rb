@@ -6,8 +6,8 @@ TABLEBAKERY_PRESETS = {
 
     },
     service: {
-        attr_ignore: %w( id updated_at created_at ),
-        attr_order:  %w( actions name type )
+        attr_ignore: %w( id init_name systemd_name updated_at created_at ),
+        attr_order:  %w( actions type name daemon_name description )
     },
     test_plan: {
         attr_ignore: %w( id slug updated_at created_at user_id ),

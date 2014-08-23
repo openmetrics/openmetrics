@@ -26,14 +26,15 @@ namespace :openmetrics do
     Rake::Task['db:reset'].invoke
     
     # create admin user
-    user = User.new()
+    user = User.new
     user.update_attributes!(:username => 'admin',
+                            :slug => 'adminuser', # admin would conflict with FriendlyId
                              :password => 'adminadmin',
                              :password_confirmation => 'adminadmin',
-                             :email => "admin@example.com")
+                             :email => 'admin@example.com')
     
     # create base system (localhost)
-    system = System.new()
+    system = System.new
     system.update_attributes!(:name => 'localhost',
                               :fqdn => Socket.gethostbyname(Socket.gethostname).first)
     
@@ -42,6 +43,21 @@ namespace :openmetrics do
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_items')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_plans')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'services')
+
+    #
+    # attach all services as running_services to base system
+    ss = Service.all
+    ss.each do |service|
+      rs = RunningService.new(
+        system: system,
+        service: service,
+        type: service.type,
+        description: 'test running service'
+      )
+      system.running_services << rs
+    end
+
+
  
     puts "#{'*'*(`tput cols`.to_i)}\nThe database has been populated!\n#{'*'*(`tput cols`.to_i)}"
     puts "Setup complete."

@@ -19,7 +19,7 @@
   <!-- left column -->
   <div class="col-md-6">
     <div class="panel panel-default">
-      <div class="panel-heading">Panel Title</div>
+      <div class="panel-heading"><%= @system.name %></div>
       <div class="panel-body">
         <%= raw htmlform_for @system, {:html_class => 'spacer', :within_tab => true,
                                        :except => [:id, :created_at, :updated_at, :operating_system, :operating_system_flavour],

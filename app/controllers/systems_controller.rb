@@ -58,7 +58,7 @@ class SystemsController < ApplicationController
   end
 
   def update
-    @system = System.find(params[:id])
+    @system = System.friendly.find(params[:id])
     if @system.update!(system_params)
       @system.create_activity :update, :owner => current_user
       flash[:success] = "System updated."
