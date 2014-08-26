@@ -16,29 +16,48 @@
 
 <div class="row">
 
-  <!-- left column -->
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading"><%= @system.name %></div>
-      <div class="panel-body">
-        <%= raw htmlform_for @system, {:html_class => 'spacer', :within_tab => true,
-                                       :except => [:id, :created_at, :updated_at, :operating_system, :operating_system_flavour],
-                                       :help_text => {:fqdn => t('om.views.system.new.html_input.help_text.fqdn'),
-                                                      :name => t('om.views.system.new.html_input.help_text.name')},
-                                       :submit_text => t('om.views.system.new.html_input.submit_text')
-        } %>
+  <!-- metrics tabs left -->
+  <div class="tabbable tabs">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#a" data-toggle="tab">Basic Information</a></li>
+      <li ><a href="#b" data-toggle="tab">Services and Relations</a></li>
+      <li><a href="#c" data-toggle="tab">Metrics</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="a">
+        <!-- left column -->
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading"><%= @system.name %></div>
+            <div class="panel-body">
+              <%= raw htmlform_for @system, {
+                      :except => [:id, :created_at, :updated_at, :operating_system, :operating_system_flavour],
+                      :help_text => {:fqdn => t('om.views.system.new.html_input.help_text.fqdn'),
+                                     :name => t('om.views.system.new.html_input.help_text.name')},
+                      :submit_text => t('om.views.system.new.html_input.submit_text')
+              } %>
+            </div>
+          </div>
+
+
+        </div>
+
+        <!-- right column -->
+        <div class="col-md-6">
+
+          <p>Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.</p>
+
+          <p>Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's
+            literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.</p>
+        </div>
+
       </div>
+      <div class="tab-pane" id="b"><%= render partial: 'running_services_edit' %></div>
+      <div class="tab-pane" id="c"><%= render partial: 'collectd_plugins_edit' %></div>
     </div>
   </div>
+  <!-- /tabs -->
 
-  <!-- right column -->
-  <div class="col-md-6">
-    <%= render partial: 'running_services_edit' %>
-    <p>Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.</p>
-
-    <p>Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's
-      literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.</p>
-  </div>
 
 </div>
 

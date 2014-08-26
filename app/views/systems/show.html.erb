@@ -124,6 +124,9 @@ $( document ).ready(function() {
     <h3>Running Services</h3>
     <%= render :partial => 'running_services', :collection => @system.running_services %>
 
+    <h3>Metrics</h3>
+    <%= render :partial => 'collectd_plugins' %>
+
     <!-- system graph (will be filled by js) -->
     <div class="clearfix"></div>
     <div class="panel panel-default spacer">

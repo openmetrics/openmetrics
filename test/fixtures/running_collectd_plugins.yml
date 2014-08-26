@@ -1,0 +1,33 @@
+# base system
+rcp1:
+  running_service: rs_collectd
+  collectd_plugin: cp_cpu
+
+rcp2:
+  running_service: rs_collectd
+  collectd_plugin: cp_load
+
+rcp3:
+  running_service: rs_collectd
+  collectd_plugin: cp_disk
+
+rcp4:
+  running_service: rs_collectd
+  collectd_plugin: cp_df
+
+rcp5:
+  running_service: rs_collectd
+  collectd_plugin: cp_memory
+
+rcp6:
+  running_service: rs_collectd
+  collectd_plugin: cp_vmem
+
+rcp7:
+  running_service: rs_collectd
+  collectd_plugin: cp_swap
+
+rcp8:
+  running_service: rs_collectd
+  collectd_plugin: cp_net_1
+

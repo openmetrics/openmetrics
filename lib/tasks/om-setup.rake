@@ -33,29 +33,29 @@ namespace :openmetrics do
                              :password_confirmation => 'adminadmin',
                              :email => 'admin@example.com')
     
-    # create base system (localhost)
-    system = System.new
-    system.update_attributes!(:name => 'localhost',
-                              :fqdn => Socket.gethostbyname(Socket.gethostname).first)
+
     
     # load fixtures
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_item_types')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_items')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_plans')
+    ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'systems')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'services')
+    ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'running_services')
+    ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'collectd_plugins')
+    ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'running_collectd_plugins')
 
-    #
-    # attach all services as running_services to base system
-    ss = Service.all
-    ss.each do |service|
-      rs = RunningService.new(
-        system: system,
-        service: service,
-        type: service.type,
-        description: 'test running service'
-      )
-      system.running_services << rs
-    end
+    # attach collectd services as running_services to base system
+    # ss = Service.find all
+    # ss.each do |service|
+    #   rs = RunningService.new(
+    #     system: system,
+    #     service: service,
+    #     type: service.type,
+    #     description: 'test running service'
+    #   )
+    #   system.running_services << rs
+    # end
 
 
  

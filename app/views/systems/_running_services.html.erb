@@ -1,7 +1,10 @@
 
   <div class="list-group running_service">
     <a href="/services/<%= running_services.service.id %>" class="list-group-item">
-      <h4 class="list-group-item-heading"><%= running_services.service.name %></h4>
+      <h4 class="list-group-item-heading">
+        <%= badge running_services.service.type, 'primary' %>
+        <%= running_services.service.name %>
+      </h4>
       <p class="list-group-item-text">
         <strong>Daemon: </strong><%= running_services.service.daemon_name %>
         <strong>FQDN: </strong><%= running_services.service.fqdn %>

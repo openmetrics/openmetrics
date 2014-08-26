@@ -37,6 +37,8 @@ Openmetrics::Application.routes.draw do
   resources :ssh_service, controller: 'services', type: 'ssh_service'
   resources :ntp_service, controller: 'services', type: 'ntp_service'
 
+  resources :collectd_plugins
+
 
   # webtest routes
   resources :webtests

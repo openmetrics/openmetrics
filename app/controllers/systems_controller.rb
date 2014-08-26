@@ -55,6 +55,7 @@ class SystemsController < ApplicationController
     @system = System.friendly.find(params[:id])
     add_breadcrumb "edit #{@system.name}", "system"
     @services = Service.all
+    @collectd_plugins = CollectdPlugin.all
   end
 
   def update
