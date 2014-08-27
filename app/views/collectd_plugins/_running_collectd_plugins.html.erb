@@ -1,0 +1,13 @@
+
+<div class="list-group running_service">
+  <a href="/systems/<%= rs.system.id %>" class="list-group-item" title="Show">
+    <h5 class="list-group-item-heading">
+      <%= badge "SYS-#{rs.system.id}", 'primary' %>
+      <%= rs.system.name %>
+    </h5>
+    <p class="list-group-item-text">
+      <strong>FQDN: </strong><%= rs.service.fqdn %>
+      <%= rs.description %>
+    </p>
+  </a>
+</div>

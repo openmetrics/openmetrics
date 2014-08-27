@@ -1,0 +1,18 @@
+<div class="row">
+
+  <!-- left column -->
+  <div class="col-md-6">
+    <h3>
+      <%= badge "CP-#{@plugin.id}" %> <%=@plugin.name%>
+    </h3>
+    <p><%=@plugin.description%></p>
+    <pre><%=@plugin.configuration%></pre>
+  </div>
+
+  <!-- right column -->
+  <div class="col-md-6">
+    <h3>Systems & Services</h3>
+    <%= render :partial => 'running_collectd_plugins', :collection => @plugin.running_services, :as => :rs %>
+  </div>
+
+</div>
