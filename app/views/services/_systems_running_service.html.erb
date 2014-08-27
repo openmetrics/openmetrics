@@ -1,7 +1,10 @@
 
 <div class="list-group running_service">
-  <a href="/systems/<%= systems_running_service.system.id %>" class="list-group-item" title="Show">
-    <h4 class="list-group-item-heading"><%= systems_running_service.system.name %></h4>
+  <a href="<%= url_for :controller => 'systems', :action => 'show', :id => systems_running_service.system.id %>" class="list-group-item" title="Show">
+    <h5 class="list-group-item-heading">
+      <%= badge "SYS-#{systems_running_service.system.id}", 'primary' %>
+      <%= systems_running_service.system.name %>
+    </h5>
     <p class="list-group-item-text">
       <strong>FQDN: </strong><%= systems_running_service.service.fqdn %>
       <%= systems_running_service.description %>

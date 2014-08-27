@@ -1,6 +1,7 @@
 class ServicesController < ApplicationController
   def show
     @service = Service.find(params[:id])
+    add_breadcrumb @service.name, 'service'
   end
 
   def index

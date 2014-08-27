@@ -20,6 +20,10 @@ class CollectdPluginsController < ApplicationController
     end
   end
 
+  def show
+    @plugin = CollectdPlugin.find(params[:id], :include => :running_collectd_plugins )
+  end
+
   def edit
     @plugin = CollectdPlugin.find(params[:id], :include => :running_collectd_plugins )
     @systems_with_plugin = []

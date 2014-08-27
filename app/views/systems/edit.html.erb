@@ -1,29 +1,28 @@
+<%= javascript 'systems' %>
+
 <div class="row">
-  <div class="col-lg-12">
-  <%= link_to 'Delete', @system, :confirm => 'Are you sure?', :method => :delete, :style => "float:left;", :class => "deleteSystemButton button" %>
-
-  <div style ="float:left; margin: 0 5px;"> | </div>
-  <%#= link_to 'Reboot', {:controller => "systems", :action => "reboot", :id => @system.id}, :method => :post, :confirm => 'Are you sure to reboot that system?',
-              :style => "float:left;", :id => "rebootSystemButton", :class => "button" %>
-  <a class="button" style="float: left">Reboot</a>
-  <div style ="float:left; margin:0 5px;"> | </div>
-  <%= link_to 'Back', @system, :style => "float:left;", :class => "backSystemButton button" %>
-
-  <div style ="float:left; margin:0 5px;"> | </div>
-  <%= link_to 'Save', "#", :style => "float:left;", :class => "saveSystemButton button" %>
-    </div>
+  <h3>
+    <%= badge "SYS-#{@system.id}" %> <%= @system.name %>
+    <!--subnav-->
+      <span class="btn-group pull-right">
+        <%= link_to raw('<span class="glyphicon glyphicon-remove"></span> Delete'), @system, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-danger' %>
+        <%= link_to 'Back', @system, :class => 'btn btn-default' %>
+        <%= link_to 'Save', edit_system_path(@system), :class => 'btn btn-default' %>
+      </span>
+  </h3>
 </div>
 
 <div class="row">
 
   <!-- metrics tabs left -->
-  <div class="tabbable tabs">
+  <div class="tabbable tabs spacer">
+
     <ul class="nav nav-tabs">
       <li class="active"><a href="#a" data-toggle="tab">Basic Information</a></li>
-      <li ><a href="#b" data-toggle="tab">Services and Relations</a></li>
+      <li><a href="#b" data-toggle="tab">Services and Relations</a></li>
       <li><a href="#c" data-toggle="tab">Metrics</a></li>
     </ul>
-    <div class="tab-content">
+    <div class="tab-content spacer">
       <div class="tab-pane active" id="a">
         <!-- left column -->
         <div class="col-md-6">
@@ -44,17 +43,14 @@
 
         <!-- right column -->
         <div class="col-md-6">
-
           <p>Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.</p>
-
-          <p>Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's
-            literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.</p>
         </div>
 
       </div>
       <div class="tab-pane" id="b"><%= render partial: 'running_services_edit' %></div>
       <div class="tab-pane" id="c"><%= render partial: 'collectd_plugins_edit' %></div>
     </div>
+
   </div>
   <!-- /tabs -->
 

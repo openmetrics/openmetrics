@@ -1,14 +1,17 @@
 <%#* included from systems/show.html.erb%>
 <% @system.running_services.each do |rs| %>
+    <div class="list-group">
+    <%= badge "RS-#{rs.id}", 'primary' %>
     <%= rs.service.name %>
+    </div>
     <div class="list-group running_collectd_plugin">
       <% rcps = RunningCollectdPlugin.where(running_service_id: rs.id) %>
       <% rcps.each do |rcp| %>
-        <a href="/running_collectd_plugins/<%= rcp.collectd_plugin.id %>" class="list-group-item">
-          <h4 class="list-group-item-heading">
+        <a href="<%= url_for :controller => 'collectd_plugins', :action => 'show', :id =>  rcp.collectd_plugin.id %>" class="list-group-item">
+          <h5 class="list-group-item-heading">
             <%= badge "CP-#{rcp.collectd_plugin.id}", 'primary' %>
             <%= rcp.collectd_plugin.name %>
-          </h4>
+          </h5>
           <!--<p class="list-group-item-text">-->
             <!--<%= rcp.collectd_plugin.configuration %>-->
           <!--</p>-->

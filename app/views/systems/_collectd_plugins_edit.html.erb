@@ -23,53 +23,14 @@ div#enabled_collectd_plugins_lists_container ul li { margin: 5px 10px; }
 
 </style>
 
-<script type="text/javascript">
-  j(document).ready(function($) {
-    $("#collectd_plugins_list li").draggable( {
-      helper: "clone",
-      appendTo: "body",
-      revert: "invalid"
-    });
-
-    $( "#enabled_collectd_plugins_lists_container ul" ).droppable({
-        tolerance: "pointer",
-        activeClass: "ui-state-default",
-        hoverClass: "ui-state-hover",
-        accept: 'li.collectd-plugin',
-        placeholder: $( this ).find( "li.placeholder" ),
-        drop: function( event, ui ) {
-                $( this ).find( "li.placeholder" ).hide();
-                var li = $( '<li class="ui-state-active ui-helper-clearfix collectd-plugin"></li>' );
-                li.attr("collectd_plugin", ui.draggable.attr("collectd_plugin"));
-                $( '<span class="left-floating"></span>' ).text( ui.draggable.text()).appendTo( li );
-                $( '<span class="ui-icon ui-icon-close right-floating" title="Remove"></span>' ).appendTo( li );
-                li.appendTo( this );
-                
-                setAlertForSaveButton();
-        }
-    });
-
-    $( '#enabled_collectd_plugins_lists_container ul li span.ui-icon-close.right-floating' ).live("click", function() {
-        var ul = $(this).parent("li").parent("ul");
-        if ($(this).parent("li").is(".enabled"))
-          $(this).parent("li").addClass("disabled").hide();
-        else
-          $(this).parent("li").remove();
-        if (ul.find("li:not(.disabled)").size() < 2)
-          ul.find( "li.placeholder" ).show();
-
-        setAlertForSaveButton();
-    });
-  });
-</script>
+<h4>Available plugins:</h4>
 <div id="enabledCollectdPluginsContainer" class="ui-helper-clearfix">
   <div style="clear:both;"></div>
   <%#*here we want to have a list of all available collectd_plugins%>
   <div id="collectd_plugins_list_container">
-      <h4>Available plugins:</h4>
       <ul id="collectd_plugins_list">
         <% @collectd_plugins.each do |plugin|  %>
-          <li class="collectd-plugin ui-state-default" collectd_plugin="<%= plugin.id %>" ><span class="ui-icon ui-icon-arrow-4"></span><%= plugin.name %></li>
+          <li class="collectd-plugin ui-state-default" data-collectd_plugin="<%= plugin.id %>" ><span class="ui-icon ui-icon-arrow-4"></span><%= plugin.name %></li>
         <% end %>
       </ul>
   </div>
@@ -77,20 +38,21 @@ div#enabled_collectd_plugins_lists_container ul li { margin: 5px 10px; }
 
   <%#*every running service should provide a drop-zone for the collectd_plugins%>
   <div id="enabled_collectd_plugins_lists_container">
-    <h4>Running service attached plugins:</h4>
+    <h4>Running services with their attached plugins:</h4>
     <% @system.running_services.each do |rs| %>
-      <ul running_service="<%= rs.id %>">
-        <h4><%= rs.service.name %></h4>
-        <% rcps = RunningCollectdPlugin.find :all, :conditions => {:running_service_id => rs.id}, :include => :collectd_plugin %>
-        <% rcps.each do |rcp| %>
-          <li class="ui-state-active ui-helper-clearfix enabled" running_collectd_plugin="<%= rcp.id %>">
-            <%= badge "CP-#{rcp.collectd_plugin.id}", 'primary' unless rcp.collectd_plugin.nil? %>
-            <%= rcp.collectd_plugin.name unless rcp.collectd_plugin.nil? %>
-            <span class="ui-icon ui-icon-close right-floating" title="Remove"></span>
-          </li>
-        <% end %>
-          <li class="ui-state-highlight placeholder"><span class="ui-icon ui-icon-plus" title="Drop here"></span>Drop here</li>
-      </ul>
+          <h4><%= rs.service.name %></h4>
+
+          <ul class="list-group" data-running_service="<%= rs.id %>">
+            <% rcps = RunningCollectdPlugin.find :all, :conditions => {:running_service_id => rs.id}, :include => :collectd_plugin %>
+            <% rcps.each do |rcp| %>
+              <li class="enabled list-group-item" data-running_collectd_plugin="<%= rcp.id %>">
+                <%= badge "CP-#{rcp.collectd_plugin.id}", 'primary' unless rcp.collectd_plugin.nil? %>
+                <%= rcp.collectd_plugin.name unless rcp.collectd_plugin.nil? %>
+                <span class="ui-icon ui-icon-close right-floating" title="Remove"></span>
+              </li>
+            <% end %>
+              <li class="ui-state-highlight placeholder"><span class="ui-icon ui-icon-plus" title="Drop here"></span>Drop here</li>
+          </ul>
     <% end %>
   </div>
 </div>
