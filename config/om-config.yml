@@ -1,0 +1,17 @@
+development: &default
+  om:
+    collectd:
+      socket_path: /var/run/collectd-socket
+  api:
+    base_url: http://localhost/v1
+    token: YTBkYmIzZWUxZWE2MmRiNWZlOTQyNjQ3YjAyYmZmMDIxOTEwZmJmNzM1NjNmMmE4MDA2MWFkOTEyZTlhMTM2OQ
+    https: false
+    basic_auth: true
+    basic_auth_user: user-user
+    basic_auth_pass: auth-pass
+
+test:
+  <<: *default
+
+production:
+  <<: *default
