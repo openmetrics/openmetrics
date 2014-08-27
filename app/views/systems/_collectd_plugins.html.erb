@@ -2,7 +2,7 @@
 <% @system.running_services.each do |rs| %>
     <%= rs.service.name %>
     <div class="list-group running_collectd_plugin">
-      <% rcps = RunningCollectdPlugin.find :all, :conditions => {:running_service_id => rs.id}, :include => :collectd_plugin %>
+      <% rcps = RunningCollectdPlugin.where(running_service_id: rs.id) %>
       <% rcps.each do |rcp| %>
         <a href="/running_collectd_plugins/<%= rcp.collectd_plugin.id %>" class="list-group-item">
           <h4 class="list-group-item-heading">
