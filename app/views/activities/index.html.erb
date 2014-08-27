@@ -1,17 +1,26 @@
-<h1>Activities</h1>
+<h3>Activities</h3>
 
+<div class="timeline-centered">
 <% @activities.each do |activity| %>
 
-    <div class="activity">
-      <%#= activity.inspect %>
-      <%= link_to activity.owner.username if activity.owner %>
-      <%= render_activity(activity, layout: 'activity', fallback: 'default') %>
+  <article class="timeline-entry">
+    <div class="timeline-entry-inner">
+      <div class="timeline-icon" style="background: #fff url(<%= gravatar_image_url(activity.owner.email, size: 40) %>) center center no-repeat;"> <!-- you can use e.g. bg-info here to make it a colorized circle -->
+        <i class="entypo-feather"></i>
+      </div>
+      <div class="timeline-label">
+        <h2>
+          <%= link_to activity.owner.username, activity.owner if activity.owner %>
+          <span><%= render_activity(activity, layout: 'activity', fallback: 'default') %></span>
+        </h2>
+         <p><%= activity.inspect %></p>
+      </div>
     </div>
+  </article>
 
 <% end %>
 
 
-<div class="timeline-centered">
 
   <article class="timeline-entry">
     <div class="timeline-entry-inner">

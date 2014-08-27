@@ -276,14 +276,14 @@ img {
     margin-bottom: 10px;
 }
 
-.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 a {
-    color: #303641;
-}
+/*.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 a {*/
+    /*color: #303641;*/
+/*}*/
 
-.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 span {
-    -webkit-opacity: .6;
-    -moz-opacity: .6;
-    opacity: .6;
-    -ms-filter: alpha(opacity=60);
-    filter: alpha(opacity=60);
-}
+/*.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 span {*/
+    /*-webkit-opacity: .6;*/
+    /*-moz-opacity: .6;*/
+    /*opacity: .6;*/
+    /*-ms-filter: alpha(opacity=60);*/
+    /*filter: alpha(opacity=60);*/
+/*}*/
