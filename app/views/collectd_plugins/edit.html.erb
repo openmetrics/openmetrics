@@ -1,0 +1,71 @@
+<script type="text/javascript">
+  $j(document).ready(function($) {
+    $j(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
+    .find(".portlet-header")
+    .addClass("ui-widget-header ui-corner-all")
+    .prepend('<span class="ui-icon ui-icon-minusthick"></span>')
+    .end()
+    .find(".portlet-content");
+
+    //$j(".portlet-header .ui-icon").css("margins", "3px");
+    $j(".portlet-header").css("padding", "4px");
+    $j(".portlet-header")
+    .css("cursor", "pointer")
+    .click(function() {
+      $j(this).children(".ui-icon").toggleClass("ui-icon-minusthick").toggleClass("ui-icon-plusthick");
+      $j(this).parents(".portlet:first").find(".portlet-content").toggle();
+    });
+    
+    // preface system links with image
+    $j('div#systemsRcp div.portlet-content p a').prepend('<img style="vertical-align:middle; margin-right:2px;" src="/images/noun_icons/'+iconColor+'/16x16/eye.png" />')
+  });  
+</script>
+
+
+<h1>Edit collectd plugin</h1>
+
+<%#= error_messages_for :collectd_plugin %>
+
+<!-- LEFT Column -->
+  <div style="float:left; margin-top: 0px; margin-left: 0px; margin-right: 20px;" >
+    
+    <div id="configuration" class="portlet" style="width: 450px;  margin-right: 0px; margin-bottom: 10px; padding:10px;">
+      <div class="portlet-header">Plugin configuration</div>
+      <div class="portlet-content">
+        <% form_for @plugin do |f| -%>
+          <p><%= label_tag 'Name' %><br/>
+          <%= f.text_field :name %></p>
+
+          <p class="ui-corner-all ui-state-highlight" style="margin-top: 20px; padding: .7em .7em;">
+            <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+            Placeholders for system variables (like ${foo}) and system attributes, e.g. ${ATTR:fqdn}, ${ATTR:ip} or ${ATTR:name} are going to be substituted.
+          </p>
+
+          <p><%= label_tag 'Configuration' %><br/>
+            <%= f.text_area(:configuration, :cols => 40, :rows => 15) %>
+          </p>
+
+          <p><%= submit_tag 'Save' %></p>
+        <% end -%>
+      </div>
+    </div>
+  
+  </div> <!-- end left column -->
+  
+  
+<!-- RIGHT Column -->
+  <div style="float:left; margin-top: 0px;" >
+    
+    <div id="systemsRcp" class="portlet" style="width: 385px;  margin-right: 0px; margin-bottom: 10px; padding:10px;">
+      <div class="portlet-header">Systems running that plugin</div>
+      <div class="portlet-content">
+        <p>
+          <% @systems_with_plugin.each do |system| %>
+            <%= link_to "#{system.name}", system %><br/>
+          <% end %>
+        </p>
+      </div>
+    </div>
+    
+    
+  </div> <!-- end right column -->

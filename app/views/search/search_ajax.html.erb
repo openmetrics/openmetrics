@@ -1,7 +1,7 @@
-<%#*you are in a div with id ajax_search_result here, see search/_input.html.erb%>
+<%#*you are in a div with id ajax_search_result here, also see static results page in search/_input.html.erb%>
 
 <div>
-  <% if @systems %>
+  <% if @systems.size > 0 %>
       <div style='padding: 5px 0px; font-size: 12px;'>
         <p class="ui-state-default" style="padding:2px;">Systems (<%= @systems.size %> found)</p>
         <% for @system in @systems[0..3] %>
@@ -27,23 +27,20 @@
       </div>
   <% end %>
 
-  <% if @services %>
+  <% if @services.size > 0 %>
       <div style='padding: 5px 0px; font-size: 12px;'>
         <p class="ui-state-default">Services (<%= @services.size %> found)</p>
         <% for @service in @services[0..3] %>
             <%
                @service.name = @service.name.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @service.name
-               @service.dns_name = @service.dns_name.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @service.dns_name
                @service.type = @service.type.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @service.type
-               @service.typ = @service.typ.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @service.type
                @service.description = @service.description.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @service.description
             %>
             <p style='padding: 2px 5px; font-size: 11px; border-bottom: 1px solid #ddd'>
-              <a href="/services/<%= @service.id %>" title="Show">
-                <b>Name:&nbsp;</b><%= @service.name %>...
-                <b>DNS&nbsp;name:&nbsp;</b><%= @service.dns_name %>...
-                <b>Typ:&nbsp;</b><%= @service.typ %>...
-                <b>Description:&nbsp;</b><%= @service.description %>
+              <a href="/services/<%= raw @service.id %>" title="Show">
+                <b>Name:&nbsp;</b><%= raw @service.name %>...
+                <b>Type:&nbsp;</b><%= raw @service.type %>...
+                <b>Description:&nbsp;</b><%= raw @service.description %>
               </a>
             </p>
         <% end %>

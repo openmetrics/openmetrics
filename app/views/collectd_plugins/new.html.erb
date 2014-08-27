@@ -1,0 +1,18 @@
+<h1>Create new collectd plugin</h1>
+
+<%= error_messages_for :collectd_plugin %>
+
+<% form_for :collectd_plugin, :url => collectd_plugins_path do |f| -%>
+  <p><%= label_tag 'Name' %><br/>
+  <%= f.text_field :name %></p>
+
+  <p><%= label_tag 'configuration' %></p>
+  <p class="ui-corner-all ui-state-highlight" style="margin-top: 20px; padding: .7em .7em;">
+    <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+    Placeholders for system variables (like ${foo}) and system attributes, e.g. ${ATTR:fqdn}, ${ATTR:ip} or ${ATTR:name} are going to be substituted.
+  </p>
+  <%= f.text_area(:configuration, :cols => 80, :rows => 20) %>
+
+
+  <p><%= submit_tag 'Create' %></p>
+<% end -%>

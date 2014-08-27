@@ -12,6 +12,7 @@
 //
 //= require jquery-2.1.0.min.js
 // require jquery.turbolinks
+//= require jquery-ui-1.11.1.min
 //= require jquery_ujs
 //= require jquery-fileupload/basic
 //= require jquery-fileupload/vendor/tmpl
@@ -31,12 +32,13 @@
 //= require ace/ace
 //= require ace/mode-html
 //= require ace/theme-github
+//= require ui.multiselect
 ////= require turbolinks
 
 /* flash handler */
 flashHandler = function(e, params) {
     console.log('Received flash message "'+params.message+'" of type '+params.type);
-    //notify(params.message, params.type);
+    notify(params.message, params.type);
 };
 $(window).bind('rails:flash', flashHandler);
 

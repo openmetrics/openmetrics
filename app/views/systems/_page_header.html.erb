@@ -1,0 +1,17 @@
+
+
+<div class="btn-group">
+
+  <%= link_to(raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), edit_test_plan_path(@test_plan), :class => 'btn btn-default') %>
+
+  <button class="btn btn-default run_test_plan" data-id="<%= @test_plan.id %>">
+    <i class="fa fa-play"></i>
+    Run now
+  </button>
+
+  <button class="btn btn-default run_options" data-placement="bottom">
+    <i class="glyphicon glyphicon-cog"></i>
+  </button>
+
+  <!--add help for cron syntax, may copy from http://help.sap.com/saphelp_xmii120/helpdata/en/44/89a17188cc6fb5e10000000a155369/content.htm-->
+</div>

@@ -1,0 +1,14 @@
+<h3>Collectd Plugins Configuration</h3>
+<ul>
+  <% @plugins.each do |plugin| %>
+   <li>
+     <strong><%= plugin.name %></strong>
+     <br>
+     <pre><%= plugin.configuration %></pre>
+      <%= link_to "Edit", edit_collectd_plugin_path(plugin)%>
+      <%= link_to 'Delete', plugin, :confirm => 'Delete collectd plugin?', :method => :delete %>
+   </li>
+  <% end %>
+</ul>
+
+<%= link_to "<span class=\"ui-icon ui-icon-circle-arrow-e inline-ui-icon\"></span> Add new plugin!", new_collectd_plugin_path %>

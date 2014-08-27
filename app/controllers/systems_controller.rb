@@ -48,14 +48,18 @@ class SystemsController < ApplicationController
 
   def show
     @system = System.friendly.find(params[:id])
+    add_breadcrumb @system.name, 'system'
   end
 
   def edit
-    @system = System.find(params[:id])
+    @system = System.friendly.find(params[:id])
+    add_breadcrumb "edit #{@system.name}", "system"
+    @services = Service.all
+    @collectd_plugins = CollectdPlugin.all
   end
 
   def update
-    @system = System.find(params[:id])
+    @system = System.friendly.find(params[:id])
     if @system.update!(system_params)
       @system.create_activity :update, :owner => current_user
       flash[:success] = "System updated."

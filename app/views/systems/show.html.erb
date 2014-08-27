@@ -42,13 +42,13 @@ $( document ).ready(function() {
         {from: 2, to: 5}
     ];
 
-    // create a network graph
+    // create a network
     var container = document.getElementById('system-graph');
     var data = {
         nodes: nodes,
         edges: edges
     };
-    var options = {height: '250px', navigation: true };
+    var options = { height: '450px', navigation: true, keyboard: false};
     var network = new vis.Network(container, data, options);
 
 //    $.ajax({
@@ -65,60 +65,74 @@ $( document ).ready(function() {
 });
 </script>
 
+<div class="row">
+
+  <div class="col-lg-12">
+    <%= link_to 'Delete', @system, :confirm => 'Are you sure?', :method => :delete, :style => "float:left;", :id => "deleteSystemButton", :class => "button" %>
+
+    <div style ="float:left; margin:0 5px;"> | </div>
+    <%#= link_to 'Reboot', {:controller => "systems", :action => "reboot", :id => @system.id}, :method => :post, :confirm => 'Are you sure to reboot that system?',
+                   :style => "float:left;", :id => "rebootSystemButton", :class => "button" %>
+    <a class="button" style="float: left">Reboot</a>
+    <div style ="float:left; margin: 0 5px;"> | </div>
+    <%= link_to 'Edit', edit_system_path(@system), :style => "float:left;", :id => "editSystemButton", :class => "button" %>
+
+  </div>
+</div>
+
 
 <div class="row">
 
   <!-- left column -->
-  <div class="col-md-8">
-
-    <!-- tabs left -->
-    <div class="panel panel-default">
-      <div class="panel-heading"><strong>Metrics</strong></div>
-      <div class="panel-body">
-        <div class="tabbable tabs-left">
-          <ul class="nav nav-tabs">
-            <li><a href="#a" data-toggle="tab">System Load</a></li>
-            <li class="active"><a href="#b" data-toggle="tab">Two</a></li>
-            <li><a href="#c" data-toggle="tab">Twee</a></li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="a">Lorem ipsum dolor sit amet, charetra varius quam sit amet vulputate.
-              Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero.</div>
-            <div class="tab-pane" id="b">Secondo sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan.
-              Aliquam in felis sit amet augue.</div>
-            <div class="tab-pane" id="c">Thirdamuno, ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate.
-              Quisque mauris augue, molestie tincidunt condimentum vitae. </div>
-          </div>
-        </div>
-        <!-- /tabs -->
-        </div>
+  <div class="col-md-6">
+    <h3>Metrics</h3>
+    <!-- metrics tabs left -->
+    <div class="tabbable tabs-left">
+      <ul class="nav nav-tabs">
+        <li><a href="#a" data-toggle="tab">System Load</a></li>
+        <li class="active"><a href="#b" data-toggle="tab">Two</a></li>
+        <li><a href="#c" data-toggle="tab">Twee</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="a">Lorem ipsum dolor sit amet, charetra varius quam sit amet vulputate.
+          Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero.</div>
+        <div class="tab-pane" id="b">Secondo sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan.
+          Aliquam in felis sit amet augue.</div>
+        <div class="tab-pane" id="c">Thirdamuno, ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate.
+          Quisque mauris augue, molestie tincidunt condimentum vitae. </div>
+      </div>
     </div>
+    <!-- /tabs -->
+
 
     <div class="clearfix"></div>
 
-    <!-- system graph (will be filled by js) -->
-    <div class="panel panel-default">
-      <div class="panel-heading"><strong>Relations</strong></div>
-      <div class="panel-body"><div id="system-graph"></div></div>
+    <p class="spacer">Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's
+      literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.</p>
+
+    <!-- timeline (will be filled by js) -->
+    <div class="panel panel-default spacer">
+      <div class="panel-heading"><h5>Events & Activity</h5></div>
+      <div class="panel-body"><div id="timeline"></div></div>
     </div>
-
-
 
   </div>
 
   <!-- right column -->
-  <div class="col-md-4">
+  <div class="col-md-6">
 
-    <p>Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's
-      literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.</p>
+    <h3>Running Services</h3>
+    <%= render :partial => 'running_services', :collection => @system.running_services %>
 
-    <!-- timeline (will be filled by js) -->
-    <div class="panel panel-default">
-      <div class="panel-heading"><strong>Events & Activity</strong></div>
-      <div class="panel-body"><div id="timeline"></div></div>
+    <h3>Metrics</h3>
+    <%= render :partial => 'collectd_plugins' %>
+
+    <!-- system graph (will be filled by js) -->
+    <div class="clearfix"></div>
+    <div class="panel panel-default spacer">
+      <div class="panel-heading"><h5>Relations</h5></div>
+      <div class="panel-body"><div id="system-graph"></div></div>
     </div>
-
-    <p>Helvetica reprehenderit iPhone, aesthetic 90's literally chambray bicycle rights viral blog voluptate.</p>
 
   </div>
 </div>

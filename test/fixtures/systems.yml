@@ -1,0 +1,4 @@
+# create base system (localhost)
+localhost:
+  name: localhost
+  fqdn: <%= Socket.gethostbyname(Socket.gethostname).first %>

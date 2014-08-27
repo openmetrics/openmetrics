@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140820103237) do
+ActiveRecord::Schema.define(version: 20140826183252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,17 @@ ActiveRecord::Schema.define(version: 20140820103237) do
   add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
+
+  create_table "collect_plugins", force: true do |t|
+    t.string "name"
+    t.text   "configuration"
+  end
+
+  create_table "collectd_plugins", force: true do |t|
+    t.string "name"
+    t.text   "configuration"
+    t.text   "description"
+  end
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
@@ -55,7 +66,6 @@ ActiveRecord::Schema.define(version: 20140820103237) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
-    t.text     "scanresult"
     t.string   "job_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -65,6 +75,11 @@ ActiveRecord::Schema.define(version: 20140820103237) do
     t.integer  "status"
   end
 
+  create_table "running_collectd_plugins", force: true do |t|
+    t.integer "collectd_plugin_id"
+    t.integer "running_service_id"
+  end
+
   create_table "running_services", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -72,6 +87,7 @@ ActiveRecord::Schema.define(version: 20140820103237) do
     t.integer  "system_id"
     t.integer  "service_id"
     t.text     "description"
+    t.string   "fqdn"
   end
 
   create_table "services", force: true do |t|
@@ -79,6 +95,11 @@ ActiveRecord::Schema.define(version: 20140820103237) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "type"
+    t.text     "description"
+    t.string   "daemon_name"
+    t.string   "init_name"
+    t.string   "systemd_name"
+    t.string   "fqdn"
   end
 
   create_table "sessions", force: true do |t|
