@@ -1,5 +1,4 @@
 
-  <div class="list-group running_service">
     <a href="/services/<%= rs.service.id %>" class="list-group-item">
       <h5 class="list-group-item-heading">
         <%= badge "SVC-#{rs.service.id}", 'primary' %>
@@ -10,4 +9,3 @@
         <%= "<strong>FQDN: </strong>#{rs.service.fqdn}" unless rs.service.fqdn.nil? %>
       </p>
     </a>
-  </div>

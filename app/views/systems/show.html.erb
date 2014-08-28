@@ -102,30 +102,30 @@ $( document ).ready(function() {
 
     <div class="clearfix"></div>
 
-    <p class="spacer">Wayfarers selvage YOLO, commodo assumenda eu est bespoke mlkshk. Helvetica reprehenderit iPhone, aesthetic 90's
-      literally chambray bicycle rights viral blog voluptate. Occupy bespoke stumptown duis keytar vero.</p>
 
-    <!-- timeline (will be filled by js) -->
-    <div class="panel panel-default spacer">
-      <div class="panel-heading"><h5>Events & Activity</h5></div>
-      <div class="panel-body"><div id="timeline"></div></div>
-    </div>
+    <h3 class="spacer">Metric Plugins</h3>
+    <%= render :partial => 'collectd_plugins' %>
 
   </div>
 
   <!-- right column -->
   <div class="col-md-6">
 
-    <h3>Running Services</h3>
-    <%= render :partial => 'running_services', :collection => @system.running_services, :as => :rs %>
+    <!-- timeline (will be filled by js) -->
+    <h3>Events <small>(Changes, Alerts, Activities...)</small></h3>
+    <div class="panel panel-default">
+      <div class="panel-body"><div id="timeline"></div></div>
+    </div>
 
-    <h3>Metrics</h3>
-    <%= render :partial => 'collectd_plugins' %>
+    <h3 class="spacer">Running Services</h3>
+    <div class="list-group running_service">
+        <%= render :partial => 'running_services', :collection => @system.running_services, :as => :rs %>
+    </div>
 
     <!-- system graph (will be filled by js) -->
+    <h3 class="spacer">Relations</h3>
     <div class="clearfix"></div>
-    <div class="panel panel-default spacer">
-      <div class="panel-heading"><h5>Relations</h5></div>
+    <div class="panel panel-default ">
       <div class="panel-body"><div id="system-graph"></div></div>
     </div>
 
