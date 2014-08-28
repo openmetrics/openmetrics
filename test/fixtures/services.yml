@@ -1,6 +1,14 @@
 #  
 # misc
 #
+om_server:
+  name: Openmetrics Server
+  description: Openmetrics UI
+
+om_client:
+  name: Openmetrics Client
+  description: Openmetrics client
+
 collectd:
   name: Collectd Server
   daemon_name: collectd

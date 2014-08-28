@@ -1,6 +1,12 @@
 # base system
-rs_collectd:
-  service: collectd
+rs_om_server:
+  service: om_server
   system: localhost
   description: The Openmetrics server itself.
+  fqdn: <%= Socket.gethostbyname(Socket.gethostname).first %>
+
+rs_om_client:
+  service: om_client
+  system: localhost
+  description: Gathers statistics and data of interest.
   fqdn: <%= Socket.gethostbyname(Socket.gethostname).first %>
