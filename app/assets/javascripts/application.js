@@ -42,7 +42,7 @@ flashHandler = function(e, params) {
 };
 $(window).bind('rails:flash', flashHandler);
 
-// display notifications (currently with pnotify)
+// display visual ui notifications (currently with pnotify)
 function notify(message, severity, title) {
     var title = typeof title !== 'undefined' ? title : null;
     var severity = typeof severity !== 'undefined' ? severity : 'notice';
@@ -79,6 +79,18 @@ function notify(message, severity, title) {
 
     new PNotify(opts);
 
+}
+
+
+// find link/button of class .save and add a alert icon
+function setAlertForSaveButton() {
+    var button = $('.save');
+    var icon = $('<span id="save-alert" class="fa fa-exclamation-triangle"></span>');
+
+    // only set image if there isn't already one
+    if (button.children('#save-alert').length == 0) {
+        icon.prependTo(button);
+    }
 }
 
 

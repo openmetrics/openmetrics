@@ -43,7 +43,8 @@ div#enabled_collectd_plugins_lists_container ul li { margin: 5px 10px; }
           <h4><%= rs.service.name %></h4>
 
           <ul class="list-group" data-running_service="<%= rs.id %>">
-            <% rcps = RunningCollectdPlugin.find :all, :conditions => {:running_service_id => rs.id}, :include => :collectd_plugin %>
+            <%# rcps = RunningCollectdPlugin.find :all, :conditions => {:running_service_id => rs.id}, :include => :collectd_plugin %>
+            <% rcps = RunningCollectdPlugin.where(running_service_id: rs.id) %>
             <% rcps.each do |rcp| %>
               <li class="enabled list-group-item" data-running_collectd_plugin="<%= rcp.id %>">
                 <%= badge "CP-#{rcp.collectd_plugin.id}", 'primary' unless rcp.collectd_plugin.nil? %>

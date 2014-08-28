@@ -1,13 +1,15 @@
 <%= javascript 'systems' %>
 
+<%= form_tag(systems_path, method: 'post', class: 'form-horizontal', name: 'system', role: 'form') do %>
+
 <div class="row">
   <h3>
     <%= badge "SYS-#{@system.id}" %> <%= @system.name %>
     <!--subnav-->
       <span class="btn-group pull-right">
-        <%= link_to raw('<span class="glyphicon glyphicon-remove"></span> Delete'), @system, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-danger' %>
+        <%= link_to raw('<span class="glyphicon glyphicon-remove"></span> Delete'), @system, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-default' %>
         <%= link_to 'Back', @system, :class => 'btn btn-default' %>
-        <%= link_to 'Save', edit_system_path(@system), :class => 'btn btn-default' %>
+        <%= link_to ' Save', 'javascript:void(0)', :class => 'btn btn-default save' %>
       </span>
   </h3>
 </div>
@@ -29,35 +31,33 @@
           <div class="panel panel-default">
             <div class="panel-heading"><%= @system.name %></div>
             <div class="panel-body">
-              <%= raw htmlform_for @system, {
+              <%= raw htmlform_for @system, { :nested => true,
                       :except => [:id, :slug, :created_at, :updated_at, :operating_system, :operating_system_flavour],
-                      :help_text => {:fqdn => t('om.views.system.new.html_input.help_text.fqdn'),
-                                     :name => t('om.views.system.new.html_input.help_text.name')},
-                      :submit_text => t('om.views.system.new.html_input.submit_text')
+                      :help_text => {:fqdn => t('om.views.system.edit.html_input.help_text.fqdn'),
+                                     :name => t('om.views.system.edit.html_input.help_text.name'),
+                                     :description => t('om.views.system.edit.html_input.help_text.description')}
               } %>
             </div>
           </div>
-
-
         </div>
 
         <!-- right column -->
         <div class="col-md-6">
+          <%= render partial: 'running_services_edit' %>
           <p>Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.</p>
         </div>
 
       </div>
-      <div class="tab-pane" id="b"><%= render partial: 'running_services_edit' %></div>
+      <div class="tab-pane" id="b"></div>
       <div class="tab-pane" id="c"><%= render partial: 'collectd_plugins_edit' %></div>
     </div>
 
   </div>
   <!-- /tabs -->
 
-
 </div>
 
-
+<% end %> <!-- end form_tag -->
 
 
 

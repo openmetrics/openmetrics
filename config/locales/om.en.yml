@@ -39,6 +39,13 @@ en:
             help_text:
               fqdn: "Fully qualified domain name (FQDN)"
               name: "A name easy to remember"
+              description: "Enter some thoughts, notes or other information of interest here."
+        edit:
+          html_input:
+            help_text:
+              fqdn: "Fully qualified domain name (FQDN)"
+              name: "A name easy to remember"
+              description: "Enter some thoughts, notes or other information of interest here."
       service:
         index:
           title: "Services List"

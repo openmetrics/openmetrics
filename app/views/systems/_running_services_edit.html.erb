@@ -1,17 +1,4 @@
-<script type="text/javascript">
-  $(document).ready(function($) {
-    $("select.running_services").multiselect();
-    
-    $("select.running_services").bind('change', function(event, ui) {
-//      setAlertForSaveButton();
-      $(this).unbind(event);
-    });
-    $("a.add-all, a.remove-all").click(function(){$(this).blur();});
-  });
-</script>
-
-
-<select class="multiselect running_services" multiple="multiple" name="services[]"  style="width:440px;height:330px;">
+<select class="multiselect running_services" multiple="multiple">
     <% for rs in @system.running_services %>
       <option value="<%=  rs.id %>" selected="selected" role="running_service" title="<%=  rs.service.name %>"><%= rs.service.name %> </option>
     <% end %>
