@@ -1,10 +1,20 @@
 <select class="multiselect running_services" multiple="multiple">
     <% for rs in @system.running_services %>
-      <option value="<%=  rs.id %>" selected="selected" role="running_service" title="<%=  rs.service.name %>"><%= rs.service.name %> </option>
+      <option value="<%=  rs.id %>" selected="selected" data-id="<%= rs.id %>" data-service_id="<%=  rs.service.id %>" role="running_service" title="<%=  rs.service.name %>"><%= rs.service.name %></option>
     <% end %>
 
     <% for service in @services %>
-      <option value="<%=  service.id %>" role="service"><%= service.name %> </option>
+      <option value="<%= service.id %>" data-service_id="<%= service.id %>" role="service"><%= service.name %></option>
     <% end %>
 </select>
-<br /> <%# the break has some strange side effects with scroll bars of portlets... so, let it in or fix it...%>
+
+
+
+<% for rs in @system.running_services %>
+    <div class="form-group">
+        <!--<input name="system[running_services_attributes][][id]" class="form-control" value="<%= rs.id %>"/>-->
+        <!--<input name="system[running_services_attributes][][service_id]" class="form-control" value="<%= rs.service_id %>"/>-->
+        <!--<input name="system[running_services_attributes][][fqdn]" class="form-control" value="<%= rs.fqdn %>"/>-->
+        <!--<input name="system[running_services_attributes][][description]" class="form-control" value="<%= rs.description %>"/>-->
+    </div>
+<% end %>

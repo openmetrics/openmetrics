@@ -1,13 +1,13 @@
 <%= javascript 'systems' %>
 
-<%= form_tag(systems_path, method: 'post', class: 'form-horizontal', name: 'system', role: 'form') do %>
+<%= form_tag(system_path(@system), method: 'put', class: 'form-horizontal', name: 'system', role: 'form') do %>
 
 <div class="row">
   <h3>
     <%= badge "SYS-#{@system.id}" %> <%= @system.name %>
     <!--subnav-->
       <span class="btn-group pull-right">
-        <%= link_to raw('<span class="glyphicon glyphicon-remove"></span> Delete'), @system, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-default' %>
+        <%= link_to raw('<span class="glyphicon glyphicon-remove"></span> Delete'), @system, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
         <%= link_to 'Back', @system, :class => 'btn btn-default' %>
         <%= link_to ' Save', 'javascript:void(0)', :class => 'btn btn-default save' %>
       </span>
@@ -43,7 +43,9 @@
 
         <!-- right column -->
         <div class="col-md-6">
+          <h3>Running Services</h3>
           <%= render partial: 'running_services_edit' %>
+
           <p>Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.</p>
         </div>
 

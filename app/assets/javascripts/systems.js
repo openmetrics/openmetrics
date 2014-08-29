@@ -20,49 +20,26 @@ $(document).ready(function ($) {
     var form = $('form[name="system"]');
     save_button.click(function () {
         var paramsString = form.serialize();
-        console.log(paramsString);
-
-        var create_running_services = $("select.running_services").children('option[role="service"]').map(function () {
-            if (this.selected)
-                return $(this).val();
+        var running_services_params = $("select.running_services").children('option[role="service"]').map(function () {
+            if (this.selected) {
+                return {service_id: $(this).data('service_id')};
+            }
         }).get();
         var destroy_running_services = $("select.running_services").children('option[role="running_service"]').map(function () {
             if (!this.selected)
-                return $(this).val();
-        }).get();
-        var add_system_group_maps = $("select.system_group_maps").children('option[role="system_group"]').map(function () {
-            if (this.selected)
-                return $(this).val();
-        }).get();
-        var destroy_system_group_maps = $("select.system_group_maps").children('option[role="system_group_map"]').map(function () {
-            if (!this.selected)
-                return $(this).val();
+                return {_destroy: 1, id: $(this).data('id')};
         }).get();
 
-        var add_running_collectd_plugins = $("div#enabled_collectd_plugins_lists_container ul").children('li.collectd-plugin').map(function () {
-            var add = {};
-            var running_service = $(this).parent("ul").attr("running_service");
-            var collectd_plugin = $(this).attr("collectd_plugin");
-            add.running_service = running_service;
-            add.collectd_plugin = collectd_plugin;
-
-            return add;
-        }).get();
-
-        var remove_running_collectd_plugins = $("div#enabled_collectd_plugins_lists_container ul").children('li.disabled').map(function () {
-            return $(this).attr("running_collectd_plugin");
-        }).get();
+        // extend params string
+        paramsString = paramsString + '&' +
+            $.param({system: {running_services_attributes: running_services_params}}) + '&' +
+            $.param({system: {running_services_attributes: destroy_running_services}})
+        ;
 
         $.ajax({
             type: 'POST',
-            url: form.attr("action"),
-            data: paramsString + '&' +
-                $.param({create_running_services: create_running_services}) + '&' +
-                $.param({destroy_running_services: destroy_running_services}) + '&' +
-                $.param({add_system_group_maps: add_system_group_maps}) + '&' +
-                $.param({destroy_system_group_maps: destroy_system_group_maps}) + '&' +
-                $.param({add_running_collectd_plugins: add_running_collectd_plugins}) + '&' +
-                $.param({remove_running_collectd_plugins: remove_running_collectd_plugins}),
+            url: form.attr('action'),
+            data: paramsString,
             success: function (data, textStatus) {
                 if (textStatus == "success") {
 //                    var url = $("form.niceforms").attr("action") + "/edit";
@@ -70,7 +47,7 @@ $(document).ready(function ($) {
                 }
             },
             error: function (data, textStatus) {
-                notify('error', 'error', textStatus + data);
+                //notify('error', 'error');
             }
         });
         $(this).blur();

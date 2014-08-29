@@ -69,13 +69,24 @@ class SystemsController < ApplicationController
     redirect_to :back
   end
 
+  def destroy
+    @system = System.friendly.find(params[:id])
+    if @system.destroy
+      flash[:notice] = "Successfully destroyed system."
+      redirect_to :action => "index"
+    else
+      flash[:error] = 'Failed to delete system.'
+    end
+  end
+
+
   private
   # Use this method to whitelist the permissible parameters. Example:
   # params.require(:person).permit(:name, :age)
   # Also, you can specialize this method with per-user checking of permissible attributes.
   def system_params
-    params.require(:system).permit(:name, :fqdn, :description )
-    #params.require(:system).permit(:name, :fqdn, :description, :create_running_services => [] )
+    params.require(:system).permit(:name, :fqdn, :description,
+                                   running_services_attributes: [:id, :_destroy, :service_id, :fqdn, :description] )
   end
 
   def ip_lookup_params
