@@ -30,10 +30,27 @@ $(document).ready(function ($) {
                 return {_destroy: 1, id: $(this).data('id')};
         }).get();
 
+        var add_running_collectd_plugins = $('div#enabled_collectd_plugins_lists_container ul').children('li.collectd-plugin').map(function(){
+            var add = {};
+            var running_service = $(this).parent('ul').data('running_service');
+            var collectd_plugin = $(this).data('collectd_plugin');
+            add.running_service_id = running_service;
+            add.collectd_plugin_id = collectd_plugin;
+
+            return add;
+        }).get();
+
+        var remove_running_collectd_plugins = $('div#enabled_collectd_plugins_lists_container ul').children('li.disabled').map(function(){
+            return $(this).attr("running_collectd_plugin");
+        }).get();
+
+        console.log(add_running_collectd_plugins, remove_running_collectd_plugins);
         // extend params string
         paramsString = paramsString + '&' +
             $.param({system: {running_services_attributes: running_services_params}}) + '&' +
-            $.param({system: {running_services_attributes: destroy_running_services}})
+            $.param({system: {running_services_attributes: destroy_running_services}}) +'&'+
+            $.param({system: {running_collectd_plugins_attributes: add_running_collectd_plugins}})+'&'+
+            $.param({remove_running_collectd_plugins: remove_running_collectd_plugins})
         ;
 
         $.ajax({
@@ -71,12 +88,12 @@ $(document).ready(function ($) {
         drop: function (event, ui) {
             $(this).find("li.placeholder").hide();
             var li = $('<li class="ui-state-active ui-helper-clearfix collectd-plugin"></li>');
-            li.data("collectd_plugin", ui.draggable.attr("collectd_plugin"));
+            li.data('collectd_plugin', ui.draggable.data('collectd_plugin'));
             $('<span class="left-floating"></span>').text(ui.draggable.text()).appendTo(li);
             $('<span class="ui-icon ui-icon-close right-floating" title="Remove"></span>').appendTo(li);
             li.appendTo(this);
 
-//                setAlertForSaveButton();
+                setAlertForSaveButton();
         }
     });
 

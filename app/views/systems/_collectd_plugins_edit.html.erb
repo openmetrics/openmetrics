@@ -14,46 +14,54 @@ li.placeholder {text-align: center;}
 
 div#collectd_plugins_list_container { width: 400px; float:left; }
 div#collectd_plugins_list_container ul { padding: 0px; margin: 10px; }
-div#collectd_plugins_list_container ul li { margin: 5px 0px; cursor: move; }
+div#collectd_plugins_list_container ul li { margin: 5px 0px; cursor: move; list-style-type: none; }
 
 div#enabled_collectd_plugins_lists_container { width: 400px; float:left; margin-left: 30px; }
 div#enabled_collectd_plugins_lists_container ul { margin: 10px 0px; border: 2px solid orange; min-height: 30px; }
-div#enabled_collectd_plugins_lists_container ul li { margin: 5px 10px; }
+div#enabled_collectd_plugins_lists_container ul li { margin: 5px 10px; list-style-type: none;}
 
 
 </style>
 
-<h4>Available plugins:</h4>
-<div id="enabledCollectdPluginsContainer" class="ui-helper-clearfix">
-  <div style="clear:both;"></div>
-  <%#*here we want to have a list of all available collectd_plugins%>
-  <div id="collectd_plugins_list_container">
-      <ul id="collectd_plugins_list">
+<div class="row">
+  <div class="col-md-6">
+    <h3>Available Collectd Plugins</h3>
+    <%#*list of all available collectd_plugins%>
+    <div id="collectd_plugins_list_container">
+      <ul id="collectd_plugins_list" class="list-group">
         <% @collectd_plugins.each do |plugin|  %>
-          <li class="collectd-plugin ui-state-default" data-collectd_plugin="<%= plugin.id %>" ><span class="ui-icon ui-icon-arrow-4"></span><%= plugin.name %></li>
+            <li class="collectd-plugin list-group-item" data-collectd_plugin="<%= plugin.id %>">
+              <%= badge "CP-#{plugin.id}", 'primary' %>
+              <%= plugin.name %>
+              <span class="pull-right fa fa-arrows"></span>
+            </li>
         <% end %>
       </ul>
+    </div>
+
   </div>
 
 
-  <%#*every running service should provide a drop-zone for the collectd_plugins%>
-  <div id="enabled_collectd_plugins_lists_container">
-    <h4>Running services with their attached plugins:</h4>
-    <% @system.running_services.each do |rs| %>
+  <div class="col-md-6">
+    <%#*every running service should provide a drop-zone for the collectd_plugins%>
+    <div id="enabled_collectd_plugins_lists_container">
+      <h3>Running Services</h3>
+      <% @system.running_services.each do |rs| %>
           <h4><%= rs.service.name %></h4>
 
           <ul class="list-group" data-running_service="<%= rs.id %>">
-            <%# rcps = RunningCollectdPlugin.find :all, :conditions => {:running_service_id => rs.id}, :include => :collectd_plugin %>
             <% rcps = RunningCollectdPlugin.where(running_service_id: rs.id) %>
             <% rcps.each do |rcp| %>
-              <li class="enabled list-group-item" data-running_collectd_plugin="<%= rcp.id %>">
-                <%= badge "CP-#{rcp.collectd_plugin.id}", 'primary' unless rcp.collectd_plugin.nil? %>
-                <%= rcp.collectd_plugin.name unless rcp.collectd_plugin.nil? %>
-                <span class="ui-icon ui-icon-close right-floating" title="Remove"></span>
-              </li>
+                <li class="enabled list-group-item" data-running_collectd_plugin="<%= rcp.id %>">
+                  <%= badge "CP-#{rcp.collectd_plugin.id}", 'primary' unless rcp.collectd_plugin.nil? %>
+                  <%= rcp.collectd_plugin.name unless rcp.collectd_plugin.nil? %>
+                  <span class="ui-icon ui-icon-close right-floating" title="Remove"></span>
+                </li>
             <% end %>
-              <li class="ui-state-highlight placeholder"><span class="ui-icon ui-icon-plus" title="Drop here"></span>Drop here</li>
+            <li class="ui-state-highlight placeholder"><span class="ui-icon ui-icon-plus" title="Drop here"></span>Drop here</li>
           </ul>
-    <% end %>
+      <% end %>
+    </div>
   </div>
+
 </div>

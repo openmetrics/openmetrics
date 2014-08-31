@@ -85,8 +85,10 @@ class SystemsController < ApplicationController
   # params.require(:person).permit(:name, :age)
   # Also, you can specialize this method with per-user checking of permissible attributes.
   def system_params
-    params.require(:system).permit(:name, :fqdn, :description,
-                                   running_services_attributes: [:id, :_destroy, :service_id, :fqdn, :description] )
+    params.require(:system).permit(:name, :fqdn, :description, :cidr,
+                                   running_services_attributes: [:id, :_destroy, :service_id, :fqdn, :description],
+                                   running_collectd_plugins_attributes: [:running_service_id, :collectd_plugin_id]
+    )
   end
 
   def ip_lookup_params

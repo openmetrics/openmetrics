@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140827161345) do
+ActiveRecord::Schema.define(version: 20140831192033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,7 +66,6 @@ ActiveRecord::Schema.define(version: 20140827161345) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
-    t.text     "scanresult"
     t.string   "job_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -79,6 +78,7 @@ ActiveRecord::Schema.define(version: 20140827161345) do
   create_table "running_collectd_plugins", force: true do |t|
     t.integer "collectd_plugin_id"
     t.integer "running_service_id"
+    t.integer "system_id"
   end
 
   create_table "running_services", force: true do |t|
@@ -145,6 +145,7 @@ ActiveRecord::Schema.define(version: 20140827161345) do
     t.datetime "updated_at"
     t.string   "slug"
     t.text     "description"
+    t.string   "cidr"
   end
 
   add_index "systems", ["slug"], name: "index_systems_on_slug", unique: true, using: :btree
