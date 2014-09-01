@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140831192033) do
+ActiveRecord::Schema.define(version: 20140901101253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20140831192033) do
 
   create_table "ip_lookups", force: true do |t|
     t.string   "target"
+    t.text     "scanresult"
     t.string   "job_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -136,6 +137,12 @@ ActiveRecord::Schema.define(version: 20140831192033) do
   add_index "sidekiq_jobs", ["started_at"], name: "index_sidekiq_jobs_on_started_at", using: :btree
   add_index "sidekiq_jobs", ["status"], name: "index_sidekiq_jobs_on_status", using: :btree
 
+  create_table "system_variables", force: true do |t|
+    t.string  "name"
+    t.string  "value"
+    t.integer "system_id"
+  end
+
   create_table "systems", force: true do |t|
     t.string   "name"
     t.string   "fqdn"
@@ -146,6 +153,7 @@ ActiveRecord::Schema.define(version: 20140831192033) do
     t.string   "slug"
     t.text     "description"
     t.string   "cidr"
+    t.string   "sshuser"
   end
 
   add_index "systems", ["slug"], name: "index_systems_on_slug", unique: true, using: :btree
