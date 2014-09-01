@@ -1,7 +1,6 @@
 module ApplicationHelper
   include HtmlFormbakery
   include HtmlTablebakery
-  include SshAutomagick
 
   # include js from within view
   def javascript(*files)
