@@ -45,7 +45,8 @@ module SshAutomagick
      File.open(tmpfile, 'w') { |f| f.write(text) }
 
      keys = '/home/om/.ssh/id_rsa_om'
-     Net::SSH.start(system_ip, system_sshuser, :keys => keys) do |ssh|
+     # :use_agent needs to be false, otherwise :keys are ignored due to bug https://github.com/net-ssh/net-ssh/issues/137
+     Net::SSH.start(system_ip, system_sshuser, {:keys => keys, :use_agent => false }) do |ssh|
        # 2) create backup of remote configuration and upload prepared collectd
        #    config
        #     
