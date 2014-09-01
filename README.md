@@ -15,4 +15,10 @@ rake i18n:js:export
 
 // load sample data and run setup
 rake openmetrics:setup
+
+// start services; done!
+foreman start --env /opt/openmetrics/config/instance.env
+
+// optional for debugging purposes and playaround: start rails console
+foreman run rails console --env /opt/openmetrics/config/instance.env
 ```

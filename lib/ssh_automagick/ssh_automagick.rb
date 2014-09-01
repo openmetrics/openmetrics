@@ -44,7 +44,10 @@ module SshAutomagick
      #logger.debug "#{text}"
      File.open(tmpfile, 'w') { |f| f.write(text) }
 
-     Net::SSH.start(system_ip, system_sshuser) do |ssh|
+     Net::SSH.start(
+         system_ip, system_sshuser,
+         :keys => [ "/home/om/.ssh/id_rsa_om"]
+     ) do |ssh|
        # 2) create backup of remote configuration and upload prepared collectd
        #    config
        #     
