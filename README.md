@@ -14,7 +14,7 @@ i18n-tasks add missing
 rake i18n:js:export
 
 // load sample data and run setup
-rake openmetrics:setup
+foreman run rake openmetrics:setup --env /opt/openmetrics/config/instance.env
 
 // start services; done!
 foreman start --env /opt/openmetrics/config/instance.env
