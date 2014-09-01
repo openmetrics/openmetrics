@@ -92,7 +92,11 @@ function setAlertForSaveButton() {
         icon.prependTo(button);
     }
 }
-
+function removeAlertForSaveButton() {
+    var button = $('.save');
+    var icon = button.children('#save-alert');
+    icon.remove();
+}
 
 /* loading indicator (turbolinks fetch/change event and jquery ajax) */
 $(document).on('page:fetch', function() {

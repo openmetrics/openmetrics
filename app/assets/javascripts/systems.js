@@ -10,9 +10,8 @@ $(document).ready(function ($) {
     });
 
     // highlight save button if form changes
-    $('form input:text').bind('change', function (event) {
+    $('form input:text, form textarea').on('input propertychange paste', function() {
         setAlertForSaveButton();
-        $(this).unbind(event);
     });
 
     // save button shall serialize and submit form data
@@ -44,7 +43,6 @@ $(document).ready(function ($) {
             return $(this).attr("running_collectd_plugin");
         }).get();
 
-        console.log(add_running_collectd_plugins, remove_running_collectd_plugins);
         // extend params string
         paramsString = paramsString + '&' +
             $.param({system: {running_services_attributes: running_services_params}}) + '&' +
@@ -59,8 +57,7 @@ $(document).ready(function ($) {
             data: paramsString,
             success: function (data, textStatus) {
                 if (textStatus == "success") {
-//                    var url = $("form.niceforms").attr("action") + "/edit";
-//                    $(location).attr('href', url);
+                    removeAlertForSaveButton();
                 }
             },
             error: function (data, textStatus) {

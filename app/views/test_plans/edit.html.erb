@@ -1,9 +1,12 @@
 <% javascript 'webtest' %>
 
 <div class="row">
-
   <!-- left column -->
-  <div class="col-md-6">
+  <div class="col-md-8">
+
+    <h3>Test Plan Steps</h3>
+    <%= render partial: 'test_plan_edit', locals: {tp: @test_plan} %>
+
     <div class="panel panel-default">
       <div class="panel-heading">Edit Testplan</div>
       <div class="panel-body">
@@ -13,7 +16,7 @@
   </div>
 
   <!-- right column -->
-  <div class="col-md-6">
+  <div class="col-md-4">
     <h3>Test Items</h3>
     <p>Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.</p>
 

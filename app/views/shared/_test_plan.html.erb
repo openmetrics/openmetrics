@@ -6,9 +6,9 @@
     <hr>
     <li>
       <span class="item-number"><%= n+1 %></span>
-      <%= raw badge "#{test_item.type}-#{@test_plan.id}", 'primary' %>
-      <%= raw badge test_item.format, 'info' %>
-      <%= link_to test_item.name, test_item %>
+
+      <%#= badge test_item.format, 'info' %>
+      <%= link_to badge("#{test_item.type}-#{@test_plan.id}", 'primary') + " #{test_item.name}", test_item %>
       <%# is there already an exitstatus available? %>
       <% if !te_items.nil? && te_items[n] && controller.controller_name == 'test_executions' %>
         <%= ( ! te_items[n].test_execution.test_execution_result.nil? and

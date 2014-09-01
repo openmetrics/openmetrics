@@ -2,7 +2,7 @@
 TABLEBAKERY_PRESETS = {
     system: {
         attr_ignore: %w( id slug created_at updated_at operating_system_flavour description ),
-        attr_order:  %w( name fqdn operating_system join actions)
+        attr_order:  %w( name fqdn cidr operating_system join actions)
 
     },
     service: {

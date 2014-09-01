@@ -1,6 +1,8 @@
 class TestPlansController < ApplicationController
   def edit
     @test_plan = TestPlan.friendly.find(params[:id])
+    @test_cases = TestCase.all
+    @test_scripts = TestScript.all
   end
 
   def new

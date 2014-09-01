@@ -1,0 +1,11 @@
+<ul class="test_plan">
+  <% tp.test_items.each_with_index do |test_item, n| %>
+      <hr>
+      <li>
+        <span class="item-number"><%= n+1 %></span>
+
+        <%#= badge test_item.format, 'info' %>
+        <%= link_to badge("#{test_item.type}-#{@test_plan.id}", 'primary') + " #{test_item.name}", test_item %>
+      </li>
+  <% end %>
+</ul>
