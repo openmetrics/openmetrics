@@ -45,15 +45,14 @@ module SshAutomagick
      File.open(tmpfile, 'w') { |f| f.write(text) }
 
      keys = '/home/om/.ssh/id_rsa_om'
-     # :use_agent needs to be false, otherwise :keys are ignored due to bug https://github.com/net-ssh/net-ssh/issues/137
-     Net::SSH.start(system_ip, system_sshuser, {:keys => keys, :use_agent => false }) do |ssh|
+     Net::SSH.start(system_ip, system_sshuser, :keys => keys) do |ssh|
        # 2) create backup of remote configuration and upload prepared collectd
        #    config
        #     
        if create_collectd_config_backup(ssh, remotefile) != 0
          # scp over existing ssh connection doesn't work, dunno why
          # ssh.scp.upload! "#{tmpfile}", "#{remotefile}" should do the trick, but it just blocks
-         Net::SFTP.start(system_ip, system_sshuser) do |sftp|
+         Net::SFTP.start(system_ip, system_sshuser, :keys => keys) do |sftp|
           sftp.upload!("#{tmpfile}", "#{remotefile}")
          end
        end
