@@ -1,0 +1,80 @@
+#!/usr/bin/env ruby
+#
+# Usage: ./collectd_unix_socket [hostname]
+#
+# Get all available metrics registered by collectd via unix socket.
+# If hostname is passed, only matching metrics will be displayed, otherwise all!
+#
+# 
+
+
+require 'socket'
+
+if ENV['OM_BASE_DIR']
+  socket_path = "#{ENV['OM_BASE_DIR']}/run/collectd/collectd-socket"
+else
+  abort("Environment variable $OM_BASE_DIR not set. Aborting!")
+end
+
+hostname = nil
+unless ARGV.empty?
+  hostname = ARGV[0]
+end
+
+# 1)
+socket = UNIXSocket.new(socket_path)
+socket.puts("LISTVAL")
+first_line = socket.gets
+num_results = first_line.split(" ").first.to_i
+
+
+# 2)
+# TODO this isn't really effective as socket.gets will be called num_result times
+metric_list = []
+num_results.times do
+  line = socket.gets
+  if line =~ /#{hostname}/
+    metric_list << line.strip
+  end
+end
+
+socket.close
+
+
+# 3)
+r = []
+metric_list.each do |element|
+  last_update, identifier = element.split(" ", 2) # identifer may contain whitespace, so limit to 2
+  puts identifier
+  #puts last_update
+
+  socket = UNIXSocket.new(socket_path)
+  socket.puts("GETVAL \"#{identifier}\"") # double quote cause of whitespaces in identifier
+  first_line = socket.gets
+  puts first_line
+  num_datasources = first_line.split(" ").first.to_i
+
+  # identifier: myhost.example.com/load/load
+  if (hostname == nil)
+    hostname, plugin, basename = identifier.split("/") # first match is hostname
+  else
+    plugin, basename = identifier.gsub(/#{hostname}\//, '').split("/")
+  end
+
+  num_datasources.times do
+    line = socket.gets
+    puts line
+    ds = line.split("=")[0]
+    metric = {}
+    metric['metric'] = plugin + "_" + basename + "_" + ds
+    metric['metric_options'] = {}
+    metric['metric_options']['path'] = hostname +"/"+plugin
+    metric['metric_options']['ds'] = ds
+    metric['metric_options']['metric_group'] = plugin
+    metric['metric_options']['metric_rrd'] = basename
+    #puts metric.inspect
+    r << metric
+  end
+
+  socket.close
+end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140901101253) do
+ActiveRecord::Schema.define(version: 20140902132248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,21 @@ ActiveRecord::Schema.define(version: 20140901101253) do
     t.datetime "finished_at"
     t.integer  "status"
   end
+
+  create_table "metrics", force: true do |t|
+    t.string "plugin"
+    t.string "ds"
+    t.string "name"
+    t.string "rrd_file"
+  end
+
+  create_table "metrics_systems", force: true do |t|
+    t.integer "system_id"
+    t.integer "metric_id"
+  end
+
+  add_index "metrics_systems", ["metric_id"], name: "index_metrics_systems_on_metric_id", using: :btree
+  add_index "metrics_systems", ["system_id"], name: "index_metrics_systems_on_system_id", using: :btree
 
   create_table "running_collectd_plugins", force: true do |t|
     t.integer "collectd_plugin_id"

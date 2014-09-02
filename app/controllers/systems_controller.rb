@@ -48,6 +48,7 @@ class SystemsController < ApplicationController
 
   def show
     @system = System.friendly.find(params[:id])
+    @system_metrics = @system.metrics.group_by(&:plugin)
     add_breadcrumb @system.name, 'system'
   end
 

@@ -68,7 +68,7 @@ $( document ).ready(function() {
 <div class="row">
 
   <!-- left column -->
-  <div class="col-md-6">
+  <div class="col-md-8">
     <h3>
       <%= badge "SYS-#{@system.id}" %> <%= @system.name %>
       <!--subnav-->
@@ -82,21 +82,31 @@ $( document ).ready(function() {
     </h3>
 
     <!-- metrics tabs left -->
-    <div class="tabbable tabs-left spacer">
+    <% if @system_metrics.any? %>
+    <h3>Metrics</h3>
+    <div class="tabbable">
       <ul class="nav nav-tabs">
-        <li><a href="#a" data-toggle="tab">System Load</a></li>
-        <li class="active"><a href="#b" data-toggle="tab">Two</a></li>
-        <li><a href="#c" data-toggle="tab">Twee</a></li>
+        <% @system_metrics.each_with_index do |plugin, index| %>
+            <li <%= 'class=active' if index == 0%> >
+              <a href="#<%= plugin.first %>" data-toggle="tab"><%= plugin.first %></a>
+            </li>
+        <% end %>
       </ul>
       <div class="tab-content">
-        <div class="tab-pane active" id="a">Lorem ipsum dolor sit amet, charetra varius quam sit amet vulputate.
-          Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero.</div>
-        <div class="tab-pane" id="b">Secondo sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan.
-          Aliquam in felis sit amet augue.</div>
-        <div class="tab-pane" id="c">Thirdamuno, ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate.
-          Quisque mauris augue, molestie tincidunt condimentum vitae. </div>
+        <% @system_metrics.each_with_index do |plugin, index| %>
+            <div class="tab-pane <%= 'active' if index == 0%>" id="<%= plugin.first %>">
+                <% rrds = @system_metrics[plugin.first].group_by(&:rrd_file) %>
+                <% rrds.each_pair do |rrd, x| %>
+                    <h4><%= rrd %></h4>
+                    <% img_path = "/collectd/#{@system.fqdn}.dir/#{@system.fqdn}/#{x.first.plugin}/#{x.first.rrd_file}-1day.png" %>
+                    <img src="<%= img_path %>" />
+                <% end %>
+
+            </div>
+        <% end %>
       </div>
     </div>
+    <% end %>
     <!-- /tabs -->
 
     <div class="clearfix"></div>
@@ -110,7 +120,7 @@ $( document ).ready(function() {
   </div>
 
   <!-- right column -->
-  <div class="col-md-6">
+  <div class="col-md-4">
 
     <h3 class="spacer">Running Services</h3>
     <div class="list-group running_service">

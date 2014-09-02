@@ -26,8 +26,6 @@
     </ul>
     <div class="tab-content spacer">
       <div class="tab-pane active" id="a">
-        <!-- left column -->
-        <div class="col-md-6">
           <div class="panel panel-default">
             <div class="panel-heading"><%= @system.name %></div>
             <div class="panel-body">
@@ -39,18 +37,16 @@
               } %>
             </div>
           </div>
-        </div>
-
-        <!-- right column -->
-        <div class="col-md-6">
+      </div>
+      <div class="tab-pane" id="b">
+        <div class="col-md-8">
           <h3>Running Services</h3>
           <%= render partial: 'running_services_edit' %>
-
-          <p>Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.</p>
         </div>
-
+        <div class="col-md-4">
+            hallo
+        </div>
       </div>
-      <div class="tab-pane" id="b"></div>
       <div class="tab-pane" id="c"><%= render partial: 'collectd_plugins_edit' %></div>
     </div>
 

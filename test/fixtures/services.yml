@@ -5,9 +5,9 @@ om_server:
   name: Openmetrics Server
   description: Openmetrics UI
 
-om_client:
-  name: Openmetrics Client
-  description: Openmetrics client
+om_agent:
+  name: Openmetrics Agent
+  description: Openmetrics Agent (client)
 
 collectd:
   name: Collectd Server

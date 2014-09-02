@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+#
+# Usage: ./collectd_flush [identifier|all]
+# e.g. ./collectd_flush localhost/df/df-root
+# 
+# If identifier is passed, only matching specified value will be flushed! To write
+# all values to disk at once pass 'all' as parameter.
+#
+# 
+
+
+require 'socket'
+
+if ENV['OM_BASE_DIR']
+  socket_path = "#{ENV['OM_BASE_DIR']}/run/collectd/collectd-socket"
+else
+  abort("Environment variable $OM_BASE_DIR not set. Aborting!")
+end
+
+identifier = nil
+unless ARGV.empty?
+	identifier = ARGV[0]
+end
+
+puts "Flushing #{identifier}"
+       
+socket = UNIXSocket.new(socket_path)
+if identifier == 'all'
+	socket.puts("FLUSH plugin=rrdtool")
+else
+	#puts "Sending #{identifier} to socket"
+	#socket.puts("FLUSH plugin=rrdtool identifier=\"#{identifier}\"")
+	#socket.puts("FLUSH plugin=rrdtool identifier=\"localhost/df/df-root\" identifier=\"localhost/df/df-var\"")
+	socket.puts('FLUSH timeout=5 plugin=rrdtool identifier="localhost/this/does-notexist" identifier="localhost/this/does-notexist2"')
+end
+result = socket.gets
+socket.close
+puts result

@@ -1,6 +1,6 @@
 <h3>Admin Area</h3>
 
-<h4 class="spacer">Environment Variables</h4>
+<h4 class="spacer">Global Environment Variables</h4>
 <% unless @om_env_vars.empty? %>
     <% @om_env_vars.each_pair do |name, value| %>
         <%= name %>: <%= value %><br>
