@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: metrics
+#
+#  id       :integer          not null, primary key
+#  plugin   :string(255)
+#  ds       :string(255)
+#  name     :string(255)
+#  rrd_file :string(255)
+#
+
 class Metric < ActiveRecord::Base
   has_and_belongs_to_many :systems
 

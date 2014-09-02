@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: collectd_plugins
+#
+#  id            :integer          not null, primary key
+#  name          :string(255)
+#  configuration :text
+#  description   :text
+#
+
 # https://collectd.org/wiki/index.php/Table_of_Plugins
 cp_load:
   name: System Load

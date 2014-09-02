@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: collectd_plugins
+#
+#  id            :integer          not null, primary key
+#  name          :string(255)
+#  configuration :text
+#  description   :text
+#
+
 class CollectdPlugin < ActiveRecord::Base
   has_many :running_collectd_plugins
 

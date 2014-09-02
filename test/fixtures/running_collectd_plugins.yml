@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: running_collectd_plugins
+#
+#  id                 :integer          not null, primary key
+#  collectd_plugin_id :integer
+#  running_service_id :integer
+#  system_id          :integer
+#
+
 # base system
 rcp1:
   running_service: rs_om_client

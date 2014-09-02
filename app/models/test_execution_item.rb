@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: test_execution_items
+#
+#  id                :integer          not null, primary key
+#  format            :string(255)
+#  markup            :text
+#  test_execution_id :integer
+#  exitstatus        :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#  test_item_id      :integer
+#  output            :text
+#  status            :integer
+#  error             :text
+#  started_at        :datetime
+#  finished_at       :datetime
+#  executable        :text
+#
+
 class TestExecutionItem < ActiveRecord::Base
   include Pollable
   belongs_to :test_item
