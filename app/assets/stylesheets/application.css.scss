@@ -63,6 +63,10 @@ label {
   position: absolute;
   z-index: 300000;
 }
+#ajax_search_result a.active {
+  background-color: greenyellow;
+}
+
 /* search match highlight */
 .match {
   background: #ff0;

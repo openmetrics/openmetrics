@@ -12,18 +12,7 @@ $(document).ready(function ($) {
         }
 
         // keybindings
-        var e;
-        if (event.which != "") {
-            e = event.which;
-        }
-        else if (event.charCode != "") {
-            e = event.charCode;
-        }
-        else if (event.keyCode != "") {
-            e = event.keyCode;
-        }
-
-        switch (e) {
+        switch (event.which) {
             case 38: // up arrow, hightlight previous item of resultset
                 //console.log("keypress up");
                 var allItems = $("#ajax_search_result").find('a');
@@ -32,10 +21,10 @@ $(document).ready(function ($) {
                         selectedItem = selectedItem - 1;
 
                         $.each(allItems, function (index, value) {
-                            $(this).removeClass("ui-corner-all ui-state-active"); // clean active highlights
+                            $(this).removeClass('active'); // clean active highlights
                             //alert(index + ': ' + value);
                             if (index == selectedItem - 1) {
-                                $(this).addClass("ui-corner-all ui-state-active");
+                                $(this).addClass('active');
                                 var linkattr = $(this).attr('href');
                                 //searchInput.val(linkattr);
                                 searchInput.parent().attr("action", linkattr); // set form target to active item
@@ -58,10 +47,9 @@ $(document).ready(function ($) {
                     if (selectedItem <= allItems.size() - 1) {
                         selectedItem = selectedItem + 1;
                         $.each(allItems, function (index, value) {
-                            $(this).removeClass("ui-corner-all ui-state-active"); // clean active highlights
-                            //alert(index + ': ' + value);
+                            $(this).removeClass('active'); // clean active highlights
                             if (index == selectedItem - 1) {
-                                $(this).addClass("ui-corner-all ui-state-active");
+                                $(this).addClass('active');
                                 var linkattr = $(this).attr('href');
                                 //searchInput.val(linkattr);
                                 searchInput.parent().attr("action", linkattr); // set form target to active item
