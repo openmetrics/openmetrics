@@ -1,8 +1,15 @@
 <h3>IpLookup <small>#<%= @ip_lookup.id %></small></h3>
-target: <%= @ip_lookup.target %><br>
-result:<br>
+Target: <%= @ip_lookup.target %><br>
+Text result:<br>
+<%= coderay(@ip_lookup.ip_lookup_result.result, 'json', 'div') %>
 
-  <%= coderay(@ip_lookup.ip_lookup_result.result, 'json', 'div') %>
+<% if @ip_lookup.result %>
+<h3>Result</h3>
+<% JSON.parse(@ip_lookup.result).each do |node| %>
+    <h4><%= node['addr'] %></h4>
+    <%= node['port']['service']['name'] %> (<%= node['port']['service']['product'] %> <%= node['port']['service']['version'] %>)
+    <% end %>
+<% end %>
 
 
 

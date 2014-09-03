@@ -23,4 +23,8 @@ class IpLookup < ActiveRecord::Base
 
   # TODO improve for ip adresses, hostname and cidr notation
   validates :target, presence: true, :length => {:minimum => 3}
+
+  def result
+    self.ip_lookup_result.result
+  end
 end
