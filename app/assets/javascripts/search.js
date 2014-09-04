@@ -5,6 +5,7 @@ $(document).ready(function ($) {
     var selectedItem = 0; // used to highlight searchresult by keyboard
     var searchInput = $('#main-search');
     var searchForm = searchInput.closest('form');
+    var defaultFormAction = searchForm.attr('action');
 
     searchInput.keydown(function (event) {
 
@@ -16,7 +17,7 @@ $(document).ready(function ($) {
         switch (event.which) {
             case 38: // up arrow, hightlight previous item of resultset
                 //console.log("keypress up");
-                var allItems = $("#ajax_search_result").find('a');
+                var allItems = $('#ajax_search_result').find('a');
                 if (allItems.size() > 0) {
                     if (selectedItem > 0 && selectedItem <= allItems.size()) {
                         selectedItem = selectedItem - 1;
@@ -28,14 +29,14 @@ $(document).ready(function ($) {
                                 $(this).addClass('active');
                                 var linkattr = $(this).attr('href');
                                 // searchInput.val(linkattr);
-                                searchForm.attr("action", linkattr); // set form target to active items href
+                                searchForm.attr('action', linkattr); // set form target to active items href
                             }
                         });
                     }
                     if (selectedItem == 0) {
                         // here we are if someone pressed up key to have no item selected anymore
                         // reset form action to search again
-                        searchForm.attr("action", "search");
+                        searchForm.attr('action', defaultFormAction);
                     }
                 }
                 return false;
@@ -43,7 +44,7 @@ $(document).ready(function ($) {
 
             case 40: // down arrow, hightlight next item of resultset
                 //console.log("keypress down");
-                var allItems = $("#ajax_search_result").find('a');
+                var allItems = $('#ajax_search_result').find('a');
                 if (allItems.size() > 0) {
                     if (selectedItem <= allItems.size() - 1) {
                         selectedItem = selectedItem + 1;
@@ -53,7 +54,7 @@ $(document).ready(function ($) {
                                 $(this).addClass('active');
                                 var linkattr = $(this).attr('href');
                                 // searchInput.val(linkattr);
-                                searchForm.attr("action", linkattr); // set form target to active item
+                                searchForm.attr('action', linkattr); // set form target to active item
                             }
                         });
                     }
@@ -61,6 +62,12 @@ $(document).ready(function ($) {
                 ;
                 return false;
                 break;
+            case 8: //backspace,
+                // hide ajax search results if input is empty
+                if ( searchInput.val().length == 1) {
+                    hideAjaxSearchResults()
+                    selectedItem = 0; // reset search result selection
+                }
             default:
                 search_delay = setTimeout(function () {
                     if (searchInput.val()) {
@@ -69,11 +76,11 @@ $(document).ready(function ($) {
                             url: '/search/search?q=' + encodeURIComponent(searchInput.val().trim()),
                             type: "GET",
                             complete: function (data, textStatus) {
-                                if (textStatus == "success") {
+                                if (textStatus == 'success') {
                                     // callback for systems loading; create systems selection input
                                     var result = data.responseText;
 //                                    console.log(result);
-                                    if (result != "false") {
+                                    if (result != 'false') {
                                         showAjaxSearchResults(result);
                                     }
                                     else {
@@ -91,11 +98,15 @@ $(document).ready(function ($) {
 
     // hide result if focus left searchbox
     searchInput.bind('focusout', function () {
-        setTimeout(function () { $('#ajax_search_result').hide("fast"); }, 400);
+        hideAjaxSearchResults();
         selectedItem = 0; // reset search result selection
     });
 
 });
+
+function hideAjaxSearchResults() {
+    setTimeout(function () { $('#ajax_search_result').hide("fast"); }, 400);
+}
 
 function showAjaxSearchResults(result) {
     var pos = $('#main-search').offset();
