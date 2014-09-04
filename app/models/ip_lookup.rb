@@ -4,7 +4,6 @@
 #
 #  id          :integer          not null, primary key
 #  target      :string(255)
-#  scanresult  :text
 #  job_id      :string(255)
 #  user_id     :integer
 #  created_at  :datetime
