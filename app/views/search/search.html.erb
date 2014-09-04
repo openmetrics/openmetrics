@@ -5,9 +5,7 @@
 <h3>Search results for "<%= @search_string %>"</h3>
 
 <% if @services.blank? and @systems.blank? %>
-
-    <strong>No matches were found!</strong>
-
+    <p>No matches found! <i class="fa fa-frown-o"></i></p>
 <% else %>
 
     <!-- Nav tabs -->
