@@ -49,6 +49,7 @@ class SystemsController < ApplicationController
   def show
     @system = System.friendly.find(params[:id])
     @system_metrics = @system.metrics.group_by(&:plugin)
+    @system_events = PublicActivity::Activity.where(trackable_type: 'System', trackable_id: @system.id)
     add_breadcrumb @system.name, 'system'
   end
 

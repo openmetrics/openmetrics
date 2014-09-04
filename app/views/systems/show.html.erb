@@ -1,55 +1,62 @@
 <script type="application/javascript">
 
-$( document ).ready(function() {
+    $(document).ready(function () {
 
 
-  // set timeline http://visjs.org/docs/timeline.html
-  // DOM element where the Timeline will be attached
-  var container = document.getElementById('timeline');
+        // set timeline http://visjs.org/docs/timeline.html
+        // DOM element where the Timeline will be attached
+        var container = document.getElementById('timeline');
 
-  // Create a DataSet (allows two way data-binding)
-  var items = new vis.DataSet([
-    {id: 1, content: 'item 1', start: '2014-04-20'},
-    {id: 2, content: 'item 2', start: '2014-04-14'},
-    {id: 3, content: 'item 3', start: '2014-04-18'},
-    {id: 4, content: 'item 4', start: '2014-04-16', end: '2014-04-19'},
-    {id: 5, content: 'item 5', start: '2014-04-25'},
-    {id: 6, content: 'item 6', start: '2014-04-27', type: 'point'}
-  ]);
-
-  // Configuration for the Timeline
-  var options = {};
-
-  // Create a Timeline
-  var timeline = new vis.Timeline(container, items, options);
+        // Create a DataSet (allows two way data-binding)
+        var items = new vis.DataSet([
+            {id: 1, content: 'item 1', start: '2014-04-20'},
+            {id: 2, content: 'item 2', start: '2014-04-14'},
+            {id: 3, content: 'item 3', start: '2014-04-18'},
+            {id: 4, content: 'item 4', start: '2014-04-16', end: '2014-04-19'},
+            {id: 5, content: 'item 5', start: '2014-04-25'},
+            {id: 6, content: 'item 6', start: '2014-04-27', type: 'point'}
+        ]);
 
 
-  // system network graph
-    // create an array with nodes
-    var nodes = [
-        {id: 1, label: 'Node 1'},
-        {id: 2, label: 'Node 2'},
-        {id: 3, label: 'Node 3'},
-        {id: 4, label: 'Node 4'},
-        {id: 5, label: 'Node 5'}
-    ];
+        var items = new vis.DataSet([
+            <% @system_events.each do |a| %>
+                {id: <%= a.id %>, content: '<%= a.key %>', start: '<%= a.created_at.to_time.iso8601 %>', type: 'point'},
+            <% end %>
+        ]);
 
-    // create an array with edges
-    var edges = [
-        {from: 1, to: 2},
-        {from: 1, to: 3},
-        {from: 2, to: 4},
-        {from: 2, to: 5}
-    ];
+        // Configuration for the Timeline
+        var options = {};
 
-    // create a network
-    var container = document.getElementById('system-graph');
-    var data = {
-        nodes: nodes,
-        edges: edges
-    };
-    var options = { height: '450px', navigation: true, keyboard: false};
-    var network = new vis.Network(container, data, options);
+        // Create a Timeline
+        var timeline = new vis.Timeline(container, items, options);
+
+
+        // system network graph
+        // create an array with nodes
+        var nodes = [
+            {id: 1, label: 'Node 1'},
+            {id: 2, label: 'Node 2'},
+            {id: 3, label: 'Node 3'},
+            {id: 4, label: 'Node 4'},
+            {id: 5, label: 'Node 5'}
+        ];
+
+        // create an array with edges
+        var edges = [
+            {from: 1, to: 2},
+            {from: 1, to: 3},
+            {from: 2, to: 4},
+            {from: 2, to: 5}
+        ];
+
+        // create a network
+        var container = document.getElementById('system-graph');
+        var data = {
+            nodes: nodes,
+            edges: edges
+        };
+        var options = { height: '450px', navigation: true, keyboard: false};
+        var network = new vis.Network(container, data, options);
 
 //    $.ajax({
 //        url: '/systems/<%= @system.id %>',
@@ -62,7 +69,7 @@ $( document ).ready(function() {
 //            }
 //        }
 //    });
-});
+    });
 </script>
 
 <div class="row">
@@ -83,29 +90,33 @@ $( document ).ready(function() {
 
     <!-- metrics tabs left -->
     <% if @system_metrics.any? %>
-    <h3>Metrics</h3>
-    <div class="tabbable">
-      <ul class="nav nav-tabs">
-        <% @system_metrics.each_with_index do |plugin, index| %>
-            <li <%= 'class=active' if index == 0%> >
-              <a href="#<%= plugin.first %>" data-toggle="tab"><%= plugin.first %></a>
-            </li>
-        <% end %>
-      </ul>
-      <div class="tab-content">
-        <% @system_metrics.each_with_index do |plugin, index| %>
-            <div class="tab-pane <%= 'active' if index == 0%>" id="<%= plugin.first %>">
-                <% rrds = @system_metrics[plugin.first].group_by(&:rrd_file) %>
-                <% rrds.each_pair do |rrd, x| %>
-                    <h4><%= rrd %></h4>
-                    <% img_path = "/collectd/#{@system.fqdn}.dir/#{@system.fqdn}/#{x.first.plugin}/#{x.first.rrd_file}-1day.png" %>
-                    <img src="<%= img_path %>" />
+        <h3>Metrics</h3>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="tabbable">
+              <ul class="nav nav-tabs">
+                <% @system_metrics.each_with_index do |plugin, index| %>
+                    <li <%= 'class=active' if index == 0 %> >
+                      <a href="#<%= plugin.first %>" data-toggle="tab"><%= plugin.first %></a>
+                    </li>
                 <% end %>
+              </ul>
+              <div class="tab-content">
+                <% @system_metrics.each_with_index do |plugin, index| %>
+                    <div class="tab-pane <%= 'active' if index == 0 %>" id="<%= plugin.first %>">
+                      <% rrds = @system_metrics[plugin.first].group_by(&:rrd_file) %>
+                      <% rrds.each_pair do |rrd, x| %>
+                          <h4><%= rrd %></h4>
+                          <% img_path = "/collectd/#{@system.fqdn}.dir/#{@system.fqdn}/#{x.first.plugin}/#{x.first.rrd_file}-1day.png" %>
+                          <img src="<%= img_path %>"/>
+                      <% end %>
 
+                    </div>
+                <% end %>
+              </div>
             </div>
-        <% end %>
-      </div>
-    </div>
+          </div>
+        </div>
     <% end %>
     <!-- /tabs -->
 
@@ -113,25 +124,54 @@ $( document ).ready(function() {
 
 
     <!-- timeline (will be filled by js) -->
+    <% if @system_events.any? %>
     <h3>Events <small>(Changes, Alerts, Activities...)</small></h3>
     <div class="panel panel-default">
-      <div class="panel-body"><div id="timeline"></div></div>
+      <div class="panel-body">
+        <div class="timeline-centered">
+          <% @system_events.each do |activity| %>
+              <article class="timeline-entry">
+                <div class="timeline-entry-inner">
+                  <div class="timeline-icon" style="background: #fff url(<%= gravatar_image_url(activity.owner.email, size: 40) %>) center center no-repeat;"> <!-- you can use e.g. bg-info here to make it a colorized circle -->
+                    <i class="entypo-feather"></i>
+                  </div>
+                  <div class="timeline-label">
+                    <h2>
+                      <%= link_to activity.owner.username, activity.owner if activity.owner %>
+                      <span><%= render_activity(activity, layout: 'activity', fallback: 'default') %></span>
+                    </h2>
+
+                    <p><%= activity.inspect %></p>
+                  </div>
+                </div>
+              </article>
+          <% end %>
+        </div>
+        <h4>Timeline</h4>
+        <div id="timeline"></div>
+      </div>
     </div>
+    <% end %>
   </div>
+
 
   <!-- right column -->
   <div class="col-md-4">
 
     <h3 class="spacer">Running Services</h3>
+
     <div class="list-group running_service">
-        <%= render :partial => 'running_services', :collection => @system.running_services, :as => :rs %>
+      <%= render :partial => 'running_services', :collection => @system.running_services, :as => :rs %>
     </div>
 
     <!-- system graph (will be filled by js) -->
     <h3 class="spacer">Relations</h3>
+
     <div class="clearfix"></div>
     <div class="panel panel-default ">
-      <div class="panel-body"><div id="system-graph"></div></div>
+      <div class="panel-body">
+        <div id="system-graph"></div>
+      </div>
     </div>
 
   </div>
