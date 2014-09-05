@@ -30,7 +30,7 @@
             <div class="panel-heading"><%= @system.name %></div>
             <div class="panel-body">
               <%= raw htmlform_for @system, { :nested => true,
-                      :except => [:id, :slug, :created_at, :updated_at, :operating_system, :operating_system_flavour],
+                      :except => [:id, :slug, :created_at, :updated_at],
                       :help_text => {:fqdn => t('om.views.system.edit.html_input.help_text.fqdn'),
                                      :name => t('om.views.system.edit.html_input.help_text.name'),
                                      :description => t('om.views.system.edit.html_input.help_text.description')}
