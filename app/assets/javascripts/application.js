@@ -85,7 +85,7 @@ function notify(message, severity, title) {
 // find link/button of class .save and add a alert icon
 function setAlertForSaveButton() {
     var button = $('.save');
-    var icon = $('<span id="save-alert" class="fa fa-exclamation-triangle"></span>');
+    var icon = $('<span id="save-alert" class="fa fa-exclamation-triangle text-danger"></span>');
 
     // only set image if there isn't already one
     if (button.children('#save-alert').length == 0) {
