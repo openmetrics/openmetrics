@@ -1,5 +1,8 @@
 class SystemsController < ApplicationController
 
+  before_filter :get_object, only: [:show, :edit, :update, :destroy]
+  before_filter :inject_logged_user, only: [:update]
+
   def index
     add_breadcrumb 'Systems'
     @systems = System.includes(:running_services)
@@ -47,23 +50,30 @@ class SystemsController < ApplicationController
   end
 
   def show
-    @system = System.friendly.find(params[:id])
     @system_metrics = @system.metrics.group_by(&:plugin)
     @system_events = PublicActivity::Activity.where(trackable_type: 'System', trackable_id: @system.id)
     add_breadcrumb @system.name, 'system'
   end
 
   def edit
-    @system = System.friendly.find(params[:id])
     add_breadcrumb "edit #{@system.name}", "system"
     @services = Service.all
     @collectd_plugins = CollectdPlugin.all
   end
 
   def update
-    @system = System.friendly.find(params[:id])
+    detect_changes
     if @system.update!(system_params)
-      @system.create_activity :update, :owner => current_user
+      inject_logged_user
+      changes = Secretary::Version.where(versioned_type: 'System', versioned_id: @system.id, user_id: current_user.id)
+      activity_params = if changes.any? and attr_changed?
+                          last_change = changes.last
+                          { :description => last_change.description, :changes => last_change.object_changes }
+                        else
+                          {}
+                        end
+
+      @system.create_activity :update, :owner => current_user, :parameters => activity_params
       flash[:success] = "System updated."
     else
       flash[:warn] = 'Something went wrong while updating system.'
@@ -72,7 +82,6 @@ class SystemsController < ApplicationController
   end
 
   def destroy
-    @system = System.friendly.find(params[:id])
     if @system.destroy
       flash[:notice] = "Successfully destroyed system."
       redirect_to :action => "index"
@@ -83,11 +92,16 @@ class SystemsController < ApplicationController
 
 
   private
+
+  def get_object
+    @system = System.friendly.find(params[:id])
+  end
+
   # Use this method to whitelist the permissible parameters. Example:
   # params.require(:person).permit(:name, :age)
   # Also, you can specialize this method with per-user checking of permissible attributes.
   def system_params
-    params.require(:system).permit(:name, :fqdn, :description, :cidr, :sshuser,
+    params.require(:system).permit(:name, :fqdn, :description, :cidr, :sshuser, :operating_system, :operating_system_flavor,
                                    running_services_attributes: [:id, :_destroy, :service_id, :fqdn, :description],
                                    running_collectd_plugins_attributes: [:running_service_id, :collectd_plugin_id]
     )
@@ -95,6 +109,27 @@ class SystemsController < ApplicationController
 
   def ip_lookup_params
     params.require(:ip_lookup).permit(:target)
+  end
+
+  # save user_id within model changes
+  # https://github.com/SCPR/secretary-rails#tracking-users
+  def inject_logged_user
+    @system.logged_user_id = current_user.id
+  end
+
+  def detect_changes
+    @changed = []
+    system_params.each do |param|
+      next if param.is_a? Hash
+      p_name = param[0]
+      p_value = param[1]
+      @changed << p_name if @system.send(p_name) != p_value
+    end
+
+  end
+
+  def attr_changed?
+    @changed.any?
   end
 
 end

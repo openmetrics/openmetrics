@@ -140,8 +140,11 @@
                       <%= link_to activity.owner.username, activity.owner if activity.owner %>
                       <span><%= render_activity(activity, layout: 'activity', fallback: 'default') %></span>
                     </h2>
-
-                    <p><%= activity.inspect %></p>
+                    <% if activity.parameters %>
+                        <p>
+                          <%= activity.parameters %>
+                        </p>
+                    <% end %>
                   </div>
                 </div>
               </article>

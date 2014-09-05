@@ -104,6 +104,9 @@ gem 'jquery-fileupload-rails'
 # nice urls https://github.com/norman/friendly_id
 gem 'friendly_id', '~> 5.0.0'
 
+# track model changes https://github.com/SCPR/secretary-rails
+gem 'secretary-rails'
+
 # activity feed https://github.com/pokonski/public_activity
 #gem 'public_activity'
 gem 'public_activity', github: 'pokonski/public_activity' # we need :fallback partial support see https://github.com/pokonski/public_activity/issues/150
