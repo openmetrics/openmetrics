@@ -107,6 +107,9 @@ gem 'friendly_id', '~> 5.0.0'
 # track model changes https://github.com/SCPR/secretary-rails
 gem 'secretary-rails'
 
+# set AR defaults
+gem "default_value_for", "~> 3.0.0"
+
 # activity feed https://github.com/pokonski/public_activity
 #gem 'public_activity'
 gem 'public_activity', github: 'pokonski/public_activity' # we need :fallback partial support see https://github.com/pokonski/public_activity/issues/150

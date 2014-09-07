@@ -73,12 +73,9 @@
 </script>
 
 <div class="row">
-
-  <!-- left column -->
-  <div class="col-md-8">
-    <h3>
-      <%= badge "SYS-#{@system.id}" %> <%= @system.name %>
-      <!--subnav-->
+  <h3>
+    <%= badge "SYS-#{@system.id}" %> <%= @system.name %>
+    <!--subnav-->
       <span class="btn-group btn-group-sm pull-right">
         <%= link_to 'Delete', @system, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-default' %>
         <%= link_to raw('<span class="glyphicon glyphicon-wrench"></span> Edit'), edit_system_path(@system), :class => 'btn btn-default' %>
@@ -86,7 +83,14 @@
           <i class="glyphicon glyphicon-cog"></i>
         </button>
       </span>
-    </h3>
+  </h3>
+</div>
+
+
+<div class="row">
+
+  <!-- left column -->
+  <div class="col-md-8">
 
     <!-- metrics tabs left -->
     <% if @system_metrics.any? %>
@@ -125,7 +129,7 @@
 
     <!-- timeline (will be filled by js) -->
     <% if @system_events.any? %>
-    <h3>Events <small>(Changes, Alerts, Activities...)</small></h3>
+    <h3 class="spacer">Events <small>(Filter for Changes, Alerts, Activities, Daterange, User)</small></h3>
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="timeline-centered">
@@ -140,7 +144,7 @@
                       <%= link_to activity.owner.username, activity.owner if activity.owner %>
                       <span><%= render_activity(activity, layout: 'activity', fallback: 'default') %></span>
                     </h2>
-                    <% if activity.parameters %>
+                    <% if activity.parameters.any? %>
                         <p>
                           <%= activity.parameters %>
                         </p>
@@ -155,26 +159,38 @@
       </div>
     </div>
     <% end %>
-  </div>
-
-
-  <!-- right column -->
-  <div class="col-md-4">
-
-    <h3 class="spacer">Running Services</h3>
-
-    <div class="list-group running_service">
-      <%= render :partial => 'running_services', :collection => @system.running_services, :as => :rs %>
-    </div>
 
     <!-- system graph (will be filled by js) -->
-    <h3 class="spacer">Relations</h3>
+    <h3 class="spacer">Relation Graph</h3>
 
     <div class="clearfix"></div>
     <div class="panel panel-default ">
       <div class="panel-body">
         <div id="system-graph"></div>
       </div>
+    </div>
+
+  </div>
+
+
+  <!-- right column -->
+  <div class="col-md-4">
+
+    <% unless @system.description.empty? and @system.operating_system.empty? and @system.operating_system_flavor.empty? %>
+        <h3 class="spacer">Host Information</h3>
+        <%= basic_info_panel @system %>
+    <% end %>
+
+    <% unless @system.cidr.empty? and @system.fqdn.empty? and @system.sshuser.empty? %>
+    <h3 class="spacer">Network Information</h3>
+    <%= network_info_panel @system %>
+    <% end %>
+
+
+    <h3 class="spacer">Running Services</h3>
+
+    <div class="list-group running_service">
+      <%= render :partial => 'running_services', :collection => @system.running_services, :as => :rs %>
     </div>
 
   </div>

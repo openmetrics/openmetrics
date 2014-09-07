@@ -120,9 +120,9 @@ class SystemsController < ApplicationController
   def detect_changes
     @changed = []
     system_params.each do |param|
-      next if param.is_a? Hash
       p_name = param[0]
       p_value = param[1]
+      next if p_value.is_a? Hash # TODO detect changes to running_services and running_collectd_plugins aswell
       @changed << p_name if @system.send(p_name) != p_value
     end
 

@@ -36,6 +36,8 @@ Openmetrics::Application.routes.draw do
   resources :http_service, controller: 'services', type: 'http_service'
   resources :ssh_service, controller: 'services', type: 'ssh_service'
   resources :ntp_service, controller: 'services', type: 'ntp_service'
+  resources :openmetrics_service, controller: 'services', type: 'openmetrics_service'
+  resources :openmetrics_agent_service, controller: 'services', type: 'openmetrics_agent_service'
 
   resources :collectd_plugins
 

@@ -11,7 +11,7 @@
 // about supported directives.
 //
 //= require jquery-2.1.0.min.js
-// require jquery.turbolinks
+//= require jquery.turbolinks
 //= require jquery-ui-1.11.1.min
 //= require jquery_ujs
 //= require jquery-fileupload/basic
@@ -27,6 +27,7 @@
 //= require vis
 //= require jstree.min
 //= require search
+//= require systems
 //= require jqCron
 //= require uploads
 //= require ace/ace
@@ -126,6 +127,9 @@ $(document).on('page:change', function() {
 //    $('.multiselect').multiselect({
 //        buttonClass: 'btn btn-link' // make dropdown appear as inline link, not like a regular button
 //    });
+
+    // set focus to main-search
+    $('#main-search').focus();
 
     // fancy file uploads
     $('#test_case_upload').fileupload({

@@ -14,10 +14,10 @@
   </h3>
 </div>
 
-<div class="row">
+<div class="row spacer">
 
   <!-- metrics tabs left -->
-  <div class="tabbable tabs spacer">
+  <div class="tabbable tabs">
 
     <ul class="nav nav-tabs">
       <li class="active"><a href="#a" data-toggle="tab">Basic Information</a></li>
@@ -26,8 +26,7 @@
     </ul>
     <div class="tab-content spacer">
       <div class="tab-pane active" id="a">
-          <div class="panel panel-default">
-            <div class="panel-heading"><%= @system.name %></div>
+          <div class="panel ">
             <div class="panel-body">
               <%= raw htmlform_for @system, { :nested => true,
                       :except => [:id, :slug, :created_at, :updated_at],

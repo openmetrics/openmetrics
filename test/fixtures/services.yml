@@ -18,12 +18,14 @@
 # misc
 #
 om_server:
-  name: Openmetrics Server
-  description: Openmetrics UI
+  name: Openmetrics
+  description: Openmetrics UI and Services
+  type: OpenmetricsService
 
 om_agent:
   name: Openmetrics Agent
-  description: Openmetrics Agent (client)
+  description: Openmetrics Agent
+  type: OpenmetricsAgentService
 
 collectd:
   name: Collectd Server
@@ -43,18 +45,27 @@ bind:
   type: DnsService
 
 #
-# DB
+# DB and Caches
 #
 mysql:
   name: MySQL DB
   daemon_name: mysqld
-  description: MySQL database server
+  description: MySQL database server (DBMS)
 
 postgres:
   name: PostgreSQL DB
   daemon_name: postgres
-  description: PostgreSQL database server
+  description: PostgreSQL is an advanced Object-Relational database management system (DBMS).
 
+memcached:
+  name: Memcached
+  daemon_name: memcached
+  description: memcached is a high-performance, distributed memory object caching system, generic in nature, but intended for use in speeding up dynamic web applications by alleviating database load.
+
+redis:
+  name: Redis
+  daemon_name: redis
+  description: Redis is an advanced key-value store.
 
 #
 # HTTP
@@ -63,12 +74,12 @@ apache_httpd:
   name: Apache HTTPD
   daemon_name: httpd
   type: HttpService
-  description: Apache HTTP server (Web Server)
+  description: The Apache HTTP Server is a powerful, efficient, and extensible web server.
 
 nginx:
   name: nginx HTTPD
   daemon_name: nginx
-  description: Nginx HTTP server and IMAP/POP3 proxy server (Web Server)
+  description: Nginx is a web server and a reverse proxy server for HTTP, SMTP, POP3 and IMAP protocols, with a strong focus on high concurrency, performance and low memory usage.
   type: HttpService
 
 apache_tomcat:

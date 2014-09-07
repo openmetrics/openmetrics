@@ -1,0 +1,2 @@
+class OpenmetricsService < Service
+end

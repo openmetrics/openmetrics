@@ -1,0 +1,2 @@
+class OpenmetricsAgentService < Service
+end
