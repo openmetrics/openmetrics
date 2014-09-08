@@ -5,9 +5,13 @@ Text result:<br>
 
 <% if @ip_lookup.result %>
 <h3>Result</h3>
-<% JSON.parse(@ip_lookup.result).each do |node| %>
-    <h4><%= node['addr'] %></h4>
-    <%= node['port']['service']['name'] %> (<%= node['port']['service']['product'] %> <%= node['port']['service']['version'] %>)
+<% if @ip_lookup.result.is_a? String %>
+    <%= @ip_lookup.result %>
+<% else %>
+    <% JSON.parse(@ip_lookup.result).each do |node| %>
+        <h4><%= node['addr'] %></h4>
+        <%= node['port']['service']['name'] %> (<%= node['port']['service']['product'] %> <%= node['port']['service']['version'] %>)
+        <% end %>
     <% end %>
 <% end %>
 
