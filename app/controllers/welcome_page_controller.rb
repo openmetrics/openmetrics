@@ -2,8 +2,9 @@ require 'sidekiq/api' # admin
 
 class WelcomePageController < ApplicationController
   def display
-    add_breadcrumb 'Home'
+    @recent_events = PublicActivity::Activity.order('created_at desc').limit(15)
     @user = current_user
+    add_breadcrumb 'Home'
   end
 
   def admin

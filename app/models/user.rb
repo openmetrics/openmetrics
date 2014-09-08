@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   friendly_id :username, use: :slugged
 
   # Validations
-  validates :username,
+  validates :username, presence: true,
             :uniqueness => {
                 :case_sensitive => false
             }

@@ -1,0 +1,35 @@
+<div class="timeline-centered">
+  <% events.each do |activity| %>
+      <article class="timeline-entry">
+        <div class="timeline-entry-inner">
+          <div class="timeline-icon" style="background: #fff url(<%= gravatar_image_url(activity.owner.email, size: 40) %>) center center no-repeat;"> <!-- you can use e.g. bg-info here to make it a colorized circle -->
+            <i class="entypo-feather"></i>
+          </div>
+          <div class="timeline-label">
+            <h2>
+              <%= link_to activity.owner.username, activity.owner if activity.owner %>
+              <span><%= render_activity(activity, layout: 'activity', fallback: 'default') %></span>
+              <br><small><i class="fa fa-clock-o"></i> <%= activity.created_at.to_time.strftime('%A, %Y-%m-%d %H:%m:%S') %></small>
+            </h2>
+            <% if activity.parameters.any? %>
+                <p>
+                    <% if activity.parameters.is_a?(Hash)  %>
+                        <%#= activity.parameters[:description] %>
+                        <% changes_arr = [] %>
+                        <% activity.parameters[:changes].each do |field, value| %>
+                            <% tmp_str = "#{field}: " %>
+                            <% tmp_str += "#{value[0]} <i class=\"fa fa-long-arrow-right\"></i> " unless value[0].nil? or value[0].empty? %>
+                            <% tmp_str += "#{value[1]}" %>
+                            <% changes_arr.push(tmp_str)%>
+                        <% end %>
+                        <%= raw changes_arr.to_sentence %>
+                    <% else %>
+                        <%= activity.parameters %>
+                    <% end %>
+                </p>
+            <% end %>
+          </div>
+        </div>
+      </article>
+  <% end %>
+</div>
