@@ -16,6 +16,56 @@ $(document).ready(function() {
 
     console.log("JavaScript Ready Webtest");
 
+    // new test plan droppable + selectable
+    // from http://jsfiddle.net/KyleMit/Geupm/2/
+    $(".test_cases_list li, .test_scripts_list li").draggable({
+        appendTo: "body",
+        helper: "clone",
+        connectToSortable: ".dropzone ol.test_items"
+    });
+    $(".dropzone ol.test_items").sortable({
+        items: "li:not(.placeholder)",
+        connectWith: "li",
+        sort: function () {
+            $(this).removeClass("ui-state-default");
+        },
+        over: function () {
+            //hides the placeholder when the item is over the sortable
+            $("li.placeholder").hide();
+        },
+        update: function() {
+            setAlertForSaveButton();
+            // replace move icon with sortable icon
+            var list_items = $(this).children('li:not(.placeholder)');
+            if (list_items.length > 0) {
+                var sort_icon = $('<i class="fa fa-arrows-v"></i>');
+                var remove_icon = $('<i class="glyphicon glyphicon-remove"></i>');
+                var configure_icon = $('<i class="fa fa-cog"></i>');
+                list_items.each(function(index,value){
+                    var item = $(this);
+                    var actions = $(this).children('.actions');
+                    if (actions.children('i.fa-arrows').length > 0) {
+                        actions.children('i.fa-arrows').remove();
+                        sort_icon.prependTo(actions);
+                    }
+                    if (actions.children('i.glyphicon-remove').length == 0) {
+                        remove_icon.prependTo(actions);
+                    }
+                    if (actions.children('i.fa-cog').length == 0) {
+                        configure_icon.prependTo(actions);
+                    }
+                });
+            }
+
+        },
+        out: function () {
+            if ($(this).children(":not(.placeholder)").length == 0) {
+                //shows the placeholder again if there are no items in the list
+                $("li.placeholder").show();
+            }
+        }
+    });
+
     // popover for test plan run options, takes placement and title from data attributes
     // content comes dynamicially from within a div #popover_content_container
     // taken from https://github.com/twbs/bootstrap/issues/3722
@@ -76,36 +126,6 @@ $(document).ready(function() {
     $('#jstree_demo_div').jstree({
         "plugins" : [ "wholerow" ]
     });
-
-    /* dropdowns for testplan testitems */
-    var test_suites_select = $('#test_suites');
-    var test_cases_select = $('#test_cases');
-    var test_scripts_select = $('#test_scripts');
-    var test_items = $('#webtest_test_items');
-
-    var multiselectOptions = {
-      buttonClass: 'btn btn-default'
-    };
-
-    var selectedItems = [];
-    test_scripts_select.multiselect({
-        buttonClass: 'btn btn-default',
-        onChange: function(element, checked) {
-            if (checked == true) {
-                selectedItems.push(element.val());
-                console.log('checked ', selectedItems);
-//                $('#test_suites').multiselect('deselect', element.val());
-//                $('#test_suites').multiselect('refresh');
-            }
-            else if (checked == false) {
-//                $('#test_suites').multiselect('select', element.val());
-//                $('#test_suites').multiselect('refresh');
-            }
-
-        }
-    });
-    test_cases_select.multiselect(multiselectOptions);
-    test_suites_select.multiselect(multiselectOptions);
 
 });
 

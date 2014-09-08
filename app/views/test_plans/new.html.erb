@@ -3,37 +3,30 @@
 <div class="row">
 
   <div class="col-md-8">
+    <h3>Create a new test plan</h3>
     <div class="panel panel-default">
       <div class="panel-body">
 
-        <%= form_tag(test_plans_path, method: 'post', class: "form-horizontal", role: 'form') do %>
-            <%= raw htmlform_for @test_plan, {:nested => true, :only => [:name, :description, :base_url], :caption => 'Create new test plan'} %>
+        <%= form_tag(new_test_plan_path, method: 'post', class: "form-horizontal", role: 'form') do %>
+            <%= raw htmlform_for @test_plan, {:nested => true, :only => [:name, :description, :base_url]} %>
 
             <div class="form-group">
-              <label class="col-md-4 control-label">Attach test items</label>
+              <label class="col-md-4 control-label">Test Item Dropzone</label>
 
-              <div class="col-md-4">
-                <% unless @test_scripts.nil? %>
-                    Scripts <%= select_tag 'test_scripts', options_from_collection_for_select(@test_scripts, "id", "name"), multiple: true %>
-                    <br><br>
-                <% end %>
-                <% unless @test_cases.empty? %>
-                    Cases <%= select_tag 'test_cases', options_from_collection_for_select(@test_cases, "id", "name"), multiple: true %>
-                <% end %>
-                <% unless @test_suites.empty? %>
-                    <br>
-                    Suites <%= select_tag 'test_suites', options_from_collection_for_select(@test_suites, "id", "name"), multiple: true %>
-                    <br>
-                <% end %>
-
+              <div class="col-md-8">
+                <div class="dropzone">
+                    <ol class="test_items list-unstyled circles-list">
+                      <li class="placeholder">Drop items here</li>
+                    </ol>
+                </div>
               </div>
             </div>
 
             <div class="form-group">
               <label class="col-md-4 control-label"></label>
 
-              <div class="col-md-4">
-                <button class="btn btn-default btn-success" type="submit">Create</button>
+              <div class="col-md-8">
+                <button class="btn btn-default save" type="submit">Create</button>
               </div>
             </div>
 
@@ -46,7 +39,7 @@
 
   </div>
 
-  <!-- left column-->
+  <!-- right column-->
   <div class="col-md-4">
     <h3>Test Items</h3>
 

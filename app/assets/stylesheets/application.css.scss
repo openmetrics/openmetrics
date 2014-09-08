@@ -75,6 +75,29 @@ label {
 }
 
 
+/* dropzone: target element for droppables */
+.dropzone {
+  padding: 15px 15px 0 15px;
+  min-height: 150px;
+  background: repeating-linear-gradient(
+  45deg,
+  #ccc,
+  #ccc 10px,
+  #eee 10px,
+  #eee 20px
+);
+  border: 1px solid #ddd;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.dropzone ol {
+  min-height: 150px;
+}
+
 
 /* gravatar images */
 .gravatar-s {

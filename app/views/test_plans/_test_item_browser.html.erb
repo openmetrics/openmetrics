@@ -1,20 +1,24 @@
-<div id="jstree_demo_div">
-  <ul>
-    <li data-jstree='{"opened":true}'>Test Cases
-      <ul>
-        <% @test_cases.each do |item| %>
-        <li data-jstree='{"icon":"fa fa-file-text-o"}'><%= item.name %></li>
-        <% end %>
-      </ul>
-    </li>
+<h4>Test Cases</h4>
+<ul class="test_cases_list list-group">
+    <% @test_cases.each do |item| %>
+      <li class="list-group-item" data-test_case="<%= item.id %>">
+        <span class="actions pull-right">
+          <i class="fa fa-arrows"></i>
+        </span>
+        <%= link_to badge("TC-#{item.id}", 'primary') + " #{item.name}", item %>
+      </li>
+    <% end %>
+</ul>
 
-    <li data-jstree='{"opened":true}'>Test Scripts
-      <ul>
-        <% @test_cases.each do |item| %>
-            <li data-jstree='{"icon":"fa fa-file-code-o"}'><%= item.name %></li>
-        <% end %>
-      </ul>
+<h4>Test Scripts</h4>
+<ul class="test_scripts_list list-group">
+  <% @test_scripts.each do |item| %>
+      <li class="list-group-item" data-test_script="<%= item.id %>">
+        <span class="actions pull-right">
+            <i class="fa fa-arrows"></i>
+        </span>
+        <%= link_to badge("TC-#{item.id}", 'primary') + " #{item.name}", item %>
+      </li>
+  <% end %>
+</ul>
 
-    </li>
-  </ul>
-</div>
