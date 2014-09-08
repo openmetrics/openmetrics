@@ -3,7 +3,8 @@
     <% @test_cases.each do |item| %>
       <li class="list-group-item" data-test_case="<%= item.id %>">
         <span class="actions pull-right">
-          <i class="fa fa-arrows"></i>
+          <i class="drag fa fa-arrows"></i>
+          <!--<i class="add fa fa-plus" title="Add"></i>-->
         </span>
         <%= link_to badge("TC-#{item.id}", 'primary') + " #{item.name}", item %>
       </li>
@@ -15,7 +16,8 @@
   <% @test_scripts.each do |item| %>
       <li class="list-group-item" data-test_script="<%= item.id %>">
         <span class="actions pull-right">
-            <i class="fa fa-arrows"></i>
+            <i class="drag fa fa-arrows"></i>
+            <!--<i class="add fa fa-plus" title="Add"></i>-->
         </span>
         <%= link_to badge("TC-#{item.id}", 'primary') + " #{item.name}", item %>
       </li>

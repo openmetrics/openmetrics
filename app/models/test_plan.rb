@@ -17,6 +17,8 @@ class TestPlan < ActiveRecord::Base
   has_and_belongs_to_many :test_items, join_table: :test_plans_test_items
   accepts_nested_attributes_for :test_items
 
+  has_secretary on: %w( base_url description fqdn name )
+
   validates :name, :presence => true, length: {minimum: 3}
   #TODO validate base_url to be there and valid url (?)
 

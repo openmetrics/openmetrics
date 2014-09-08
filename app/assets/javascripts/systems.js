@@ -15,7 +15,7 @@ $(document).ready(function ($) {
     });
 
     // save button shall serialize and submit form data
-    var save_button = $('.save');
+    var save_button = $('div.systems a.save');
     var form = $('form[name="system"]');
     save_button.click(function () {
         var paramsString = form.serialize();

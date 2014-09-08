@@ -45,11 +45,18 @@ ul.test_plan li span.duration {
   border-radius: .25em;
 }
 
-/* margin for multiple icons within list-group-item (test_plan items)*/
+/* margin and pointer for multiple icons within list-group-item (test_plan items)*/
 li.list-group-item span.actions i.fa,
 li.list-group-item span.actions i.glyphicon {
   display: inline-block;
   margin-left: 5px;
+  cursor: move;
+}
+
+li.list-group-item span.actions i.remove,
+li.list-group-item span.actions i.configure,
+li.list-group-item span.actions i.add {
+  cursor: pointer;
 }
 
 .item-number {

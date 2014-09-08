@@ -11,13 +11,38 @@ $(document).on('click', '.run_test_plan', function(e) {
     });
 });
 
+/* test_plan test_items actions */
+$(document).on('click', 'i.configure', function(e) {
+    var test_item = $(this).closest('li');
+    if (test_item.length > 0) {
+        console.log("configure me");
+    }
+});
+$(document).on('click', 'i.remove', function(e) {
+    var test_item = $(this).closest('li');
+    if (test_item.length > 0) {
+        test_item.remove();
+    }
+});
+//$(document).delegate('i.add', 'click', function(e) {
+//    e.preventDefault();
+//    var test_item = $(this).closest('li');
+//    var list = $('.dropzone ol.test_items');
+//
+//    if (test_item.length > 0 && list.length > 0) {
+//        $("li.placeholder").hide();
+//        list.sortable('option','update')(null, {
+//            item: test_item.appendTo(list)
+//        });
+//    }
+//});
 
 $(document).ready(function() {
 
     console.log("JavaScript Ready Webtest");
 
     // new test plan droppable + selectable
-    // from http://jsfiddle.net/KyleMit/Geupm/2/
+    // based on http://jsfiddle.net/KyleMit/Geupm/2/
     $(".test_cases_list li, .test_scripts_list li").draggable({
         appendTo: "body",
         helper: "clone",
@@ -33,26 +58,27 @@ $(document).ready(function() {
             //hides the placeholder when the item is over the sortable
             $("li.placeholder").hide();
         },
-        update: function() {
+        update: function(event, ui) {
             setAlertForSaveButton();
-            // replace move icon with sortable icon
+            // replace move icon with sortable icon and add/remove configure icon
             var list_items = $(this).children('li:not(.placeholder)');
             if (list_items.length > 0) {
-                var sort_icon = $('<i class="fa fa-arrows-v"></i>');
-                var remove_icon = $('<i class="glyphicon glyphicon-remove"></i>');
-                var configure_icon = $('<i class="fa fa-cog"></i>');
+                var sort_icon = $('<i class="sort fa fa-arrows-v" title="Sort"></i>');
+                var remove_icon = $('<i class="remove glyphicon glyphicon-remove" title="Remove"></i>');
+                var configure_icon = $('<i class="configure fa fa-cog" title="Configure"></i>');
                 list_items.each(function(index,value){
                     var item = $(this);
                     var actions = $(this).children('.actions');
-                    if (actions.children('i.fa-arrows').length > 0) {
-                        actions.children('i.fa-arrows').remove();
-                        sort_icon.prependTo(actions);
+                    actions.children('i.add').remove();
+                    if (actions.children('i.fa-cog').length == 0) {
+                        configure_icon.prependTo(actions);
                     }
                     if (actions.children('i.glyphicon-remove').length == 0) {
                         remove_icon.prependTo(actions);
                     }
-                    if (actions.children('i.fa-cog').length == 0) {
-                        configure_icon.prependTo(actions);
+                    if (actions.children('i.drag').length > 0) {
+                        actions.children('i.drag').remove();
+                        sort_icon.prependTo(actions);
                     }
                 });
             }
@@ -64,6 +90,29 @@ $(document).ready(function() {
                 $("li.placeholder").show();
             }
         }
+    });
+
+    // save button shall serialize and submit form data
+    var save_button = $('div.test_plans a.save');
+    var form = $('form[name="test_plan"]');
+    save_button.click(function () {
+        var paramsString = form.serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            data: paramsString,
+            success: function (data, textStatus) {
+                if (textStatus == "success") {
+                    removeAlertForSaveButton();
+                }
+            },
+            error: function (data, textStatus) {
+                //notify('error', 'error');
+            }
+        });
+        $(this).blur();
+        return false;
     });
 
     // popover for test plan run options, takes placement and title from data attributes
