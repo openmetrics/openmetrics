@@ -19,6 +19,8 @@
                         <%= activity.parameters %>
                     <% end %>
                 </p>
+            <% else %>
+                <p>no changes recorded! <%= activity.to_json %></p>
             <% end %>
           </div>
         </div>

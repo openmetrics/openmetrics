@@ -10,7 +10,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">Edit Testplan</div>
       <div class="panel-body">
-        <%= raw htmlform_for @test_plan, {:html_class => 'spacer', :except => [:id, :created_at, :updated_at] } %>
+        <%= raw htmlform_for @test_plan, {:html_class => 'spacer', :except => [:id, :user_id, :slug, :created_at, :updated_at] } %>
       </div>
     </div>
   </div>

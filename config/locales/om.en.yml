@@ -56,6 +56,9 @@ en:
             submit_text: "Create service"
             help_text:
               name: "A name easy to remember"
+      test_plan:
+        index:
+          new_test_plan: "Add a new Test Plan"
     forms:
       submit_text:
         new:  "Create"
