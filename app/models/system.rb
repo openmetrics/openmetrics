@@ -20,13 +20,6 @@ class System < ActiveRecord::Base
   include Sluggable
   include Exportable
 
-  default_value_for :name, ''
-  default_value_for :description, ''
-  default_value_for :sshuser, ''
-  default_value_for :cidr, ''
-  default_value_for :operating_system, ''
-  default_value_for :operating_system_flavor, ''
-
   has_secretary on: %w( cidr description fqdn name operating_system operating_system_flavor sshuser )
   has_many :running_services, dependent: :destroy
   tracks_association :running_services # by rails-secretary gem
@@ -37,6 +30,7 @@ class System < ActiveRecord::Base
   has_many :running_collectd_plugins, dependent: :destroy
   accepts_nested_attributes_for :running_collectd_plugins#, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
 
+  strip_attributes
   validates :name, :presence => true, length: {minimum: 3},
                    :uniqueness => true, :format => { :with => /[A-Za-z0-9::space::]+/ }
 

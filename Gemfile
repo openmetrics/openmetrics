@@ -107,8 +107,8 @@ gem 'friendly_id', '~> 5.0.0'
 # track model changes https://github.com/SCPR/secretary-rails
 gem 'secretary-rails'
 
-# set AR defaults
-gem "default_value_for", "~> 3.0.0"
+# strip whitespaces for model attributes
+gem 'strip_attributes'
 
 # activity feed https://github.com/pokonski/public_activity
 #gem 'public_activity'
