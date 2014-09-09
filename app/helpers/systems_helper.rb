@@ -3,7 +3,7 @@ module SystemsHelper
   def basic_info_panel(system)
     capture do
       if system.description
-        concat "<blockquote><p>#{system.description}</p></blockquote".html_safe
+        concat "<blockquote><p>#{system.description}</p></blockquote>".html_safe
       end
       if system.operating_system or system.operating_system_flavor
         concat "<p>".html_safe
