@@ -18,6 +18,7 @@
 //= require jquery-fileupload/vendor/tmpl
 //= require bootstrap.min
 //= require bootstrap-multiselect
+//= require bootstrap-list-filter.min
 // tabdrop doesnt work well for left handed tabs
 // require bootstrap-tabdrop
 //= require i18n/i18n

@@ -24,18 +24,18 @@ $(document).on('click', 'i.remove', function(e) {
         test_item.remove();
     }
 });
-//$(document).delegate('i.add', 'click', function(e) {
-//    e.preventDefault();
-//    var test_item = $(this).closest('li');
-//    var list = $('.dropzone ol.test_items');
-//
-//    if (test_item.length > 0 && list.length > 0) {
-//        $("li.placeholder").hide();
-//        list.sortable('option','update')(null, {
-//            item: test_item.appendTo(list)
-//        });
-//    }
-//});
+$(document).delegate('i.add', 'click', function(e) {
+    e.preventDefault();
+    var test_item = $(this).closest('li');
+    var list = $('.dropzone ol.test_items');
+
+    if (test_item.length > 0 && list.length > 0) {
+        $("li.placeholder").hide();
+        list.sortable('option','update')(null, {
+            item: test_item.appendTo(list)
+        });
+    }
+});
 
 $(document).ready(function() {
 
@@ -43,6 +43,33 @@ $(document).ready(function() {
 
     // new test plan droppable + selectable
     // based on http://jsfiddle.net/KyleMit/Geupm/2/
+    var replaceButtons;
+    replaceButtons = function (event, ui, that) {
+        var $this = that;
+        console.log(ui.item, $this);
+        // replace move icon with sortable icon and add/remove configure icon
+        var list_items = $($this).children('li:not(.placeholder)');
+        if (list_items.length > 0) {
+            var sort_icon = $('<i class="sort fa fa-arrows-v" title="Sort"></i>');
+            var remove_icon = $('<i class="remove glyphicon glyphicon-remove" title="Remove"></i>');
+            var configure_icon = $('<i class="configure fa fa-cog" title="Configure"></i>');
+            list_items.each(function (index, value) {
+                var actions = ui.item.children('.actions');
+                actions.children('i.add').remove();
+                if (actions.children('i.fa-cog').length == 0) {
+                    configure_icon.prependTo(actions);
+                }
+                if (actions.children('i.glyphicon-remove').length == 0) {
+                    remove_icon.prependTo(actions);
+                }
+                if (actions.children('i.drag').length > 0) {
+                    actions.children('i.drag').remove();
+                    sort_icon.prependTo(actions);
+                }
+            });
+        }
+
+    };
     $(".test_cases_list li, .test_scripts_list li").draggable({
         appendTo: "body",
         helper: "clone",
@@ -60,29 +87,7 @@ $(document).ready(function() {
         },
         update: function(event, ui) {
             setAlertForSaveButton();
-            // replace move icon with sortable icon and add/remove configure icon
-            var list_items = $(this).children('li:not(.placeholder)');
-            if (list_items.length > 0) {
-                var sort_icon = $('<i class="sort fa fa-arrows-v" title="Sort"></i>');
-                var remove_icon = $('<i class="remove glyphicon glyphicon-remove" title="Remove"></i>');
-                var configure_icon = $('<i class="configure fa fa-cog" title="Configure"></i>');
-                list_items.each(function(index,value){
-                    var item = $(this);
-                    var actions = $(this).children('.actions');
-                    actions.children('i.add').remove();
-                    if (actions.children('i.fa-cog').length == 0) {
-                        configure_icon.prependTo(actions);
-                    }
-                    if (actions.children('i.glyphicon-remove').length == 0) {
-                        remove_icon.prependTo(actions);
-                    }
-                    if (actions.children('i.drag').length > 0) {
-                        actions.children('i.drag').remove();
-                        sort_icon.prependTo(actions);
-                    }
-                });
-            }
-
+            replaceButtons(event,ui,$(this))
         },
         out: function () {
             if ($(this).children(":not(.placeholder)").length == 0) {
@@ -90,7 +95,14 @@ $(document).ready(function() {
                 $("li.placeholder").show();
             }
         }
+    }).bind('sortupdate', function (event, ui) {
+        replaceButtons(event,ui,this);
+        event.stopImmediatePropagation();
     });
+
+    // new test plan item browser filter
+    $('#test_scripts_searchlist').btsListFilter('#searchinput', {initial: false, resetOnBlur: false});
+    $('#test_cases_searchlist').btsListFilter('#searchinput', {initial: false, resetOnBlur: false});
 
     // save button shall serialize and submit form data
     var save_button = $('div.test_plans a.save');

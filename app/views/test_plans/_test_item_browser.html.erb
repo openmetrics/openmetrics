@@ -1,5 +1,5 @@
 <h4>Test Cases</h4>
-<ul class="test_cases_list list-group">
+<ul id="test_cases_searchlist" class="test_cases_list list-group">
     <% @test_cases.each do |item| %>
       <li class="list-group-item" data-test_case="<%= item.id %>">
         <span class="actions pull-right">
@@ -11,16 +11,16 @@
     <% end %>
 </ul>
 
+
 <h4>Test Scripts</h4>
-<ul class="test_scripts_list list-group">
+<ul id="test_scripts_searchlist" class="test_scripts_list list-group">
   <% @test_scripts.each do |item| %>
       <li class="list-group-item" data-test_script="<%= item.id %>">
         <span class="actions pull-right">
             <i class="drag fa fa-arrows"></i>
             <!--<i class="add fa fa-plus" title="Add"></i>-->
         </span>
-        <%= link_to badge("TC-#{item.id}", 'primary') + " #{item.name}", item %>
+        <%= link_to badge("TS-#{item.id}", 'primary') + " #{item.name}", item %>
       </li>
   <% end %>
 </ul>
-
