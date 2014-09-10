@@ -75,7 +75,7 @@ class TestPlansController < ApplicationController
 
   def test_plan_params
     params.require(:test_plan).permit(:name, :description, :base_url,
-                                      {:test_item_ids => []}
+                                      test_plan_items_attributes: [:id, :_destroy, :test_item_id]
     )
   end
 

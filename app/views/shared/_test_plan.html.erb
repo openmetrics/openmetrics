@@ -2,13 +2,12 @@
 <% te_items = nil if local_assigns[:te_items].nil? %>
 
 <ul class="test_plan">
-<% tp.test_items.each_with_index do |test_item, n| %>
+<% tp.test_plan_items.each_with_index do |item, n| %>
     <hr>
     <li>
       <span class="item-number"><%= n+1 %></span>
-
-      <%#= badge test_item.format, 'info' %>
-      <%= link_to badge("#{test_item.type}-#{@test_plan.id}", 'primary') + " #{test_item.name}", test_item %>
+      <%#= badge item.test_item.format, 'info' %>
+      <%= link_to badge("#{item.test_item.type}-#{item.test_item.id}", 'primary') + " #{item.test_item.name}", item.test_item %>
       <%# is there already an exitstatus available? %>
       <% if !te_items.nil? && te_items[n] && controller.controller_name == 'test_executions' %>
         <%= ( ! te_items[n].test_execution.test_execution_result.nil? and
@@ -18,7 +17,7 @@
                 '<span class="label label-success text-success">Success</span>'.html_safe
         %>
       <% end %>
-      <%= coderay(test_item.markup, test_item.format, "div") if controller.controller_name == 'test_executions' %>
+      <%= coderay(item.test_item.markup, item.test_item.format, "div") if controller.controller_name == 'test_executions' %>
 
       <%# display matching TestExecutionItem markup %>
       <% if !te_items.nil? && te_items[n] && controller.controller_name == 'test_executions' %>

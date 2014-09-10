@@ -1,0 +1,82 @@
+st100_1:
+  test_plan: st100
+  test_item: bashsleep30
+  position: 1
+st100_2:
+  test_plan: st100
+  test_item: bashexitsuccess
+  position: 2
+
+
+st101_1:
+  test_plan: st101
+  test_item: bashexitsuccess
+
+
+st102_1:
+  test_plan: st102
+  test_item: bashexitsuccess
+
+
+st104_1:
+  test_plan: st104
+  test_item: bashexitsuccess
+  position: 1
+st104_2:
+    test_plan: st104
+    test_item: bashexiterror
+    position: 2
+st104_3:
+  test_plan: st104
+  test_item: bashexitsuccess
+  position: 3
+
+
+st105_1:
+  test_plan: st105
+  test_item: bashexiterror
+  position: 1
+st105_2:
+    test_plan: st105
+    test_item: bashexitsuccess
+    position: 2
+st105_3:
+  test_plan: st105
+  test_item: bashexiterror
+  position: 3
+
+
+st106_1:
+  test_plan: st106
+  test_item: bashsleep5
+  position: 1
+st106_2:
+    test_plan: st106
+    test_item: bashexiterror
+    position: 2
+st106_3:
+  test_plan: st106
+  test_item: bashsleep5
+  position: 3
+st106_4:
+  test_plan: st106
+  test_item: bashexitsuccess
+  position: 4
+st106_5:
+    test_plan: st106
+    test_item: bashsleep5
+    position: 5
+st106_6:
+  test_plan: st106
+  test_item: bashexiterror
+  position: 6
+
+
+st107_1:
+  test_plan: st107
+  test_item: bmcsetregistrationvariables
+  position: 1
+st107_2:
+    test_plan: st107
+    test_item: bashprintenv
+    position: 2

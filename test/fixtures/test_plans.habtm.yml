@@ -2,19 +2,19 @@
 st100:
   name: selftest UI processing status
   description: UI should show "processing" status of execution. Therefore run a script that sleeps 30 seconds and exits successful afterwards.
-  #test_items: bashsleep30, bashexitsuccess
+  test_items: [bashsleep30, bashexitsuccess]
   base_url: http://localhost:8000
 
 st101:
   name: selftest UI success status
   description: UI should indicate success status of execution. Run a script that exits successful.
-  #test_items: bashexitsuccess
+  test_items: bashexitsuccess
   base_url: http://localhost:8000
 
 st102:
   name: selftest UI fail status
   description: UI should indicate fail status of execution. Run a script that exits with error.
-  #test_items: bashexiterror
+  test_items: bashexiterror
   base_url: http://localhost:8000
 
 st103:
@@ -26,23 +26,23 @@ st103:
 st104:
   name: selftest UI exitcode inheritance 1
   description: UI should indicate senseful exitcodes for each test item. Run a script that exits with success, error and success in this particual order.
-  #test_items: bashexitsuccess, bashexiterror, bashexitsuccess
+  test_items: bashexitsuccess, bashexiterror, bashexitsuccess
   base_url: http://localhost:8000
 
 st105:
   name: selftest UI exitcode inheritance 2
   description: UI should indicate senseful exitcodes for each test item. Run a script that exits with error, success and error in this particual order.
-  #test_items: bashexiterror, bashexitsuccess, bashexiterror
+  test_items: bashexiterror, bashexitsuccess, bashexiterror
   base_url: http://localhost:8000
 
 st106:
   name: selftest UI exitcode inheritance 3
   description: UI should indicate senseful exitcodes for each test item. Run a script that exits with error, success and error in this particual order with some delay in the beginning of each step.
-  #test_items: bashsleep5, bashexiterror, bashsleep5, bashexitsuccess, bashsleep5, bashexiterror
+  test_items: bashsleep5, bashexiterror, bashsleep5, bashexitsuccess, bashsleep5, bashexiterror
   base_url: http://localhost:8000
 
 st107:
   name: selftest UI environment variables
   description: Show environment for test execution.
-  #test_items: bmcsetregistrationvariables, bashprintenv
+  test_items: bmcsetregistrationvariables, bashprintenv
   base_url: http://localhost:8000

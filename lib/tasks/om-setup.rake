@@ -39,6 +39,7 @@ namespace :openmetrics do
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_item_types')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_items')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_plans')
+    ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'test_plan_items')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'systems')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'services')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'running_services')
