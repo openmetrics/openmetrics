@@ -1,26 +1,38 @@
 <% disable_turbolinks! %>
 <% javascript 'webtest' %>
 
-<h3>
-  Webtests
-  <%= link_to raw('<span class="fa fa-plus"></span> ' + t('om.views.test_plan.index.new_test_plan')),
-                            new_test_plan_path, :class => 'btn btn-primary pull-right' %>
-</h3>
-<h4 class="spacer">Test Plans</h4>
-<%= raw htmltable_for @test_plans, { :actions => { :run => true, :show => true} } %>
-<br>
+<div class="row">
 
-<h4 class="spacer">Test Scripts</h4>
-<%= raw htmltable_for @test_scripts, { :actions => { :show => true} } %>
-<%= link_to 'View all test scripts', test_scripts_path %>
+     <div class="col-md-8">
+    <h3>
+        Test Center
+        <%= link_to raw('<span class="fa fa-plus"></span> ' + t('om.views.test_plan.index.new_test_plan')),
+                    new_test_plan_path, :class => 'btn btn-primary pull-right' %>
+    </h3>
 
-<h4 class="spacer">Test Cases</h4>
-<% unless @test_cases.empty? %>
-    <%= raw htmltable_for @test_cases, { :actions => { :show => true} } %><br>
-    <%= link_to 'View all test cases', test_cases_path %><br>
-<% else %>
-    <%= raw htmltable_for nil %><br>
-    <%= link_to 'Create a new one', new_test_case_path %><br>
-<% end %>
+    <h4 class="spacer">Test Plans</h4>
+    <%= raw htmltable_for @test_plans, { :actions => { :run => true, :show => true} } %>
+    <br>
 
-<%= render partial: 'shared/recent_test_executions' %>
+    <h4 class="spacer">Test Scripts</h4>
+    <%= raw htmltable_for @test_scripts, { :actions => { :show => true} } %>
+    <%= link_to 'View all test scripts', test_scripts_path %>
+
+    <h4 class="spacer">Test Cases</h4>
+    <% unless @test_cases.empty? %>
+        <%= raw htmltable_for @test_cases, { :actions => { :show => true} } %><br>
+        <%= link_to 'View all test cases', test_cases_path %><br>
+    <% else %>
+        <%= raw htmltable_for nil %><br>
+        <%= link_to 'Create a new one', new_test_case_path %><br>
+    <% end %>
+
+    </div>
+
+    <div class="col-md-4">
+      <%= render partial: 'shared/recent_test_executions' %>
+    </div>
+</div>
+
+
+

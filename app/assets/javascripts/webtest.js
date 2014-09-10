@@ -18,13 +18,29 @@ $(document).on('click', 'i.configure', function(e) {
         console.log("configure me");
     }
 });
+
 $(document).on('click', 'i.remove', function(e) {
     var test_item = $(this).closest('li');
+    var list_size = test_item.parent('ol').children('li:not(.placeholder):visible').length;
     if (test_item.length > 0) {
-        test_item.remove();
+        // if there is already an id set (edit), hide element and add attribute to mark item for deletion
+        if (typeof test_item.data('id') != 'undefined') {
+            test_item.attr('data-remove', 1);
+            test_item.hide();
+            setAlertForSaveButton();
+        // otherwise (new) just remove item
+        } else {
+            test_item.remove();
+        }
+    }
+
+    // show placeholder if it's the only remaining element in list
+    if (list_size == 1) {
+        $('li.placeholder').show();
     }
 });
-$(document).delegate('i.add', 'click', function(e) {
+
+$(document).on('i.add', 'click', function(e) {
     e.preventDefault();
     var test_item = $(this).closest('li');
     var list = $('.dropzone ol.test_items');
@@ -44,9 +60,8 @@ $(document).ready(function() {
     // new test plan droppable + selectable
     // based on http://jsfiddle.net/KyleMit/Geupm/2/
     var replaceButtons;
-    replaceButtons = function (event, ui, that) {
-        var $this = that;
-        //console.log(ui.item, $this);
+    replaceButtons = function (event, list_item, list) {
+        var $this = list;
         // replace move icon with sortable icon and add/remove configure icon
         var list_items = $($this).children('li:not(.placeholder)');
         if (list_items.length > 0) {
@@ -54,7 +69,7 @@ $(document).ready(function() {
             var remove_icon = $('<i class="remove glyphicon glyphicon-remove" title="Remove"></i>');
             var configure_icon = $('<i class="configure fa fa-cog" title="Configure"></i>');
             list_items.each(function (index, value) {
-                var actions = ui.item.children('.actions');
+                var actions = list_item.children('.actions');
                 actions.children('i.add').remove();
                 if (actions.children('i.fa-cog').length == 0) {
                     configure_icon.prependTo(actions);
@@ -70,6 +85,17 @@ $(document).ready(function() {
         }
 
     };
+
+    // replace buttons and placeholder for existing list items (e.g. when editing test plan with some test items)
+    if ($('.dropzone ol.test_items').children('li:not(.placeholder)').length > 0) {
+        $('li.placeholder').hide();
+        $('.dropzone ol.test_items').children('li:not(.placeholder)').map(function () {
+            var item = $(this);
+            var list = $('.dropzone ol.test_items');
+            replaceButtons(null, item, list);
+        })
+    }
+
     $(".test_cases_list li, .test_scripts_list li").draggable({
         appendTo: "body",
         helper: "clone",
@@ -87,7 +113,7 @@ $(document).ready(function() {
         },
         update: function(event, ui) {
             setAlertForSaveButton();
-            replaceButtons(event,ui,$(this))
+            replaceButtons(event, ui.item, $(this))
         },
         out: function () {
             if ($(this).children(":not(.placeholder)").length == 0) {
@@ -96,7 +122,7 @@ $(document).ready(function() {
             }
         }
     }).bind('sortupdate', function (event, ui) {
-        replaceButtons(event,ui,this);
+        replaceButtons(event, ui.item, $(this));
         event.stopImmediatePropagation();
     });
 
@@ -109,14 +135,14 @@ $(document).ready(function() {
     var form = $('form[name="test_plan"]');
     save_button.click(function () {
         var paramsString = form.serialize();
-
-        var i = 0; // to count position of items
+        var i = 0; // to count position of test plan items
         var test_items_params = $('.dropzone ol.test_items').children('li:not(.placeholder)').map(function () {
             var add = {};
             var type;
             var id;
             if (typeof $(this).data('test_case_id') != 'undefined') {
                 type = 'TestCase';
+
                 add.test_item_id = $(this).data('test_case_id');
             }
             if (typeof $(this).data('test_script_id') != 'undefined') {
@@ -127,6 +153,9 @@ $(document).ready(function() {
             add.id = $(this).data('id');
             i++;
             add.position = i;
+            if (typeof $(this).data('remove') != 'undefined') {
+                add._destroy = 1;
+            }
             return add;
         }).get();
 
