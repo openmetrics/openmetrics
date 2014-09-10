@@ -46,7 +46,7 @@ $(document).ready(function() {
     var replaceButtons;
     replaceButtons = function (event, ui, that) {
         var $this = that;
-        console.log(ui.item, $this);
+        //console.log(ui.item, $this);
         // replace move icon with sortable icon and add/remove configure icon
         var list_items = $($this).children('li:not(.placeholder)');
         if (list_items.length > 0) {
@@ -109,6 +109,33 @@ $(document).ready(function() {
     var form = $('form[name="test_plan"]');
     save_button.click(function () {
         var paramsString = form.serialize();
+
+        var test_items_params = $('.dropzone ol.test_items').children('li:not(.placeholder)').map(function () {
+            var add = {};
+            var type;
+            var id;
+            if (typeof $(this).data('test_case_id') != 'undefined') {
+                type = 'TestCase';
+                id = $(this).data('test_case_id');
+            }
+            if (typeof $(this).data('test_script_id') != 'undefined') {
+                type = 'TestScript';
+                id = $(this).data('test_script_id');
+            }
+            add.type = type;
+            add.id = id;
+
+            return add;
+        }).get();
+
+
+
+        // extend params string
+        paramsString = paramsString + '&' +
+            $.param({test_plan: {test_items_attributes: test_items_params}})
+        ;
+
+        console.log(paramsString, test_items_params);
 
         $.ajax({
             type: 'POST',

@@ -1,7 +1,7 @@
 <h4>Test Cases</h4>
 <ul id="test_cases_searchlist" class="test_cases_list list-group">
     <% @test_cases.each do |item| %>
-      <li class="list-group-item" data-test_case="<%= item.id %>">
+      <li class="list-group-item" data-test_case_id="<%= item.id %>">
         <span class="actions pull-right">
           <i class="drag fa fa-arrows"></i>
           <!--<i class="add fa fa-plus" title="Add"></i>-->
@@ -15,7 +15,7 @@
 <h4>Test Scripts</h4>
 <ul id="test_scripts_searchlist" class="test_scripts_list list-group">
   <% @test_scripts.each do |item| %>
-      <li class="list-group-item" data-test_script="<%= item.id %>">
+      <li class="list-group-item" data-test_script_id="<%= item.id %>">
         <span class="actions pull-right">
             <i class="drag fa fa-arrows"></i>
             <!--<i class="add fa fa-plus" title="Add"></i>-->
