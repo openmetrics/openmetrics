@@ -75,7 +75,8 @@ class TestPlansController < ApplicationController
 
   def test_plan_params
     params.require(:test_plan).permit(:name, :description, :base_url,
-                                      test_items_attributes: [:id, :type, :_destroy])
+                                      {:test_item_ids => []}
+    )
   end
 
   # save user_id within model changes

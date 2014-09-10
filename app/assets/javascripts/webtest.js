@@ -111,7 +111,6 @@ $(document).ready(function() {
         var paramsString = form.serialize();
 
         var test_items_params = $('.dropzone ol.test_items').children('li:not(.placeholder)').map(function () {
-            var add = {};
             var type;
             var id;
             if (typeof $(this).data('test_case_id') != 'undefined') {
@@ -122,20 +121,15 @@ $(document).ready(function() {
                 type = 'TestScript';
                 id = $(this).data('test_script_id');
             }
-            add.type = type;
-            add.id = id;
-
-            return add;
+            return id;
         }).get();
 
 
 
         // extend params string
         paramsString = paramsString + '&' +
-            $.param({test_plan: {test_items_attributes: test_items_params}})
+            $.param({test_plan: {test_item_ids: test_items_params}})
         ;
-
-        console.log(paramsString, test_items_params);
 
         $.ajax({
             type: 'POST',
