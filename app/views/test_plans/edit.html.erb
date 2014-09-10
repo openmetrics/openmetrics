@@ -29,7 +29,7 @@
                 <% if @test_plan.test_plan_items.count > 0 %>
                     <li class="placeholder">Drop items here</li>
                     <% @test_plan.test_plan_items.each do |item| %>
-                        <li class="list-group-item" data-id="<%= item.id %>" data-<%= item.test_item.class.to_s.underscore %>_id="<%= item.test_item.id %>">
+                        <li class="list-group-item ui-draggable ui-draggable-handle" data-id="<%= item.id %>" data-<%= item.test_item.class.to_s.underscore %>_id="<%= item.test_item.id %>">
                             <span class="actions pull-right">
                               <i class="drag fa fa-arrows"></i>
                               <!--<i class="add fa fa-plus" title="Add"></i>-->
