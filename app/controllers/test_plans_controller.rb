@@ -67,6 +67,16 @@ class TestPlansController < ApplicationController
     end
   end
 
+  def destroy
+    if @test_plan.destroy
+      flash[:notice] = "Successfully destroyed Test Plan."
+      redirect_to :action => "index", :controller => 'webtests'
+    else
+      flash[:error] = 'Failed to delete system.'
+    end
+  end
+
+
   private
 
   def get_object
@@ -75,7 +85,7 @@ class TestPlansController < ApplicationController
 
   def test_plan_params
     params.require(:test_plan).permit(:name, :description, :base_url,
-                                      test_plan_items_attributes: [:id, :_destroy, :test_item_id]
+                                      test_plan_items_attributes: [:id, :_destroy, :test_item_id, :position]
     )
   end
 

@@ -114,6 +114,9 @@ gem 'strip_attributes'
 #gem 'public_activity'
 gem 'public_activity', github: 'pokonski/public_activity' # we need :fallback partial support see https://github.com/pokonski/public_activity/issues/150
 
+# test_plan_items shall have fixed order
+gem 'acts_as_list'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

@@ -1,6 +1,8 @@
 class TestPlanItem < ActiveRecord::Base
   belongs_to :test_plan
+  acts_as_list scope: :test_plan
   belongs_to :test_item
+
 
   # disable STI
   # type column shouldnt be needed at all, but it could be used to have easy access to type (as String)

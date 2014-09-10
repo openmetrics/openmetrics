@@ -110,20 +110,23 @@ $(document).ready(function() {
     save_button.click(function () {
         var paramsString = form.serialize();
 
+        var i = 0; // to count position of items
         var test_items_params = $('.dropzone ol.test_items').children('li:not(.placeholder)').map(function () {
             var add = {};
             var type;
             var id;
             if (typeof $(this).data('test_case_id') != 'undefined') {
                 type = 'TestCase';
-                id = $(this).data('test_case_id');
+                add.test_item_id = $(this).data('test_case_id');
             }
             if (typeof $(this).data('test_script_id') != 'undefined') {
                 type = 'TestScript';
-                id = $(this).data('test_script_id');
+                add.test_item_id = $(this).data('test_script_id');
 
             }
-            add.test_item_id= id;
+            add.id = $(this).data('id');
+            i++;
+            add.position = i;
             return add;
         }).get();
 

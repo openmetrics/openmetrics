@@ -1,31 +1,62 @@
 <% javascript 'webtest' %>
 
+<%= form_tag(test_plan_path(@test_plan), method: 'put', class: "form-horizontal", name: 'test_plan', role: 'form') do %>
+
+<div class="row">
+  <h3>
+    <%= badge "SYS-#{@test_plan.id}" %> <%= @test_plan.name %>
+    <!--subnav-->
+  <span class="btn-group pull-right">
+    <%= link_to raw('<span class="glyphicon glyphicon-remove"></span> Delete'), @test_plan, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
+    <%= link_to 'Back', @test_plan, :class => 'btn btn-default' %>
+    <%= link_to ' Save', 'javascript:void(0)', :class => 'btn btn-default save' %>
+  </span>
+  </h3>
+</div>
+
 <div class="row">
   <!-- left column -->
   <div class="col-md-8">
-
-    <h3>Test Plan Steps</h3>
-    <%= render partial: 'test_plan_edit', locals: {tp: @test_plan} %>
-
     <div class="panel panel-default">
       <div class="panel-heading">Edit Testplan</div>
       <div class="panel-body">
-        <%= raw htmlform_for @test_plan, {:html_class => 'spacer', :except => [:id, :user_id, :slug, :created_at, :updated_at] } %>
+        <%= raw htmlform_for @test_plan, {:html_class => 'spacer', :inline => true, :except => [:id, :user_id, :slug, :created_at, :updated_at] } %>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Test Items</label>
+
+          <div class="col-md-8">
+            <div class="dropzone">
+              <ol class="test_items list-unstyled circles-list">
+                <%# fill in test_plan_items %>
+                <% if @test_plan.test_plan_items.count > 0 %>
+                    <% @test_plan.test_plan_items.each do |item| %>
+                        <li class="list-group-item" data-id="<%= item.id %>" data-<%= item.test_item.class.to_s.underscore %>_id="<%= item.test_item.id %>">
+                            <span class="actions pull-right">
+                              <i class="drag fa fa-arrows"></i>
+                              <!--<i class="add fa fa-plus" title="Add"></i>-->
+                            </span>
+                          <%= link_to badge("TC-#{item.test_item.id}", 'primary') + " #{item.test_item.name}", item.test_item %>
+                        </li>
+                    <% end %>
+                <% else %>
+                    <li class="placeholder">Drop items here</li>
+                <% end %>
+              </ol>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- right column -->
   <div class="col-md-4">
-    <h3>Test Items</h3>
-    <p>Consectetur art party Tonx culpa semiotics. Pinterest assumenda minim organic quis.</p>
-
     <%= render 'test_item_browser' %>
   </div>
 
 </div>
 
-
+<% end %> <!-- end form_tag -->
 
 
 
