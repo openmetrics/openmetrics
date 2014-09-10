@@ -1,7 +1,5 @@
 <% javascript 'webtest' %>
 
-<%= form_tag(test_plan_path(@test_plan), method: 'put', class: "form-horizontal", name: 'test_plan', role: 'form') do %>
-
 <div class="row">
   <h3>
     <%= badge "SYS-#{@test_plan.id}" %> <%= @test_plan.name %>
@@ -19,6 +17,7 @@
   <div class="col-md-8">
     <div class="panel panel-default spacer">
       <div class="panel-body">
+        <%= form_tag(test_plan_path(@test_plan), method: 'put', class: "form-horizontal", name: 'test_plan', role: 'form') do %>
         <%= raw htmlform_for @test_plan, {:html_class => 'spacer', :nested => true, :except => [:id, :user_id, :slug, :created_at, :updated_at] } %>
         <div class="form-group">
           <label class="col-md-4 control-label">Test Items</label>
@@ -45,6 +44,7 @@
             </div>
           </div>
         </div>
+        <% end %> <!-- end form_tag -->
       </div>
     </div>
   </div>
@@ -55,8 +55,6 @@
   </div>
 
 </div>
-
-<% end %> <!-- end form_tag -->
 
 
 
