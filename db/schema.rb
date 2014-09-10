@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140910093146) do
+ActiveRecord::Schema.define(version: 20140910153537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,13 @@ ActiveRecord::Schema.define(version: 20140910093146) do
 
   add_index "metrics_systems", ["metric_id"], name: "index_metrics_systems_on_metric_id", using: :btree
   add_index "metrics_systems", ["system_id"], name: "index_metrics_systems_on_system_id", using: :btree
+
+  create_table "quality_criteria", force: true do |t|
+    t.integer "test_plan_id"
+    t.string  "attr"
+    t.string  "operator"
+    t.string  "value"
+  end
 
   create_table "running_collectd_plugins", force: true do |t|
     t.integer "collectd_plugin_id"

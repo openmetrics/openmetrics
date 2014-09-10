@@ -7,11 +7,11 @@
   <!-- right column, top column when mobile -->
   <div class="col-md-4 col-md-push-8">
     <%= render partial: 'execution_input' %>
-    <!--<%= render partial: 'shared/recent_test_executions' %>-->
+    <%= render partial: 'shared/recent_test_executions' %>
   </div>
 
   <!-- left column, top column when mobile -->
-  <div class="col-md-8 col-md-pull-4">
+  <div class="col-md-8 col-md-pull-4">q
     <div class="page-header">
       <%= raw badge "TestPlan-#{@test_plan.id}", 'primary' %>
       <%= @test_plan.name %>
@@ -27,6 +27,19 @@
         <%= render partial: 'shared/test_plan', locals: {tp: @test_plan} %>
       </div>
     </div>
+
+
+    <% if @test_plan.quality_criterias.any? %>
+        <h3>Quality Criteria</h3>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <% @test_plan.quality_criterias.each do |criteria| %>
+                <%= criteria.inspect %>
+            <% end %>
+          </div>
+        </div>
+    <% end %>
+
   </div>
 
 </div>

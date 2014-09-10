@@ -25,6 +25,11 @@ class TestExecution < ActiveRecord::Base
   # most recent test executions
   scope :recent, ->(num=5) { order('created_at DESC').limit(num) }
 
+
+  def result
+    self.test_execution_result
+  end
+
   def test_execution_items
     TestExecutionItem.where(test_execution_id: self.id).order('id')
   end
