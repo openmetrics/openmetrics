@@ -11,7 +11,7 @@
   </div>
 
   <!-- left column, top column when mobile -->
-  <div class="col-md-8 col-md-pull-4">q
+  <div class="col-md-8 col-md-pull-4">
     <div class="page-header">
       <%= raw badge "TestPlan-#{@test_plan.id}", 'primary' %>
       <%= @test_plan.name %>
@@ -29,7 +29,7 @@
     </div>
 
 
-    <% if @test_plan.quality_criterias.any? %>
+    <% if @test_plan.quality_criteria.any? %>
         <h3>Quality Criteria</h3>
         <div class="panel panel-default">
           <div class="panel-body">

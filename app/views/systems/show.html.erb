@@ -129,7 +129,7 @@
 
     <!-- timeline (will be filled by js) -->
     <% if @system_events.any? %>
-    <h3 class="spacer">Events <small>(Filter for Changes, Alerts, Activities, Daterange, User)</small></h3>
+    <h3 class="spacer">Events</h3>
     <div class="panel panel-default">
       <div class="panel-body">
         <%= render 'shared/activities', events: @system_events %>

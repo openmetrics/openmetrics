@@ -2,7 +2,7 @@
 
 <div class="row">
   <h3>
-    <%= badge "SYS-#{@test_plan.id}" %> <%= @test_plan.name %>
+    <%= badge "TP-#{@test_plan.id}" %> <%= @test_plan.name %>
     <!--subnav-->
   <span class="btn-group pull-right">
     <%= link_to raw('<span class="glyphicon glyphicon-remove"></span> Delete'), @test_plan, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
