@@ -13,7 +13,7 @@
   <!-- left column, top column when mobile -->
   <div class="col-md-8 col-md-pull-4">
     <div class="page-header">
-      <%= raw badge "TestPlan-#{@test_plan.id}", 'primary' %>
+      <%= raw badge "TestPlan-#{@test_plan.id}", 'default' %>
       <%= @test_plan.name %>
     </div>
 
@@ -28,13 +28,34 @@
       </div>
     </div>
 
-
+    <%# TODO cleanup print all criteria of test_plan and it's test_item's %>
     <% if @test_plan.quality_criteria.any? %>
         <h3>Quality Criteria</h3>
         <div class="panel panel-default">
           <div class="panel-body">
-            <% @test_plan.quality_criterias.each do |criteria| %>
-                <%= criteria.inspect %>
+            <h4>Test Plan</h4>
+            <% @test_plan.quality_criteria.each do |criteria| %>
+                <div class="well">
+                  <%#= criteria.inspect %>
+                  <span class="label label-primary"><%= criteria.entity_type %>-<%= criteria.entity_id %></span>
+                  <span class="label label-info"><%= criteria.attr %></span> shall be
+                  <span class="label label-default"><%= criteria.operator %></span>
+                  <span class="label label-info"><%= criteria.value %></span>
+                </div>
+            <% end %>
+            <% @test_plan.test_items.each do |test_item| %>
+                <% if test_item.quality_criteria.any? %>
+                    <h4>Test Items</h4>
+                    <% test_item.quality_criteria.each do |criteria| %>
+                        <div class="well">
+                          <%#= criteria.inspect %>
+                          <span class="label label-primary"><%= criteria.entity_type %>-<%= criteria.entity_id %></span>
+                          <span class="label label-info"><%= criteria.attr %></span> shall be
+                          <span class="label label-default"><%= criteria.operator %></span>
+                          <span class="label label-info"><%= criteria.value %></span>
+                        </div>
+                    <% end %>
+                <% end %>
             <% end %>
           </div>
         </div>

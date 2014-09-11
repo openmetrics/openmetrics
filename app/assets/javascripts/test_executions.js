@@ -53,6 +53,13 @@ var ready = function() {
         else
             $('.test_plan .items .markup_raw').hide();
     });
+    $('#checkbox_quality_criteria').val($(this).is(':checked'));
+    $('#checkbox_quality_criteria').change(function() {
+        if ( $(this).is(':checked') )
+            $('.test_plan .items .quality_criteria').show()
+        else
+            $('.test_plan .items .quality_criteria').hide();
+    });
 
 
 

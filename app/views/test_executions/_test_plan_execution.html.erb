@@ -48,6 +48,34 @@
                 <%= coderay(te.test_execution_items[n].markup, te.test_execution_items[n].format, "div") %>
               </li>
 
+              <!-- quality criteria -->
+              <li class="quality_criteria spacer"><i class="fa-li fa fa-tachometer"></i>
+                <div class="well">
+                  <% if te.test_execution_items[n].quality.any? %>
+                      <% te.test_execution_items[n].quality.each do |q| %>
+                          <% criterion = q.quality_criterion %>
+                          <span class="label label-primary"><%= criterion.entity_type %>-<%= criterion.entity_id %></span>
+                          <span class="label label-info"><%= criterion.attr %></span>
+                          <span class="label label-default"><%= criterion.operator %></span>
+                          <span class="label label-info"><%= criterion.value %></span>
+                          =>
+                          <% if q.status == 5 %>
+                              <span class="label label-success">Pass</span>
+                          <% end %>
+                          <% if q.status == 10 %>
+                              <span class="label label-warning">Defect</span>
+                          <% end %>
+                          <% if q.status == 15 %>
+                              <span class="label label-danger">Fail</span>
+                          <% end %>
+                          <br>
+                      <% end %>
+                  <% else %>
+                      There aren't any Quality Criteria for this Item.
+                  <% end %>
+                </div>
+              </li>
+
             </ul>
         <% end %>
 

@@ -46,6 +46,16 @@ namespace :openmetrics do
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'collectd_plugins')
     ActiveRecord::Fixtures.create_fixtures(Rails.root.join('test/fixtures'), 'running_collectd_plugins')
 
+    # create some quality criteria for first Test Plan
+    tp = TestPlan.first
+    QualityCriterion.create!(entity_type: 'TestPlan', entity_id: tp.id, attr: 'duration', operator: 'lt', value: '100')
+    #QualityCriterion.create!(entity_type: 'TestPlan', entity_id: tp.id, attr: 'defects', operator: 'eq', value: '0')
+    #QualityCriterion.create!(entity_type: 'TestPlan', entity_id: tp.id, attr: 'fails', operator: 'eq', value: '0')
+    QualityCriterion.create!(entity_type: 'TestItem', entity_id: tp.test_items.first.id, attr: 'duration', operator: 'lt', value: '100')
+    QualityCriterion.create!(entity_type: 'TestItem', entity_id: tp.test_items.first.id, attr: 'exitstatus', operator: 'eq', value: '0')
+    QualityCriterion.create!(entity_type: 'TestItem', entity_id: tp.test_items.first.id, attr: 'stderr', operator: 'is', value: 'empty')
+    QualityCriterion.create!(entity_type: 'TestItem', entity_id: tp.test_items.first.id, attr: 'stdout', operator: 'contains', value: '/.*(foo|bar).*/i')
+
     # attach collectd services as running_services to base system
     # ss = Service.find all
     # ss.each do |service|

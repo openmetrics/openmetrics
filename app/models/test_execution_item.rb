@@ -20,6 +20,7 @@
 
 class TestExecutionItem < ActiveRecord::Base
   include Pollable
+  include Qualified
   belongs_to :test_item
   belongs_to :test_execution
 

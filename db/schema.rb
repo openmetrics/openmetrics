@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140910153537) do
+ActiveRecord::Schema.define(version: 20140911121503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,11 +90,22 @@ ActiveRecord::Schema.define(version: 20140910153537) do
   add_index "metrics_systems", ["metric_id"], name: "index_metrics_systems_on_metric_id", using: :btree
   add_index "metrics_systems", ["system_id"], name: "index_metrics_systems_on_system_id", using: :btree
 
+  create_table "qualities", force: true do |t|
+    t.string  "entity_type"
+    t.integer "entity_id"
+    t.integer "quality_criterion_id"
+    t.integer "test_execution_id"
+    t.integer "status"
+    t.text    "message"
+  end
+
   create_table "quality_criteria", force: true do |t|
-    t.integer "test_plan_id"
+    t.integer "entity_id"
+    t.string  "entity_type"
     t.string  "attr"
     t.string  "operator"
     t.string  "value"
+    t.string  "unit"
   end
 
   create_table "running_collectd_plugins", force: true do |t|
@@ -253,11 +264,6 @@ ActiveRecord::Schema.define(version: 20140910153537) do
   end
 
   add_index "test_plans", ["slug"], name: "index_test_plans_on_slug", unique: true, using: :btree
-
-  create_table "test_plans_test_items", force: true do |t|
-    t.integer "test_plan_id"
-    t.integer "test_item_id"
-  end
 
   create_table "test_suites", force: true do |t|
     t.string   "name"

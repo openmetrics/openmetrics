@@ -15,6 +15,7 @@
 class TestPlan < ActiveRecord::Base
   include Trackable
   include Sluggable
+  include Qualifiable
 
   has_secretary
 
@@ -22,7 +23,6 @@ class TestPlan < ActiveRecord::Base
   has_many :test_items, through: :test_plan_items
   tracks_association :test_plan_items # by rails-secretary gem
   accepts_nested_attributes_for :test_plan_items, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
-  has_many :quality_criteria
 
   validates :name, :presence => true, length: {minimum: 3}
   #TODO validate base_url to be there and valid url (?)

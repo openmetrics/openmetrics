@@ -1,11 +1,13 @@
 require 'selenium-webdriver'
 require 'webtest_automagick'
 require 'open3'
+require 'test/unit/assertions' # to test quality
 
 class TestExecutionWorker
   include Sidekiq::Worker
   sidekiq_options retry: false
   include WebtestAutomagick
+  include Test::Unit::Assertions
 
   TMPDIR="#{Rails.root}/tmp/test_executions" # working dir
 
@@ -21,6 +23,7 @@ class TestExecutionWorker
       te.update_attributes(status: EXECUTION_STATUS.key('prepared'))
       te_items.each do |tei|
         execute(tei[0], tei[1], tei[2]) # test_execution_item_id, filename, interpreter
+        evaluate_quality(TestExecutionItem.find_by_id(tei[0]))
       end
       te.update_attributes(finished_at: Time.now)
       # check test execution items for exitstatus indicating a fail
@@ -40,6 +43,7 @@ class TestExecutionWorker
     end
     # test execution finished
     te.update_attributes(status: EXECUTION_STATUS.key('finished'))
+    evaluate_quality(te)
     # TODO remove (delete) create executable
   end
 
@@ -140,3 +144,63 @@ class TestExecutionWorker
 
 end
 
+def evaluate_quality(entity)
+  #logger.debug "Received entity of #{entity.class.name} #{entity.inspect} to evaluation"
+
+  # entity may be a TestExecution or a TestExecutionItem
+  # therefore get matching criteria and prepare quality object
+  if entity.class.name == 'TestExecution'
+    criteria = QualityCriterion.where(entity_type: 'TestPlan', entity_id: entity.test_plan.id)
+    quality = Quality.new(entity_type: 'TestPlan', entity_id: entity.test_plan.id, test_execution_id: entity.id)
+  elsif entity.class.name == 'TestExecutionItem'
+    criteria = QualityCriterion.where(entity_type: 'TestItem', entity_id: entity.test_item.id)
+    quality = Quality.new(entity_type: 'TestItem', entity_id: entity.test_item.id, test_execution_id: entity.test_execution.id)
+  end
+
+  if criteria.any?
+    logger.info "#{entity.class.name}##{entity.id} evaluating Quality"
+    criteria.each do |criterion|
+      entity_quality = quality.dup
+      entity_quality.update_attributes(quality_criterion: criterion)
+
+      entity_value = if entity.respond_to? criterion.attr
+                       entity.send(criterion.attr)
+                     else
+                       logger.error "#{entity.class.name}##{entity.id} can't evaluate criterion attribute #{criterion.attr}"
+                       nil
+                     end
+
+      numeric_operator = false
+      operator = case criterion.operator
+                   when 'lt', '<'
+                     numeric_operator = true
+                     '<'
+                   when 'lte', '<='
+                     numeric_operator = true
+                     '<='
+                   when 'gt', '>'
+                     numeric_operator = true
+                     '>'
+                   when 'gte', '>='
+                     numeric_operator = true
+                     '>='
+                   when 'eq', '=='
+                     '=='
+                   else
+                     criterion.operator
+                 end
+      criterion_value = numeric_operator ? criterion.value.to_f : criterion.value
+      begin
+        assert_operator(entity_value, operator.to_sym, criterion_value)
+        entity_quality.update_attributes(status: QUALITY_STATUS.key('pass'))
+      rescue Minitest::Assertion => e
+        logger.info "#{entity.class.name}##{entity.id} #{entity_value} #{operator} #{criterion_value} isn't true, #{e.message}"
+        entity_quality.update_attributes(status: QUALITY_STATUS.key('defect'), message: e.message)
+      rescue Exception => e
+        logger.warn "#{entity.class.name}##{entity.id} couldn't assert #{entity_value} #{operator} #{criterion_value}"
+        entity_quality.update_attributes(status: QUALITY_STATUS.key('fail'), message: e.message)
+      end
+    end
+  end
+
+end
