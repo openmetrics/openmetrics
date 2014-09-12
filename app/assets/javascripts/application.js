@@ -84,8 +84,12 @@ function notify(message, severity, title) {
 
 }
 
+function closeEditorWarning(){
+    return 'It looks like you have been editing something -- if you leave before submitting your changes will be lost.';
+}
 
 // find link/button of class .save and add a alert icon
+// also set window exit warning dialog
 function setAlertForSaveButton() {
     var button = $('.save');
     var icon = $('<span id="save-alert" class="fa fa-exclamation-triangle text-danger"></span>');
@@ -94,6 +98,10 @@ function setAlertForSaveButton() {
     if (button.children('#save-alert').length == 0) {
         icon.prependTo(button);
     }
+
+    // window exit warning
+    window.onbeforeunload = closeEditorWarning;
+
 }
 function removeAlertForSaveButton() {
     var button = $('.save');
