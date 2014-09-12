@@ -34,6 +34,7 @@
 //= require ace/ace
 //= require ace/mode-html
 //= require ace/theme-github
+//= require conditions-builder
 //= require ui.multiselect
 ////= require turbolinks
 

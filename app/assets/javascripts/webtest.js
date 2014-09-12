@@ -57,6 +57,47 @@ $(document).ready(function() {
 
     console.log("JavaScript Ready Webtest");
 
+    // init conditions builder
+     var occupationOptions = [
+        {label: "", name: ""},
+        {label: "Software Engineer", name: "software-engineer"},
+        {label: "Biz Dev", name: "biz-dev"},
+        {label: "Marketing", name: "marketing"}
+      ];
+    var fields = [
+        {label: "duration", name: "nameField", operators: [
+            {label: "is equal to", name: "equalTo", fieldType: "text"},
+            {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
+            {label: "is less than", name: "lessThan", fieldType: "text"},
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+        ]},
+        {label: "Age", name: "ageField", operators: [
+            {label: "is present", name: "present", fieldType: "none"},
+            {label: "is blank", name: "blank", fieldType: "none"},
+            {label: "is equal to", name: "equalTo", fieldType: "text"},
+            {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
+            {label: "is less than", name: "lessThan", fieldType: "text"},
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+        ]},
+        {label: "Occupation", name: "occupationField", options: occupationOptions, operators: [
+            {label: "is present", name: "present", fieldType: "none"},
+            {label: "is blank", name: "blank", fieldType: "none"},
+            {label: "is equal to", name: "equalTo", fieldType: "select"},
+            {label: "is not equal to", name: "notEqualTo", fieldType: "select"}
+        ]}
+    ];
+    var data = {"all": [
+        {name: "nameField", operator: "equalTo", value: "Godzilla"},
+        {name: "ageField", operator: "greaterThanEqual", value: "21"}
+    ]};
+    $("#criteria_builder").conditionsBuilder({fields: fields, data: data});
+
+
+
     // new test plan droppable + selectable
     // based on http://jsfiddle.net/KyleMit/Geupm/2/
     var replaceButtons;
@@ -159,7 +200,8 @@ $(document).ready(function() {
             return add;
         }).get();
 
-
+        // get criteria
+        $("#criteria_builder")
 
         // extend params string
         paramsString = paramsString + '&' +
