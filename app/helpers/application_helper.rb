@@ -28,8 +28,17 @@ module ApplicationHelper
     raw "<span class=\"label label-#{label_class}\">" + (text.is_a?(String) ? text : '') + '</span>'
   end
 
-  def system_badge(object, opts=nil)
-    badge("SYS-#{object.id}", opts) + " #{object.name}"
+  # helper for helper :)
+  def badge_label(object, *options)
+    opt = options.extract_options! # returns Hash
+    label_class = opt[:label_class] || 'default'
+    object_class = object.class.name
+    text = if object.respond_to? :name
+             object.name
+           else
+             "unnamed Object"
+           end
+    raw(badge("#{object_class.to_acronym}-#{object.id}", label_class)) + " #{text}"
   end
 
   # sets data-no-turbolink attribute to html body tag, to disable turbolinks on a specific page

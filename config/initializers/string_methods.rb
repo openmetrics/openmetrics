@@ -1,6 +1,28 @@
 require 'json'
 
 class String
+
+  # returns acronym for some specific Strings, e.g. 'Service' will become 'SVC', also see inflections.rb
+  def to_acr
+    case self
+      when 'RunningService'
+        'RS'
+      when 'Service'
+        'SVC'
+      when 'System'
+        'SYS'
+      when 'TestCase'
+        'TC'
+      when 'TestExecution'
+        'TE'
+      when 'TestPlan'
+        'TP'
+      else
+        self
+    end
+  end
+  alias_method :to_acronym, :to_acr
+
   def is_json?
     begin
       !!JSON.parse(self)

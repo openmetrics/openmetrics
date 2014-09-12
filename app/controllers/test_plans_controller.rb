@@ -60,11 +60,11 @@ class TestPlansController < ApplicationController
                         end
 
       @test_plan.create_activity :update, :owner => current_user, :parameters => activity_params
-      redirect_to @test_plan, notice: 'Test Plan was successfully updated.'
+      flash[:success] = 'Test Plan was successfully updated.'
     else
       flash[:warn] = "Oh snap! That didn't work."
-      redirect_to @test_plan
     end
+    redirect_via_turbolinks_to :back
   end
 
   def destroy

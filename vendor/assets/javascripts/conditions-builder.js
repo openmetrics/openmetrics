@@ -134,7 +134,7 @@
   };
 
   function getFieldSelect(fields, ruleData) {
-    var select = $("<select>", {"class": "field"});
+    var select = $("<select>", {"class": "field", 'name': 'test_criteria[]'});
     for(var i=0; i < fields.length; i++) {
       var field = fields[i];
       var option = $("<option>", {
@@ -149,7 +149,7 @@
   }
 
   function getOperatorSelect() {
-    var select = $("<select>", {"class": "operator"});
+    var select = $("<select>", {"class": "operator", 'name': 'test_criteria[]'});
     select.change(onOperatorSelectChange);
     return select;
   }
@@ -194,15 +194,15 @@
 
     switch(option.data("fieldType")) {
       case "none": 
-        $this.after($("<input>", {"type": "hidden", "class": "value"}));
+        $this.after($("<input>", {"type": "hidden", "class": "value", 'name': 'test_criteria[]'}));
         break;
       case "text":
-        $this.after($("<input>", {"type": "text", "class": "value"}));
+        $this.after($("<input>", {"type": "text", "class": "value", 'name': 'test_criteria[]'}));
         break;
       case "textarea":
-        $this.after($("<textarea>", {"class": "value"}));
+        $this.after($("<textarea>", {"class": "value", 'name': 'test_criteria[]'}));
       case "select":
-        var select = $("<select>", {"class": "value"});
+        var select = $("<select>", {"class": "value", 'name': 'test_criteria[]'} );
         var options = fieldSelect.find("> :selected").data("options");
         for(var i=0; i < options.length; i++) {
           var opt = options[i];

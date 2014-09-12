@@ -2,7 +2,7 @@
 
 <div class="row">
   <h3>
-    <%= badge "TP-#{@test_plan.id}" %> <%= @test_plan.name %>
+    <%= badge_label @test_plan, {:label_class => 'primary'} %>
     <!--subnav-->
   <span class="btn-group pull-right">
     <%= link_to raw('<span class="glyphicon glyphicon-remove"></span> Delete'), @test_plan, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
@@ -13,8 +13,8 @@
 </div>
 
 <div class="row">
-  <%= form_tag(test_plan_path(@test_plan), method: 'put', class: "form-horizontal", name: 'test_plan', role: 'form') do %>
   <!-- left column -->
+  <%= form_tag(test_plan_path(@test_plan), method: 'put', class: "form-horizontal", name: 'test_plan', role: 'form') do %>
   <div class="col-md-8">
     <div class="panel panel-default spacer">
       <div class="panel-body">
@@ -34,7 +34,7 @@
                               <i class="drag fa fa-arrows"></i>
                               <!--<i class="add fa fa-plus" title="Add"></i>-->
                             </span>
-                          <%= link_to badge("TC-#{item.test_item.id}", 'primary') + " #{item.test_item.name}", item.test_item %>
+                          <%= link_to badge_label(item.test_item, {:label_class => 'primary'}), item.test_item %>
                         </li>
                     <% end %>
                 <% else %>
@@ -51,18 +51,30 @@
     <h4>Test Criteria</h4>
     <div class="panel panel-default spacer">
       <div class="panel-body">
-        <div id="criteria_builder"></div>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <%= badge_label @test_plan %>
+            <hr>
+            <div id="criteria_builder"></div>
+          </li>
+          <% @test_plan.test_items.each do |item| %>
+          <li class="list-group-item">
+            <%= badge_label item %>
+            <hr>
+            <div id="criteria_builder"></div>
+          </li>
+          <% end %>
+        </ul>
       </div>
     </div>
-
-
-  </div>
+  </div><!-- end left column -->
+  <% end %> <!-- end form_tag -->
 
   <!-- right column -->
   <div class="col-md-4">
     <%= render 'test_item_browser' %>
   </div>
-  <% end %> <!-- end form_tag -->
+
 </div>
 
 

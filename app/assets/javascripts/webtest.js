@@ -65,7 +65,7 @@ $(document).ready(function() {
         {label: "Marketing", name: "marketing"}
       ];
     var fields = [
-        {label: "duration", name: "nameField", operators: [
+        {label: "duration", name: "duration", operators: [
             {label: "is equal to", name: "equalTo", fieldType: "text"},
             {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
             {label: "is greater than", name: "greaterThan", fieldType: "text"},
@@ -73,7 +73,7 @@ $(document).ready(function() {
             {label: "is less than", name: "lessThan", fieldType: "text"},
             {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
         ]},
-        {label: "Age", name: "ageField", operators: [
+        {label: "STDOUT", name: "stdout", operators: [
             {label: "is present", name: "present", fieldType: "none"},
             {label: "is blank", name: "blank", fieldType: "none"},
             {label: "is equal to", name: "equalTo", fieldType: "text"},
@@ -91,10 +91,11 @@ $(document).ready(function() {
         ]}
     ];
     var data = {"all": [
-        {name: "nameField", operator: "equalTo", value: "Godzilla"},
-        {name: "ageField", operator: "greaterThanEqual", value: "21"}
+        {name: "duration", operator: "equalTo", value: "Godzilla"},
+        {name: "stdout", operator: "greaterThanEqual", value: "21"}
     ]};
-    $("#criteria_builder").conditionsBuilder({fields: fields, data: data});
+
+    $("#criteria_builder").conditionsBuilder({fields: fields, data: data, name: 'myform[]'});
 
 
 
@@ -201,7 +202,9 @@ $(document).ready(function() {
         }).get();
 
         // get criteria
-        $("#criteria_builder")
+        var test_criteria = $('.conditional').children('.rule').map(function () {
+            console.log(serializeForm($(this)));
+        }).get();
 
         // extend params string
         paramsString = paramsString + '&' +

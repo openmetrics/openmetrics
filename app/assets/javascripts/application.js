@@ -101,6 +101,67 @@ function removeAlertForSaveButton() {
     icon.remove();
 }
 
+// gets a form fields value
+var getFieldValue = function(e) {
+    var v, c, nn;
+    nn = e.get(0).nodeName.toLowerCase();
+    // getting value of select-/checkboxes & radios
+    if (nn == "select" || e.filter(":radio, :checkbox").length) {
+        c = (nn == "select" ? e.find("option:selected") : e.filter(":checked"));
+        if (c.length == 1) { v = c.val(); }
+        else if (c.length > 1) {
+            v = [];
+            c.each(function() { v.push($(this).val()); });
+        }
+        // inputs & textarea
+    } else {
+        v = e.val();
+        // replace comma with dot
+        if (e.hasClass("number_decimal_positive")) { v = (v + "").replace(/,/g, "."); }
+    }
+    return v;
+};
+
+var serializeForm = function(e) {
+    var n, v, f, i, o, elements, nn;
+    elements = ["input", "select", "textarea"];
+    o = {};
+    nn = e.get(0).nodeName.toLowerCase();
+    if ( inArray(nn, elements) ) {
+        o[e.attr("name")] = getFieldValue(e);
+    } else {
+        e.find(elements.join(", ")).each(function() {
+            n = $(this).attr("name");
+            v = getFieldValue($(this));
+            if (o[n] === undefined) { o[n] = v; }
+            else if (v) {
+                if (!o[n].push) {
+                    if (o[n] == "") { o[n] = v; }
+                    else {
+                        o[n] = [o[n]];
+                        o[n].push(v);
+                    }
+                } else { o[n].push(v); }
+            }
+        });
+    }
+    f = [];
+    for (i in o) { f.push(i); }
+    return o;
+};
+
+var inArray = function(needle, haystack) {
+    if (haystack == undefined) {
+        alert(needle);
+        return false;
+    }
+    var length = haystack.length;
+    for (var i = 0; i < length; i++) {
+        if (haystack[i] == needle) { return true; }
+    }
+    return false;
+};
+
 /* loading indicator (turbolinks fetch/change event and jquery ajax) */
 $(document).on('page:fetch', function() {
     $("#loading-indicator").fadeIn(300);

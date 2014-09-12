@@ -5,6 +5,12 @@
 # locales as you wish. All of these examples are active by default:
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular 'criterion', 'criteria'
+  inflect.acronym 'RS'
+  inflect.acronym 'SVC'
+  inflect.acronym 'SYS'
+  inflect.acronym 'TC'
+  inflect.acronym 'TE'
+  inflect.acronym 'TP'
 #   inflect.plural /^(ox)$/i, '\1en'
 #   inflect.singular /^(ox)en/i, '\1'
 #   inflect.irregular 'person', 'people'

@@ -78,7 +78,7 @@ class SystemsController < ApplicationController
     else
       flash[:warn] = 'Something went wrong while updating system.'
     end
-    redirect_to :back
+    redirect_via_turbolinks_to :back
   end
 
   def destroy
