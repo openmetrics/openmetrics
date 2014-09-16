@@ -1,7 +1,7 @@
 <% disable_turbolinks! %>
 <% javascript('webtest') %>
 
-<div class="row page-header">
+<div class="row page-header" xmlns="http://www.w3.org/1999/html">
 <h3>
     <%= raw badge "TestPlan-#{@test_plan.id}", 'default' %>
     <%= @test_plan.name %>
@@ -41,11 +41,10 @@
             <h4>Test Plan</h4>
             <% @test_plan.quality_criteria.each do |criteria| %>
                 <div class="well">
-                  <%#= criteria.inspect %>
                   <span class="label label-primary"><%= criteria.qualifiable_type %>-<%= criteria.qualifiable_id %></span>
-                  <span class="label label-info"><%= criteria.attr %></span> shall be
-                  <span class="label label-default"><%= criteria.operator %></span>
-                  <span class="label label-info"><%= criteria.value %></span>
+                  <strong><%= criteria.attr %></strong> shall be
+                  <strong><%= criteria.operator %></strong>
+                  <strong><%= criteria.value %></strong>
                 </div>
             <% end %>
             <% @test_plan.test_items.each do |test_item| %>
@@ -53,11 +52,10 @@
                     <h4>Test Items</h4>
                     <% test_item.quality_criteria.each do |criteria| %>
                         <div class="well">
-                          <%#= criteria.inspect %>
                           <span class="label label-primary"><%= criteria.qualifiable_type %>-<%= criteria.qualifiable_id %></span>
-                          <span class="label label-info"><%= criteria.attr %></span> shall be
-                          <span class="label label-default"><%= criteria.operator %></span>
-                          <span class="label label-info"><%= criteria.value %></span>
+                          <strong><%= criteria.attr %></strong> shall be
+                          <strong><%= criteria.operator %></strong>
+                          <strong><%= criteria.value %></strong>
                         </div>
                     <% end %>
                 <% end %>
