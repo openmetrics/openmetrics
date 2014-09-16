@@ -2,18 +2,21 @@
 <% javascript('webtest') %>
 <% javascript('test_executions.js') %>
 
+<div class="row page-header">
+  <h3>
+    <%= badge_label @test_execution, {:label_class => 'default', :text => @test_execution.test_plan.name} %>
+    <span class="pull-right">
+    <%= render partial: 'controls' %>
+    </span>
+  </h3>
+</div>
 
 <div class="row">
 
   <!-- right column, top column when mobile -->
   <div class="col-md-4 col-md-push-8">
-    <div class="page-header">
-      <%= raw badge "TE-#{@test_execution.id}", 'default' %>
-      Result
-    </div>
-    <div class="panel panel-default spacer">
+    <div class="panel panel-default">
       <div class="panel-body">
-        <%= render partial: 'controls' %>
         Base URL <code><%= @test_execution.test_plan.base_url %></code><br>
         <small>Test execution requested <%= time_ago_in_words(@test_execution.created_at) %> ago.</small><br>
         <%= test_execution_status(@test_execution) %><br>
@@ -27,15 +30,14 @@
       </div>
     </div>
     <%#= @test_execution.result.inspect %>
+    <!-- test plan quality -->
+    <i class="fa fa-tachometer"></i> Quality</strong>
+    <%= render 'shared/quality', item: @test_execution %>
   </div>
 
   <!-- left column, top column when mobile -->
   <div class="col-md-8 col-md-pull-4">
-    <div class="page-header">
-      <%= raw badge "TP-#{@test_plan.id}", 'primary' %>
-      <%= link_to "#{@test_plan.name}", @test_plan %>
-    </div>
-    <div class="panel panel-default spacer">
+    <div class="panel panel-default">
       <div class="panel-body">
         <%#= @test_execution.inspect %>
         <blockquote><p><%= @test_plan.description %></p></blockquote>

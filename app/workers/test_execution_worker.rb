@@ -148,12 +148,12 @@ def evaluate_quality(entity)
   #logger.debug "Received entity of #{entity.class.name} #{entity.inspect} to evaluation"
 
   # entity may be a TestExecution or a TestExecutionItem
-  # therefore get matching criteria and prepare quality object
+  # therefore get matching criteria and prepare quality object for later use
   if entity.class.name == 'TestExecution'
-    criteria = QualityCriterion.where(entity_type: 'TestPlan', entity_id: entity.test_plan.id)
+    criteria = QualityCriterion.where(qualifiable_type: 'TestPlan', qualifiable_id: entity.test_plan.id)
     quality = Quality.new(entity_type: 'TestPlan', entity_id: entity.test_plan.id, test_execution_id: entity.id)
   elsif entity.class.name == 'TestExecutionItem'
-    criteria = QualityCriterion.where(entity_type: 'TestItem', entity_id: entity.test_item.id)
+    criteria = QualityCriterion.where(qualifiable_type: 'TestItem', qualifiable_id: entity.test_item.id)
     quality = Quality.new(entity_type: 'TestItem', entity_id: entity.test_item.id, test_execution_id: entity.test_execution.id)
   end
 
@@ -163,6 +163,36 @@ def evaluate_quality(entity)
       entity_quality = quality.dup
       entity_quality.update_attributes(quality_criterion: criterion)
 
+      # resolve operator to minitest assert operator
+      numeric_operator = false
+      present_operator = false
+      blank_operator = false
+      matches_operator = false
+      operator = case criterion.operator
+                   when 'present'
+                     present_operator = true
+                   when 'blank'
+                     blank_operator = true
+                   when 'includes', 'matches'
+                   when 'lt', '<', 'lessThan'
+                     numeric_operator = true
+                     '<'
+                   when 'lte', '<=', 'lessThanEqual'
+                     numeric_operator = true
+                     '<='
+                   when 'gt', '>', 'greaterThan'
+                     numeric_operator = true
+                     '>'
+                   when 'gte', '>=', 'greaterThanEqual'
+                     numeric_operator = true
+                     '>='
+                   when 'eq', '==', 'equalTo'
+                     numeric_operator = true
+                     '=='
+                   else
+                     criterion.operator
+                 end
+
       entity_value = if entity.respond_to? criterion.attr
                        entity.send(criterion.attr)
                      else
@@ -170,28 +200,18 @@ def evaluate_quality(entity)
                        nil
                      end
 
-      numeric_operator = false
-      operator = case criterion.operator
-                   when 'lt', '<'
-                     numeric_operator = true
-                     '<'
-                   when 'lte', '<='
-                     numeric_operator = true
-                     '<='
-                   when 'gt', '>'
-                     numeric_operator = true
-                     '>'
-                   when 'gte', '>='
-                     numeric_operator = true
-                     '>='
-                   when 'eq', '=='
-                     '=='
-                   else
-                     criterion.operator
-                 end
-      criterion_value = numeric_operator ? criterion.value.to_f : criterion.value
+      # cast criterion value to float if it's numeric
+      criterion_value = (numeric_operator and criterion.value.is_numeric?) ? criterion.value.to_f : criterion.value
+
+      # check criterion asserts
       begin
-        assert_operator(entity_value, operator.to_sym, criterion_value)
+        if numeric_operator
+          assert_operator(entity_value, operator.to_sym, criterion_value)
+        elsif present_operator
+          assert_present(entity_value.present?)
+        elsif blank_operator
+          assert(entity_value.blank?)
+        end
         entity_quality.update_attributes(status: QUALITY_STATUS.key('pass'))
       rescue Minitest::Assertion => e
         logger.info "#{entity.class.name}##{entity.id} #{entity_value} #{operator} #{criterion_value} isn't true, #{e.message}"

@@ -1,6 +1,6 @@
 st100_1:
   test_plan: st100
-  test_item: bashsleep30
+  test_item: bashsleep5
   position: 1
 st100_2:
   test_plan: st100

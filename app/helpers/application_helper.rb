@@ -33,11 +33,12 @@ module ApplicationHelper
     opt = options.extract_options! # returns Hash
     label_class = opt[:label_class] || 'default'
     object_class = object.class.name
-    text = if object.respond_to? :name
+    default_text = if object.respond_to? :name
              object.name
            else
              "unnamed Object"
            end
+    text = opt[:text] || default_text
     raw(badge("#{object_class.to_acronym}-#{object.id}", label_class)) + " #{text}"
   end
 

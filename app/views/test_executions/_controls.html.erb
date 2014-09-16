@@ -1,35 +1,43 @@
+<span class="btn-group">
 
-<button class="btn btn-default pull-right display_options" data-placement="bottom">
-    <i class="glyphicon glyphicon-cog"></i>
-</button>
+    <%= link_to 'Back', :back, :class => 'btn btn-default' %>
+
+    <%= link_to raw('<span class="glyphicon glyphicon-wrench"></span> Edit Test Plan'), edit_test_plan_path(@test_plan), :class => 'btn btn-default' %>
+
+    <button class="btn btn-default pull-right display_options" data-placement="bottom">
+        <i class="glyphicon glyphicon-cog"></i>
+    </button>
+</span>
 
 <div id="popover_content_container" class="hidden">
 
   <div id="display_options_popover">
       <h5>Display settings</h5>
       <div class="checkbox checkbox-circle">
-        <input type="checkbox" id="checkbox_stdout" checked>
-        <label for="checkbox_stdout">STDOUT</label>
+
+        <input type="checkbox" id="checkbox_quality">
+        <label for="checkbox_quality">Quality</label>
 
         <br>
 
-        <input type="checkbox" id="checkbox_stderr" checked>
-        <label for="checkbox_stderr">STDERR</label>
+        <input type="checkbox" id="checkbox_markup">
+        <label for="checkbox_markup">Executable Markup</label>
 
         <br>
 
-        <input type="checkbox" id="checkbox_markup" checked>
-        <label for="checkbox_markup">executable markup</label>
+        <input type="checkbox" id="checkbox_markup_raw">
+        <label for="checkbox_markup_raw">Raw Markup</label>
 
         <br>
 
-        <input type="checkbox" id="checkbox_markup_raw" checked>
-        <label for="checkbox_markup_raw">raw markup</label>
+        <input type="checkbox" id="checkbox_stdout">
+        <label for="checkbox_stdout">Output</label>
 
         <br>
 
-        <input type="checkbox" id="checkbox_quality_criteria" checked>
-        <label for="checkbox_quality_criteria">Quality Criteria</label>
+        <input type="checkbox" id="checkbox_stderr">
+        <label for="checkbox_stderr">Error Output</label>
+
       </div>
   </div>
 </div>

@@ -65,15 +65,9 @@ $(document).ready(function() {
         {label: "Marketing", name: "marketing"}
       ];
     var fields = [
-        {label: "duration", name: "duration", operators: [
-            {label: "is equal to", name: "equalTo", fieldType: "text"},
-            {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
-            {label: "is greater than", name: "greaterThan", fieldType: "text"},
-            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
-            {label: "is less than", name: "lessThan", fieldType: "text"},
-            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
-        ]},
-        {label: "STDOUT", name: "stdout", operators: [
+        {label: "Duration", name: "duration", operators: [
+            {label: "includes", name: "includes", fieldType: "text"},
+            {label: "matches", name: "matchesRegexp", fieldType: "text"},
             {label: "is present", name: "present", fieldType: "none"},
             {label: "is blank", name: "blank", fieldType: "none"},
             {label: "is equal to", name: "equalTo", fieldType: "text"},
@@ -83,12 +77,43 @@ $(document).ready(function() {
             {label: "is less than", name: "lessThan", fieldType: "text"},
             {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
         ]},
-        {label: "Occupation", name: "occupationField", options: occupationOptions, operators: [
+        {label: "Exit status", name: "exitstatus", operators: [
+            {label: "includes", name: "includes", fieldType: "text"},
+            {label: "matches", name: "matchesRegexp", fieldType: "text"},
             {label: "is present", name: "present", fieldType: "none"},
             {label: "is blank", name: "blank", fieldType: "none"},
-            {label: "is equal to", name: "equalTo", fieldType: "select"},
-            {label: "is not equal to", name: "notEqualTo", fieldType: "select"}
-        ]}
+            {label: "is equal to", name: "equalTo", fieldType: "text"},
+            {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
+            {label: "is less than", name: "lessThan", fieldType: "text"},
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+        ]},
+        {label: "Output", name: "output", operators: [
+            {label: "includes", name: "includes", fieldType: "text"},
+            {label: "matches", name: "matchesRegexp", fieldType: "text"},
+            {label: "is present", name: "present", fieldType: "none"},
+            {label: "is blank", name: "blank", fieldType: "none"},
+            {label: "is equal to", name: "equalTo", fieldType: "text"},
+            {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
+            {label: "is less than", name: "lessThan", fieldType: "text"},
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+        ]},
+        {label: "Error Output", name: "error", operators: [
+            {label: "includes", name: "includes", fieldType: "text"},
+            {label: "matches", name: "matchesRegexp", fieldType: "text"},
+            {label: "is present", name: "present", fieldType: "none"},
+            {label: "is blank", name: "blank", fieldType: "none"},
+            {label: "is equal to", name: "equalTo", fieldType: "text"},
+            {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
+            {label: "is less than", name: "lessThan", fieldType: "text"},
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+        ]},
+
     ];
     var data = {"all": [
         {name: "duration", operator: "equalTo", value: "Godzilla"},
@@ -210,8 +235,6 @@ $(document).ready(function() {
             add.value = tmp['quality_criteria_attributes[value]'];
             return add;
         }).get();
-
-        console.log(quality_criteria_params);
 
         // extend params string
         paramsString = paramsString + '&' +

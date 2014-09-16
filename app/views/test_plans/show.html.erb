@@ -1,7 +1,7 @@
 <% disable_turbolinks! %>
 <% javascript('webtest') %>
 
-<div class="row page-header" xmlns="http://www.w3.org/1999/html">
+<div class="row page-header">
 <h3>
     <%= raw badge "TestPlan-#{@test_plan.id}", 'default' %>
     <%= @test_plan.name %>
@@ -35,29 +35,33 @@
 
     <%# TODO cleanup print all criteria of test_plan and it's test_item's %>
     <% if @test_plan.quality_criteria.any? %>
-        <h3>Quality Criteria</h3>
+        <h3>Quality Criteria <small>All of the following are true</small></h3>
         <div class="panel panel-default">
           <div class="panel-body">
             <h4>Test Plan</h4>
+            <ul class="list-group">
             <% @test_plan.quality_criteria.each do |criteria| %>
-                <div class="well">
-                  <span class="label label-primary"><%= criteria.qualifiable_type %>-<%= criteria.qualifiable_id %></span>
+                <li class="list-group-item">
                   <strong><%= criteria.attr %></strong> shall be
                   <strong><%= criteria.operator %></strong>
                   <strong><%= criteria.value %></strong>
-                </div>
+                </li>
             <% end %>
-            <% @test_plan.test_items.each do |test_item| %>
+            </ul>
+            <h4>Test Items</h4>
+            <% @test_plan.test_items.each_with_index do |test_item,n| %>
                 <% if test_item.quality_criteria.any? %>
-                    <h4>Test Items</h4>
+                    <span class="item-number"><%= n+1 %></span>
+                    <%= badge_label test_item, {:label_class => 'default'} %>
+                    <ul class="list-group">
                     <% test_item.quality_criteria.each do |criteria| %>
-                        <div class="well">
-                          <span class="label label-primary"><%= criteria.qualifiable_type %>-<%= criteria.qualifiable_id %></span>
+                        <li class="list-group-item">
                           <strong><%= criteria.attr %></strong> shall be
                           <strong><%= criteria.operator %></strong>
                           <strong><%= criteria.value %></strong>
-                        </div>
+                        </li>
                     <% end %>
+                    </ul>
                 <% end %>
             <% end %>
           </div>

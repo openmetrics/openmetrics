@@ -28,7 +28,7 @@ module WebtestsHelper
           else
             # finished and exitstatus equals 0: success
             if test_execution.test_execution_result.exitstatus == 0
-              concat '<button class="btn btn-success btn-lg btn-block"><i class="fa fa-thumbs-up"></i> Success</button>'.html_safe
+              concat '<button class="btn btn-success btn-lg btn-block">Success</button>'.html_safe
             else
               # FIXME TestExecution is finished and exitstatus > 0: MUST be failed *sic*
               concat '<button class="btn btn-danger btn-lg btn-block"><i class="fa fa-frown-o"></i> Failure</button>'.html_safe

@@ -23,6 +23,11 @@ class String
   end
   alias_method :to_acronym, :to_acr
 
+  def is_number?
+    true if Float(self) rescue false
+  end
+  alias_method :is_numeric?, :is_number?
+
   def is_json?
     begin
       !!JSON.parse(self)

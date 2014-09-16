@@ -46,6 +46,14 @@ module Executable
     (self.finished_at - self.started_at).round(3) #milisecond precision
   end
 
+  # returns self exitstatus (TestExecutionItem) or exitstats from highest of all childs (TestExecution)
+  def exitstatus
+    if self.class.name == 'TestExecution'
+      return self.test_execution_items.order('exitstatus DESC').first.exitstatus
+    end
+    self.exitstatus
+  end
+
 
   # execution status related methods
   def not_scheduled?

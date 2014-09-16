@@ -48,13 +48,15 @@ namespace :openmetrics do
 
     # create some quality criteria for first Test Plan
     tp = TestPlan.first
-    tp.quality_criteria.create!( attr: 'duration', operator: 'lt', value: '100')
-    #QualityCriterion.create!(entity_type: 'TestPlan', entity_id: tp.id, attr: 'defects', operator: 'eq', value: '0')
-    #QualityCriterion.create!(entity_type: 'TestPlan', entity_id: tp.id, attr: 'fails', operator: 'eq', value: '0')
-    tp.test_items.first.quality_criteria.create!( attr: 'duration', operator: 'lt', value: '100')
-    tp.test_items.first.quality_criteria.create!( attr: 'exitstatus', operator: 'eq', value: '0')
-    tp.test_items.first.quality_criteria.create!( attr: 'stderr', operator: 'is', value: 'empty')
-    tp.test_items.first.quality_criteria.create!( attr: 'stdout', operator: 'contains', value: '/.*(foo|bar).*/i')
+    tp.quality_criteria.create!( attr: 'duration', operator: 'lessThan', value: '100')
+    tp.quality_criteria.create!( attr: 'exitstatus', operator: 'equalTo', value: '0')
+    tp.test_items.first.quality_criteria.create!( attr: 'duration', operator: 'lessThan', value: '5.1')
+    tp.test_items.first.quality_criteria.create!( attr: 'exitstatus', operator: 'equalTo', value: '0')
+    tp.test_items.first.quality_criteria.create!( attr: 'error', operator: 'blank')
+    # tp.test_items.first.quality_criteria.create!( attr: 'stderr', operator: 'is', value: 'empty')
+    # tp.test_items.first.quality_criteria.create!( attr: 'stdout', operator: 'contains', value: '/.*(foo|bar).*/i')
+    # tp.test_items.last.quality_criteria.create!( attr: 'duration', operator: 'lt', value: '100')
+    # tp.test_items.lasst.quality_criteria.create!( attr: 'exitstatus', operator: 'eq', value: '0')
 
     # attach collectd services as running_services to base system
     # ss = Service.find all

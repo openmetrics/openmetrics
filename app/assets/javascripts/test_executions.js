@@ -28,37 +28,37 @@ var ready = function() {
     $('#checkbox_stdout').val($(this).is(':checked'));
     $('#checkbox_stdout').change(function() {
         if ( $(this).is(':checked') )
-            $('.test_plan .items .stdout').show()
+            $('.test_plan .items .stdout').fadeIn('fast')
         else
             $('.test_plan .items .stdout').hide();
     });
     $('#checkbox_stderr').val($(this).is(':checked'));
     $('#checkbox_stderr').change(function() {
         if ( $(this).is(':checked') )
-            $('.test_plan .items .stderr').show()
+            $('.test_plan .items .stderr').fadeIn('fast')
         else
             $('.test_plan .items .stderr').hide();
     });
     $('#checkbox_markup').val($(this).is(':checked'));
     $('#checkbox_markup').change(function() {
         if ( $(this).is(':checked') )
-            $('.test_plan .items .markup').show()
+            $('.test_plan .items .markup').fadeIn('fast')
         else
             $('.test_plan .items .markup').hide();
     });
     $('#checkbox_markup_raw').val($(this).is(':checked'));
     $('#checkbox_markup_raw').change(function() {
         if ( $(this).is(':checked') )
-            $('.test_plan .items .markup_raw').show()
+            $('.test_plan .items .markup_raw').fadeIn('fast')
         else
             $('.test_plan .items .markup_raw').hide();
     });
-    $('#checkbox_quality_criteria').val($(this).is(':checked'));
-    $('#checkbox_quality_criteria').change(function() {
+    $('#checkbox_quality').attr('checked', false);;
+    $('#checkbox_quality').change(function() {
         if ( $(this).is(':checked') )
-            $('.test_plan .items .quality_criteria').show()
+            $('.test_plan .items .quality').fadeIn('fast')
         else
-            $('.test_plan .items .quality_criteria').hide();
+            $('.test_plan .items .quality').hide();
     });
 
 

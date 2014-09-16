@@ -1,0 +1,25 @@
+<div class="well">
+  <% if item.quality.any? %>
+      <% item.quality.each do |q| %>
+          <% criterion = q.quality_criterion %>
+          <% if q.status == 5 %>
+              <span class="label label-success">Pass</span>
+          <% end %>
+          <% if q.status == 10 %>
+              <span class="label label-warning">Defect</span>
+          <% end %>
+          <% if q.status == 15 %>
+              <span class="label label-danger">Fail</span>
+          <% end %>
+          <strong><%= criterion.attr %></strong> shall be
+          <strong><%= criterion.operator %></strong>
+          <strong><%= criterion.value %></strong>
+          <% if q.status > 5 %>
+              <i title="<%= q.message %>" class="fa fa-info-circle"></i>
+          <% end %>
+          <br>
+      <% end %>
+  <% else %>
+      There aren't any Quality Criteria for this Item.
+  <% end %>
+</div>

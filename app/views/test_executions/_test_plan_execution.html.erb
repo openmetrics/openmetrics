@@ -29,54 +29,31 @@
             <ul class="items fa-ul">
 
               <!-- quality criteria -->
-              <li class="quality_criteria spacer"><i class="fa-li fa fa-tachometer"></i>
-                Quality Criteria
-                <div class="well">
-                  <% if te.test_execution_items[n].quality.any? %>
-                      <% te.test_execution_items[n].quality.each do |q| %>
-                          <% criterion = q.quality_criterion %>
-                          <span class="label label-primary"><%= criterion.entity_type %>-<%= criterion.entity_id %></span>
-                          <span class="label label-info"><%= criterion.attr %></span>
-                          <span class="label label-default"><%= criterion.operator %></span>
-                          <span class="label label-info"><%= criterion.value %></span>
-                          =>
-                          <% if q.status == 5 %>
-                              <span class="label label-success">Pass</span>
-                          <% end %>
-                          <% if q.status == 10 %>
-                              <span class="label label-warning">Defect</span>
-                          <% end %>
-                          <% if q.status == 15 %>
-                              <span class="label label-danger">Fail</span>
-                          <% end %>
-                          <br>
-                      <% end %>
-                  <% else %>
-                      There aren't any Quality Criteria for this Item.
-                  <% end %>
-                </div>
+              <li class="quality spacer collapse"><i class="fa-li fa fa-tachometer"></i>
+                Quality
+                <%= render 'shared/quality', item: te.test_execution_items[n] %>
               </li>
 
               <%# display origin TestItem markup %>
-              <li class="markup_raw spacer"><i class="fa-li fa fa-code"></i>
+              <li class="markup_raw spacer collapse"><i class="fa-li fa fa-code"></i>
                 Markup
                 <%= coderay(te_item.markup, te_item.format, "div") %>
               </li>
 
               <%# display matching TestExecutionItem markup %>
-              <li class="markup spacer"><i class="fa-li fa fa-file-code-o"></i>
+              <li class="markup spacer collapse"><i class="fa-li fa fa-file-code-o"></i>
                 <span title="<%= te.test_execution_items[n].executable %>"><%= File.basename(te.test_execution_items[n].executable) %></span>
                 <%= coderay(te.test_execution_items[n].markup, te.test_execution_items[n].format, "div") %>
               </li>
 
               <!--in case of success show the output-->
-              <li class="stdout spacer"><i class="fa-li fa fa-sign-out"></i>
+              <li class="stdout spacer collapse"><i class="fa-li fa fa-sign-out"></i>
                 STDOUT
                 <%= te.test_execution_items[n] and te.test_execution_items[n].output.nil? ? coderay("empty", "plain", "div") : coderay(te.test_execution_items[n].output, "plain", "div") %>
               </li>
 
               <!--in case of failure show the error message-->
-              <li class="stderr spacer"><i class="fa-li fa fa-bug"></i>
+              <li class="stderr spacer collapse"><i class="fa-li fa fa-bug"></i>
                 STDERR
                 <%= te.test_execution_items[n] and te.test_execution_items[n].error.nil? ? coderay("empty", "plain", "div") : coderay(te.test_execution_items[n].error, te.test_execution_items[n].format, "div") %>
               </li>
