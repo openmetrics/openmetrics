@@ -100,8 +100,8 @@ ActiveRecord::Schema.define(version: 20140911121503) do
   end
 
   create_table "quality_criteria", force: true do |t|
-    t.integer "entity_id"
-    t.string  "entity_type"
+    t.integer "qualifiable_id"
+    t.string  "qualifiable_type"
     t.string  "attr"
     t.string  "operator"
     t.string  "value"

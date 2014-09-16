@@ -205,11 +205,13 @@ $(document).ready(function() {
             var tmp = serializeForm($(this));
             console.log(tmp);
             var add = {};
-            add.method = tmp['method'];
-            add.operator = tmp['operator'];
-            add.value = tmp['value'];
+            add.attr = tmp['quality_criteria_attributes[attr]'];
+            add.operator = tmp['quality_criteria_attributes[operator]'];
+            add.value = tmp['quality_criteria_attributes[value]'];
             return add;
         }).get();
+
+        console.log(quality_criteria_params);
 
         // extend params string
         paramsString = paramsString + '&' +

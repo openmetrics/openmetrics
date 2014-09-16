@@ -42,7 +42,7 @@
             <% @test_plan.quality_criteria.each do |criteria| %>
                 <div class="well">
                   <%#= criteria.inspect %>
-                  <span class="label label-primary"><%= criteria.entity_type %>-<%= criteria.entity_id %></span>
+                  <span class="label label-primary"><%= criteria.qualifiable_type %>-<%= criteria.qualifiable_id %></span>
                   <span class="label label-info"><%= criteria.attr %></span> shall be
                   <span class="label label-default"><%= criteria.operator %></span>
                   <span class="label label-info"><%= criteria.value %></span>
@@ -54,7 +54,7 @@
                     <% test_item.quality_criteria.each do |criteria| %>
                         <div class="well">
                           <%#= criteria.inspect %>
-                          <span class="label label-primary"><%= criteria.entity_type %>-<%= criteria.entity_id %></span>
+                          <span class="label label-primary"><%= criteria.qualifiable_type %>-<%= criteria.qualifiable_id %></span>
                           <span class="label label-info"><%= criteria.attr %></span> shall be
                           <span class="label label-default"><%= criteria.operator %></span>
                           <span class="label label-info"><%= criteria.value %></span>

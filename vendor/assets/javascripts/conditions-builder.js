@@ -137,7 +137,7 @@
   };
 
   function getFieldSelect(fields, ruleData) {
-    var select = $("<select>", {"class": "field", 'name': 'test_plan[quality_criteria_attributes][attr]'});
+    var select = $("<select>", {"class": "field", 'name': 'quality_criteria_attributes[attr]'});
     for(var i=0; i < fields.length; i++) {
       var field = fields[i];
       var option = $("<option>", {
@@ -152,7 +152,7 @@
   }
 
   function getOperatorSelect() {
-    var select = $("<select>", {"class": "operator", 'name': 'test_plan[quality_criteria_attributes][operator]'});
+    var select = $("<select>", {"class": "operator", 'name': 'quality_criteria_attributes[operator]'});
     select.change(onOperatorSelectChange);
     return select;
   }
