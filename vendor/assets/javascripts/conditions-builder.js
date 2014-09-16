@@ -65,24 +65,27 @@
       if(!kind) { return; }
 
       var div = $("<div>", {"class": "conditional " + kind});
+
+        var addRuleLink = $("<a>", {"href": "#", "class": "add-rule fa fa-plus", "text": "Add Rule"});
+        var _this = this;
+        addRuleLink.click(function(e) {
+            e.preventDefault();
+            var f = _this.fields[0];
+            var newField = {name: f.value, operator: f.operators[0], value: null};
+            div.append(_this.buildRule(newField));
+        });
+        div.append(addRuleLink);
+
       var selectWrapper = $("<div>", {"class": "all-any-none-wrapper"});
       var select = $("<select>", {"class": "all-any-none"});
       select.append($("<option>", {"value": "all", "text": "All", "selected": kind == "all"}));
       select.append($("<option>", {"value": "any", "text": "Any", "selected": kind == "any"}));
       select.append($("<option>", {"value": "none", "text": "None", "selected": kind == "none"}));
       selectWrapper.append(select);
-      selectWrapper.append($("<span>", {text: "of the following rules:"}));
+      selectWrapper.append($("<span>", {text: " of the following are true"}));
       div.append(selectWrapper);
 
-      var addRuleLink = $("<a>", {"href": "#", "class": "add-rule", "text": "Add Rule"});
-      var _this = this;
-      addRuleLink.click(function(e) {
-        e.preventDefault();
-        var f = _this.fields[0];
-        var newField = {name: f.value, operator: f.operators[0], value: null};
-        div.append(_this.buildRule(newField));
-      });
-      div.append(addRuleLink);
+
 
       var addConditionLink = $("<a>", {"href": "#", "class": "add-condition", "text": "Add Sub-Condition"});
       addConditionLink.click(function(e) {
@@ -91,14 +94,14 @@
         var newField = {"all": [{name: f.value, operator: f.operators[0], value: null}]};
         div.append(_this.buildConditional(newField));
       });
-      div.append(addConditionLink);
+//      div.append(addConditionLink);
 
       var removeLink = $("<a>", {"class": "remove", "href": "#", "text": "Remove This Sub-Condition"});
       removeLink.click(function(e) {
         e.preventDefault();
         div.remove();
       });
-      div.append(removeLink);
+//      div.append(removeLink);
 
       var rules = ruleData[kind];
       for(var i=0; i<rules.length; i++) {
@@ -134,7 +137,7 @@
   };
 
   function getFieldSelect(fields, ruleData) {
-    var select = $("<select>", {"class": "field", 'name': 'test_criteria[]'});
+    var select = $("<select>", {"class": "field", 'name': 'test_plan[quality_criteria_attributes][attr]'});
     for(var i=0; i < fields.length; i++) {
       var field = fields[i];
       var option = $("<option>", {
@@ -149,7 +152,7 @@
   }
 
   function getOperatorSelect() {
-    var select = $("<select>", {"class": "operator", 'name': 'test_criteria[]'});
+    var select = $("<select>", {"class": "operator", 'name': 'test_plan[quality_criteria_attributes][operator]'});
     select.change(onOperatorSelectChange);
     return select;
   }
@@ -191,18 +194,19 @@
     var fieldSelect = container.find(".field");
     var currentValue = container.find(".value");
     var val = currentValue.val();
+    var name = 'quality_criteria_attributes[value]';
 
     switch(option.data("fieldType")) {
       case "none": 
-        $this.after($("<input>", {"type": "hidden", "class": "value", 'name': 'test_criteria[]'}));
+        $this.after($("<input>", {"type": "hidden", "class": "value", 'name': name}));
         break;
       case "text":
-        $this.after($("<input>", {"type": "text", "class": "value", 'name': 'test_criteria[]'}));
+        $this.after($("<input>", {"type": "text", "class": "value", 'name': name}));
         break;
       case "textarea":
-        $this.after($("<textarea>", {"class": "value", 'name': 'test_criteria[]'}));
+        $this.after($("<textarea>", {"class": "value", 'name': name}));
       case "select":
-        var select = $("<select>", {"class": "value", 'name': 'test_criteria[]'} );
+        var select = $("<select>", {"class": "value", 'name': name} );
         var options = fieldSelect.find("> :selected").data("options");
         for(var i=0; i < options.length; i++) {
           var opt = options[i];

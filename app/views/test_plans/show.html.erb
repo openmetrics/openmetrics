@@ -1,21 +1,26 @@
 <% disable_turbolinks! %>
 <% javascript('webtest') %>
 
+<div class="row page-header">
+<h3>
+    <%= raw badge "TestPlan-#{@test_plan.id}", 'default' %>
+    <%= @test_plan.name %>
+    <span class="pull-right">
+    <%= render partial: 'controls' %>
+    </span>
+</h3>
+</div>
+
 <div class="row">
 
 
   <!-- right column, top column when mobile -->
   <div class="col-md-4 col-md-push-8">
-    <%= render partial: 'execution_input' %>
     <%= render partial: 'shared/recent_test_executions' %>
   </div>
 
   <!-- left column, top column when mobile -->
   <div class="col-md-8 col-md-pull-4">
-    <div class="page-header">
-      <%= raw badge "TestPlan-#{@test_plan.id}", 'default' %>
-      <%= @test_plan.name %>
-    </div>
 
     <div class="panel panel-default spacer">
       <div class="panel-body">

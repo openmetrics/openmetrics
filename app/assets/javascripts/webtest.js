@@ -184,7 +184,6 @@ $(document).ready(function() {
             var id;
             if (typeof $(this).data('test_case_id') != 'undefined') {
                 type = 'TestCase';
-
                 add.test_item_id = $(this).data('test_case_id');
             }
             if (typeof $(this).data('test_script_id') != 'undefined') {
@@ -202,13 +201,20 @@ $(document).ready(function() {
         }).get();
 
         // get criteria
-        var test_criteria = $('.conditional').children('.rule').map(function () {
-            console.log(serializeForm($(this)));
+        var quality_criteria_params = $('.conditional').children('.rule').map(function () {
+            var tmp = serializeForm($(this));
+            console.log(tmp);
+            var add = {};
+            add.method = tmp['method'];
+            add.operator = tmp['operator'];
+            add.value = tmp['value'];
+            return add;
         }).get();
 
         // extend params string
         paramsString = paramsString + '&' +
-            $.param({test_plan: {test_plan_items_attributes: test_items_params}})
+            $.param({test_plan: {test_plan_items_attributes: test_items_params}}) + '&' +
+            $.param({test_plan: {quality_criteria_attributes: quality_criteria_params}})
         ;
 
         $.ajax({

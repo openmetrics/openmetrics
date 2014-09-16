@@ -58,7 +58,9 @@ en:
               name: "A name easy to remember"
       test_plan:
         index:
-          new_test_plan: "Add a new Test Plan"
+          new_test_plan: "New Test Plan"
+          new_test_case: "New Test Case"
+          new_test_script: "New Test Script"
     forms:
       submit_text:
         new:  "Create"

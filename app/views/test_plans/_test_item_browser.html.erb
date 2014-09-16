@@ -1,4 +1,4 @@
-<h3>Test Item Browser</h3>
+<h4 class="spacer">Test Item Browser</h4>
 
 <div class="panel panel-default">
   <div class="panel-body">
@@ -7,7 +7,7 @@
       <input id="searchinput" class="form-control" type="search" placeholder="Filter..." />
     </div>
 
-    <h4>Test Cases</h4>
+    <h5>Test Cases</h5>
     <ul id="test_cases_searchlist" class="test_cases_list list-group">
         <% @test_cases.each do |item| %>
           <li class="list-group-item" data-test_case_id="<%= item.id %>">
@@ -21,7 +21,7 @@
     </ul>
 
 
-    <h4>Test Scripts</h4>
+    <h5>Test Scripts</h5>
     <ul id="test_scripts_searchlist" class="test_scripts_list list-group">
       <% @test_scripts.each do |item| %>
           <li class="list-group-item" data-test_script_id="<%= item.id %>">

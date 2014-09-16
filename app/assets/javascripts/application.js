@@ -100,7 +100,7 @@ function setAlertForSaveButton() {
     }
 
     // window exit warning
-    window.onbeforeunload = closeEditorWarning;
+    //window.onbeforeunload = closeEditorWarning;
 
 }
 function removeAlertForSaveButton() {

@@ -2,35 +2,33 @@
 <% javascript 'webtest' %>
 
 <div class="row">
-
-     <div class="col-md-8">
-    <h3>
-        Test Center
+  <h3>
+    Tests Overview
+    <!--subnav-->
+      <span class="btn-group pull-right">
         <%= link_to raw('<span class="fa fa-plus"></span> ' + t('om.views.test_plan.index.new_test_plan')),
-                    new_test_plan_path, :class => 'btn btn-primary pull-right' %>
-    </h3>
+                    new_test_plan_path, :class => 'btn btn-default' %>
+        <%= link_to raw('<span class="fa fa-plus"></span> ' + t('om.views.test_plan.index.new_test_case')),
+                    new_test_case_path, :class => 'btn btn-default' %>
+      </span>
+  </h3>
+</div>
 
-    <h4 class="spacer">Test Plans</h4>
+<div class="row">
+
+ <div class="col-md-8">
+
+    <h4 class="spacer">Active Test Plans</h4>
     <%= raw htmltable_for @test_plans, { :actions => { :run => true, :show => true} } %>
     <br>
 
-    <h4 class="spacer">Test Scripts</h4>
-    <%= raw htmltable_for @test_scripts, { :actions => { :show => true} } %>
-    <%= link_to 'View all test scripts', test_scripts_path %>
-
-    <h4 class="spacer">Test Cases</h4>
-    <% unless @test_cases.empty? %>
-        <%= raw htmltable_for @test_cases, { :actions => { :show => true} } %><br>
-        <%= link_to 'View all test cases', test_cases_path %><br>
-    <% else %>
-        <%= raw htmltable_for nil %><br>
-        <%= link_to 'Create a new one', new_test_case_path %><br>
-    <% end %>
 
     </div>
 
     <div class="col-md-4">
       <%= render partial: 'shared/recent_test_executions' %>
+      <%= render 'test_plans/test_item_browser' %>
+
     </div>
 </div>
 

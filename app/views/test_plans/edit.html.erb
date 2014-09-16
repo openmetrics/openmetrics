@@ -48,19 +48,18 @@
       </div>
     </div>
 
-    <h4>Test Criteria</h4>
-    <div class="panel panel-default spacer">
+    <h4 class="spacer">Test Criteria</h4>
+    <div class="panel panel-default">
       <div class="panel-body">
         <ul class="list-group">
           <li class="list-group-item">
-            <%= badge_label @test_plan %>
+            <%= badge_label @test_plan, {:label_class => 'primary'} %>
             <hr>
             <div id="criteria_builder"></div>
           </li>
           <% @test_plan.test_items.each do |item| %>
           <li class="list-group-item">
-            <%= badge_label item %>
-            <hr>
+            <%= badge_label item, {:label_class => 'primary'} %>
             <div id="criteria_builder"></div>
           </li>
           <% end %>

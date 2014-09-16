@@ -8,6 +8,7 @@
   <!-- right column, top column when mobile -->
   <div class="col-md-4 col-md-push-8">
     <div class="page-header">
+      <%= raw badge "TE-#{@test_execution.id}", 'default' %>
       Result
     </div>
     <div class="panel panel-default spacer">
@@ -31,7 +32,6 @@
   <!-- left column, top column when mobile -->
   <div class="col-md-8 col-md-pull-4">
     <div class="page-header">
-      <%= raw badge "TE-#{@test_execution.id}", 'default' %>
       <%= raw badge "TP-#{@test_plan.id}", 'primary' %>
       <%= link_to "#{@test_plan.name}", @test_plan %>
     </div>

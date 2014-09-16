@@ -2,6 +2,9 @@ module Qualifiable
   extend ActiveSupport::Concern
 
   included do
+    has_many :quality_criteria
+    accepts_nested_attributes_for :quality_criteria, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
+
     def quality_criteria
       QualityCriterion.where(entity_type: self.entity_class, entity_id: self.id)
     end
