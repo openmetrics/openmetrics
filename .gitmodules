@@ -1,0 +1,3 @@
+[submodule "lib/html_tablebakery"]
+	path = lib/html_tablebakery
+	url = git@github.com:mgrobelin/html_tablebakery.git
