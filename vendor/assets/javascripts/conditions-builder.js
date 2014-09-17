@@ -66,7 +66,7 @@
 
       var div = $("<div>", {"class": "conditional " + kind});
 
-        var addRuleLink = $("<a>", {"href": "#", "class": "add-rule fa fa-plus", "text": "Add Rule"});
+        var addRuleLink = $("<a>", {"href": "#", "class": "add-rule fa fa-plus", "text": "Add Condition"});
         var _this = this;
         addRuleLink.click(function(e) {
             e.preventDefault();

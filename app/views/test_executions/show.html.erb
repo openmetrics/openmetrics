@@ -2,14 +2,14 @@
 <% javascript('webtest') %>
 <% javascript('test_executions.js') %>
 
-<div class="row page-header">
+<% content_for :page_header do %>
   <h3>
     <%= badge_label @test_execution, {:label_class => 'default', :text => @test_execution.test_plan.name} %>
     <span class="pull-right">
     <%= render partial: 'controls' %>
     </span>
   </h3>
-</div>
+<% end %>
 
 <div class="row">
 
@@ -19,14 +19,7 @@
       <div class="panel-body">
         Base URL <code><%= @test_execution.test_plan.base_url %></code><br>
         <small>Test execution requested <%= time_ago_in_words(@test_execution.created_at) %> ago.</small><br>
-        <%= test_execution_status(@test_execution) %><br>
-        <% if @test_execution.status > 10 %>
-            Duration <code><%= @test_execution.duration.nil? ? 'not yet decided' : "#{@test_execution.duration} s" %></code><br>
-            Exit Status <code><%= @test_execution.result.exitstatus.nil? ? "not yet decided" : @test_execution.result.exitstatus %></code>
-        <% else %>
-            There is no result yet.
-        <% end %>
-
+        <%= test_execution_status(@test_execution) %>
       </div>
     </div>
     <%#= @test_execution.result.inspect %>

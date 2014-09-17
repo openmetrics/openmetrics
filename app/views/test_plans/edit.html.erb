@@ -1,5 +1,85 @@
 <% javascript 'webtest' %>
 
+<script type="text/javascript">
+$(function() {
+    // init conditions builder
+    var fields = [
+        {label: "Duration", name: "duration", operators: [
+            {label: "includes", name: "includes", fieldType: "text"},
+            {label: "matches", name: "matchesRegexp", fieldType: "text"},
+            {label: "is present", name: "present", fieldType: "none"},
+            {label: "is blank", name: "blank", fieldType: "none"},
+            {label: "is equal to", name: "equalTo", fieldType: "text"},
+            {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
+            {label: "is less than", name: "lessThan", fieldType: "text"},
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+        ]},
+        {label: "Exit status", name: "exitstatus", operators: [
+            {label: "includes", name: "includes", fieldType: "text"},
+            {label: "matches", name: "matchesRegexp", fieldType: "text"},
+            {label: "is present", name: "present", fieldType: "none"},
+            {label: "is blank", name: "blank", fieldType: "none"},
+            {label: "is equal to", name: "equalTo", fieldType: "text"},
+            {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
+            {label: "is less than", name: "lessThan", fieldType: "text"},
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+        ]},
+        {label: "Output", name: "output", operators: [
+            {label: "includes", name: "includes", fieldType: "text"},
+            {label: "matches", name: "matchesRegexp", fieldType: "text"},
+            {label: "is present", name: "present", fieldType: "none"},
+            {label: "is blank", name: "blank", fieldType: "none"},
+            {label: "is equal to", name: "equalTo", fieldType: "text"},
+            {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
+            {label: "is less than", name: "lessThan", fieldType: "text"},
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+        ]},
+        {label: "Error Output", name: "error", operators: [
+            {label: "includes", name: "includes", fieldType: "text"},
+            {label: "matches", name: "matchesRegexp", fieldType: "text"},
+            {label: "is present", name: "present", fieldType: "none"},
+            {label: "is blank", name: "blank", fieldType: "none"},
+            {label: "is equal to", name: "equalTo", fieldType: "text"},
+            {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
+            {label: "is less than", name: "lessThan", fieldType: "text"},
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+        ]}
+    ];
+
+    // generate data for test_plan and all it's test_items
+    var test_plan_<%= @test_plan.id %>_data = {};
+    test_plan_<%= @test_plan.id %>_data['all'] = [];
+    <% @test_plan.quality_criteria.each do |criterion| %>
+        test_plan_<%= @test_plan.id %>_data['all'].push({name: '<%= criterion.attr %>', operator: '<%= criterion.operator %>', value: '<%= criterion.value %>' });
+    <% end %>
+
+
+    <% @test_plan.test_items.each do |item| %>
+        <% next unless item.quality_criteria.any? %>
+        var test_item_<%= item.id %>_data = {};
+        test_item_<%= item.id %>_data['all'] = [];
+        <% item.quality_criteria.each do |criterion| %>
+        test_item_<%= item.id %>_data['all'].push({name: '<%= criterion.attr %>', operator: '<%= criterion.operator %>', value: '<%= criterion.value %>' });
+        <% end %>
+    <% end %>
+
+    // init conditionsbuilder
+    $("#criteria_builder").conditionsBuilder({fields: fields, data: test_plan_<%= @test_plan.id %>_data});
+    <% @test_plan.test_items.each do |item| %>
+        <% next unless item.quality_criteria.any? %>
+        $("#criteria_builder_<%= item.id %>").conditionsBuilder({fields: fields, data: test_item_<%= item.id %>_data});
+    <% end %>
+});
+</script>
+
 <% content_for :page_header do %>
   <h3>
     <%= badge_label @test_plan, {:label_class => 'primary'} %>
@@ -61,7 +141,7 @@
           <% @test_plan.test_items.each do |item| %>
           <li class="list-group-item">
             <%= badge_label item, {:label_class => 'primary'} %>
-            <div id="criteria_builder"></div>
+            <div id="criteria_builder_<%= item.id %>"></div>
           </li>
           <% end %>
         </ul>

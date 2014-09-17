@@ -3,7 +3,7 @@
 
 <div class="row">
   <h3>
-    Tests Overview
+    Webtests Overview
     <!--subnav-->
       <span class="btn-group btn-group-sm pull-right">
         <%= link_to raw('<span class="fa fa-plus"></span> ' + t('om.views.test_plan.index.new_test_plan')),
@@ -18,7 +18,7 @@
 
  <div class="col-md-8">
 
-    <h4 class="spacer">Active Test Plans</h4>
+    <h4 class="spacer">Test Plans</h4>
     <%= raw htmltable_for @test_plans, { :actions => { :run => true, :show => true} } %>
     <br>
 
