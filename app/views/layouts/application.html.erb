@@ -17,6 +17,11 @@
 
     <div class="container <%= controller.controller_name %> <%= controller.action_name %>">
         <%= render "layouts/notifications" %>
+        <% if content_for?(:page_header) %>
+            <div class="page-header">
+              <%= yield :page_header %>
+            </div>
+        <% end %>
         <%= yield %>
     </div>
 </body>

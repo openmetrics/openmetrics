@@ -1,15 +1,14 @@
 <% disable_turbolinks! %>
 <% javascript('webtest') %>
 
-<div class="row page-header">
-<h3>
-    <%= raw badge "TestPlan-#{@test_plan.id}", 'default' %>
-    <%= @test_plan.name %>
-    <span class="pull-right">
-    <%= render partial: 'controls' %>
-    </span>
-</h3>
-</div>
+<% content_for :page_header do %>
+    <h3>
+        <%= badge_label @test_plan, {:label_class => 'primary'} %>
+        <span class="pull-right">
+        <%= render partial: 'controls' %>
+        </span>
+    </h3>
+<% end %>
 
 <div class="row">
 

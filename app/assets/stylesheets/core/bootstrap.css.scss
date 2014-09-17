@@ -4,6 +4,11 @@
 @import 'bootstrap/awesome-bootstrap-checkbox';
 @import 'bootstrap/bootsnip.timeline';
 
+/* page-header no margin-top */
+.page-header {
+  margin-top: 0 !important;
+}
+
 /* always show vertical scrollbar to prevent layout jumps */
 //html {
 //  overflow-y: scroll;
