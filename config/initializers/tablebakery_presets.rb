@@ -2,12 +2,12 @@
 TABLEBAKERY_PRESETS = {
     system: {
         attr_ignore: %w( id slug created_at updated_at operating_system_flavor sshuser description ),
-        attr_order:  %w( name fqdn cidr operating_system join actions)
+        attr_order:  %w( name fqdn cidr operating_system join_running_services actions)
 
     },
     service: {
         attr_ignore: %w( id init_name systemd_name updated_at created_at fqdn ),
-        attr_order:  %w( type name daemon_name description actions )
+        attr_order:  %w( type name daemon_name description join_running_services actions )
     },
     test_plan: {
         attr_ignore: %w( id slug updated_at created_at user_id ),

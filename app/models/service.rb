@@ -17,6 +17,9 @@
 class Service < ActiveRecord::Base
   include Exportable
 
+  has_many :running_services
+  has_many :systems, through: :running_services
+
   # returns Array of RunningService's
   def systems_running_service
     running_services = RunningService.where(service_id: self.id)

@@ -2,9 +2,9 @@
     <%= raw t('om.views.service.index.title') %>
     <%= link_to raw('<span class="fa fat-plus"></span> ' + t("om.views.service.index.new_service")),
             new_service_path, :class => "btn btn-primary pull-right" %>
-    <small>all</small>
 </h3>
 
 
-<%= raw htmltable_for @services, {:html_class => "spacer", :threat_as => "service", :actions => {:show => true}} %>
+<%= raw htmltable_for @services, {:html_class => "spacer", :join => ['running_services'], :join_as => 'system', :join_heading => 'Systems',
+                                  :threat_as => "service", :actions => {:show => true, :edit => truene}} %>
 

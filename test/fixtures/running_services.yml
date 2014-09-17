@@ -22,3 +22,20 @@ rs_om_client:
   service: om_agent
   system: localhost
   description: Gathers statistics and data of interest.
+
+# base system dummy
+rs_dummy_1:
+  service: nginx
+  system: localhost
+
+rs_dummy_2:
+  service: postgres
+  system: localhost
+
+rs_dummy_3:
+  service: redis
+  system: localhost
+
+rs_dummy_4:
+  service: openssh
+  system: localhost

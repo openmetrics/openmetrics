@@ -7,7 +7,6 @@ class ServicesController < ApplicationController
   def index
     add_breadcrumb 'Services'
     @services = Service.all
-    respond_with(@services)
   end
 
   def new
