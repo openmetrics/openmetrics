@@ -266,7 +266,7 @@ module HtmlFormbakery
   end
 
   def wrap_label(html, labeltext, helptext)
-    l =  "<label class=\"col-md-4 control-label\" for=\"textinput\">#{labeltext.humanize}</label>"
+    l =  "<label class=\"col-md-4 control-label\" for=\"textinput\">#{labeltext.titleize}</label>"
     l << '<div class="col-md-4">'
     l << html
     # help text set?
