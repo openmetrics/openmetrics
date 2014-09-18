@@ -4,7 +4,8 @@
 
 <% content_for :page_header do %>
   <h3>
-    <%= badge_label @test_execution, {:label_class => 'default', :text => @test_execution.test_plan.name} %>
+    <%#= badge_label @test_execution, {:label_class => 'default', :text => @test_execution.test_plan.name} %>
+    <span class="label label-primary">TestExecution-<%= @test_execution.id %></span>
     <span class="pull-right">
     <%= render partial: 'controls' %>
     </span>
@@ -15,6 +16,7 @@
 
   <!-- right column, top column when mobile -->
   <div class="col-md-4 col-md-push-8">
+    <h3>Result</h3>
     <div class="panel panel-default">
       <div class="panel-body">
         Base URL <code><%= @test_execution.test_plan.base_url %></code><br>
@@ -22,7 +24,6 @@
         <%= test_execution_status(@test_execution) %>
       </div>
     </div>
-    <%#= @test_execution.result.inspect %>
     <!-- test plan quality -->
     <i class="fa fa-tachometer"></i> Quality</strong>
     <%= render 'shared/quality', item: @test_execution %>
@@ -30,9 +31,9 @@
 
   <!-- left column, top column when mobile -->
   <div class="col-md-8 col-md-pull-4">
+    <h3><%= link_to badge_label(@test_plan, {:label_class => 'primary'}), @test_plan %></h3>
     <div class="panel panel-default">
       <div class="panel-body">
-        <%#= @test_execution.inspect %>
         <blockquote><p><%= @test_plan.description %></p></blockquote>
         <%= render partial: 'test_plan_execution', locals: { tp: @test_plan, te: @test_execution } %>
       </div>

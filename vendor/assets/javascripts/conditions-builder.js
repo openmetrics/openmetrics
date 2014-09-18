@@ -48,7 +48,8 @@
         return {
           name: element.find(".field").val(),
           operator: element.find(".operator").val(),
-          value: element.find(".value").val()
+          value: element.find(".value").val(),
+          id: element.find(".id")
         };
       }
     },
@@ -114,11 +115,13 @@
       var ruleDiv = $("<div>", {"class": "rule"});
       var fieldSelect = getFieldSelect(this.fields, ruleData);
       var operatorSelect = getOperatorSelect();
+      var idInput = getIdInput(ruleData);
 
       fieldSelect.change(onFieldSelectChanged.call(this, operatorSelect, ruleData));
 
       ruleDiv.append(fieldSelect);
       ruleDiv.append(operatorSelect);
+      ruleDiv.append(idInput);
       ruleDiv.append(removeLink());
 
       fieldSelect.change();
@@ -149,6 +152,12 @@
       select.append(option);
     }
     return select;
+  }
+
+  function getIdInput(ruleData) {
+      var input = $("<input>", {'type': 'hidden', 'class': 'id', 'name': 'quality_criteria_attributes[id]'});
+      input.val(ruleData.id);
+      return input;
   }
 
   function getOperatorSelect() {

@@ -8,9 +8,9 @@ EXECUTION_STATUS = {
 }
 
 QUALITY_STATUS = {
-  5 => 'pass',
-  10 => 'defect',
-  15 => 'fail'
+  0 => 'passed',
+  5 => 'defective',
+  10 => 'failed'
 }
 
 SEVERITIES = {

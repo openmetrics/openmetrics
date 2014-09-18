@@ -15,7 +15,7 @@ st101_1:
 
 st102_1:
   test_plan: st102
-  test_item: bashexitsuccess
+  test_item: bashexiterror
 
 
 st104_1:

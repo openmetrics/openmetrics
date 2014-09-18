@@ -25,14 +25,6 @@ class TestExecutionWorker
         execute(tei[0], tei[1], tei[2]) # test_execution_item_id, filename, interpreter
         evaluate_quality(TestExecutionItem.find_by_id(tei[0]))
       end
-      te.update_attributes(finished_at: Time.now)
-      # check test execution items for exitstatus indicating a fail
-      # use the 'newest' TestExecutionItem exitstatus to mark for overall result:
-      # FIXME when sidekiq is killed, failure detection of is not reliable. output may contain 'returned status: false (exitstatus )' (which indicates error) while exit status is not set. nevertheless exitstatus remains successful
-      failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
-      te_result.update_attributes(exitstatus: failed.last.exitstatus) if failed.any?
-      # mark result success if status not yet decided
-      te_result.update_attributes(exitstatus: 0) if te_result.exitstatus.nil?
     rescue Exception => e
       # job preparation or execution failed,
       logger.warn "preparation or execution of TestExecution##{te.id} thrown exception #{e.message}"
@@ -43,7 +35,26 @@ class TestExecutionWorker
     end
     # test execution finished
     te.update_attributes(status: EXECUTION_STATUS.key('finished'))
+
+    # decide test_plan quality for any non-success status
     evaluate_quality(te)
+    if te.quality.any?
+      if te.quality.where('status = ?', 10).any?
+        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('failed'))
+      elsif te.quality.where('status = ?', 5).any?
+        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('defective'))
+      else
+        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('passed'))
+      end
+    end
+
+    # if no quality result exists, use the 'newest' non-zero exitstatus TestExecutionItem to mark for overall result:
+    failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
+    te_result.update_attributes(exitstatus: failed.last.exitstatus) if failed.any? and te_result.exitstatus.nil?
+
+    # mark result success if status not yet decided
+    te_result.update_attributes(exitstatus: 0) if te_result.exitstatus.nil?
+
     # TODO remove (delete) create executable
   end
 
@@ -212,13 +223,13 @@ def evaluate_quality(entity)
         elsif blank_operator
           assert(entity_value.blank?)
         end
-        entity_quality.update_attributes(status: QUALITY_STATUS.key('pass'))
+        entity_quality.update_attributes(status: QUALITY_STATUS.key('passed'))
       rescue Minitest::Assertion => e
         logger.info "#{entity.class.name}##{entity.id} #{entity_value} #{operator} #{criterion_value} isn't true, #{e.message}"
-        entity_quality.update_attributes(status: QUALITY_STATUS.key('defect'), message: e.message)
+        entity_quality.update_attributes(status: QUALITY_STATUS.key('defective'), message: e.message)
       rescue Exception => e
         logger.warn "#{entity.class.name}##{entity.id} couldn't assert #{entity_value} #{operator} #{criterion_value}"
-        entity_quality.update_attributes(status: QUALITY_STATUS.key('fail'), message: e.message)
+        entity_quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: e.message)
       end
     end
   end

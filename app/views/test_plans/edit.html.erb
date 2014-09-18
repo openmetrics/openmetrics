@@ -11,10 +11,10 @@ $(function() {
             {label: "is blank", name: "blank", fieldType: "none"},
             {label: "is equal to", name: "equalTo", fieldType: "text"},
             {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
-            {label: "is greater than", name: "greaterThan", fieldType: "text"},
-            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
             {label: "is less than", name: "lessThan", fieldType: "text"},
-            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"}
         ]},
         {label: "Exit status", name: "exitstatus", operators: [
             {label: "includes", name: "includes", fieldType: "text"},
@@ -23,10 +23,10 @@ $(function() {
             {label: "is blank", name: "blank", fieldType: "none"},
             {label: "is equal to", name: "equalTo", fieldType: "text"},
             {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
-            {label: "is greater than", name: "greaterThan", fieldType: "text"},
-            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
             {label: "is less than", name: "lessThan", fieldType: "text"},
-            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"}
         ]},
         {label: "Output", name: "output", operators: [
             {label: "includes", name: "includes", fieldType: "text"},
@@ -35,10 +35,10 @@ $(function() {
             {label: "is blank", name: "blank", fieldType: "none"},
             {label: "is equal to", name: "equalTo", fieldType: "text"},
             {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
-            {label: "is greater than", name: "greaterThan", fieldType: "text"},
-            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
             {label: "is less than", name: "lessThan", fieldType: "text"},
-            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"}
         ]},
         {label: "Error Output", name: "error", operators: [
             {label: "includes", name: "includes", fieldType: "text"},
@@ -47,10 +47,10 @@ $(function() {
             {label: "is blank", name: "blank", fieldType: "none"},
             {label: "is equal to", name: "equalTo", fieldType: "text"},
             {label: "is not equal to", name: "notEqualTo", fieldType: "text"},
-            {label: "is greater than", name: "greaterThan", fieldType: "text"},
-            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"},
             {label: "is less than", name: "lessThan", fieldType: "text"},
-            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"}
+            {label: "is less than or equal to", name: "lessThanEqual", fieldType: "text"},
+            {label: "is greater than", name: "greaterThan", fieldType: "text"},
+            {label: "is greater than or equal to", name: "greaterThanEqual", fieldType: "text"}
         ]}
     ];
 
@@ -58,25 +58,23 @@ $(function() {
     var test_plan_<%= @test_plan.id %>_data = {};
     test_plan_<%= @test_plan.id %>_data['all'] = [];
     <% @test_plan.quality_criteria.each do |criterion| %>
-        test_plan_<%= @test_plan.id %>_data['all'].push({name: '<%= criterion.attr %>', operator: '<%= criterion.operator %>', value: '<%= criterion.value %>' });
+        test_plan_<%= @test_plan.id %>_data['all'].push({name: '<%= criterion.attr %>', operator: '<%= criterion.operator %>', value: '<%= criterion.value %>', id: '<%= criterion.id %>' });
     <% end %>
 
 
     <% @test_plan.test_items.each do |item| %>
-        <% next unless item.quality_criteria.any? %>
         var test_item_<%= item.id %>_data = {};
         test_item_<%= item.id %>_data['all'] = [];
         <% item.quality_criteria.each do |criterion| %>
-        test_item_<%= item.id %>_data['all'].push({name: '<%= criterion.attr %>', operator: '<%= criterion.operator %>', value: '<%= criterion.value %>' });
+            test_item_<%= item.id %>_data['all'].push({name: '<%= criterion.attr %>', operator: '<%= criterion.operator %>', value: '<%= criterion.value %>', id: '<%= criterion.id %>' });
         <% end %>
     <% end %>
 
     // init conditionsbuilder
     $("#criteria_builder").conditionsBuilder({fields: fields, data: test_plan_<%= @test_plan.id %>_data});
-    <% @test_plan.test_items.each do |item| %>
-        <% next unless item.quality_criteria.any? %>
-        $("#criteria_builder_<%= item.id %>").conditionsBuilder({fields: fields, data: test_item_<%= item.id %>_data});
-    <% end %>
+    //<% @test_plan.test_items.each do |item| %>
+    //    $("#criteria_builder_<%= item.id %>").conditionsBuilder({fields: fields, data: test_item_<%= item.id %>_data});
+    //<% end %>
 });
 </script>
 
@@ -138,12 +136,12 @@ $(function() {
             <hr>
             <div id="criteria_builder"></div>
           </li>
-          <% @test_plan.test_items.each do |item| %>
+          <!--<% @test_plan.test_items.each do |item| %>
           <li class="list-group-item">
             <%= badge_label item, {:label_class => 'primary'} %>
             <div id="criteria_builder_<%= item.id %>"></div>
           </li>
-          <% end %>
+          <% end %>-->
         </ul>
       </div>
     </div>

@@ -2,24 +2,28 @@
   <% if item.quality.any? %>
       <% item.quality.each do |q| %>
           <% criterion = q.quality_criterion %>
+          <% if q.status == 0 %>
+              <span class="label label-success">Passed</span>
+          <% end %>
           <% if q.status == 5 %>
-              <span class="label label-success">Pass</span>
+              <span class="label label-warning">Defective</span>
           <% end %>
           <% if q.status == 10 %>
-              <span class="label label-warning">Defect</span>
-          <% end %>
-          <% if q.status == 15 %>
-              <span class="label label-danger">Fail</span>
+              <span class="label label-danger">Failed</span>
           <% end %>
           <strong><%= criterion.attr %></strong> shall be
           <strong><%= criterion.operator %></strong>
           <strong><%= criterion.value %></strong>
-          <% if q.status > 5 %>
+          <% if q.status > 0 %>
               <i title="<%= q.message %>" class="fa fa-info-circle"></i>
           <% end %>
           <br>
       <% end %>
   <% else %>
-      There aren't any Quality Criteria for this Item.
+      <% if item.class.name != 'TestPlan' %>
+          There aren't any Quality Criteria for this Item.
+      <% else %>
+        <code>not yet decided</code>
+      <% end %>
   <% end %>
 </div>

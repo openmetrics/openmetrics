@@ -161,11 +161,11 @@ $(document).ready(function() {
         // get criteria
         var quality_criteria_params = $('.conditional').children('.rule').map(function () {
             var tmp = serializeForm($(this));
-            console.log(tmp);
             var add = {};
             add.attr = tmp['quality_criteria_attributes[attr]'];
             add.operator = tmp['quality_criteria_attributes[operator]'];
             add.value = tmp['quality_criteria_attributes[value]'];
+            add.id = tmp['quality_criteria_attributes[id]'];
             return add;
         }).get();
 

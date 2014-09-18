@@ -3,7 +3,12 @@
     <ul class="fa-ul spacer">
       <% TestExecution.recent.each do |te| %>
           <li>
-            <i class="fa-li fa fa-caret-right"></i><%= link_to("#{te.test_plan.name} executed at #{I18n.localize(te.created_at, :format => :short)}", te) %>
+            <% if te.test_execution_result.exitstatus == 0 %>
+              <i class="fa fa-smile-o"></i>
+            <% else %>
+              <i class="fa fa-frown-o"></i>
+            <% end %>
+            <%= link_to("#{te.test_plan.name} executed at #{I18n.localize(te.created_at, :format => :short)}", te) %>
           </li>
       <% end %>
     </ul>
