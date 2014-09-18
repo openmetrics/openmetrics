@@ -7,17 +7,15 @@
 
         <div class="pull-right">
             <%# is there already an exitstatus available? %>
-            <%# if te.test_execution_items[n] and te.test_execution_items[n].exitstatus.is_a? Integer and te.test_execution_items[n].exitstatus > 0 %>
-                <%#= '<span class="label label-danger">Fail</span>'.html_safe %>
-            <%# elsif te.test_execution_items[n] and te.test_execution_items[n].exitstatus.is_a? Integer and te.test_execution_items[n].exitstatus == 0 %>
-                <%#= '<span class="label label-success">Pass</span>'.html_safe %>
-            <%# else %>
-                <%#= '<span class="label label-default">not yet processed</span>'.html_safe %>
-            <%# end %>
+            <% if te.test_execution_items[n] and te.test_execution_items[n].exitstatus.is_a? Integer %>
+              <small class="darkgrey">Exit </small> <span class="label exit"><%= te.test_execution_items[n].exitstatus %></span>
+            <% else %>
+              <span class="label label-default">not yet processed</span>
+            <% end %>
 
             <%# if already processed show execution time %>
             <% if te.test_execution_items[n] and !te.test_execution_items[n].duration.nil? %>
-                <%= "<span class=\"duration\">#{te.test_execution_items[n].duration.to_s} s</span>".html_safe %>
+              <small class="darkgrey">after</small> <%= "<span class=\"duration\">#{te.test_execution_items[n].duration.to_s} s</span>".html_safe %>
             <% end %>
         </div>
 

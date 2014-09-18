@@ -1,0 +1,5 @@
+st_102_qc_1:
+  qualifiable: st102 (TestPlan)
+  attr: exitstatus
+  operator: equalTo
+  value: 42

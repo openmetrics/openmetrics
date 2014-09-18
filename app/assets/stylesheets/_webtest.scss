@@ -34,7 +34,8 @@ ul.test_plan li > * {
 
 
 /* handle like a label */
-ul.test_plan li span.duration {
+ul.test_plan li span.duration,
+ul.test_plan li span.exit,{
   padding: .2em .6em .3em;
   color: #c7254e;
   background-color: #f9f2f4;

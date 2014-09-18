@@ -1,8 +1,22 @@
 // colors
 $darkgrey: #9b9b9b;
+$red: red;
+$green: green;
+
+.darkgrey {
+  color: $darkgrey;
+}
+.red {
+  color: $red;
+}
+.green {
+  color: $green;
+}
+
+// state colors
 $active-color: greenyellow;
-$fail-color: red;
-$success-color: green;
+$fail-color: $red;
+$success-color: $green;
 
 // font
 $font-size: 14px;

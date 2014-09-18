@@ -46,3 +46,10 @@ st107:
   description: Show environment for test execution.
   #test_items: bmcsetregistrationvariables, bashprintenv
   base_url: http://localhost:8000
+
+
+# BMC
+bmc100:
+  name: BMC registration 1
+  description: Register a user by register form at start page.
+  base_url: https://stage.bodymass.de

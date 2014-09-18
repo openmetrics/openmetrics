@@ -80,3 +80,13 @@ st107_2:
     test_plan: st107
     test_item: bashprintenv
     position: 2
+
+
+bmc100_1:
+  test_plan: bmc100
+  test_item: bmcsetregistrationvariables
+  position: 1
+bmc100_2:
+  test_plan: bmc100
+  test_item: bmcregistrationslim
+  position: 2

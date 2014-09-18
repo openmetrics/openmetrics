@@ -19,6 +19,9 @@ foreman run rake openmetrics:setup --env /opt/openmetrics/config/instance.env
 // start services; done!
 foreman start --env /opt/openmetrics/config/instance.env
 
-// optional for debugging purposes and playaround: start rails console
+// optional: run the self tests
+foreman run openmetrics:test --env config/environments/development.env
+
+// optional: for debugging purposes and playaround: start rails console
 foreman run rails console --env /opt/openmetrics/config/instance.env
 ```
