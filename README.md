@@ -20,7 +20,7 @@ foreman run rake openmetrics:setup --env /opt/openmetrics/config/instance.env
 foreman start --env /opt/openmetrics/config/instance.env
 
 // optional: run the self tests
-foreman run openmetrics:test --env config/environments/development.env
+foreman run rake openmetrics:test --env config/environments/development.env
 
 // optional: for debugging purposes and playaround: start rails console
 foreman run rails console --env /opt/openmetrics/config/instance.env

@@ -12,5 +12,6 @@
 #
 
 class TestExecutionResult < ActiveRecord::Base
+  include Qualified
   belongs_to :test_execution
 end

@@ -1,5 +1,65 @@
 <% javascript 'webtest' %>
+<% javascript 'flot-0.8.3/jquery.flot' %>
+<% javascript 'flot-0.8.3/jquery.flot.stackpercent' %>
 
-<h3>Test Executions</h3>
+<script type="text/javascript">
+$(function () {
 
-<%= raw htmltable_for @test_executions, { :html_class => 'spacer', :actions => { :show => true} } %>
+    // generate test execution quality graphs
+    var opts = {
+        series: {
+            stackpercent: true,
+            lines: { show:false },
+            bars: { show: true, barWidth: 0.6, lineWidth: 0, horizontal: true }
+        },
+        xaxis: { show: false, max: 100 },
+        yaxis: { show: false },
+        grid: { show: true, borderWidth: 0 }
+    };
+
+    <% @test_executions.each do |te| %>
+        var test_execution_<%= te.id %>_data = [];
+        var passed = 0;
+        var defective = 0;
+        var failed = 0;
+        passed = <%= te.test_execution_items.count %>;
+        failed = <%= te.test_execution_items.where('exitstatus > ?', 0).count %>;
+        passed = passed - failed;
+        test_execution_<%= te.id %>_data.push({"data":[[failed,1]], "color":"#83BA4F"});
+        test_execution_<%= te.id %>_data.push({"data":[[defective,1]], "color":"#E78800"});
+        test_execution_<%= te.id %>_data.push({"data":[[passed,1]], "color":"#B41722"});
+        $.plot($("#<%= "test_execution_#{te.id}_quality" %>"), test_execution_<%= te.id %>_data, opts);
+    <% end %>
+});
+</script>
+
+<h3>Test Executions List</h3>
+
+<%#= raw htmltable_for @test_executions, { :html_class => 'spacer', :actions => { :show => true} } %>
+
+<table class="table spacer">
+  <thead>
+  <tr>
+    <th>Test Execution</th>
+    <th>Test Plan</th>
+    <th>Started At</th>
+    <th>Finished At</th>
+    <th>Duration</th>
+    <th>Status</th>
+    <th>Quality</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @test_executions.each do |te| %>
+  <tr>
+    <td><%= link_to badge_label(te, {:text => '', :label_class => 'primary'}), te %></td>
+    <td><%= link_to badge_label(te.test_plan, {:label_class => 'primary'}), te.test_plan %></td>
+    <td><%= I18n.localize(te.started_at, :format => :short) unless te.started_at.nil? %></td>
+    <td><%= I18n.localize(te.finished_at, :format => :short) unless te.finished_at.nil? %></td>
+    <td><%= te.duration %></td>
+    <td><%= EXECUTION_STATUS[te.status] %></td>
+    <td><div id="test_execution_<%= te.id %>_quality" style="width:125px;height:25px;"></div></td>
+  </tr>
+  </tbody>
+  <% end %>
+</table>

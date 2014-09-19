@@ -14,7 +14,6 @@ class TestExecutionWorker
   def perform(test_execution_id, test_plan_id)
     tp = TestPlan.find(test_plan_id)
     te = TestExecution.find(test_execution_id)
-    te_result = te.test_execution_result
 
     # try preparation and execution of testplan
     te.update_attributes(started_at: Time.now)
@@ -38,22 +37,9 @@ class TestExecutionWorker
 
     # decide test_plan quality for any non-success status
     evaluate_quality(te)
-    if te.quality.any?
-      if te.quality.where('status = ?', 10).any?
-        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('failed'))
-      elsif te.quality.where('status = ?', 5).any?
-        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('defective'))
-      else
-        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('passed'))
-      end
-    end
 
-    # if no quality result exists, use the 'newest' non-zero exitstatus TestExecutionItem to mark for overall result:
-    failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
-    te_result.update_attributes(exitstatus: failed.last.exitstatus) if failed.any? and te_result.exitstatus.nil?
-
-    # mark result success if status not yet decided
-    te_result.update_attributes(exitstatus: 0) if te_result.exitstatus.nil?
+    # ... and overall execution result
+    evaluate_result(te)
 
     # TODO remove (delete) create executable
   end
@@ -232,6 +218,27 @@ def evaluate_quality(entity)
         entity_quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: e.message)
       end
     end
+  end
+
+  def evaluate_result(te)
+    te_result = te.test_execution_result
+
+    if te.quality.any?
+      if te.quality.where('status = ?', 10).any?
+        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('failed'))
+      elsif te.quality.where('status = ?', 5).any?
+        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('defective'))
+      else
+        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('passed'))
+      end
+    end
+
+    # if no quality result exists, use the 'newest' non-zero exitstatus TestExecutionItem to mark for overall result:
+    failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
+    te_result.update_attributes(exitstatus: failed.last.exitstatus) if failed.any? and te_result.exitstatus.nil?
+
+    # mark result success if status not yet decided
+    te_result.update_attributes(exitstatus: 0) if te_result.exitstatus.nil?
   end
 
 end
