@@ -128,3 +128,6 @@ gem 'acts_as_list'
 
 # Use debugger
 gem 'debugger', group: [:development, :test]
+
+# generated database relation diagrams
+gem 'rails-erd', group: [:development, :test]
