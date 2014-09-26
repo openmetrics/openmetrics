@@ -18,6 +18,7 @@ module Openmetrics
 
     config.eager_load_paths += %W(
       #{config.root}/lib/ssh_automagick
+      #{config.root}/lib/webtest_automagick
       #{config.root}/lib/html_tablebakery
       #{config.root}/lib/html_formbakery
     )

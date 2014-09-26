@@ -1,13 +1,21 @@
 require 'nokogiri'
+require 'fileutils'
 
 module WebtestAutomagick
 
 
   public
 
+  # copies some libs to execution dir
+  def setup_execution_helper(dir)
+    puts "Trying to create #{dir}/lib"
+    FileUtils.mkdir("#{dir}/lib") unless Dir.exist?("#{dir}/lib")
+    FileUtils.cp("#{Rails.root.join('lib', 'webtest_automagick').to_s}/TestExecutionHelper.rb", "#{dir}/lib")
+  end
+
   # translates selenese to ruby-webdriver
   # http://release.seleniumhq.org/selenium-core/1.0.1/reference.html
-  def selenese_to_webdriver(markup, base_url)
+  def selenese_to_webdriver(markup, base_url, start_browser=false, close_browser=false)
     doc = Nokogiri::HTML(markup)
 
     # extract title
@@ -37,12 +45,15 @@ module WebtestAutomagick
 
     wd='' #webdriver markup
 
-    # prepare head
     wd += %Q[
-require "selenium-webdriver"
-driver = Selenium::WebDriver.for :firefox
-driver.manage.timeouts.page_load = 20 # page load timeout in seconds
-driver.navigate.to "#{base_url}"
+  require 'selenium-webdriver'
+  require_relative 'lib/TestExecutionHelper'
+
+  # TODO use existing browser session if possible
+  driver = TestExecutionHelper.get_browser_session
+  driver = Selenium::WebDriver.for :firefox
+  driver.manage.timeouts.page_load = 20 # page load timeout in seconds
+  driver.navigate.to "#{base_url}"
 ]
 
     sel_commands.each do |command, target, value|
@@ -107,7 +118,7 @@ driver.navigate.to "#{base_url}"
           wd << "exit 42\n"
       end
     end
-    wd << "driver.quit"
+    wd << "driver.quit" if close_browser
     wd
   end
 end

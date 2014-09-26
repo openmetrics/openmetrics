@@ -1,5 +1,4 @@
 require 'selenium-webdriver'
-require 'webtest_automagick'
 require 'open3'
 require 'test/unit/assertions' # to test quality
 
@@ -47,7 +46,15 @@ class TestExecutionWorker
   # reads test plans test_items and generates executables of it (TestExecutionItem) depending on item format/markup
   # returns pairs of arrays (test_execution_item_id, filename, interpreter)
   def prepare(te, tp)
-    ret = []
+    ret = [] # return array
+
+    # create execution directory
+    Dir.mkdir(TMPDIR) unless Dir.exist?(TMPDIR)
+    Dir.chdir(TMPDIR)
+    Dir.mkdir(te.id.to_s) unless Dir.exist?(te.id.to_s)
+    Dir.chdir(te.id.to_s)
+    dir = Dir.pwd
+
     items = tp.test_items
     items.each_with_index { |item, n|
       # executable header (shebang) and extension
@@ -63,17 +70,14 @@ class TestExecutionWorker
       end
 
       # create executable file and change pwd (ugly way w/ ruby core utils)
-      Dir.mkdir(TMPDIR) unless Dir.exist?(TMPDIR)
-      Dir.chdir(TMPDIR)
-      Dir.mkdir(te.id.to_s) unless Dir.exist?(te.id.to_s)
-      Dir.chdir(te.id.to_s)
-      dir = Dir.pwd
       filename = dir+"/#{n+1}_#{item.id}"
 
       # prepare (and convert) markup and format
       conversion_format = item.format
+      start_browser = n+1 == 1 ? true : false # start browser in first item
+      quit_browser = n+1 == items.count ? true : false # quit browser in last item
       executable_markup = if item.type == 'TestCase' && item.format == 'selenese'
-                            selenese_to_webdriver(item.markup, tp.base_url) # translates to ruby, pass
+                            selenese_to_webdriver(item.markup, tp.base_url, start_browser, quit_browser)
                           else
                             item.markup # use item.markup by default
                           end
@@ -103,6 +107,11 @@ class TestExecutionWorker
       ret.push([te_item.id, filename, interpreter])
 
     }
+
+    # create helper libs for TestCase's
+    if items.where(type: 'TestCase', format: 'selenese').any?
+      setup_execution_helper(dir)
+    end
 
     # return array of test_execution_id, filename & interpreter
     return ret
