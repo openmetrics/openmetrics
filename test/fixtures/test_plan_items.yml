@@ -81,6 +81,19 @@ st107_2:
     test_item: bashprintenv
     position: 2
 
+st108_1:
+  test_plan: st108
+  test_item: browser_start
+  position: 1
+st108_2:
+    test_plan: st108
+    test_item: bashsleep5
+    position: 2
+st108_3:
+    test_plan: st108
+    test_item: browser_resume
+    position: 3
+
 
 bmc100_1:
   test_plan: bmc100

@@ -49,9 +49,7 @@ module WebtestAutomagick
   require 'selenium-webdriver'
   require_relative 'lib/TestExecutionHelper'
 
-  # TODO use existing browser session if possible
   driver = TestExecutionHelper.get_browser_session
-  driver = Selenium::WebDriver.for :firefox
   driver.manage.timeouts.page_load = 20 # page load timeout in seconds
   driver.navigate.to "#{base_url}"
 ]

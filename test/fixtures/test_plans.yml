@@ -47,6 +47,10 @@ st107:
   #test_items: bmcsetregistrationvariables, bashprintenv
   base_url: http://localhost:8000
 
+st108:
+  name: Webbrowser control
+  description: Start a webbrowser, wait and resum webbrowser session afterwards.
+  base_url: http://www.google.com
 
 # BMC
 bmc100:
