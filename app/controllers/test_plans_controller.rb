@@ -36,9 +36,9 @@ class TestPlansController < ApplicationController
   # run TestPlan by creating a new TestExecution
   def run
     tp = TestPlan.find(params[:id])
-    te = TestExecution.new
-    te.test_plan = tp
+    te = TestExecution.new(test_plan: tp)
     if te.save
+      tp.create_activity :run, :owner => current_user, :parameters => {}
       redirect_via_turbolinks_to(test_execution_url(te))
     else
       flash[:warn] = "Oh snap! That didn't work."
