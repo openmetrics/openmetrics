@@ -1,7 +1,6 @@
 <h3>Create TestCase</h3>
 
 <div class="panel panel-default spacer">
-  <div class="panel-heading">Your input</div>
   <div class="panel-body">
     <%= raw htmlform_for(@test_case, {:except => [:id, :type, :created_at, :updated_at]}) %>
   </div>

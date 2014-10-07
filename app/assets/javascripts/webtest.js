@@ -55,7 +55,7 @@ $(document).on('i.add', 'click', function(e) {
 
 $(document).ready(function() {
 
-    console.log("JavaScript Ready Webtest");
+    console.log("Webtest JS Ready");
 
     // new test plan droppable + selectable
     // based on http://jsfiddle.net/KyleMit/Geupm/2/

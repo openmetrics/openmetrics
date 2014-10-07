@@ -45,13 +45,14 @@ module WebtestAutomagick
 
     wd='' #webdriver markup
 
-    wd += %Q[
-  require 'selenium-webdriver'
-  require_relative 'lib/TestExecutionHelper'
 
-  driver = TestExecutionHelper.get_browser_session
-  driver.manage.timeouts.page_load = 20 # page load timeout in seconds
-  driver.navigate.to "#{base_url}"
+wd += %Q[
+require 'selenium-webdriver'
+require_relative 'lib/TestExecutionHelper'
+
+driver = TestExecutionHelper.get_browser_session
+driver.manage.timeouts.page_load = 20 # page load timeout in seconds
+driver.navigate.to "#{base_url}"
 ]
 
     sel_commands.each do |command, target, value|

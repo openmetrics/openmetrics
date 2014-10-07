@@ -42,8 +42,9 @@
         var options = {};
 
         // Create a Timeline
-        var timeline = new vis.Timeline(container, items, options);
-
+        if (container) {
+            var timeline = new vis.Timeline(container, items, options);
+        }
 
         // system network graph
         // create an array with nodes
@@ -70,7 +71,9 @@
             edges: edges
         };
         var options = { height: '450px', navigation: true, keyboard: false};
-        var network = new vis.Network(container, data, options);
+        if (container) {
+            var network = new vis.Network(container, data, options);
+        }
 
 //    $.ajax({
 //        url: '/systems/<%= @system.id %>',

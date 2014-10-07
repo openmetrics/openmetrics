@@ -67,6 +67,9 @@ class TestExecutionWorker
         when 'bash'
           header = "#!/bin/bash\n"
           interpreter = 'bash'
+        when 'ruby'
+          header = "#!/usr/bin/env ruby\n"
+          interpreter = 'ruby'
       end
 
       # create executable file and change pwd (ugly way w/ ruby core utils)

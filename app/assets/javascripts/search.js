@@ -1,9 +1,9 @@
-$(document).ready(function ($) {
+$(document).ready(function () {
 
-    console.log("Search Ready");
+    console.log("Search JS Ready");
     var search_delay = undefined;
     var selectedItem = 0; // used to highlight searchresult by keyboard
-    var searchInput = $('#main-search');
+    var searchInput = jQuery('#main-search');
     var searchForm = searchInput.closest('form');
     var defaultFormAction = searchForm.attr('action');
 
@@ -17,17 +17,17 @@ $(document).ready(function ($) {
         switch (event.which) {
             case 38: // up arrow, hightlight previous item of resultset
                 //console.log("keypress up");
-                var allItems = $('#ajax_search_result').find('a');
+                var allItems = jQuery('#ajax_search_result').find('a');
                 if (allItems.size() > 0) {
                     if (selectedItem > 0 && selectedItem <= allItems.size()) {
                         selectedItem = selectedItem - 1;
 
-                        $.each(allItems, function (index, value) {
-                            $(this).removeClass('active'); // clean active highlights
+                        jQuery.each(allItems, function (index, value) {
+                            jQuery(this).removeClass('active'); // clean active highlights
                             //alert(index + ': ' + value);
                             if (index == selectedItem - 1) {
-                                $(this).addClass('active');
-                                var linkattr = $(this).attr('href');
+                                jQuery(this).addClass('active');
+                                var linkattr = jQuery(this).attr('href');
                                 // searchInput.val(linkattr);
                                 searchForm.attr('action', linkattr); // set form target to active items href
                             }
@@ -44,15 +44,15 @@ $(document).ready(function ($) {
 
             case 40: // down arrow, hightlight next item of resultset
                 //console.log("keypress down");
-                var allItems = $('#ajax_search_result').find('a');
+                var allItems = jQuery('#ajax_search_result').find('a');
                 if (allItems.size() > 0) {
                     if (selectedItem <= allItems.size() - 1) {
                         selectedItem = selectedItem + 1;
-                        $.each(allItems, function (index, value) {
-                            $(this).removeClass('active'); // clean active highlights
+                        jQuery.each(allItems, function (index, value) {
+                            jQuery(this).removeClass('active'); // clean active highlights
                             if (index == selectedItem - 1) {
-                                $(this).addClass('active');
-                                var linkattr = $(this).attr('href');
+                                jQuery(this).addClass('active');
+                                var linkattr = jQuery(this).attr('href');
                                 // searchInput.val(linkattr);
                                 searchForm.attr('action', linkattr); // set form target to active item
                             }
@@ -71,8 +71,8 @@ $(document).ready(function ($) {
             default:
                 search_delay = setTimeout(function () {
                     if (searchInput.val()) {
-                        $('#ajax_search_result').fadeOut("fast");
-                        $.ajax({
+                        jQuery('#ajax_search_result').fadeOut("fast");
+                        jQuery.ajax({
                             url: '/search/search?q=' + encodeURIComponent(searchInput.val().trim()),
                             type: "GET",
                             complete: function (data, textStatus) {
@@ -105,12 +105,12 @@ $(document).ready(function ($) {
 });
 
 function hideAjaxSearchResults() {
-    setTimeout(function () { $('#ajax_search_result').hide("fast"); }, 400);
+    setTimeout(function () { jQuery('#ajax_search_result').hide("fast"); }, 400);
 }
 
 function showAjaxSearchResults(result) {
-    var pos = $('#main-search').offset();
-    $('#ajax_search_result')
+    var pos = jQuery('#main-search').offset();
+    jQuery('#ajax_search_result')
         .css({position: "absolute", top: pos.top + 25, left: pos.left})
         .empty()
         .append(result)
