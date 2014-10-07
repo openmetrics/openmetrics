@@ -12,8 +12,9 @@
 //
 //= require jquery-2.1.0.min.js
 //= require jquery.turbolinks
-//= require jquery-ui-1.11.1.min
 //= require jquery_ujs
+//= require jquery.readyselector
+//= require jquery-ui-1.11.1.min
 //= require jquery-fileupload/basic
 //= require jquery-fileupload/vendor/tmpl
 //= require bootstrap.min
@@ -29,6 +30,8 @@
 //= require jstree.min
 //= require search
 //= require systems
+//= require webtest
+//= require test_executions
 //= require jqCron
 //= require uploads
 //= require ace/ace
@@ -36,7 +39,7 @@
 //= require ace/theme-github
 //= require conditions-builder
 //= require ui.multiselect
-////= require turbolinks
+//= require turbolinks
 
 /* flash handler */
 flashHandler = function(e, params) {
@@ -195,7 +198,7 @@ $(document).on('page:change', function() {
     // if tab-nav does not fit into space, show mobile icon nav
 //    $('.nav-pills, .nav-tabs').tabdrop();
     // bootstrap multiselect
-//    $('.multiselect').multiselect({
+//    $('.multiselect').multiselectp({
 //        buttonClass: 'btn btn-link' // make dropdown appear as inline link, not like a regular button
 //    });
 

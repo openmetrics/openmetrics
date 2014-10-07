@@ -6,7 +6,7 @@
             <% else %>
                 <% title = 'untitled' %>
             <% end %>
-            <li><%= link_to breadcrumb[0], breadcrumb[2], {:title => title, :data => { 'no_turbolink' => true } }  %>
+            <li><%= link_to breadcrumb[0], breadcrumb[2], {:title => title }  %>
         <%  end %>
   </ol>
 </div>

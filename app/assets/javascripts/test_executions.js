@@ -1,6 +1,5 @@
-
-var ready = function() {
-    console.log("JavaScript Ready Test Execution");
+$(".test_executions").ready(function () {
+    console.log("Test Execution JS Ready");
 
     // poll test execution status
     var timeOutId = 0;
@@ -77,10 +76,9 @@ var ready = function() {
         $("#popover_content_container").append($("#display_options_popover"));
     });
 
-};
+});
 
-$(document).ready(ready)
-$(window).bind('page:load', ready)
+
 
 //// poll status from sse stream
 //var stream = new EventSource(document.URL+'/poll');

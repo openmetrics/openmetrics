@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Openmetrics</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => false %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => false %>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= yield :additional_js %>
   <%= csrf_meta_tags %>
   <script type="text/javascript">
@@ -11,11 +11,11 @@
     I18n.locale = "<%= I18n.locale %>";
   </script>
 </head>
-<body <%= yield :body_tags %>>
+<body <%= yield :body_tags %> class="<%= controller_name %> <%= action_name %>">
     <%= render "layouts/header" %>
     <%= render "layouts/breadcrumbs" %>
 
-    <div class="container <%= controller.controller_name %> <%= controller.action_name %>">
+    <div class="container">
         <%= render "layouts/notifications" %>
         <% if content_for?(:page_header) %>
             <div class="page-header">
