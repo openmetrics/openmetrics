@@ -154,20 +154,8 @@
 
   <!-- right column -->
   <div class="col-md-4">
-
-    <% if @system.description or @system.operating_system or @system.operating_system_flavor %>
-        <h3 class="spacer">Host Information</h3>
-        <%= basic_info_panel @system %>
-    <% end %>
-
-    <% if @system.cidr or @system.fqdn or @system.sshuser %>
-    <h3 class="spacer">Network Information</h3>
-    <%= network_info_panel @system %>
-    <% end %>
-
-
+    <%= render :partial => 'system_information' %>
     <h3 class="spacer">Running Services</h3>
-
     <div class="list-group running_service">
       <%= render :partial => 'running_services', :collection => @system.running_services, :as => :rs %>
     </div>

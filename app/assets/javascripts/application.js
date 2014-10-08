@@ -27,6 +27,9 @@
 //= require unobtrusive_flash
 //= require pnotify.custom.min
 //= require vis
+//= require webtest
+//= require flot-0.8.3/jquery.flot
+//= require flot-0.8.3/jquery.flot.stackpercent
 //= require jstree.min
 //= require search
 //= require systems

@@ -1,26 +1,27 @@
 $(".test_executions").ready(function () {
     console.log("Test Execution JS Ready");
 
-    // poll test execution status
-    var timeOutId = 0;
-    var ajaxFn = function () {
-        $.ajax({
-            url: document.URL+'/poll',
-            success: function (response) {
-                if (response.status == 40) {
-                    console.log("Test Execution finished - no need to refresh anymore.");
-                    clearTimeout(timeOutId);
-                } else {
-                    timeOutId = setTimeout(ajaxFn, 2000);
-                    console.log("Test Execution running: ", response);
+    // poll test execution status on test_executions show
+    if (jQuery(".test_executions.show").length) {
+        var timeOutId = 0;
+        var ajaxFn = function () {
+            $.ajax({
+                url: document.URL + '/poll',
+                success: function (response) {
+                    if (response.status == 40) {
+                        console.log("Test Execution finished - no need to refresh anymore.");
+                        clearTimeout(timeOutId);
+                    } else {
+                        timeOutId = setTimeout(ajaxFn, 2000);
+                        console.log("Test Execution running: ", response);
+                    }
                 }
-            }
-        });
+            });
+        }
+        ajaxFn();
+        // wait 0.5 secs before first call
+        //timeOutId = setTimeout(ajaxFn, 500);
     }
-    ajaxFn();
-    // wait 0.5 secs before first call
-    //timeOutId = setTimeout(ajaxFn, 500);
-
 
     // checkbox actions
     //set initial state.
