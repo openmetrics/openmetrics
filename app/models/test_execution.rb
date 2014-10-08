@@ -17,6 +17,7 @@
 class TestExecution < ActiveRecord::Base
   include Executable
   include Qualified
+  include Trackable
 
   belongs_to :test_plan
   # TestExecutionItem belongs to TestExecution, but we currently use method test_execution_items
