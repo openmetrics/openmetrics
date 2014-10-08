@@ -7,7 +7,7 @@
     <%#= badge_label @test_execution, {:label_class => 'default', :text => @test_execution.test_plan.name} %>
     <span class="label label-primary">TestExecution-<%= @test_execution.id %></span>
     <span class="pull-right">
-    <%= render partial: 'controls' %>
+    <%= render partial: 'controls', test_execution: @test_execution %>
     </span>
   </h3>
 <% end %>
@@ -18,7 +18,7 @@
   <div class="col-md-4 col-md-push-8">
     <h3>Result</h3>
     <div class="panel panel-default">
-      <div class="panel-body">
+      <div id="test_execution_status" class="panel-body">
         Base URL <code><%= @test_execution.test_plan.base_url %></code><br>
         <small>Test execution requested <%= time_ago_in_words(@test_execution.created_at) %> ago.</small><br>
         <%= test_execution_status(@test_execution) %>

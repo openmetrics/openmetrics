@@ -240,12 +240,15 @@ $(document).ready(function() {
     });
 
 
-    // code editor
+    // ace code editor
     if ( $('#test_case_markup').length ) {
         var editor = ace.edit("test_case_markup");
         editor.setTheme("ace/theme/github");
         editor.getSession().setMode("ace/mode/html");
-        console.log(editor);
+        editor.setOptions({
+            maxLines: Infinity
+        });
+        console.log('Ace editor loaded');
     }
 
     // jstree within _test_item_browser

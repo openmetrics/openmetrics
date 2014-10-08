@@ -18,8 +18,8 @@ TABLEBAKERY_PRESETS = {
         attr_order:  %w( name description type format markup actions)
     },
     test_case: {
-        attr_ignore: %w( updated_at created_at type ),
-        attr_order:  %w( id name description format markup actions)
+        attr_ignore: %w( updated_at created_at type markup ),
+        attr_order:  %w( id name description format actions)
     },
     test_script: {
         attr_ignore: %w( updated_at created_at type ),

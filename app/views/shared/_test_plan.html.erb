@@ -7,7 +7,7 @@
     <li>
       <span class="item-number"><%= n+1 %></span>
       <%#= badge item.test_item.format, 'info' %>
-      <%= link_to badge("#{item.test_item.type}-#{item.test_item.id}", 'primary') + " #{item.test_item.name}", item.test_item %>
+      <%= link_to badge_label(item.test_item, {:label_class => 'primary'}), item.test_item %>
       <%# is there already an exitstatus available? %>
       <% if !te_items.nil? && te_items[n] && controller.controller_name == 'test_executions' %>
         <%= ( ! te_items[n].test_execution.test_execution_result.nil? and

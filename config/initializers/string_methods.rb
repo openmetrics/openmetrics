@@ -17,6 +17,8 @@ class String
         'TE'
       when 'TestPlan'
         'TP'
+      when 'TestScript'
+        'TS'
       else
         self
     end

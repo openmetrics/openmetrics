@@ -3,24 +3,27 @@ $(".test_executions").ready(function () {
 
     // poll test execution status on test_executions show
     if (jQuery(".test_executions.show").length) {
+        console.log("Test Execution polling status");
         var timeOutId = 0;
         var ajaxFn = function () {
             $.ajax({
                 url: document.URL + '/poll',
                 success: function (response) {
-                    if (response.status == 40) {
-                        console.log("Test Execution finished - no need to refresh anymore.");
+                    if (response.status >= 30) {
+                        console.log("Test Execution finished - no need to poll anymore.", response);
                         clearTimeout(timeOutId);
                     } else {
                         timeOutId = setTimeout(ajaxFn, 2000);
+                        if (response.status < 40) {
+                            testExecutionUpdate(response);
+                        }
                         console.log("Test Execution running: ", response);
                     }
                 }
             });
-        }
-        ajaxFn();
+        };
         // wait 0.5 secs before first call
-        //timeOutId = setTimeout(ajaxFn, 500);
+        timeOutId = setTimeout(ajaxFn, 2000);
     }
 
     // checkbox actions
@@ -78,6 +81,11 @@ $(".test_executions").ready(function () {
     });
 
 });
+
+// TODO update processing status based on response
+function testExecutionUpdate(response) {
+    window.location.reload();
+}
 
 
 
