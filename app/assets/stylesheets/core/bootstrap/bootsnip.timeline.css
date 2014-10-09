@@ -265,6 +265,7 @@ img {
     font-size: 12px;
     margin: 0;
     line-height: 1.428571429;
+    word-wrap: break-word; /* break very long text lines */
 }
 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label p + p {
