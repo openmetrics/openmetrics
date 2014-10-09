@@ -10,7 +10,7 @@ module WebBrowser
   @@browser_session = 'webdriver.marshall' # filename
 
   def get_browser_session
-    puts "Getting WebBrowser session..."
+    #puts "Getting WebBrowser session..."
     driver = if browser_session_available?
       Marshal.load (File.binread(@@browser_session))
     else
@@ -31,7 +31,7 @@ module WebBrowser
   end
 
   def quit
-	  puts "Quitting WebBrowser..."
+	  #puts "Quitting WebBrowser..."
   end
 end
 

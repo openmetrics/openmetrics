@@ -1,4 +1,5 @@
 require 'active_record/fixtures'
+require 'fileutils'
 
 namespace :openmetrics do
   
@@ -27,6 +28,9 @@ namespace :openmetrics do
   	puts "#{'*'*(`tput cols`.to_i)}\nChecking Environment... The database will be cleared of all content before populating.\n"
     # Removes content before populating with data to avoid duplication
     Rake::Task['db:reset'].invoke
+
+    # Remove recent test_execution files in tmpdir
+    Rake::Task['openmetrics:clean'].invoke
     
     # create admin user
     user = User.new
@@ -35,7 +39,13 @@ namespace :openmetrics do
                              :password => 'adminadmin',
                              :password_confirmation => 'adminadmin',
                              :email => 'admin@example.com')
-    
+
+    user2 = User.new
+    user2.update_attributes!(:username => 'user',
+                            :slug => 'useruser', # user would conflict with FriendlyId
+                            :password => 'useruser',
+                            :password_confirmation => 'useruser',
+                            :email => 'grobi@koppzu.de') # has gravatar image
 
     
     # load fixtures
@@ -79,6 +89,14 @@ namespace :openmetrics do
     puts "#{'*'*(`tput cols`.to_i)}\nThe database has been populated!\n#{'*'*(`tput cols`.to_i)}"
     puts "Setup complete."
     puts "\nYou can login to openmetrics with user:'admin' pw:'adminadmin' now!"
+  end
+
+  task :clean => :environment do
+    # recreate test execution tmpdir
+    if Dir.exist?(EXECUTION_TMPDIR)
+      FileUtils.remove_dir(EXECUTION_TMPDIR, true)
+    end
+    Dir.mkdir(EXECUTION_TMPDIR)
   end
 
   task :testrun => :environment do

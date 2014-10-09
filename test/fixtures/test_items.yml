@@ -44,7 +44,21 @@ bashprintenv:
   type: TestScript
   format: bash
   markup: |
-    env
+    env | sort
+
+bashprintstderr:
+  name: selftest bashprintstderr
+  type: TestScript
+  format: bash
+  markup: |
+    >&2 echo "This Text goes to STDERR"
+
+bashprintstdout:
+  name: selftest bashprintstout
+  type: TestScript
+  format: bash
+  markup: |
+    >&1 echo "This Text goes to STDOUT"
 
 # ruby
 rubyprintenv:
@@ -307,6 +321,60 @@ bmcregistrationslim:
     </body>
     </html>
 
+bmcregistrationrecipe:
+  name: BMC registration recipe
+  description: Register by using recipe variant of registration form.
+  type: TestCase
+  format: selenese
+  markup: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="selenium.base" href="http://localhost/" />
+    <title>registration</title>
+    </head>
+    <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+    <thead>
+    <tr><td rowspan="1" colspan="3">register_user.html</td></tr>
+    </thead><tbody>
+    <tr>
+        <td>open</td>
+        <td>/registration/recipe</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>id=registration_email</td>
+        <td>${email}</td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>id=registration_username</td>
+        <td>${username}</td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>id=registration_plainPassword</td>
+        <td>${password}</td>
+    </tr>
+    <tr>
+        <td>click</td>
+        <td>id=registration_agreeTerms</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>click</td>
+        <td>//button[@type='submit']</td>
+        <td></td>
+    </tr>
+    </tbody></table>
+    </body>
+    </html>
+
+
 # BMC post-registration
 bmcverifyregistrationfinished:
   name: BMC verify registration finished
@@ -367,6 +435,39 @@ bmcverifyregistrationfinished:
     </body>
     </html>
 
+bmcverifyregistrationrecipe:
+  name: BMC verify registration recipe
+  description: Check if register a recipe user was successful.
+  type: TestCase
+  format: selenese
+  markup: |
+  markup: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="selenium.base" href="http://localhost/" />
+    <title>verify_registration_finished</title>
+    </head>
+    <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+    <thead>
+    <tr><td rowspan="1" colspan="3">verify_registration_finished</td></tr>
+    </thead><tbody>
+    <tr>
+        <td>echo</td>
+        <td>prüfe, dass die Seite "Deine Registrierung für unser Rezepte-Portal war erfolgreich!" enthält</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>verifyTextPresent</td>
+        <td>Deine Registrierung für unser Rezepte-Portal war erfolgreich!</td>
+        <td></td>
+    </tr>
+    </tbody></table>
+    </body>
+    </html>
 
 bmcguidedtour:
   name: BMC guided tour

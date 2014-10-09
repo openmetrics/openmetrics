@@ -7,6 +7,8 @@ EXECUTION_STATUS = {
   40 => 'finished'
 }
 
+EXECUTION_TMPDIR="#{Rails.root}/tmp/test_executions"
+
 QUALITY_STATUS = {
   0 => 'passed',
   5 => 'defective',
@@ -19,3 +21,4 @@ SEVERITIES = {
     15 => 'critical',
     20 => 'fatal'
 }
+

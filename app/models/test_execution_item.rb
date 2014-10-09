@@ -25,8 +25,20 @@ class TestExecutionItem < ActiveRecord::Base
   belongs_to :test_execution
 
   # TODO add simple test if there is any occurance in self's and self.test_item's markup of String ENV: e.g. ENV['foo'] = 'bar' or doWhatever(ENV['foo'])
-  def provides_input?
-    true
+  def input_required?
+    if self.test_item.format == 'selenese'
+      self.test_item.markup.include?('<td>store</td>')
+    else
+      false
+    end
+  end
+
+  def provided_input
+    if self.test_item.format == 'selenese'
+      WebtestAutomagick::selenese_extract_input(self.test_item.markup)
+    else
+      nil
+    end
   end
 
   # virtual attribute execution time in millisecond precision, calculated from started_at and finished_at

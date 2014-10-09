@@ -8,8 +8,6 @@ class TestExecutionWorker
   include WebtestAutomagick
   include Test::Unit::Assertions
 
-  TMPDIR="#{Rails.root}/tmp/test_executions" # working dir
-
   def perform(test_execution_id, test_plan_id)
     tp = TestPlan.find(test_plan_id)
     te = TestExecution.find(test_execution_id)
@@ -49,8 +47,8 @@ class TestExecutionWorker
     ret = [] # return array
 
     # create execution directory
-    Dir.mkdir(TMPDIR) unless Dir.exist?(TMPDIR)
-    Dir.chdir(TMPDIR)
+    Dir.mkdir(EXECUTION_TMPDIR) unless Dir.exist?(EXECUTION_TMPDIR)
+    Dir.chdir(EXECUTION_TMPDIR)
     Dir.mkdir(te.id.to_s) unless Dir.exist?(te.id.to_s)
     Dir.chdir(te.id.to_s)
     dir = Dir.pwd
@@ -80,7 +78,7 @@ class TestExecutionWorker
       start_browser = n+1 == 1 ? true : false # start browser in first item
       quit_browser = n+1 == items.count ? true : false # quit browser in last item
       executable_markup = if item.type == 'TestCase' && item.format == 'selenese'
-                            selenese_to_webdriver(item.markup, tp.base_url, start_browser, quit_browser)
+                            WebtestAutomagick::selenese_to_webdriver(item.markup, tp.base_url, start_browser, quit_browser)
                           else
                             item.markup # use item.markup by default
                           end
@@ -113,7 +111,7 @@ class TestExecutionWorker
 
     # create helper libs for TestCase's
     if items.where(type: 'TestCase', format: 'selenese').any?
-      setup_execution_helper(dir)
+      WebtestAutomagick::setup_execution_helper(dir)
     end
 
     # return array of test_execution_id, filename & interpreter
@@ -128,8 +126,9 @@ class TestExecutionWorker
 
       # prepare environment
       custom_env = ENV.clone
-      if te_item.provides_input?
+      if te_item.input_required?
         custom_env.store('OM_TEST', 'foobar')
+        custom_env.store('OM_RANDOM', rand(99999).to_s)
       end
 
       # run command, pass in environment

@@ -5,12 +5,13 @@ $(".test_plans.edit").ready(function () {
     console.log('Test Plans Edit JS Ready');
 
     // select2 multiselect for projects
-    $('#test_projects').select2({
+    jQuery('#test_projects').select2({
       width: '100%' ,
       allowClear: true,
       dropdownAutoWidth : true
-    })
-    .on("change", function(e) { setAlertForSaveButton() });
+    }).on("change", function(e) {
+        setAlertForSaveButton()
+    });
 
 
     // init conditions builder
@@ -84,7 +85,7 @@ $(".test_plans.edit").ready(function () {
     // init conditionsbuilder
     jQuery("#criteria_builder").conditionsBuilder({fields: fields, data: test_plan_<%= @test_plan.id %>_data});
     //<% @test_plan.test_items.each do |item| %>
-    //    $("#criteria_builder_<%= item.id %>").conditionsBuilder({fields: fields, data: test_item_<%= item.id %>_data});
+    //    jQuery("#criteria_builder_<%= item.id %>").conditionsBuilder({fields: fields, data: test_item_<%= item.id %>_data});
     //<% end %>
 });
 </script>

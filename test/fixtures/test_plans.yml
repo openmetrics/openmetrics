@@ -52,8 +52,17 @@ st108:
   description: Start a webbrowser, wait and resum webbrowser session afterwards.
   base_url: http://www.google.com
 
+st109:
+  name: Output and Error Output
+  description: Print some Text to Output and Error Output.
+
 # BMC
 bmc100:
-  name: BMC registration 1
-  description: Register a user by register form at start page.
-  base_url: https://stage.bodymass.de
+  name: BMC register dietplan user
+  description: Registers a dietplan user by filling out register form at start page.
+  base_url: http://localhost
+
+bmc101:
+  name: BMC register recipe user
+  description: Registers a recipe user. Therefore visit public recipes area and afterwards the registration page.
+  base_url: http://localhost

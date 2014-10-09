@@ -30,6 +30,11 @@ ul.test_plan li > * {
   vertical-align: middle !important;
 }
 
+/* test plan execution pointer for toggle */
+.test_plan .toggle_status i {
+  cursor: pointer;
+}
+
 /* popover test plan execution scheduling */
 #run_options_popover {
   width: 450px;

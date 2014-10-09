@@ -5,6 +5,20 @@
         <span class="item-number"><%= n+1 %></span>
         <%= link_to (badge_label te_item, {:label_class => "primary"}), te_item %>
 
+        <!-- add some icons to toggle input, output and error directly -->
+        <span class="toggle_status">
+            <% if te.test_execution_items[n] and te.test_execution_items[n].input_required? %>
+                <i class="fa fa-sign-in" data-toggle="stdin"></i>
+            <% end %>
+            <% if te.test_execution_items[n] and !te.test_execution_items[n].output.nil? %>
+                <i class="fa fa-sign-out" data-toggle="stdout"></i>
+            <% end %>
+            <% if te.test_execution_items[n] and !te.test_execution_items[n].error.nil? %>
+                <i class="fa fa-bug" data-toggle="stderr"></i>
+            <% end %>
+        </span>
+
+        <!-- processing status (exit code and execution time) -->
         <div class="pull-right">
             <%# is there already an exitstatus available? %>
             <% if te.test_execution_items[n] and te.test_execution_items[n].exitstatus.is_a? Integer %>
@@ -41,15 +55,21 @@
                 <%= coderay(te.test_execution_items[n].markup, te.test_execution_items[n].format, "div") %>
               </li>
 
+              <!-- input -->
+              <li class="stdin spacer collapse"><i class="fa-li fa fa-sign-in"></i>
+                Input
+                <%= te.test_execution_items[n] and te.test_execution_items[n].input_required? ? coderay(te.test_execution_items[n].provided_input, "plain", "div") : coderay('empty', "plain", "div") %>
+              </li>
+
               <!--in case of success show the output-->
               <li class="stdout spacer collapse"><i class="fa-li fa fa-sign-out"></i>
-                STDOUT
+                Output
                 <%= te.test_execution_items[n] and te.test_execution_items[n].output.nil? ? coderay("empty", "plain", "div") : coderay(te.test_execution_items[n].output, "plain", "div") %>
               </li>
 
               <!--in case of failure show the error message-->
               <li class="stderr spacer collapse"><i class="fa-li fa fa-bug"></i>
-                STDERR
+                Error Output
                 <%= te.test_execution_items[n] and te.test_execution_items[n].error.nil? ? coderay("empty", "plain", "div") : coderay(te.test_execution_items[n].error, te.test_execution_items[n].format, "div") %>
               </li>
 

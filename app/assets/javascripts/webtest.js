@@ -136,8 +136,8 @@ $(document).ready(function() {
         setAlertForSaveButton();
     });
 
-    // save button shall serialize and submit form data
-    var save_button = $('.test_plans.edit a.save');
+    // save button shall serialize and submit form data (new & edit)
+    var save_button = $('.test_plans a.save');
     var form = $('form[name="test_plan"]');
     save_button.click(function () {
         var paramsString = form.serialize();

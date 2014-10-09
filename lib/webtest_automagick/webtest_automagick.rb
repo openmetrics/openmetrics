@@ -7,15 +7,15 @@ module WebtestAutomagick
   public
 
   # copies some libs to execution dir
-  def setup_execution_helper(dir)
-    puts "Trying to create #{dir}/lib"
+  def self.setup_execution_helper(dir)
+    #puts "Trying to create #{dir}/lib"
     FileUtils.mkdir("#{dir}/lib") unless Dir.exist?("#{dir}/lib")
     FileUtils.cp("#{Rails.root.join('lib', 'webtest_automagick').to_s}/TestExecutionHelper.rb", "#{dir}/lib")
   end
 
   # translates selenese to ruby-webdriver
   # http://release.seleniumhq.org/selenium-core/1.0.1/reference.html
-  def selenese_to_webdriver(markup, base_url, start_browser=false, close_browser=false)
+  def self.selenese_to_webdriver(markup, base_url, start_browser=false, close_browser=false)
     doc = Nokogiri::HTML(markup)
 
     # extract title
@@ -108,6 +108,8 @@ driver.navigate.to "#{base_url}"
           wd << "ENV['#{value}'] = '#{target}'\n"
         when /type/
           wd << "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
+        when /verifyTextPresent/
+          wd << "driver.page_source.include? \"#{target}\"\n"
         when /waitForElementPresent/
           wd << '# wait for a specific element to show up' + "\n"
           wd << 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
@@ -119,5 +121,19 @@ driver.navigate.to "#{base_url}"
     end
     wd << "driver.quit" if close_browser
     wd
+  end
+
+  # looks out for 'store' commands with it's (name and value) in selenese markup
+  # returns array of found input pairs
+  def self.selenese_extract_input(markup)
+    doc = Nokogiri::HTML(markup)
+    store_commands = []
+    doc.css("tbody tr").each do |x|
+      command = x.css("td")[0].text
+      var_value = x.css("td")[1].text
+      var_name = x.css("td")[2].text
+      store_commands.push([var_name, var_value]) if command == 'store'
+    end
+    return store_commands
   end
 end

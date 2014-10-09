@@ -95,6 +95,15 @@ st108_3:
     position: 3
 
 
+st109_1:
+  test_plan: st109
+  test_item: bashprintstderr
+  position: 1
+st109_2:
+  test_plan: st109
+  test_item: bashprintstdout
+  position: 2
+
 bmc100_1:
   test_plan: bmc100
   test_item: bmcsetregistrationvariables
@@ -103,3 +112,16 @@ bmc100_2:
   test_plan: bmc100
   test_item: bmcregistrationslim
   position: 2
+
+bmc101_1:
+  test_plan: bmc101
+  test_item: bmclogoutuser
+bmc101_2:
+  test_plan: bmc101
+  test_item: bmcsetregistrationvariables
+bmc101_3:
+  test_plan: bmc101
+  test_item: bmcregistrationrecipe
+bmc101_4:
+  test_plan: bmc101
+  test_item: bmcverifyregistrationrecipe

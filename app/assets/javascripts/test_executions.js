@@ -26,8 +26,15 @@ $(".test_executions").ready(function () {
         timeOutId = setTimeout(ajaxFn, 2000);
     }
 
-    // checkbox actions
+    // checkbox hide/show all actions
     //set initial state.
+    $('#checkbox_stdin').val($(this).is(':checked'));
+    $('#checkbox_stdin').change(function() {
+        if ( $(this).is(':checked') )
+            $('.test_plan .items .stdin').fadeIn('fast')
+        else
+            $('.test_plan .items .stdin').hide();
+    });
     $('#checkbox_stdout').val($(this).is(':checked'));
     $('#checkbox_stdout').change(function() {
         if ( $(this).is(':checked') )
@@ -56,7 +63,7 @@ $(".test_executions").ready(function () {
         else
             $('.test_plan .items .markup_raw').hide();
     });
-    $('#checkbox_quality').attr('checked', false);;
+    $('#checkbox_quality').attr('checked', false);
     $('#checkbox_quality').change(function() {
         if ( $(this).is(':checked') )
             $('.test_plan .items .quality').fadeIn('fast')
@@ -64,6 +71,17 @@ $(".test_executions").ready(function () {
             $('.test_plan .items .quality').hide();
     });
 
+    // specific status_toggle (input, output, error)
+    $('.toggle_status i').on('click', function(e) {
+        var toggle = $(this).data('toggle');
+        var element = $(this).closest('li').children('ul.items').children('li.'+toggle);
+        if ( $(element).is(':visible') ) {
+            $(element).hide();
+        } else {
+            $(element).fadeIn('fast');
+        }
+
+    });
 
 
 
