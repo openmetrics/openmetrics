@@ -1,7 +1,5 @@
 <span class="btn-group btn-group-sm">
-
-    <%= link_to 'Back', :back, :class => 'btn btn-default' %>
-
+    <%#= link_to 'Back', :back, :class => 'btn btn-default' %>
     <%#= link_to raw('<span class="glyphicon glyphicon-wrench"></span> Edit Test Plan'), edit_test_plan_path(@test_plan), :class => 'btn btn-default' %>
     <%= link_to(raw('<span class="glyphicon glyphicon-play-circle"></span> Run again'), '#', class: 'btn btn-default run_test_plan', data: { id: @test_execution.test_plan.id}) %>
     <button class="btn btn-default pull-right display_options" data-placement="bottom">

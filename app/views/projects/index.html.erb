@@ -1,0 +1,7 @@
+<h1>Listing projects</h1>
+
+<%= raw htmltable_for @projects, { :actions => {:show => true}} %>
+
+<br>
+
+<%= link_to 'New Project', new_project_path %>

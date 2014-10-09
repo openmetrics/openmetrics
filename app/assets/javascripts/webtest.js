@@ -130,8 +130,14 @@ $(document).ready(function() {
     $('#test_scripts_searchlist').btsListFilter('#searchinput', {initial: false, resetOnBlur: false});
     $('#test_cases_searchlist').btsListFilter('#searchinput', {initial: false, resetOnBlur: false});
 
+
+    // highlight save button if form changes
+    jQuery('form input:text, form textarea, form .select2-container').on('input propertychange paste', function() {
+        setAlertForSaveButton();
+    });
+
     // save button shall serialize and submit form data
-    var save_button = $('div.test_plans a.save');
+    var save_button = $('.test_plans.edit a.save');
     var form = $('form[name="test_plan"]');
     save_button.click(function () {
         var paramsString = form.serialize();

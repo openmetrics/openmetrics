@@ -27,14 +27,9 @@
 //= require unobtrusive_flash
 //= require pnotify.custom.min
 //= require vis
-//= require webtest
 //= require flot-0.8.3/jquery.flot
 //= require flot-0.8.3/jquery.flot.stackpercent
 //= require jstree.min
-//= require search
-//= require systems
-//= require webtest
-//= require test_executions
 //= require jqCron
 //= require uploads
 //= require ace/ace
@@ -42,6 +37,11 @@
 //= require ace/theme-github
 //= require conditions-builder
 //= require ui.multiselect
+//= require select2.min
+//= require search
+//= require systems
+//= require test_executions
+//= require webtest
 //= require turbolinks
 
 /* flash handler */
@@ -206,7 +206,7 @@ $(document).on('page:change', function() {
 //    });
 
     // set focus to main-search
-    $('#main-search').focus();
+    //$('#main-search').focus();
 
     // fancy file uploads
     $('#test_case_upload').fileupload({

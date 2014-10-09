@@ -1,6 +1,6 @@
 class WebtestsController < ApplicationController
   def index
-    add_breadcrumb 'Webtests'
+    add_breadcrumb 'Test Center'
     @test_plans = TestPlan.all
     @test_cases = TestCase.all
     @test_scripts = TestScript.all

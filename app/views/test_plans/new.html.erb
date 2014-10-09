@@ -1,15 +1,18 @@
-<% javascript 'webtest' %>
+<%# javascript 'webtest' %>
 
-<div class="row">
-
-  <div class="col-md-8">
+<% content_for :page_header do %>
     <h3>
       Create a new test plan
       <span class="btn-group pull-right">
         <%= link_to ' Save', 'javascript:void(0)', :class => 'btn btn-default save' %>
       </span>
     </h3>
-    <div class="panel panel-default spacer">
+<% end %>
+
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-default">
       <div class="panel-body">
         <%= form_tag(test_plans_path, method: 'post', class: "form-horizontal", name: 'test_plan', role: 'form') do %>
           <%= raw htmlform_for @test_plan, {:nested => true, :only => [:name, :description, :base_url]} %>

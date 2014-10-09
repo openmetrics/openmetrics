@@ -1,12 +1,12 @@
+<% content_for :page_header do %>
+    <h3>
+      <%= badge_label @test_case, {:label_class => 'primary'} %>
+    </h3>
+<% end %>
+
 <div class="row">
 
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3>
-          <%= @test_case.name %>
-        </h3>
-
-      </div>
       <div class="panel-body">
         <blockquote><%= @test_case.description %></blockquote>
         <%= badge(@test_case.format, 'info') %>

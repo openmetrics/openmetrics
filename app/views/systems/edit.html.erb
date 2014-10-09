@@ -2,10 +2,10 @@
 
 <% content_for :page_header do %>
   <h3>
-    <%= badge_label @system, {:label_class => 'primary'} %>
+    Edit <%= badge_label @system, {:label_class => 'primary'} %>
     <span class="btn-group btn-group-sm pull-right">
-        <%= link_to raw('<span class="glyphicon glyphicon-remove"></span> Delete'), @system, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
-        <%= link_to 'Back', @system, :class => 'btn btn-default' %>
+        <%= link_to 'Delete', @system, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
+        <%= link_to 'Show', @system, :class => 'btn btn-default' %>
         <%= link_to ' Save', 'javascript:void(0)', :class => 'btn btn-default save' %>
     </span>
   </h3>

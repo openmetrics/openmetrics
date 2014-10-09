@@ -1,8 +1,9 @@
-<h3>
-    <%= raw t('om.views.system.index.title') %>
+<% content_for :page_header do %>
+  <h3>
+    <%= t('om.views.system.index.title') %>
     <%= link_to raw('<span class="fa fa-plus"></span> ' + t('om.views.system.index.new_system')),
-            new_system_path, :class => 'btn btn-default pull-right' %>
-</h3>
-
+                new_system_path, :class => 'btn btn-default btn-sm pull-right' %>
+  </h3>
+<% end %>
 
 <%= raw htmltable_for @systems, { :html_class => 'spacer', :join => ['running_services'], :join_as => 'service', :actions => { :edit => true, :show => true } } %>

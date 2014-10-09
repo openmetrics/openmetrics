@@ -8,7 +8,7 @@ Text result:<br>
 <% json_result = @ip_lookup.result.is_json? ? JSON.parse(@ip_lookup.result) : false %>
 <% if json_result %>
     <% json_result.each do |node| %>
-            <h4><%= node['addr'] %></h4>
+            <h4><%= node['addr'] %>:<%= node['port']['num'] %></h4>
             <%= node['port']['service']['name'] %> (<%= node['port']['service']['product'] %> <%= node['port']['service']['version'] %>)
         <% end %>
     <% end %>

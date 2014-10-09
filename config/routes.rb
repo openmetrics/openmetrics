@@ -52,6 +52,9 @@ Openmetrics::Application.routes.draw do
   resources :test_executions
   get 'test_executions/:id/poll' => 'test_executions#poll', as: :poll_test_execution
 
+  # project routes
+  resources :projects
+
   # Enable this route for sidekiq monitoring
   # Remember to add 'sinatra' in Gemfile
   require 'sidekiq/web'

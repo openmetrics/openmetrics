@@ -10,8 +10,8 @@ TABLEBAKERY_PRESETS = {
         attr_order:  %w( type name daemon_name description join_running_services actions )
     },
     test_plan: {
-        attr_ignore: %w( id slug updated_at created_at user_id ),
-        attr_order:  %w( name description base_url actions)
+        attr_ignore: %w( id slug updated_at created_at user_id base_url ),
+        attr_order:  %w( name description actions)
     },
     test_item: {
         attr_ignore: %w( id updated_at created_at ),
@@ -19,7 +19,7 @@ TABLEBAKERY_PRESETS = {
     },
     test_case: {
         attr_ignore: %w( updated_at created_at type markup ),
-        attr_order:  %w( id name description format actions)
+        attr_order:  %w( id format name description actions)
     },
     test_script: {
         attr_ignore: %w( updated_at created_at type ),

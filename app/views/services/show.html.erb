@@ -1,9 +1,14 @@
+<% content_for :page_header do %>
+    <h3>
+      <%= badge_label @service, {:label_class => 'primary'} %>
+    </h3>
+<% end %>
+
 <div class="row">
 
   <!-- left column -->
   <div class="col-md-6">
-    <h3><%= badge "SVC-#{@service.id}" %> <%=@service.name%></h3>
-    <p><%=@service.description%></p>
+    <p><blockquote><%=@service.description%></blockquote></p>
   </div>
 
   <!-- right column -->

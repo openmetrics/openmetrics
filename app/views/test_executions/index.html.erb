@@ -33,7 +33,11 @@ $(".test_executions.index").ready(function () {
 });
 </script>
 
-<h3>Test Executions List</h3>
+<% content_for :page_header do %>
+    <h3>
+      Test Executions
+    </h3>
+<% end %>
 
 <%#= raw htmltable_for @test_executions, { :html_class => 'spacer', :actions => { :show => true} } %>
 

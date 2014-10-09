@@ -15,7 +15,7 @@ $(".systems").ready(function () {
     });
 
     // save button shall serialize and submit form data
-    var save_button = jQuery('.systems a.save');
+    var save_button = jQuery('.systems.edit a.save');
     var form = jQuery('form[name="system"]');
     save_button.click(function () {
         var paramsString = form.serialize();

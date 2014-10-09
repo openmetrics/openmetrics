@@ -82,8 +82,9 @@
       select.append($("<option>", {"value": "all", "text": "All", "selected": kind == "all"}));
       select.append($("<option>", {"value": "any", "text": "Any", "selected": kind == "any"}));
       select.append($("<option>", {"value": "none", "text": "None", "selected": kind == "none"}));
-      selectWrapper.append(select);
-      selectWrapper.append($("<span>", {text: " of the following are true"}));
+      //selectWrapper.append(select);
+      //selectWrapper.append($("<span>", {text: " of the following are true"}));
+      selectWrapper.append($("<span>", {text: "All of the following are true"}));
       div.append(selectWrapper);
 
 

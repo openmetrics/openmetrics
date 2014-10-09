@@ -1,9 +1,12 @@
-<h3>
-    Test Cases
-    <%= link_to raw('<span class="glyphicon glyphicon-plus"></span> ' + "New test case"),
-            new_test_case_path, :class => "btn btn-success pull-right" %>
-</h3>
-
+<% content_for :page_header do %>
+    <h3>
+      Test Cases
+      <span class="btn-group btn-group-sm pull-right">
+        <%= link_to raw('<span class="fa fa-plus"></span> ' + "New test case"),
+            new_test_case_path, :class => "btn btn-default" %>
+      </span>
+    </h3>
+<% end %>
 
 <%= raw htmltable_for @test_cases, {:html_class => "spacer", :actions => {:show => true, :destroy => true}} %>
 
