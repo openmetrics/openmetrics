@@ -8,13 +8,13 @@
         <!-- add some icons to toggle input, output and error directly -->
         <span class="toggle_status">
             <% if te.test_execution_items[n] and te.test_execution_items[n].input_required? %>
-                <i class="fa fa-sign-in" data-toggle="stdin"></i>
+                <i class="fa fa-sign-in" data-toggle="stdin" title="toggle Input"></i>
             <% end %>
             <% if te.test_execution_items[n] and !te.test_execution_items[n].output.nil? %>
-                <i class="fa fa-sign-out" data-toggle="stdout"></i>
+                <i class="fa fa-sign-out" data-toggle="stdout" title="toggle Output"></i>
             <% end %>
             <% if te.test_execution_items[n] and !te.test_execution_items[n].error.nil? %>
-                <i class="fa fa-bug" data-toggle="stderr"></i>
+                <i class="fa fa-bug" data-toggle="stderr" title="toggle Error Output"></i>
             <% end %>
         </span>
 
