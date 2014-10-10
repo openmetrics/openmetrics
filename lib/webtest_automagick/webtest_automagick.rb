@@ -50,8 +50,9 @@ wd += %Q[
 require 'selenium-webdriver'
 require_relative 'lib/TestExecutionHelper'
 
-driver = TestExecutionHelper.get_browser_session
-TestExecutionHelper.debug_browser_session(driver)
+helper = TestExecutionHelper.new
+driver = helper.get_driver
+helper.debug
 driver.manage.timeouts.page_load = 20 # page load timeout in seconds
 driver.navigate.to "#{base_url}"
 ]

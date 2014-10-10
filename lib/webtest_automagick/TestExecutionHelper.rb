@@ -11,12 +11,17 @@ require 'net/http' # debug_browser_session
 require 'json' # debug_browser_session
 module WebBrowser
 
-  @@browser_session = 'webdriver.marshall' # filename
+  attr_accessor :browser_session, :random_value
+  def initialize
+    @random_value = rand(9999)
+    @browser_session = "#{Dir.pwd}/#{@random_value}.webdriver.marshall"
+  end
 
   def get_browser_session
-    #puts "Getting WebBrowser session..."
+    puts "Trying to get existing WebBrowser session..."
     driver =  if browser_session_available?
-                Marshal.load (File.binread(@@browser_session))
+                puts "Found #{browser_session}! Resuming..."
+                Marshal.load(File.binread(@browser_session))
               else
                 start
               end
@@ -24,23 +29,27 @@ module WebBrowser
   end
 
   def browser_session_available?
-    File.exists?(@@browser_session)
+    File.exists?(@browser_session)
   end
 
   def start
-	  #puts "Starting WebBrowser..."
+	  puts "Starting new WebBrowser session..."
     driver = Selenium::WebDriver.for(:remote)
-    File.open(@@browser_session, 'wb') {|f| f.write(Marshal.dump(driver)) }
+    File.open(@browser_session, 'wb') {|f| f.write(Marshal.dump(driver)) }
     driver
   end
 
   def quit
-	  #puts "Quitting WebBrowser..."
+	  puts "Quitting WebBrowser session..."
   end
 
   def debug_browser_session(driver)
+
+    reread_session = Marshal.load (File.binread(@browser_session))
+    puts "Reread Session ID: #{reread_session.session_id}"
+
     session_id = driver.session_id
-    puts "Session ID: #{session_id}"
+    puts "Passed Session ID: #{session_id}"
     uri = URI("http://localhost:4444/grid/api/testsession?session=#{session_id}")
     conn = Net::HTTP.new(uri.host, uri.port)
     conn.use_ssl = false
@@ -49,7 +58,7 @@ module WebBrowser
     request = Net::HTTP::Get.new(uri.request_uri, headers)
     response = conn.request(request)
     if response.kind_of? Net::HTTPSuccess
-      puts response.body
+      puts "Hub Status: #{response.body}"
     else
       puts "Failed to fetch selenium hub status from: #{uri.to_s}"
     end
@@ -57,5 +66,29 @@ module WebBrowser
 end
 
 class TestExecutionHelper
-  extend WebBrowser
+  include WebBrowser
+
+  def working_dir
+    pwd
+  end
+
+  def pwd
+    Dir.pwd
+  end
+  alias_method :cwd, :pwd
+
+  def debug
+    puts "Working Dir: #{pwd}"
+    puts "WebBrowser Session: #{self.instance_variable_get(:@browser_session)}"
+    puts "Random: #{self.instance_variable_get(:@random_value)}"
+  end
+
+  def get_driver
+    begin
+      self.get_browser_session
+    rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
+      puts "Connection refused while trying to get browser session: #{e.message}"
+    end
+  end
+
 end
