@@ -9,9 +9,10 @@ $(".test_executions").ready(function () {
             $.ajax({
                 url: document.URL + '/poll',
                 success: function (response) {
-                    if (response.status >= 30) {
+                    if (response.status == 40) {
                         console.log("Test Execution finished - no need to poll anymore.", response);
                         clearTimeout(timeOutId);
+                        testExecutionFinished();
                     } else {
                         timeOutId = setTimeout(ajaxFn, 2000);
                         if (response.status < 40) {
@@ -23,7 +24,10 @@ $(".test_executions").ready(function () {
             });
         };
         // wait 0.5 secs before first call
-        timeOutId = setTimeout(ajaxFn, 2000);
+        // window hash shouldn't contain #finished
+        if(!window.location.hash) {
+            timeOutId = setTimeout(ajaxFn, 2000);
+        };
     }
 
     // checkbox hide/show all actions
@@ -102,7 +106,14 @@ $(".test_executions").ready(function () {
 
 // TODO update processing status based on response
 function testExecutionUpdate(response) {
-    window.location.reload();
+    //window.location.reload();
+    //console.log(response);
+}
+function testExecutionFinished() {
+    if(!window.location.hash) {
+        window.location = window.location + '#finshed';
+        window.location.reload();
+    }
 }
 
 

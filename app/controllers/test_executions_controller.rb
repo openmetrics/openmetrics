@@ -39,8 +39,8 @@ class TestExecutionsController < ApplicationController
   def poll
     te = TestExecution.find(params[:id])
     tei = te.test_execution_items
-    status = tei.map{|i| {id: i.id, status: i.status }}
-    render json: { :id => te.id, status: te.status, :steps => status }
+    status = tei.map{|i| {id: i.id, status: i.status, started_at: i.started_at, finished_at: i.finished_at }}
+    render json: { :id => te.id, status: te.status, :steps => status, started_at: te.started_at, finished_at: te.finished_at }
   end
 
   def index
