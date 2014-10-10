@@ -48,13 +48,26 @@ st107:
   base_url: http://localhost:8000
 
 st108:
-  name: Webbrowser control
-  description: Start a webbrowser, wait and resum webbrowser session afterwards.
+  name: Webbrowser control short wait
+  description: Start a webbrowser, wait short time and resume webbrowser session afterwards.
   base_url: http://www.google.com
 
 st109:
   name: Output and Error Output
   description: Print some Text to Output and Error Output.
+
+st110:
+  name: Unprepareable Test Case
+  description: A Test Plan containing a Test Case that can't be prepared.
+
+st111:
+  name: Unprepareable Test Script
+  description: A Test Plan containing a Test Script that can't be prepared.
+
+st112:
+  name: Webbrowser control long wait
+  description: Start a webbrowser, wait long time and resume webbrowser session afterwards.
+  base_url: http://www.google.com
 
 # BMC
 bmc100:

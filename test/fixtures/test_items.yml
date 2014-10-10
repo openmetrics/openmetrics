@@ -29,7 +29,7 @@ bashexiterror:
   markup: |
     exit 42
 
-<% [5,15,30,60,300,600].each do |n| %>
+<% [1,2,5,10,30,60,300,600].each do |n| %>
 bashsleep<%= n %>:
   name: selftest bashsleep<%= n %>
   description: Sleep for <%= n %> seconds.
@@ -59,6 +59,15 @@ bashprintstdout:
   format: bash
   markup: |
     >&1 echo "This Text goes to STDOUT"
+
+bashsyntaxerror:
+  name: selftest bashsyntaxerror
+  description: bash script that raises syntax error
+  type: TestScript
+  format: bash
+  markup: |
+    # this raises syntax error
+    )
 
 # ruby
 rubyprintenv:
@@ -157,6 +166,16 @@ sel1:
     </body>
     </html>
 
+
+selsyntaxerror:
+  name: selenesesyntaxerror
+  description: Invalid Selenese markup
+  type: TestCase
+  format: selenese
+  markup: |
+    <html>
+      <span>This isn't valid selenese</span>
+    </html>
 
 #
 # bodymass.de (BMC) related test items

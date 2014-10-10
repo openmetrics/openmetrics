@@ -87,13 +87,12 @@ st108_1:
   position: 1
 st108_2:
     test_plan: st108
-    test_item: bashsleep5
+    test_item: bashsleep1
     position: 2
 st108_3:
     test_plan: st108
     test_item: browser_resume
     position: 3
-
 
 st109_1:
   test_plan: st109
@@ -104,14 +103,32 @@ st109_2:
   test_item: bashprintstdout
   position: 2
 
+st110_1:
+  test_plan: st110
+  test_item: bashsyntaxerror
+
+st111_1:
+  test_plan: st111
+  test_item: selsyntaxerror
+
+st112_1:
+  test_plan: st112
+  test_item: browser_start
+st112_2:
+    test_plan: st112
+    test_item: bashsleep30
+st112_3:
+    test_plan: st112
+    test_item: browser_resume
+
+
 bmc100_1:
   test_plan: bmc100
   test_item: bmcsetregistrationvariables
-  position: 1
 bmc100_2:
   test_plan: bmc100
   test_item: bmcregistrationslim
-  position: 2
+
 
 bmc101_1:
   test_plan: bmc101
