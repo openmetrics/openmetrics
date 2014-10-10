@@ -19,11 +19,12 @@
     <h3>Result</h3>
     <div class="panel panel-default">
       <div id="test_execution_status" class="panel-body">
-        Base URL <code><%= @test_execution.test_plan.base_url %></code><br>
-        <small>Test execution requested <%= time_ago_in_words(@test_execution.created_at) %> ago.</small><br>
         <%= test_execution_status(@test_execution) %>
       </div>
     </div>
+    <!-- execution parameter -->
+    <i class="fa fa-rocket"></i> Parameters</strong>
+    <%= render 'parameters', item: @test_execution %>
     <!-- test plan quality -->
     <i class="fa fa-tachometer"></i> Quality</strong>
     <%= render 'shared/quality', item: @test_execution %>
