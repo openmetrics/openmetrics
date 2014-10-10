@@ -21,14 +21,19 @@ class WelcomePageController < ApplicationController
     headers = Hash.new
     headers['Content-Type'] = 'application/json'
     request = Net::HTTP::Get.new(uri.request_uri, headers)
-    response = conn.request(request)
-    @selenium_hub_status =  if response.kind_of? Net::HTTPSuccess
-                          #JSON.parse(response.body)
-                          response.body
-                        else
-                          logger.error "Failed to fetch selenium hub status! Request body: #{request.body.inspect}"
-                          nil
-                        end
+    begin
+      response = conn.request(request)
+      @selenium_hub_status =  if response.kind_of? Net::HTTPSuccess
+                                #JSON.parse(response.body)
+                                response.body
+                              else
+                                logger.error "Error while fetching selenium hub status! Response: #{response.inspect}"
+                                nil
+                              end
+    rescue
+      @selenium_hub_status = "Failed to connect to #{uri.to_s}! Selenium hub may be down."
+    end
+
   end
 
 end

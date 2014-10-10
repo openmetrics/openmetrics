@@ -24,7 +24,11 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <h5>Hub Status</h5>
-    <%= coderay(@selenium_hub_status, 'json', 'div') %>
+    <% if @selenium_hub_status.is_json? %>
+        <%= coderay(@selenium_hub_status, 'json', 'div') %>
+    <% else %>
+        <span class="text-danger"><%= @selenium_hub_status %></span>
+    <% end %>
     <h5>Console</h5>
     <p>Click <%= link_to "here", 'http://localhost:4444/grid/console', :target => :blank %> to open Grid Console in full size.</p>
     <iframe src="http://localhost:4444/grid/console" width="100%" height="360">
