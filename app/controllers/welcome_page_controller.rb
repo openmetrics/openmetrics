@@ -1,4 +1,6 @@
 require 'sidekiq/api' # admin
+require 'uri' # admin
+require 'net/http' # admin
 
 class WelcomePageController < ApplicationController
   def display
@@ -10,6 +12,23 @@ class WelcomePageController < ApplicationController
   def admin
     sorted_env_vars = Hash[ENV.sort]
     @om_env_vars = sorted_env_vars.reject{|key, value| !key.starts_with? 'OM_'}
+
+
+    # fetch selenium status by http (returns json)
+    uri = URI("http://localhost:5555/wd/hub/status")
+    conn = Net::HTTP.new(uri.host, uri.port)
+    conn.use_ssl = false
+    headers = Hash.new
+    headers['Content-Type'] = 'application/json'
+    request = Net::HTTP::Get.new(uri.request_uri, headers)
+    response = conn.request(request)
+    @selenium_status =  if response.kind_of? Net::HTTPSuccess
+                          #JSON.parse(response.body)
+                          response.body
+                        else
+                          logger.error "Failed to fetch selenium hub status! Request body: #{request.body.inspect}"
+                          nil
+                        end
   end
 
 end
