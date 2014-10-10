@@ -10,15 +10,24 @@
 <% end %>
 
 
-<h4>Selenium Hub Status</h4>
-<%= coderay(@selenium_status, 'json', 'div') %>
-
 <h4 class="spacer">Sidekiq Background Processor</h4>
 <div class="panel panel-default">
-
   <div class="panel-body">
     <p>Click <%= link_to "here", '/sidekiq', :target => :blank %> to open sidekiq UI in full size.</p>
-    <iframe src="/sidekiq" width="100%" height="460">
+    <iframe src="/sidekiq" width="100%" height="360">
+    </iframe>
+  </div>
+</div>
+
+
+<h4>Selenium Grid</h4>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h5>Hub Status</h5>
+    <%= coderay(@selenium_hub_status, 'json', 'div') %>
+    <h5>Console</h5>
+    <p>Click <%= link_to "here", 'http://localhost:4444/grid/console', :target => :blank %> to open Grid Console in full size.</p>
+    <iframe src="http://localhost:4444/grid/console" width="100%" height="360">
     </iframe>
   </div>
 

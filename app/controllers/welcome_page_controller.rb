@@ -22,7 +22,7 @@ class WelcomePageController < ApplicationController
     headers['Content-Type'] = 'application/json'
     request = Net::HTTP::Get.new(uri.request_uri, headers)
     response = conn.request(request)
-    @selenium_status =  if response.kind_of? Net::HTTPSuccess
+    @selenium_hub_status =  if response.kind_of? Net::HTTPSuccess
                           #JSON.parse(response.body)
                           response.body
                         else
