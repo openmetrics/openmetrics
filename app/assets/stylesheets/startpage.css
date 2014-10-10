@@ -5,7 +5,7 @@
     background-color: white;
     line-height: 100%;
     position: absolute;
-    top: 20px;
+    top: 70px;
     padding: 10px;
 }
 
@@ -32,6 +32,7 @@
     width: 700px;
     border: medium double #e7e7e7;
     padding: 28px;
+    margin-top: 50px;
 }
 
 /* element styles */
