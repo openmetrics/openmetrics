@@ -36,6 +36,15 @@ class TestExecution < ActiveRecord::Base
     TestExecutionItem.where(test_execution_id: self.id).order('id')
   end
 
+  # used for navigation within views
+  def next
+    self.class.where("id > ?", id).first
+  end
+
+  # used for navigation within views
+  def previous
+    self.class.where("id < ?", id).last
+  end
 
 
 end

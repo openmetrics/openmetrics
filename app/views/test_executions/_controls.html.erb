@@ -1,8 +1,20 @@
 <span class="btn-group btn-group-sm">
+
+    <% if @test_execution.previous %>
+        <%= link_to(raw('<i class="fa fa-chevron-circle-left"> previous</i>'), test_execution_path(@test_execution.previous, anchor: 'finished'), class: 'btn btn-default')  %>
+    <% else %>
+      <%= link_to(raw('<i class="fa fa-chevron-circle-left"></i>'), '#', class: 'btn btn-default disabled')  %>
+    <% end %>
+  <% if @test_execution.next %>
+    <%= link_to(raw('<i class="fa fa-chevron-circle-right"> next</i>'), test_execution_path(@test_execution.next, anchor: 'finished'), class: 'btn btn-default') %>
+    <% else %>
+      <%= link_to(raw('<i class="fa fa-chevron-circle-right"> next</i>'), '#', class: 'btn btn-default disabled')  %>
+    <% end %>
+
     <%#= link_to 'Back', :back, :class => 'btn btn-default' %>
     <%#= link_to raw('<span class="glyphicon glyphicon-wrench"></span> Edit Test Plan'), edit_test_plan_path(@test_plan), :class => 'btn btn-default' %>
-    <%= link_to(raw('<span class="glyphicon glyphicon-play-circle"></span> Run again'), '#', class: 'btn btn-default run_test_plan', data: { id: @test_execution.test_plan.id}) %>
-    <button class="btn btn-default pull-right display_options" data-placement="bottom">
+    <%= link_to(raw('<i class="fa fa-play"></i> Run again'), '#', class: 'btn btn-default run_test_plan', data: { id: @test_execution.test_plan.id}) %>
+    <button class="btn btn-default display_options" data-placement="bottom">
         <i class="glyphicon glyphicon-cog"></i>
     </button>
 </span>
