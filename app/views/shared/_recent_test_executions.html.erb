@@ -8,7 +8,8 @@
             <% else %>
               <i class="fa fa-frown-o"></i>
             <% end %>
-            <%= link_to("#{te.test_plan.name} executed at #{I18n.localize(te.created_at, :format => :short)}", te) %>
+            <% anchor = te.status == 40 ? 'finished' : nil %>
+            <%= link_to("#{te.test_plan.name} executed at #{I18n.localize(te.created_at, :format => :short)}", test_execution_path(te, anchor: anchor)) %>
           </li>
       <% end %>
     </ul>

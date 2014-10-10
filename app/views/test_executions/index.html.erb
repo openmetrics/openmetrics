@@ -56,7 +56,10 @@ $(".test_executions.index").ready(function () {
   <tbody>
   <% @test_executions.each do |te| %>
   <tr>
-    <td><%= link_to badge_label(te, {:text => '', :label_class => 'primary'}), te %></td>
+    <td>
+      <% anchor = te.status == 40 ? 'finished' : nil %>
+      <%= link_to badge_label(te, {:text => '', :label_class => 'primary'}), test_execution_path(te, anchor: anchor) %>
+    </td>
     <td><%= link_to badge_label(te.test_plan, {:label_class => 'primary'}), te.test_plan %></td>
     <td><%= I18n.localize(te.started_at, :format => :short) unless te.started_at.nil? %></td>
     <td><%= I18n.localize(te.finished_at, :format => :short) unless te.finished_at.nil? %></td>
