@@ -48,10 +48,9 @@ class TestExecutionWorker
 
     # create execution directory
     Dir.mkdir(EXECUTION_TMPDIR) unless Dir.exist?(EXECUTION_TMPDIR)
-    Dir.chdir(EXECUTION_TMPDIR)
-    Dir.mkdir(te.id.to_s) unless Dir.exist?(te.id.to_s)
-    Dir.chdir(te.id.to_s)
-    dir = Dir.pwd
+    dir = "#{EXECUTION_TMPDIR}/#{te.id.to_s}"
+    Dir.mkdir(dir) unless Dir.exist?(dir)
+
     create_runsh!(dir)
 
     items = tp.test_items
@@ -146,9 +145,12 @@ class TestExecutionWorker
         custom_env.store('OM_RANDOM', rand(99999).to_s)
       end
 
+      # set working dir (passed to open3)
+      working_dir = File.dirname(executable)
+
       # run command, pass in environment
       te_item.update_attributes(started_at: Time.now, status: EXECUTION_STATUS.key("started"))
-      stdout, stderr, exit_status = Open3.capture3(custom_env, interpreter, executable)
+      stdout, stderr, exit_status = Open3.capture3(custom_env, interpreter, executable, :chdir => working_dir)
       te_item.update_attributes(finished_at: Time.now, status: EXECUTION_STATUS.key("finished"))
 
       # persist status

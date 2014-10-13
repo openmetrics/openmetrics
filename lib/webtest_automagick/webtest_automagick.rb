@@ -52,7 +52,8 @@ require_relative 'lib/TestExecutionHelper'
 
 helper = TestExecutionHelper.new
 driver = helper.get_driver
-helper.debug
+# print some debug info
+# helper.debug
 driver.manage.timeouts.page_load = 20 # page load timeout in seconds
 driver.navigate.to "#{base_url}"
 ]
@@ -121,7 +122,8 @@ driver.navigate.to "#{base_url}"
           wd << "exit 42\n"
       end
     end
-    wd << "driver.quit" if close_browser
+    wd << "driver.quit\n" if close_browser
+    wd << "helper.quit\n" if close_browser
     wd
   end
 
