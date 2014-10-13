@@ -38,7 +38,7 @@ class TestExecutionWorker
     # ... and overall execution result
     evaluate_result(te)
 
-    # TODO remove (delete) create executable
+    # TODO remove (delete) create executable?
   end
 
   # reads test plans test_items and generates executables of it (TestExecutionItem) depending on item format/markup
@@ -52,6 +52,7 @@ class TestExecutionWorker
     Dir.mkdir(te.id.to_s) unless Dir.exist?(te.id.to_s)
     Dir.chdir(te.id.to_s)
     dir = Dir.pwd
+    create_runsh!(dir)
 
     items = tp.test_items
     items.each_with_index { |item, n|
@@ -91,6 +92,17 @@ class TestExecutionWorker
       # append newline to make humans interacting via terminals happy
       executable_markup+="\n" unless executable_markup.ends_with? "\n"
 
+      # file extension
+      case conversion_format
+        when 'ruby'
+          extension = '.rb'
+        when 'bash'
+          extension = '.sh'
+        else
+          extension = ''
+      end
+      filename = "#{filename}#{extension}"
+
       # persist as TestExecutionItem
       te_item = TestExecutionItem.create!(
           markup: header+executable_markup,
@@ -102,7 +114,10 @@ class TestExecutionWorker
 
 
       # write executable file to filesystem
-      File.open(filename, 'w') { |f| f.write(header+executable_markup) }
+      File.open(filename, 'w') { |f|
+        f.chmod(0755)
+        f.write(header+executable_markup)
+      }
 
       # add executable filename and interpreter to return array
       ret.push([te_item.id, filename, interpreter])
@@ -231,25 +246,44 @@ def evaluate_quality(entity)
     end
   end
 
-  def evaluate_result(te)
-    te_result = te.test_execution_result
+end
 
-    if te.quality.any?
-      if te.quality.where('status = ?', 10).any?
-        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('failed'))
-      elsif te.quality.where('status = ?', 5).any?
-        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('defective'))
-      else
-        te_result.update_attributes(exitstatus: QUALITY_STATUS.key('passed'))
-      end
+
+def evaluate_result(te)
+  te_result = te.test_execution_result
+
+  if te.quality.any?
+    if te.quality.where('status = ?', 10).any?
+      te_result.update_attributes(exitstatus: QUALITY_STATUS.key('failed'))
+    elsif te.quality.where('status = ?', 5).any?
+      te_result.update_attributes(exitstatus: QUALITY_STATUS.key('defective'))
+    else
+      te_result.update_attributes(exitstatus: QUALITY_STATUS.key('passed'))
     end
-
-    # if no quality result exists, use the 'newest' non-zero exitstatus TestExecutionItem to mark for overall result:
-    failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
-    te_result.update_attributes(exitstatus: failed.last.exitstatus) if failed.any? and te_result.exitstatus.nil?
-
-    # mark result success if status not yet decided
-    te_result.update_attributes(exitstatus: 0) if te_result.exitstatus.nil?
   end
 
+  # if no quality result exists, use the 'newest' non-zero exitstatus TestExecutionItem to mark for overall result:
+  failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
+  te_result.update_attributes(exitstatus: failed.last.exitstatus) if failed.any? and te_result.exitstatus.nil?
+
+  # mark result success if status not yet decided
+  te_result.update_attributes(exitstatus: 0) if te_result.exitstatus.nil?
 end
+
+# places run.sh in directory
+def create_runsh!(dir)
+runsh = %Q[
+#!/bin/bash
+scripts=$( ls *_* )
+for script in ${scripts[@]} ; do
+	 ./${script}
+done
+]
+
+  File.open(dir+'/run.sh', 'w') { |f|
+    f.chmod(0755)
+    f.write(runsh)
+  }
+
+end
+
