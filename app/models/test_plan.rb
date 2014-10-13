@@ -14,6 +14,7 @@
 
 class TestPlan < ActiveRecord::Base
   include Trackable
+  include Truncatable
   include Sluggable
   include Qualifiable
 

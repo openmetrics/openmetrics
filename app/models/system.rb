@@ -16,9 +16,10 @@
 #
 
 class System < ActiveRecord::Base
-  include Trackable
-  include Sluggable
   include Exportable
+  include Sluggable
+  include Trackable
+  include Truncatable
 
   has_secretary on: %w( cidr description fqdn name operating_system operating_system_flavor sshuser )
   has_many :running_services, dependent: :destroy

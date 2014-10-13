@@ -4,8 +4,10 @@
 
 <% content_for :page_header do %>
   <h3>
-    <%#= badge_label @test_execution, {:label_class => 'default', :text => @test_execution.test_plan.name} %>
-    <span class="label label-primary">TestExecution-<%= @test_execution.id %></span>
+    <%= badge_label @test_execution, {:label_class => 'primary', :text => ""} %>
+    <small>
+
+    </small>
     <span class="pull-right">
     <%= render partial: 'controls', test_execution: @test_execution %>
     </span>

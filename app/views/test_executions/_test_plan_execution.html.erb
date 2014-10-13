@@ -3,7 +3,7 @@
       <hr>
       <li>
         <span class="item-number"><%= n+1 %></span>
-        <%= link_to (badge_label te_item, {:label_class => "primary"}), te_item %>
+        <%= link_to (badge_label te_item, {:label_class => 'primary'}), te_item %>
 
         <!-- add some icons to toggle input, output and error directly -->
         <span class="toggle_status">
@@ -45,14 +45,16 @@
 
               <%# display origin TestItem markup %>
               <li class="markup_raw spacer collapse"><i class="fa-li fa fa-code"></i>
-                Markup
+                Raw Markup  <%= badge te_item.format, 'info' %>
                 <%= coderay(te_item.markup, te_item.format, "div") %>
               </li>
 
               <%# display matching TestExecutionItem markup %>
               <li class="markup spacer collapse"><i class="fa-li fa fa-file-code-o"></i>
-                <span title="<%= te.test_execution_items[n].executable %>"><%= File.basename(te.test_execution_items[n].executable) %></span>
+                Executable Markup <%= badge te.test_execution_items[n].format, 'info' %>
+                <%#= File.basename(te.test_execution_items[n].executable) %>
                 <%= coderay(te.test_execution_items[n].markup, te.test_execution_items[n].format, "div") %>
+                <code><%= te.test_execution_items[n].executable %></code>
               </li>
 
               <!-- input -->

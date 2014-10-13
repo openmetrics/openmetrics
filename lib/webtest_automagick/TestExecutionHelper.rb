@@ -9,22 +9,26 @@
 require 'uri' # debug_browser_session
 require 'net/http' # debug_browser_session
 require 'json' # debug_browser_session
+require 'yaml' # debug_browser_session
 module WebBrowser
 
   attr_accessor :browser_session, :random_value
   def initialize
     @random_value = rand(9999)
-    @browser_session = "#{Dir.pwd}/#{@random_value}.webdriver.marshall"
+    @browser_session = "#{Dir.pwd}/webdriver.marshall"
   end
 
   def get_browser_session
-    puts "Trying to get existing WebBrowser session..."
     driver =  if browser_session_available?
-                puts "Found #{browser_session}! Resuming..."
+                puts "Found resumeable WebBrowser session!"
+                puts "Loading from File #{browser_session} #{File.lstat(@browser_session).inspect}"
+                puts "Random: #{@random_value}"
                 Marshal.load(File.binread(@browser_session))
               else
                 start
               end
+    debug_browser_session(driver)
+    File.open("#{browser_session}.#{@random_value}.yml", 'w') {|f| f.write(YAML.dump(driver)) }
     driver
   end
 
@@ -33,9 +37,11 @@ module WebBrowser
   end
 
   def start
-	  puts "Starting new WebBrowser session..."
+	  puts "Starting new WebBrowser session."
     driver = Selenium::WebDriver.for(:remote)
     File.open(@browser_session, 'wb') {|f| f.write(Marshal.dump(driver)) }
+    puts "Writing to File #{File.lstat(@browser_session).inspect}"
+    puts "Random: #{@random_value}"
     driver
   end
 
@@ -43,13 +49,18 @@ module WebBrowser
 	  puts "Quitting WebBrowser session..."
   end
 
+  # polls session status from grid hub
   def debug_browser_session(driver)
-
-    reread_session = Marshal.load (File.binread(@browser_session))
-    puts "Reread Session ID: #{reread_session.session_id}"
-
     session_id = driver.session_id
-    puts "Passed Session ID: #{session_id}"
+    puts "Driver Session ID: #{session_id}"
+    bridge = driver.instance_variable_get(:@bridge)
+    puts "Hub Session ID: #{bridge.instance_variable_get(:@session_id)}"
+    puts "Browser: #{bridge.instance_variable_get(:@browser).to_s}"
+    #puts "Server Uri:#{bridge.instance_variable_get("@http").instance_variable_get("@server_url").to_s}"
+    puts "HTTP: #{bridge.instance_variable_get(:@http).inspect}"
+    #puts "Capabilities: #{bridge.instance_variable_get(:@capabilities).inspect}"
+
+    # poll status from hub
     uri = URI("http://localhost:4444/grid/api/testsession?session=#{session_id}")
     conn = Net::HTTP.new(uri.host, uri.port)
     conn.use_ssl = false
@@ -68,6 +79,10 @@ end
 class TestExecutionHelper
   include WebBrowser
 
+  def initialize
+    super
+  end
+
   def working_dir
     pwd
   end
@@ -78,8 +93,8 @@ class TestExecutionHelper
   alias_method :cwd, :pwd
 
   def debug
-    puts "Working Dir: #{pwd}"
-    puts "WebBrowser Session: #{self.instance_variable_get(:@browser_session)}"
+    puts "Current Working Dir: #{pwd}"
+    puts "WebBrowser Session File: #{self.instance_variable_get(:@browser_session)}"
     puts "Random: #{self.instance_variable_get(:@random_value)}"
   end
 

@@ -1,4 +1,4 @@
-require 'selenium-webdriver'
+#require 'selenium-webdriver' #dunny anymore why this was included...
 require 'open3'
 require 'test/unit/assertions' # to test quality
 

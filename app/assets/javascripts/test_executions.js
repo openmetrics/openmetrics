@@ -67,12 +67,24 @@ $(".test_executions").ready(function () {
         else
             $('.test_plan .items .markup_raw').hide();
     });
-    $('#checkbox_quality').attr('checked', false);
+    $('#checkbox_quality').val($(this).is(':checked'));
     $('#checkbox_quality').change(function() {
         if ( $(this).is(':checked') )
             $('.test_plan .items .quality').fadeIn('fast')
         else
             $('.test_plan .items .quality').hide();
+    });
+
+    $('#checkbox_showall').val($(this).is(':checked'));
+    $('#checkbox_showall').change(function() {
+        if ( $(this).is(':checked') ) {
+            $('.test_plan ul.items li').fadeIn('fast');
+            $('#checkbox_quality, #checkbox_markup_raw, #checkbox_markup, #checkbox_stderr, #checkbox_stdout, #checkbox_stdin').attr('checked', true);
+        } else {
+            $('.test_plan ul.items li').hide();
+            $('#checkbox_quality, #checkbox_markup_raw, #checkbox_markup, #checkbox_stderr, #checkbox_stdout, #checkbox_stdin').attr('checked', false);
+
+        }
     });
 
     // specific status_toggle (input, output, error)
