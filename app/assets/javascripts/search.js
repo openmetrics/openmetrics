@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     searchInput.keydown(function (event) {
 
-        if (search_delay != undefined) {
+        if (typeof search_delay != 'undefined') {
             clearTimeout(search_delay);
         }
 
@@ -65,7 +65,7 @@ $(document).ready(function () {
             case 8: //backspace,
                 // hide ajax search results if input is empty
                 if ( searchInput.val().length == 1) {
-                    hideAjaxSearchResults()
+                    hideAjaxSearchResults();
                     selectedItem = 0; // reset search result selection
                 }
             default:

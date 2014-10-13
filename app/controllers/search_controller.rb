@@ -28,11 +28,9 @@ class SearchController < ApplicationController
       # end
       # @cids.uniq! { |x| x[:p] }
 
-
+      @test_plans = TestPlan.where("name ilike ? or description ilike ?", q, q)
       @systems = System.where("name ilike ? or fqdn ilike ?", q, q)
       @services = Service.where("name ilike ?", q)
-      @test_plans = TestPlan.where("name ilike ? or slug ilike ?", q, q)
-      @dashboards = Service.where('(name ilike ?)', q)
 
       #@services = Service.where(:all, :limit => limit, :conditions => ["(name ILIKE ?) OR (dns_name ILIKE ?) OR (typ ILIKE ?) OR (description ILIKE ?)", query, query, query, query])
 

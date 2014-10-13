@@ -1,8 +1,6 @@
-<%#*you are in a div with id ajax_search_result here, also see static results page in search/_input.html.erb%>
-
 <div>
 
-  <% if @services.blank? and @systems.blank? %>
+  <% if @services.blank? and @systems.blank? and @test_plans.blank?%>
       <span>No matches found! <i class="fa fa-frown-o"></i></span>
   <% else %>
 
@@ -58,5 +56,31 @@
             <% end %>
           </div>
       <% end %>
+
+      <% if @test_plans.size > 0 %>
+          <div style='padding: 5px 0px; font-size: 12px;'>
+            <p class="ui-state-default">Test Plans (<%= @test_plans.size %> found)</p>
+            <% for @test_plan in @test_plans[0..3] %>
+                <%
+                   @test_plan.name = @test_plan.name.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @test_plan.name
+                   @test_plan.description = @test_plan.truncated_description(36, @search_string).gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @test_plan.description
+                %>
+                <p style='padding: 2px 5px; font-size: 11px; border-bottom: 1px solid #ddd'>
+                  <a href="/test_plans/<%= raw @test_plan.id %>" title="Show">
+                    <b>Name:&nbsp;</b><%= raw @test_plan.name %>...
+                    <b>Description:&nbsp;</b><%= raw @test_plan.description %>
+                  </a>
+                </p>
+            <% end %>
+            <% if @test_plans.size > 5 %>
+                <p style="padding: 2px 5px; font-size: 9px;">
+                  <a href="/search/search?q=<%= url_encode(@search_string) %>#tab-test_plans" title="Show">
+                    <b>or show all found Test Plans...</b>
+                  </a>
+                </p>
+            <% end %>
+          </div>
+      <% end %>
+
     <% end %>
 </div>
