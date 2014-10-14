@@ -69,6 +69,16 @@ st112:
   description: Start a webbrowser, wait long time and resume webbrowser session afterwards.
   base_url: http://www.google.com
 
+st113:
+  name: Input required, but not provided.
+  description: Input required that isn't provided. Test should stall with "Waiting for Input".
+  base_url: http://localhost
+
+st114:
+  name: Input provided and required.
+  description: Input required and provided.
+  base_url: http://localhost
+
 # BMC
 bmc100:
   name: BMC register dietplan user

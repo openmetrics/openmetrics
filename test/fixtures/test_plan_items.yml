@@ -115,11 +115,26 @@ st112_1:
   test_plan: st112
   test_item: browser_start
 st112_2:
-    test_plan: st112
-    test_item: bashsleep30
+  test_plan: st112
+  test_item: bashsleep30
 st112_3:
-    test_plan: st112
-    test_item: browser_resume
+  test_plan: st112
+  test_item: browser_resume
+
+st113_1:
+  test_plan: st113
+  test_item: selinputrequired
+  position: 1
+
+st114_1:
+  test_plan: st114
+  test_item: selprovideinput
+  position: 1
+st114_2:
+  test_plan: st114
+  test_item: selinputrequired
+  position: 2
+
 
 
 bmc100_1:

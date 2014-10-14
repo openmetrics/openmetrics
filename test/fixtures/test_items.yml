@@ -168,7 +168,7 @@ sel1:
 
 
 selsyntaxerror:
-  name: selenesesyntaxerror
+  name: selsyntaxerror
   description: Invalid Selenese markup
   type: TestCase
   format: selenese
@@ -176,6 +176,62 @@ selsyntaxerror:
     <html>
       <span>This isn't valid selenese</span>
     </html>
+
+selinputrequired:
+  name: selinputrequired
+  description: Selenese command (echo) that refers to input.
+  type: TestCase
+  format: selenese
+  markup: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="selenium.base" href="http://localhost/" />
+    <title>set_registration_variables</title>
+    </head>
+    <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+    <thead>
+    <tr><td rowspan="1" colspan="3">set_registration_variables</td></tr>
+    </thead><tbody>
+    <tr>
+      <td>echo</td>
+      <td>Variable foo = ${foo}</td>
+      <td></td>
+    </tr>
+    </tbody></table>
+    </body>
+    </html>
+
+selprovideinput:
+    name: selprovideinput
+    description: Selenese command (store) that sets variable 'foo' to value 'bar'. Variable can be referenced afterwards as ${foo}.
+    type: TestCase
+    format: selenese
+    markup: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+      <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link rel="selenium.base" href="http://localhost/" />
+      <title>set_registration_variables</title>
+      </head>
+      <body>
+      <table cellpadding="1" cellspacing="1" border="1">
+      <thead>
+      <tr><td rowspan="1" colspan="3">set_registration_variables</td></tr>
+      </thead><tbody>
+      <tr>
+        <td>store</td>
+        <td>bar</td>
+        <td>foo</td>
+      </tr>
+      </tbody></table>
+      </body>
+      </html>
 
 #
 # bodymass.de (BMC) related test items
