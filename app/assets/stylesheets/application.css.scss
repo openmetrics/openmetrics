@@ -98,6 +98,33 @@ label {
 }
 
 
+/* top link for large sites */
+#scroll-top {
+  position: fixed;
+  bottom: 20px;
+  right: 0;
+  margin-right: 20px;
+}
+#scroll-top a {
+  width: 48px;
+  display: block;
+  text-align: center;
+
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $darkgrey;
+
+  /* transition */
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  transition: 1s;
+}
+#scroll-top a:hover {
+        color: $active-color;
+}
+
+
+
 /* dropzone: target element for droppables */
 .dropzone {
   padding: 15px 15px 0 15px;

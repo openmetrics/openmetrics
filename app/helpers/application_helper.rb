@@ -70,4 +70,15 @@ module ApplicationHelper
     raw changes_arr.to_sentence
   end
 
+  # add link for scrolling to window top
+  def link_to_top!
+raw(
+%Q[
+<p id="scroll-top">
+  <a href="#top" class="fa fa-arrow-circle-up"><span> TOP</span></a>
+</p>
+]
+)
+  end
+
 end

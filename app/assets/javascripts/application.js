@@ -13,7 +13,6 @@
 //= require jquery-2.1.0.min.js
 //= require jquery.turbolinks
 //= require jquery_ujs
-//= require jquery.readyselector
 //= require jquery-ui-1.11.1.min
 //= require jquery-fileupload/basic
 //= require jquery-fileupload/vendor/tmpl
@@ -42,6 +41,7 @@
 //= require systems
 //= require test_executions
 //= require webtest
+//= require jquery.readyselector
 //= require turbolinks
 
 /* flash handler */
@@ -217,4 +217,27 @@ $(document).on('page:change', function() {
             });
         }
     });
+
+    // back to top
+    // hide #back-top first
+    $("#back-top").hide();
+
+    // fade in #back-top
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 100) {
+            $('#back-top').fadeIn();
+        } else {
+            $('#back-top').fadeOut();
+        }
+    });
+
+    // scroll body to 0px on click
+    $('#back-top a').click(function () {
+        $('body,html').animate({
+            scrollTop:0
+        }, 800);
+        return false;
+    });
+
+
 });

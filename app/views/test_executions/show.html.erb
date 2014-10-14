@@ -1,7 +1,3 @@
-<%# disable_turbolinks! %>
-<%# javascript('webtest') %>
-<%# javascript('test_executions.js') %>
-
 <% content_for :page_header do %>
   <h3>
     <%= badge_label @test_execution, {:label_class => 'primary', :text => ""} %>
@@ -43,6 +39,6 @@
     </div>
   </div>
 
-
-
 </div>
+
+<%= link_to_top! %>
