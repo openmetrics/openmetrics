@@ -1,0 +1,10 @@
+<form action="/searches/search" method="get" class="navbar-form navbar-left" role="search">
+    <div class="input-group">
+        <input type="text" name="q" autocomplete="off" class="form-control" id="main-search" placeholder="Type to find something..." value="<%= yield :main_search %>">
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+        </span>
+    </div>
+</form>
+
+<div id="ajax_search_result" style="display: none"></div>
