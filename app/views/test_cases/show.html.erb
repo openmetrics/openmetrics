@@ -6,14 +6,56 @@
 
 <div class="row">
 
+  <div class="col-md-8">
     <div class="panel panel-default">
       <div class="panel-body">
         <blockquote><%= @test_case.description %></blockquote>
         <%= badge(@test_case.format, 'info') %>
         <%= coderay(@test_case.markup, @test_case.format, "div") %><br>
-
       </div>
     </div>
+  </div>
+
+  <div class="col-md-4">
+    <h4>Test Plans</h4>
+    <% if @test_case.test_plans.any? %>
+        <div class="list-group">
+          <% @test_case.test_plans.each do |tp| %>
+            <a href="/test_plans/<%= tp.id %>" class="list-group-item">
+              <h5 class="list-group-item-heading">
+                <%= badge_label tp, { :label_class => 'primary' } %>
+              </h5>
+              <p class="list-group-item-text">
+                <%#= "<strong>FQDN: </strong>#{rs.service.fqdn}" unless rs.service.fqdn.nil? %>
+              </p>
+            </a>
+          <% end %>
+        </div>
+    <% else %>
+        none
+    <% end %>
+
+    <h4>Input</h4>
+    <% if @test_case.provides_input? %>
+        <% @test_case.provided_input.each do |input_array| %>
+            <span class="label label-info">Provides</span> <strong><%= input_array[1] %></strong> for <strong><%= input_array[0] %></strong><br>
+        <% end %>
+    <% else %>
+        none
+    <% end %>
+
+    <% if @test_case.requires_input? %>
+        <% @test_case.required_input.each do |input_array| %>
+            <% input_array.each do |input| %>
+                <span class="label label-warning">Requires</span> <strong><%= input.first %></strong><br>
+            <% end %>
+        <% end %>
+    <% else %>
+        none
+    <% end %>
+
+  </div>
+
 
 
 </div>

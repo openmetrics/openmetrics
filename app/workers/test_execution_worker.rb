@@ -168,7 +168,7 @@ class TestExecutionWorker
       end
 
       # if this item provides input, persist env's to filesytem (by a sourceable bash file)
-      if te_item.provided_input.any?
+      if te_item.provides_input?
         Dir.mkdir(in_dir) unless Dir.exist?(in_dir)
         bash_env = ""
         te_item.provided_input.each do |input|

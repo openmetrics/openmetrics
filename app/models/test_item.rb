@@ -10,4 +10,54 @@ class TestItem < ActiveRecord::Base
   def set_type()
       test_item_type = TestItemType.find_by_model_name(self.class)
   end
+
+  # returns Array of TestPlan's
+  def test_plans
+    tpi = TestPlanItem.where(test_item_id: self.id)
+    ret = []
+
+    for i in tpi
+      tp = i.test_plan
+      unless tp.nil? or ret.include?(tp)
+        ret.push(tp)
+      end
+    end
+    return ret
+  end
+
+
+  def provided_input
+    if self.format == 'selenese'
+      WebtestAutomagick::selenese_extract_input(self.markup)
+    else
+      nil
+    end
+  end
+
+  def provides_input?
+    if self.format == 'selenese'
+      self.markup.include?('<td>store</td>')
+    else
+      false
+    end
+  end
+  alias_method :input_provided?, :provides_input?
+
+  def requires_input?
+    # selenese uses ${varname} notation to reference variables
+    if self.format == 'selenese'
+      return true if self.markup.scan(/\$\{[a-zA-Z0-9]*\}/).any?
+    end
+    false
+  end
+  alias_method :input_required?, :requires_input?
+
+  def required_input
+    if self.format == 'selenese'
+      WebtestAutomagick::selenese_input_references(self.markup)
+    else
+      nil
+    end
+  end
+
 end

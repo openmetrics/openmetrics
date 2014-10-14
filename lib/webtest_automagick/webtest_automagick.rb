@@ -55,6 +55,7 @@ driver = helper.get_driver
 # print some debug info
 # helper.debug
 driver.manage.timeouts.page_load = 20 # page load timeout in seconds
+driver.manage.timeouts.implicit_wait = 10 # seconds An implicit wait is to tell WebDriver to poll the DOM for a certain amount of time when trying to find an element or elements if they are not immediately available. The default setting is 0.
 driver.navigate.to "#{base_url}"
 ]
 
@@ -139,5 +140,24 @@ driver.navigate.to "#{base_url}"
       store_commands.push([var_name, var_value]) if command == 'store'
     end
     return store_commands
+  end
+
+  # find selenese variable references, e.g. ${foo}
+  # returns array of command, target and value
+  def self.selenese_input_references(markup)
+    doc = Nokogiri::HTML(markup)
+    var_commands = []
+    doc.css("tbody tr").each do |x|
+      command = x.css("td")[0].text
+      target = x.css("td")[1].text
+      value = x.css("td")[2].text
+      if target.scan(/\$\{[a-zA-Z0-9]*\}/).any?
+         var_commands.push(target.scan(/\$\{([a-zA-Z0-9]*)\}/))
+      end
+      if value.scan(/\$\{[a-zA-Z0-9]*\}/).any?
+        var_commands.push(value.scan(/\$\{([a-zA-Z0-9]*)\}/))
+      end
+    end
+    return var_commands
   end
 end
