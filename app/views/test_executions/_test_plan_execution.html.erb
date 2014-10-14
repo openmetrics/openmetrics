@@ -7,7 +7,7 @@
 
         <!-- add some icons to toggle input, output and error directly -->
         <span class="toggle_status">
-            <% if te.test_execution_items[n] and te.test_execution_items[n].input_required? %>
+            <% if te.test_execution_items[n] and te.test_execution_items[n].provides_input? %>
                 <i class="fa fa-sign-in" data-toggle="stdin" title="toggle Input"></i>
             <% end %>
             <% if te.test_execution_items[n] and !te.test_execution_items[n].output.nil? %>
@@ -60,7 +60,12 @@
               <!-- input -->
               <li class="stdin spacer collapse"><i class="fa-li fa fa-sign-in"></i>
                 Input
-                <%= te.test_execution_items[n] and te.test_execution_items[n].input_required? ? coderay(te.test_execution_items[n].provided_input, "plain", "div") : coderay('empty', "plain", "div") %>
+                <% if te.test_execution_items[n] and te.test_execution_items[n].provides_input? %>
+                   <%= coderay(te.test_execution_items[n].provided_input, "plain", "div") %>
+                   <code><%= te.test_execution_items[n].working_dir+"/in/#{te.test_execution_items[n].id}.env" %></code>
+                <% else %>
+                   <%= coderay('empty', "plain", "div") %>
+                <% end %>
               </li>
 
               <!--in case of success show the output-->

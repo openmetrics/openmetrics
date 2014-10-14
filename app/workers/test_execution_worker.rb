@@ -138,19 +138,48 @@ class TestExecutionWorker
       logger.warn("Couldn't execute #{executable}")
     else
 
-      # prepare environment
-      custom_env = ENV.clone
-      if te_item.input_required?
-        custom_env.store('OM_TEST', 'foobar')
-        custom_env.store('OM_RANDOM', rand(99999).to_s)
-      end
-
       # set working dir (passed to open3)
       working_dir = File.dirname(executable)
+      in_dir = "#{working_dir}/in"
+      out_dir = "#{working_dir}/out"
+
+      # prepare environment
+      env = ENV.clone
+      if te_item.provides_input?
+        env.store('OM_TEST', 'foobar')
+        env.store('OM_RANDOM', rand(99999).to_s)
+      end
+
+      # if item needs input, load vars into environment most recent infile
+      if te_item.requires_input?
+        all_in_files = Dir.glob("#{in_dir}/*.env")
+        in_file = all_in_files.sort.last
+        unless in_file.nil?
+          text = File.open(in_file).read
+          text.each_line do |line|
+            var_name = line.split('=')[0]
+            var_value = line.split('=')[1]
+            logger.debug("Store into environment: #{var_name}=#{var_value}")
+            env.store(var_name, var_value)
+          end
+        else
+          logger.warn("Can't satisfy Test Execution Items input requirement!")
+        end
+      end
+
+      # if this item provides input, persist env's to filesytem (by a sourceable bash file)
+      if te_item.provided_input.any?
+        Dir.mkdir(in_dir) unless Dir.exist?(in_dir)
+        bash_env = ""
+        te_item.provided_input.each do |input|
+          bash_env += "#{input[0]}=#{input[1]}\n"
+        end
+        File.open(in_dir+"/#{te_item_id}.env", 'w') {|f| f.write(bash_env) }
+      end
 
       # run command, pass in environment
       te_item.update_attributes(started_at: Time.now, status: EXECUTION_STATUS.key("started"))
-      stdout, stderr, exit_status = Open3.capture3(custom_env, interpreter, executable, :chdir => working_dir)
+      stdout, stderr, exit_status = Open3.capture3(env, interpreter, executable, :chdir => working_dir)
       te_item.update_attributes(finished_at: Time.now, status: EXECUTION_STATUS.key("finished"))
 
       # persist status
@@ -286,6 +315,5 @@ done
     f.chmod(0755)
     f.write(runsh)
   }
-
 end
 
