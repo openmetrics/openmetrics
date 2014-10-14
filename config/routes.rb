@@ -64,7 +64,7 @@ Openmetrics::Application.routes.draw do
   get 'admin' => 'welcome_page#admin'
 
   #search
-  get '/search/:query' => 'search#search', :as => 'search'
+  get '/searches/:query' => 'searches#search', :as => 'search'
 
   # fileuploads
   resources :uploads

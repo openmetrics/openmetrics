@@ -59,8 +59,10 @@ $(document).ready(function () {
                         });
                     }
                 }
-                ;
                 return false;
+                break;
+            case 27: // esc pressed
+                hideAjaxSearchResults();
                 break;
             case 8: //backspace,
                 // hide ajax search results if input is empty
@@ -73,7 +75,7 @@ $(document).ready(function () {
                     if (searchInput.val()) {
                         jQuery('#ajax_search_result').fadeOut("fast");
                         jQuery.ajax({
-                            url: '/search/search?q=' + encodeURIComponent(searchInput.val().trim()),
+                            url: '/searches/search?q=' + encodeURIComponent(searchInput.val().trim()),
                             type: "GET",
                             complete: function (data, textStatus) {
                                 if (textStatus == 'success') {
