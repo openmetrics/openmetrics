@@ -1,10 +1,9 @@
 <span class="btn-group btn-group-sm">
-  <%= link_to 'delete', @test_plan, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
-  <%= link_to 'edit', edit_test_plan_path(@test_plan), :class => 'btn btn-default' %>
+  <%= link_to t('om.controls.delete_html'), @test_plan, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
+  <%= link_to t('om.controls.edit_html'), edit_test_plan_path(@test_plan), :class => 'btn btn-default' %>
 
   <button class="btn btn-default run_test_plan" data-id="<%= @test_plan.id %>">
-    <i class="fa fa-play"></i>
-    run
+    <span class="fa fa-play"></span> Run now
   </button>
 
 

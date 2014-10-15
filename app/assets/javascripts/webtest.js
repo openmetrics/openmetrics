@@ -248,13 +248,46 @@ $(document).ready(function() {
 
     // ace code editor
     if ( $('#test_case_markup').length ) {
-        var editor = ace.edit("test_case_markup");
-        editor.setTheme("ace/theme/github");
-        editor.getSession().setMode("ace/mode/html");
+        var format = $('#test_case_markup').data('format');
+        var editor;
+        editor = ace.edit("test_case_markup");
+        editor.setTheme("ace/theme/tomorrow");
+        switch(format) {
+            case 'selenese':
+                editor.getSession().setMode("ace/mode/html");
+                break;
+            case 'ruby':
+                editor.getSession().setMode("ace/mode/ruby");
+                break;
+            default:
+                editor.getSession().setMode("ace/mode/text");
+        }
         editor.setOptions({
             maxLines: Infinity
         });
-        console.log('Ace editor loaded');
+        console.log('Ace editor loaded for format:', format);
+    }
+
+    // also init ace editor the same way for test_script_markup
+    if ( $('#test_script_markup').length ) {
+        var format = $('#test_script_markup').data('format');
+        var editor;
+        editor = ace.edit("test_script_markup");
+        editor.setTheme("ace/theme/tomorrow");
+        switch(format) {
+            case 'selenese':
+                editor.getSession().setMode("ace/mode/html");
+                break;
+            case 'ruby':
+                editor.getSession().setMode("ace/mode/ruby");
+                break;
+            default:
+                editor.getSession().setMode("ace/mode/text");
+        }
+        editor.setOptions({
+            maxLines: Infinity
+        });
+        console.log('Ace editor loaded for format:', format);
     }
 
     // jstree within _test_item_browser

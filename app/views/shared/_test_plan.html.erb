@@ -8,8 +8,8 @@
       <span class="item-number"><%= n+1 %></span>
       <%#= badge item.test_item.format, 'info' %>
       <%= link_to badge_label(item.test_item, {:label_class => 'primary'}), item.test_item %>
-      <%= raw '<span class="fa fa-sign-in text-warn" title="requires input"></span>' if item.test_item.requires_input? %>
-      <%= raw '<span class="fa fa-sign-in text-info" title="provides input"></span>' if item.test_item.provides_input? %>
+      <%= raw '<span class="fa fa-sign-in text-danger" title="requires input"></span>' if item.test_item.requires_input? %>
+      <%= raw '<span class="fa fa-sign-in text-success" title="provides input"></span>' if item.test_item.provides_input? %>
       <%# is there already an exitstatus available? %>
       <% if !te_items.nil? && te_items[n] && controller.controller_name == 'test_executions' %>
         <%= ( ! te_items[n].test_execution.test_execution_result.nil? and

@@ -1,6 +1,10 @@
 <% content_for :page_header do %>
     <h3>
       <%= badge_label @test_case, {:label_class => 'primary'} %>
+      <span class="btn-group btn-group-sm pull-right">
+        <%= link_to t('om.controls.delete_html'), @test_case, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
+        <%= link_to t('om.controls.edit_html'), edit_test_case_path(@test_case), :class => 'btn btn-default' %>
+      </span>
     </h3>
 <% end %>
 
@@ -38,20 +42,16 @@
     <h4>Input</h4>
     <% if @test_case.provides_input? %>
         <% @test_case.provided_input.each do |input_array| %>
-            <span class="label label-info">Provides</span> <strong><%= input_array[1] %></strong> for <strong><%= input_array[0] %></strong><br>
+            <span class="label label-success">Provides</span> <strong><%= input_array[1] %></strong> for <strong><%= input_array[0] %></strong><br>
         <% end %>
-    <% else %>
-        none
     <% end %>
 
     <% if @test_case.requires_input? %>
         <% @test_case.required_input.each do |input_array| %>
             <% input_array.each do |input| %>
-                <span class="label label-warning">Requires</span> <strong><%= input.first %></strong><br>
+                <span class="label label-danger">Requires</span> <strong><%= input.first %></strong><br>
             <% end %>
         <% end %>
-    <% else %>
-        none
     <% end %>
 
   </div>

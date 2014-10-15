@@ -65,3 +65,8 @@ en:
       submit_text:
         new:  "Create"
         update: "Update"
+    controls:
+      show_html: <span class="fa fa-eye"></span> Show
+      edit_html: <span class="fa fa-wrench"></span> Edit
+      delete_html: <span class="fa fa-trash-o"></span> Delete
+      save_html: Save

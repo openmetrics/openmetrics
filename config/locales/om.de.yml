@@ -40,3 +40,8 @@ de:
       submit_text:
         new:  "Erstellen"
         update: "Aktualisieren"
+    controls:
+      show_html: <span class="fa fa-eye"></span> Ansehen
+      edit_html: <span class="fa fa-wrench"></span> Bearbeiten
+      delete_html: <span class="fa fa-trash-o"></span> Löschen
+      save_html: Save

@@ -150,20 +150,16 @@ class TestExecutionWorker
         env.store('OM_RANDOM', rand(99999).to_s)
       end
 
-      # if item needs input, load vars into environment most recent infile
-      if te_item.requires_input?
-        all_in_files = Dir.glob("#{in_dir}/*.env")
-        in_file = all_in_files.sort.last
-        unless in_file.nil?
-          text = File.open(in_file).read
-          text.each_line do |line|
-            var_name = line.split('=')[0]
-            var_value = line.split('=')[1]
-            logger.debug("Store into environment: #{var_name}=#{var_value}")
-            env.store(var_name, var_value)
-          end
-        else
-          logger.warn("Can't satisfy Test Execution Items input requirement!")
+      #  load vars into environment from most recent envfile
+      all_in_files = Dir.glob("#{in_dir}/*.env")
+      in_file = all_in_files.sort.last
+      unless in_file.nil?
+        text = File.open(in_file).read
+        text.each_line do |line|
+          var_name = line.split('=')[0]
+          var_value = line.split('=')[1]
+          logger.debug("Set environment variable: #{var_name}=#{var_value}")
+          env.store(var_name, var_value)
         end
       end
 

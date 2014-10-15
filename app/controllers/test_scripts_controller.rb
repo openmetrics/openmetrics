@@ -24,6 +24,20 @@ class TestScriptsController < ApplicationController
     redirect_to :back
   end
 
+  def edit
+    @test_script = TestScript.find(params[:id])
+  end
+
+  def update
+    @test_script = TestScript.find(params[:id])
+    if @test_script.update!(test_script_params)
+      flash[:success] = "Test script updated."
+    else
+      flash[:warn] = 'Something went wrong while updating test script.'
+    end
+    redirect_to :back
+  end
+
   def destroy
     @test_script = TestScript.find(params[:id])
     if @test_script.destroy!

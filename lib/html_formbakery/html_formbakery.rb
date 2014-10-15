@@ -310,6 +310,10 @@ module HtmlFormbakery
     # text area for strings saved as :text
     if object.class.columns_hash[object_name].type == :text
       result += '<textarea class="form-control input-md" '
+      # for types called markup (ace-editor) save format as data attribute
+      if object_name == 'markup'
+        result += " data-format=#{object.format} " if object.format.is_a? String
+      end
       # if object is new (id == nil) add value as placeholder
       if is_new_object
         result += "placeholder=\"#{attr_value.to_s}\" name=\"#{formobject_name}[#{object_name}]\" id=\"#{formobject_name}_#{object_name}\"></textarea>"

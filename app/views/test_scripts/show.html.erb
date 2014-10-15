@@ -1,19 +1,44 @@
+<% content_for :page_header do %>
+    <h3>
+      <%= badge_label @test_script, {:label_class => 'primary'} %>
+      <span class="btn-group btn-group-sm pull-right">
+        <%= link_to t('om.controls.delete_html'), @test_script, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
+        <%= link_to t('om.controls.edit_html'), edit_test_script_path(@test_script), :class => 'btn btn-default' %>
+      </span>
+    </h3>
+<% end %>
+
 <div class="row">
 
+  <div class="col-md-8">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3>
-          <%= @test_script.name %>
-        </h3>
-
-      </div>
       <div class="panel-body">
         <blockquote><%= @test_script.description %></blockquote>
         <%= badge(@test_script.format, 'info') %>
         <%= coderay(@test_script.markup, @test_script.format, "div") %><br>
-
       </div>
     </div>
+  </div>
+
+  <div class="col-md-4">
+    <h4>Test Plans</h4>
+    <% if @test_script.test_plans.any? %>
+        <div class="list-group">
+          <% @test_script.test_plans.each do |tp| %>
+            <a href="/test_plans/<%= tp.id %>" class="list-group-item">
+              <h5 class="list-group-item-heading">
+                <%= badge_label tp, { :label_class => 'primary' } %>
+              </h5>
+              <p class="list-group-item-text">
+                <%#= "<strong>FQDN: </strong>#{rs.service.fqdn}" unless rs.service.fqdn.nil? %>
+              </p>
+            </a>
+          <% end %>
+        </div>
+    <% else %>
+        none
+    <% end %>
+  </div>
 
 
 </div>

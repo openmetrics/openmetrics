@@ -96,9 +96,9 @@
     <h3>
       <%= badge_label @test_plan, {:label_class => 'primary'} %>
       <span class="btn-group btn-group-sm pull-right">
-        <%= link_to 'Delete', @test_plan, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
-        <%= link_to 'Show', @test_plan, :class => 'btn btn-default' %>
-        <%= link_to ' Save', 'javascript:void(0)', :class => 'btn btn-default save' %>
+        <%= link_to t('om.controls.delete_html'), @test_plan, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
+        <%= link_to t('om.controls.show_html'), @test_plan, :class => 'btn btn-default' %>
+        <%= link_to t('om.controls.save_html'), 'javascript:void(0)', :class => 'btn btn-default save' %>
       </span>
     </h3>
 <% end %>
