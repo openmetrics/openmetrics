@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Openmetrics</title>
+  <title>
+    <% if content_for?(:page_title) %>
+        <%= yield :page_title %>
+    <% else %>
+        Openmetrics
+    <% end %>
+  </title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= yield :additional_js %>
+  <%= favicon_link_tag 'favicon.ico' %>
   <%= csrf_meta_tags %>
   <script type="text/javascript">
     I18n.defaultLocale = "<%= I18n.default_locale %>";
