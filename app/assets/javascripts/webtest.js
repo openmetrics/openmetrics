@@ -53,6 +53,11 @@ $(document).on('i.add', 'click', function(e) {
     }
 });
 
+// test projects select input change shall highlight save button
+$(document).on('change', '#test_projects', function(e) {
+    setAlertForSaveButton()
+});
+
 $(document).ready(function() {
 
     console.log("Webtest JS Ready");
@@ -132,11 +137,11 @@ $(document).ready(function() {
 
 
     // highlight save button if form changes
-    jQuery('form input:text, form textarea, form .select2-container').on('input propertychange paste', function() {
+    $('form input:text, form textarea, form .select2-container').on('input propertychange paste', function() {
         setAlertForSaveButton();
     });
 
-    // save button shall serialize and submit form data (new & edit)
+    // test plans save button shall serialize and submit form data (new & edit)
     var save_button = $('.test_plans a.save');
     var form = $('form[name="test_plan"]');
     save_button.click(function () {
@@ -164,7 +169,7 @@ $(document).ready(function() {
             return add;
         }).get();
 
-        // get criteria
+        // get quality criteria
         var quality_criteria_params = $('.conditional').children('.rule').map(function () {
             var tmp = serializeForm($(this));
             var add = {};
@@ -175,9 +180,19 @@ $(document).ready(function() {
             return add;
         }).get();
 
+        // get projects
+        var test_plan_projects = $("#test_projects").select2('data');
+        console.log(test_plan_projects);
+        var project_params = test_plan_projects.map(function(project) {
+            var add = {};
+            add.project_id = project.id;
+            return add;
+        });
+
         // extend params string
         paramsString = paramsString + '&' +
             $.param({test_plan: {test_plan_items_attributes: test_items_params}}) + '&' +
+            $.param({test_plan: {test_projects_attributes: project_params}}) + '&' +
             $.param({test_plan: {quality_criteria_attributes: quality_criteria_params}})
         ;
 
@@ -197,6 +212,24 @@ $(document).ready(function() {
         $(this).blur();
         return false;
     });
+
+    // test plan test projects select2 multiselect for projects
+    var projects = $('#test_projects').data('projects'); // json
+    var selected_projects = $('#test_projects').data('selected-projects'); // json
+    var preselected_projects = selected_projects.map(function(project) {
+        return project.id;
+    });
+    // use 'name' attribute instead of defaults 'text'
+    function select2_format(item) { return item.name; }
+    $('#test_projects').select2({
+        data: projects,
+        formatSelection: select2_format,
+        formatResult: select2_format,
+        multiple: true,
+        width: '100%',
+        allowClear: true,
+        dropdownAutoWidth : true
+    }).select2( "val", preselected_projects);
 
     // popover for test plan run options, takes placement and title from data attributes
     // content comes dynamicially from within a div #popover_content_container

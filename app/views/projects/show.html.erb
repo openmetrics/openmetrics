@@ -1,4 +1,24 @@
-<p id="notice"><%= notice %></p>
+<% content_for :page_header do %>
+    <h3>
+        <%= badge_label @project, {:label_class => 'primary'} %>
+        <span class="btn-group btn-group-sm pull-right">
+          <%= link_to t('om.controls.delete_html'), @project, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
+          <%= link_to t('om.controls.edit_html'), edit_project_path(@project), :class => 'btn btn-default' %>
+        </span>
+    </h3>
+<% end %>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+<% if @project.test_projects.any? %>
+<h3>Test Plans</h3>
+<div class="list-group">
+<% @project.test_projects.each do |tp| %>
+    <a href="/test_plans/<%= tp.test_plan.id %>" class="list-group-item">
+      <h5 class="list-group-item-heading">
+        <%= badge_label tp.test_plan %>
+        <%#= badge rs.service.type, 'info' %>
+        <%= tp.test_plan.name %>
+      </h5>
+    </a>
+<% end %>
+</div>
+<% end %>

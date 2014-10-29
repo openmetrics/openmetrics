@@ -1,18 +1,11 @@
 <script type="text/javascript" data-turbolinks-eval=false>
 
-    $(document).on('change', '#test_projects', function(e) {
-        setAlertForSaveButton()
-    });
+
 
     $(".test_plans.edit").ready(function() {
         console.log('Test Plans Edit JS Ready');
 
-        // select2 multiselect for projects
-        $('#test_projects').select2({
-          width: '100%' ,
-          allowClear: true,
-          dropdownAutoWidth : true
-        });
+
 
 
         // init conditions builder
@@ -111,22 +104,16 @@
     <h4 class="spacer">Test Plan</h4>
     <div class="panel panel-default">
       <div class="panel-body">
-
         <%= raw htmlform_for @test_plan, {:html_class => 'spacer', :nested => true, :except => [:id, :user_id, :slug, :created_at, :updated_at] } %>
-
-        <fieldset>
+        <!-- test projects select -->
         <div class="form-group">
             <label class="col-md-4 control-label">Projects</label>
             <div class="col-md-6">
-            <select id="test_projects" name="test_plan[projects][]" multiple>
-              <option value="AL">Alabama</option>
-              <option value="WY">Wyoming</option>
-            </select>
+              <input type="hidden" id="test_projects" data-projects="<%= Project.all.to_json(only: [:id, :name]) %>" data-selected-projects="<%= @test_plan.projects.to_json(only: [:id, :name]) %>" />
             </div>
             <div class="col-md-2"></div>
         </div>
-        </fieldset>
-
+        <!-- test plan items -->
         <div class="form-group">
           <label class="col-md-4 control-label">Test Items</label>
           <div class="col-md-8">

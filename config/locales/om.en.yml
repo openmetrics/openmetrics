@@ -16,6 +16,7 @@ en:
     navigation:
       activities: "Activities"
       inventory: "Inventory"
+      projects: "Projects"
       systems: "Systems"
       services: "Services"
       admin: "Admin Area"

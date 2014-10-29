@@ -32,18 +32,16 @@
 <% end %>
 
 <div class="row">
- <div class="col-md-8">
-
-    <h4 class="spacer">Your Test Plans</h4>
-    <%= raw htmltable_for @test_plans, { :actions => { :run => true, :show => true} } %>
-    <br>
-
-
+  <!--left-->
+    <div class="col-md-8">
+        <h4 class="spacer">Your Test Plans</h4>
+        <%= raw htmltable_for @test_plans, { :actions => { :run => true, :show => true} } %>
+        <br>
     </div>
-
+  <!--right-->
     <div class="col-md-4">
+      <%= render partial: 'shared/test_projects' %>
       <%= render partial: 'shared/recent_test_executions' %>
-
     </div>
 </div>
 

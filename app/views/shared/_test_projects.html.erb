@@ -1,0 +1,10 @@
+<h4 class="spacer">Projects</h4>
+<% if TestProject.any? %>
+    <ul>
+    <% Project.all.each do |p| %>
+        <li><%= link_to p.name, project_path(p) %></li>
+    <% end %>
+    </ul>
+<% else %>
+    None yet <i class="fa fa-smile-o"></i>
+<% end %>

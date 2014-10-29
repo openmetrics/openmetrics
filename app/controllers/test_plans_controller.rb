@@ -85,6 +85,7 @@ class TestPlansController < ApplicationController
 
   def test_plan_params
     params.require(:test_plan).permit(:name, :description, :base_url,
+                                      test_projects_attributes: [:id, :_destroy, :project_id],
                                       test_plan_items_attributes: [:id, :_destroy, :test_item_id, :position],
                                       quality_criteria_attributes: [:id, :_destroy, :entity_id, :entity_type, :attr, :operator, :value, :unit]
     )

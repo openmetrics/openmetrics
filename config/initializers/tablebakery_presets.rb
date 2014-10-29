@@ -1,5 +1,9 @@
 # default presets for HtmlTablebakery
 TABLEBAKERY_PRESETS = {
+    project: {
+        attr_ignore: %w( id created_at updated_at),
+        attr_order:  %w( name actions)
+    },
     system: {
         attr_ignore: %w( id slug created_at updated_at operating_system_flavor sshuser description ),
         attr_order:  %w( name fqdn cidr operating_system join_running_services actions)
