@@ -214,22 +214,24 @@ $(document).ready(function() {
     });
 
     // test plan test projects select2 multiselect for projects
-    var projects = $('#test_projects').data('projects'); // json
-    var selected_projects = $('#test_projects').data('selected-projects'); // json
-    var preselected_projects = selected_projects.map(function(project) {
-        return project.id;
-    });
     // use 'name' attribute instead of defaults 'text'
     function select2_format(item) { return item.name; }
-    $('#test_projects').select2({
-        data: projects,
-        formatSelection: select2_format,
-        formatResult: select2_format,
-        multiple: true,
-        width: '100%',
-        allowClear: true,
-        dropdownAutoWidth : true
-    }).select2( "val", preselected_projects);
+    if ( $('#test_projects').length ) {
+        var projects = $('#test_projects').data('projects'); // json
+        var selected_projects = $('#test_projects').data('selected-projects'); // json
+        var preselected_projects = selected_projects.map(function (project) {
+            return project.id;
+        });
+        $('#test_projects').select2({
+            data: projects,
+            formatSelection: select2_format,
+            formatResult: select2_format,
+            multiple: true,
+            width: '100%',
+            allowClear: true,
+            dropdownAutoWidth: true
+        }).select2("val", preselected_projects);
+    }
 
     // popover for test plan run options, takes placement and title from data attributes
     // content comes dynamicially from within a div #popover_content_container
