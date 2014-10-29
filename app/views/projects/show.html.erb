@@ -8,15 +8,15 @@
     </h3>
 <% end %>
 
-<% if @project.test_projects.any? %>
+<% if @project.test_plans.any? %>
 <h3>Test Plans</h3>
 <div class="list-group">
-<% @project.test_projects.each do |tp| %>
-    <a href="/test_plans/<%= tp.test_plan.id %>" class="list-group-item">
+<% @project.test_plans.each do |tp| %>
+    <a href="/test_plans/<%= tp.id %>" class="list-group-item">
       <h5 class="list-group-item-heading">
-        <%= badge_label tp.test_plan %>
+        <%= badge_label tp %>
         <%#= badge rs.service.type, 'info' %>
-        <%= tp.test_plan.name %>
+        <%= tp.name %>
       </h5>
     </a>
 <% end %>

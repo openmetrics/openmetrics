@@ -1,0 +1,5 @@
+<% 1.upto(114) do |i| %>
+selftest_<%= i %>:
+  test_plan: st<%= i %>
+  project: selftest
+<% end %>

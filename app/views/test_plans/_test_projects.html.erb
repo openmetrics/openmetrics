@@ -1,8 +1,8 @@
 <h4 class="spacer">Projects</h4>
-<% if projects.any? %>
+<% if test_projects.any? %>
 <ul>
-<% projects.each do |p| %>
-    <li><%= link_to p.name, project_path(p) %></li>
+<% test_projects.each do |tp| %>
+    <li><%= link_to tp.project.name, project_path(tp.project) %></li>
 <% end %>
 </ul>
 <% else %>

@@ -182,7 +182,7 @@ $(document).ready(function() {
 
         // get projects
         var test_plan_projects = $("#test_projects").select2('data');
-        console.log(test_plan_projects);
+        //console.log(test_plan_projects);
         var project_params = test_plan_projects.map(function(project) {
             var add = {};
             add.project_id = project.id;
@@ -219,6 +219,7 @@ $(document).ready(function() {
     if ( $('#test_projects').length ) {
         var projects = $('#test_projects').data('projects'); // json
         var selected_projects = $('#test_projects').data('selected-projects'); // json
+        //console.log(selected_projects);
         var preselected_projects = selected_projects.map(function (project) {
             return project.id;
         });

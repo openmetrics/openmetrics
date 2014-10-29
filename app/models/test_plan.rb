@@ -26,9 +26,23 @@ class TestPlan < ActiveRecord::Base
   accepts_nested_attributes_for :test_plan_items, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
 
   # projects
-  has_many :test_projects, -> { with_test_plans } # pass in lambda as scope (see TestProject)
-  has_many :projects, through: :test_projects, uniq: true
+  has_many :test_projects # pass in lambda as scope (see TestProject)
+  has_many :projects, -> { uniq }, through: :test_projects # http://stackoverflow.com/questions/16569994/deprecation-warning-when-using-has-many-through-uniq-in-rails-4
   accepts_nested_attributes_for :test_projects, allow_destroy: true
+  def test_plan_projects
+    test_projects = TestProject.where(test_plan_id: self.id)
+    ret = []
+    if test_projects != nil
+      for tp in test_projects
+        p = nil
+        p = Project.find_by_id tp.project_id
+        if p != nil
+          ret.push(p)
+        end
+      end
+    end
+    return ret
+  end
 
 
   # Validations
