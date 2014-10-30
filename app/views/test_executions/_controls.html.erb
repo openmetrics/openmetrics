@@ -3,7 +3,7 @@
     <% if @test_execution.previous %>
         <%= link_to(raw('<i class="fa fa-chevron-circle-left"> previous</i>'), test_execution_path(@test_execution.previous, anchor: 'finished'), class: 'btn btn-default')  %>
     <% else %>
-      <%= link_to(raw('<i class="fa fa-chevron-circle-left"></i>'), '#', class: 'btn btn-default disabled')  %>
+      <%= link_to(raw('<i class="fa fa-chevron-circle-left"> previous</i>'), '#', class: 'btn btn-default disabled')  %>
     <% end %>
   <% if @test_execution.next %>
     <%= link_to(raw('<i class="fa fa-chevron-circle-right"> next</i>'), test_execution_path(@test_execution.next, anchor: 'finished'), class: 'btn btn-default') %>
