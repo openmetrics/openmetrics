@@ -8,14 +8,14 @@
         var container = document.getElementById('timeline');
 
         // Create a DataSet (allows two way data-binding)
-        var items = new vis.DataSet([
-            {id: 1, content: 'item 1', start: '2014-04-20'},
-            {id: 2, content: 'item 2', start: '2014-04-14'},
-            {id: 3, content: 'item 3', start: '2014-04-18'},
-            {id: 4, content: 'item 4', start: '2014-04-16', end: '2014-04-19'},
-            {id: 5, content: 'item 5', start: '2014-04-25'},
-            {id: 6, content: 'item 6', start: '2014-04-27', type: 'point'}
-        ]);
+//        var items = new vis.DataSet([
+//            {id: 1, content: 'item 1', start: '2014-04-20'},
+//            {id: 2, content: 'item 2', start: '2014-04-14'},
+//            {id: 3, content: 'item 3', start: '2014-04-18'},
+//            {id: 4, content: 'item 4', start: '2014-04-16', end: '2014-04-19'},
+//            {id: 5, content: 'item 5', start: '2014-04-25'},
+//            {id: 6, content: 'item 6', start: '2014-04-27', type: 'point'}
+//        ]);
 
 
         var items = new vis.DataSet([
@@ -32,22 +32,25 @@
             var timeline = new vis.Timeline(container, items, options);
         }
 
-        // system network graph
-        // create an array with nodes
-        var nodes = [
-            {id: 1, label: 'Node 1'},
-            {id: 2, label: 'Node 2'},
-            {id: 3, label: 'Node 3'},
-            {id: 4, label: 'Node 4'},
-            {id: 5, label: 'Node 5'}
-        ];
+
+
+
+
+        // system network graph (currently system and it's running services)
+        var nodes = new vis.DataSet([
+            {id: <%= @system.id %>, label: '<%= @system.name %>', group: 'system'},
+            <% @system.running_services.each do |rs| %>
+                {id: <%= rs.id %>, label: '<%= rs.service.name %>', group: 'running_service'},
+            <% end %>
+        ]);
+
 
         // create an array with edges
         var edges = [
-            {from: 1, to: 2},
-            {from: 1, to: 3},
-            {from: 2, to: 4},
-            {from: 2, to: 5}
+            // connect running services with system
+            <% @system.running_services.each do |rs| %>
+                {from: <%= @system.id %>, to: <%= rs.id %>, style: 'dash-line'},
+            <% end %>
         ];
 
         // create a network
@@ -56,7 +59,30 @@
             nodes: nodes,
             edges: edges
         };
-        var options = { height: '450px', navigation: true, keyboard: false};
+        var options = {
+            height: '450px',
+            navigation: true,
+            keyboard: false,
+            groups: {
+                system: {
+                    shape: 'box',
+                    color: {
+                        background: "#428bca"
+                    },
+                    fontColor: 'white',
+                    fontSize: 12
+                },
+                running_service: {
+                    shape: 'dot',
+                    color: {
+                        color: 'white',
+                        border: "#428bca"
+                    },
+                    fontSize: 10
+
+                }
+            }
+        };
         if (container) {
             var network = new vis.Network(container, data, options);
         }
