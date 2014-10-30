@@ -235,7 +235,7 @@ $(document).on('page:change', function() {
     $('#scroll-top a').click(function () {
         $('body,html').animate({
             scrollTop:0
-        }, 800);
+        }, 600);
         return false;
     });
 

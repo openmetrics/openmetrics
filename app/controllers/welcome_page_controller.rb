@@ -10,6 +10,7 @@ class WelcomePageController < ApplicationController
   end
 
   def admin
+    add_breadcrumb t("om.navigation.admin")
     sorted_env_vars = Hash[ENV.sort]
     @om_env_vars = sorted_env_vars.reject{|key, value| !key.starts_with? 'OM_'}
 
