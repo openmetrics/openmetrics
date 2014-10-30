@@ -22,7 +22,7 @@ class System < ActiveRecord::Base
   include Truncatable
 
   has_secretary on: %w( cidr description fqdn name operating_system operating_system_flavor sshuser )
-  has_many :running_services, dependent: :destroy
+  has_many :running_services, -> { includes(:service).order("services.name")}, dependent: :destroy
   tracks_association :running_services # by rails-secretary gem
   has_many :services, through: :running_services
   accepts_nested_attributes_for :running_services, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
