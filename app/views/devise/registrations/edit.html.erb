@@ -25,6 +25,10 @@
       <li>may add theme chooser</li>
       <li>may add code highlight chooser</li>
     </ul>
+    <%= form_tag('/users', method: 'put', class: 'form-horizontal', role: 'form') do %>
+        Color <input name="user[settings][color]" value="">
+        <%= submit_tag "submit" %>
+    <% end %>
   </div>
 
   <div class="tab-pane" id="authentication">

@@ -10,7 +10,7 @@ namespace :openmetrics do
       raise "\nI'm sorry, I can't do that.\n(You're asking me to drop your production database.)"
     end
   end
-  
+
   # Custom install for developement environment
   desc "Setup"
   task :setup => [:ensure_development_environment, "db:migrate", "db:seed", "openmetrics:populate"]

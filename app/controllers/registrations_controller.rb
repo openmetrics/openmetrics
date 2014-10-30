@@ -13,8 +13,7 @@ class RegistrationsController < Devise::RegistrationsController
     @user = User.find(current_user.id)
     if @user.update_attributes(account_update_params)
       #set_flash_message :notice, :updated
-      @user.create_activity :update, :owner => current_user, :parameters => { :current_user_id => current_user.id }
-
+      #@user.create_activity :update, :owner => @user, :parameters => { :current_user_id => current_user.id }
       # Sign in the user bypassing validation in case his password changed
       sign_in @user, :bypass => true
       #redirect_to after_update_path_for(@user)
@@ -60,11 +59,12 @@ class RegistrationsController < Devise::RegistrationsController
   protected
 
   # we do not want to provide a confirmation password for user edit/update
+  # see ApplicationController for permitted params
   def account_update(resource, params)
     resource.update_without_password(params)
   end
 
-   def user_password_params
+  def user_password_params
     params.required(:user).permit(:password, :password_confirmation)
   end
 

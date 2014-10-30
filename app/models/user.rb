@@ -48,6 +48,11 @@ class User < ActiveRecord::Base
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
+
+  # hstore settings
+  store_accessor :settings, :color
+  #store_accessor :settings, :whatever
+
   # Concerns
   include Trackable
 

@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029102813) do
+ActiveRecord::Schema.define(version: 20141030161040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -314,6 +315,7 @@ ActiveRecord::Schema.define(version: 20141029102813) do
     t.string   "username"
     t.string   "slug"
     t.string   "api_token",              limit: 40
+    t.hstore   "settings"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

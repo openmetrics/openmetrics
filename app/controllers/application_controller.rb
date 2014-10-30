@@ -88,13 +88,31 @@ class ApplicationController < ActionController::Base
     else
       redirect_to :back
     end
-
   end
+
+  # Returns the hstore keys to be whitelisted.
+  # from http://stackoverflow.com/questions/19054535/setting-hstore-in-rails4-dynamic-key-values
+  #
+  # @param key [Symbol] the name of the hstore field
+  # @param params [Hash] the parameters for the hstore field
+  #
+  # @return [{Symbol => Array<Symbol>}, Symbol]
+  def permit_hstore_params(key, hstore_params)
+    keys = hstore_params.try(:keys)
+
+    # Return key if params are empty,
+    # this allows the hstore key to be removed.
+    return key if keys.blank?
+
+    # Otherwise, return the keys to be whitelisted
+    { key => keys }
+  end
+
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :email, :password, :password_confirmation, :remember_me) }
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:login, :username, :email, :password, :remember_me) }
-    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :email, :password, :password_confirmation, :current_password) }
+    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, permit_hstore_params(:settings, params[:user][:settings]), :email, :password, :password_confirmation, :current_password) }
   end
 
   # adds entry for GET requests to user session and cookie
