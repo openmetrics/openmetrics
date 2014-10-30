@@ -1,5 +1,5 @@
 selftest:
-  name: Openmetrics self-test
+  name: OM self-test
   creator_id: 1
 
 bmc_regression:
