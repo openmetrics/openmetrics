@@ -180,14 +180,43 @@ $(document).ready(function() {
             return add;
         }).get();
 
-        // get projects
-        var test_plan_projects = $("#test_projects").select2('data');
-        //console.log(test_plan_projects);
-        var project_params = test_plan_projects.map(function(project) {
-            var add = {};
-            add.project_id = project.id;
-            return add;
+        // get selected projects
+        var selected_projects = $("#test_projects").select2('data');
+        var current_projects = $('#test_projects').data('current-projects'); // json
+        var all_projects = $('#test_projects').data('projects'); // json
+        //console.log("current projects", current_projects);
+        //console.log("selected projects", selected_projects );
+        var project_params = selected_projects.map(function(project) {
+            var obj = {};
+            obj.project_id = project.id;
+            var in_current_projects = $.grep(current_projects, function(e){ return e.project_id == project.id; });
+            if (in_current_projects.length > 0) {
+                //console.log("already in project", in_current_projects);
+                obj.id = in_current_projects[0].id;
+            }
+            return obj;
         });
+
+        // remove projects
+        var remove_projects = [];
+        current_projects.forEach(function(project) {
+           // any current projects missing in selection?
+           var to_be_removed = $.grep(project_params, function(e){ return e.project_id == project.project_id; });
+           if (to_be_removed.length == 0) {
+               //console.log("remove", project, "from", current_projects);
+               remove_projects.push(project.id);
+           }
+        });
+        if (remove_projects.length > 0) {
+            remove_projects.forEach(function(id) {
+                var obj = {};
+                obj.id = id;
+                obj._destroy = 1;
+                project_params.push(obj);
+            });
+        }
+
+
 
         // extend params string
         paramsString = paramsString + '&' +
@@ -218,11 +247,16 @@ $(document).ready(function() {
     function select2_format(item) { return item.name; }
     if ( $('#test_projects').length ) {
         var projects = $('#test_projects').data('projects'); // json
-        var selected_projects = $('#test_projects').data('selected-projects'); // json
-        //console.log(selected_projects);
-        var preselected_projects = selected_projects.map(function (project) {
-            return project.id;
-        });
+        var json_projects = $('#test_projects').data('preselected-projects'); // json
+        // preselection
+        var preselected_projects;
+        if (typeof json_projects != 'undefined') {
+            preselected_projects = json_projects.map(function (project) {
+                return project.id;
+            });
+        } else {
+            preselected_projects = [];
+        }
         $('#test_projects').select2({
             data: projects,
             formatSelection: select2_format,

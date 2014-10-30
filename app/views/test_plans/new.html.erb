@@ -20,7 +20,9 @@
             <div class="form-group">
               <label class="col-md-4 control-label">Projects</label>
               <div class="col-md-6">
-                <input type="hidden" id="test_projects" data-projects="<%= Project.all.to_json(only: [:id, :name]) %>" data-selected-projects="<%= @test_plan.projects.to_json(only: [:id, :name]) %>" />
+                <input type="hidden" id="test_projects"
+                       data-projects="<%= Project.all.to_json(only: [:id, :name]) %>"
+                       data-current-projects="<%= @test_plan.test_projects.to_json %>" />
               </div>
               <div class="col-md-2"></div>
             </div>
