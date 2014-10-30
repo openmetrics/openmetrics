@@ -3,7 +3,7 @@
 <h4 class="spacer">Global Environment Variables</h4>
 <% unless @om_env_vars.empty? %>
     <% @om_env_vars.each_pair do |name, value| %>
-        <%= name %>: <%= value %><br>
+        <strong><%= name %></strong>=<code><%= value %></code><br>
     <% end %>
 <% else %>
     No Openmetrics environment variables found. That's bad! <span class="fa fa-meh-o"></span>
