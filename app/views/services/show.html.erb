@@ -1,6 +1,6 @@
 <% content_for :page_header do %>
     <h3>
-      <%= badge_label @service, {:label_class => 'primary'} %>
+      <%= badge_label @service, {:label_class => 'primary', :sub_label => {:label_class => 'info', :text => @service.class.name}} %>
     </h3>
 <% end %>
 

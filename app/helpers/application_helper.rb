@@ -32,14 +32,30 @@ module ApplicationHelper
   def badge_label(object, *options)
     opt = options.extract_options! # returns Hash
     label_class = opt[:label_class] || 'default'
-    object_class = object.class.name
+    # use base_class here to show parent classname of sti model, e.g. 'Service' instead of 'HttpService'
+    object_class = object.class.base_class.name
     default_text = if object.respond_to? :name
              object.name
            else
              "unnamed Object"
            end
     text = opt[:text] || default_text
-    raw(badge("#{object_class.to_acronym}-#{object.id}", label_class)) + " #{text}"
+
+    # sub_label? extend text with it
+    if opt[:sub_label]
+      sub_text = opt[:sub_label][:text] || ''
+      sub_label_class = opt[:sub_label][:label_class] || 'default'
+      text = badge(sub_text, sub_label_class) + " #{text}"
+    end
+
+    if current_user.show_labels == 'none'
+      raw(text)
+    elsif current_user.show_labels == 'short'
+      raw(badge("#{object_class.to_acronym}-#{object.id}", label_class)) + raw(" #{text}")
+    else
+      # long label
+      raw(badge("#{object_class} #{object.id}", label_class)) + raw(" #{text}")
+    end
   end
 
   # sets data-no-turbolink attribute to html body tag, to disable turbolinks on a specific page

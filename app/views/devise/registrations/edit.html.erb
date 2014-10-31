@@ -16,6 +16,31 @@
   <div class="tab-pane active" id="appearance">
     <!-- settings form -->
     <%= form_tag('/users', method: 'put', class: 'form-horizontal spacer', role: 'form') do %>
+        <!-- label -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Labels</label>
+          <div class="col-md-6">
+            <div class="radio radio-inline">
+              <input type="radio" name="user[settings][show_labels]" id="show_labels_long" value="long" <%= 'checked' if resource.settings && resource.show_labels == 'long' %>>
+              <label for="show_labels_long">
+                Long
+              </label>
+            </div>
+            <div class="radio radio-inline">
+              <input type="radio" name="user[settings][show_labels]" id="show_labels_short" value="short" <%= 'checked' if resource.settings && resource.show_labels == 'short' %>>
+              <label for="show_labels_short">
+                Short
+              </label>
+            </div>
+            <div class="radio radio-inline">
+              <input type="radio" name="user[settings][show_labels]" id="show_labels_none" value="none" <%= 'checked' if resource.settings && resource.show_labels == 'none' %>>
+              <label for="show_labels_none">
+                None
+              </label>
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
         <div class="form-group">
           <label class="col-md-4 control-label">Color</label>
           <div class="col-md-6">
@@ -23,6 +48,7 @@
           </div>
           <div class="col-md-2"></div>
         </div>
+        <!-- show breadcrumbs -->
         <div class="form-group">
           <label class="col-md-4 control-label">Breadcrumbs</label>
           <div class="col-md-6">

@@ -56,7 +56,8 @@ class User < ActiveRecord::Base
   #store_accessor :settings, :whatever
   hstore_accessor :settings,
     color: :string,
-    show_breadcrumbs: :boolean
+    show_breadcrumbs: :boolean,
+    show_labels: :string
     # price: :float,
     # built_at: :time,
     # tags: :array,
@@ -98,6 +99,7 @@ class User < ActiveRecord::Base
     # settings (made available by hstore_accessor gem)
     self.color = '#ccc' if self.color.nil?
     self.show_breadcrumbs = true if self.show_breadcrumbs.nil?
+    self.show_labels = 'long' if self.show_labels.nil?
   end
 
   def secure_digest(*args)

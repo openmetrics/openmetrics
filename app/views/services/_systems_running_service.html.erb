@@ -2,12 +2,15 @@
 <div class="list-group running_service">
   <a href="<%= url_for :controller => 'systems', :action => 'show', :id => systems_running_service.system.id %>" class="list-group-item" title="Show">
     <h5 class="list-group-item-heading">
-      <%= badge "SYS-#{systems_running_service.system.id}", 'primary' %>
-      <%= systems_running_service.system.name %>
+      <%= badge_label systems_running_service.system, {:label_class => 'primary'} %>
     </h5>
     <p class="list-group-item-text">
-      <strong>FQDN: </strong><%= systems_running_service.service.fqdn %>
-      <%= systems_running_service.description %>
+      <% if systems_running_service.service.fqdn %>
+          <strong>FQDN: </strong><%= systems_running_service.service.fqdn %>
+      <% end %>
+      <% if systems_running_service.service.description %>
+        <strong>Description: </strong><%= systems_running_service.description %>
+      <% end %>
     </p>
   </a>
 </div>
