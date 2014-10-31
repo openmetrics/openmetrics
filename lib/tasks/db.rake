@@ -4,6 +4,14 @@ namespace :db do
     desc "enable hstore extension"
     task :hstore => [:environment, :load_config] do
 
+      # check postgresql version to be >= 9.x
+      sql = "SELECT version();"
+      # returns sth like "PostgreSQL 9.3.5 on x86_64-unknown-linux-gnu, compiled by gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3, 64-bit"
+      result_array = ActiveRecord::Base.connection.execute(sql)
+      version = result_array.values.first.first.scan(/PostgreSQL (.+) on/).first.first
+      version_number = version.to_i
+      abort "PostgreSQL server version < 9.x! Aborting!" if version_number < 9
+
       # check if user has superuser rights (needed to activate extension)
       dbconfig = Rails.configuration.database_configuration
       db_user = dbconfig[Rails.env]['username']
