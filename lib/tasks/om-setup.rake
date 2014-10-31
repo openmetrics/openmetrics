@@ -94,6 +94,7 @@ namespace :openmetrics do
   end
 
   task :clean => :environment do
+    Rake::Task['tmp:create'].invoke
     # recreate test execution tmpdir
     if Dir.exist?(EXECUTION_TMPDIR)
       FileUtils.remove_dir(EXECUTION_TMPDIR, true)
