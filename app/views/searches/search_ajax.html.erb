@@ -6,7 +6,7 @@
 
       <% if @systems.size > 0 %>
           <div style='padding: 5px 0px; font-size: 12px;'>
-            <p class="ui-state-default" style="padding:2px;">Systems (<%= @systems.size %> found)</p>
+            <h5>Systems (<%= @systems.size %> found)</h5>
             <% for @system in @systems[0..3] %>
                 <%
                    @s = @system.clone
@@ -32,7 +32,7 @@
 
       <% if @services.size > 0 %>
           <div style='padding: 5px 0px; font-size: 12px;'>
-            <p class="ui-state-default">Services (<%= @services.size %> found)</p>
+            <h5>Services (<%= @services.size %> found)</h5>
             <% for @service in @services[0..3] %>
                 <%
                    @service.name = @service.name.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @service.name
@@ -59,7 +59,7 @@
 
       <% if @test_plans.size > 0 %>
           <div style='padding: 5px 0px; font-size: 12px;'>
-            <p class="ui-state-default">Test Plans (<%= @test_plans.size %> found)</p>
+            <h5>Test Plans (<%= @test_plans.size %> found)</h5>
             <% for @test_plan in @test_plans[0..3] %>
                 <%
                    @test_plan.name = @test_plan.name.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @test_plan.name
