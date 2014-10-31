@@ -8,6 +8,10 @@
     </h3>
 <% end %>
 
+<% if @project.description? %>
+    <p><blockquote><%=@project.description%></blockquote></p>
+<% end %>
+
 <% if @project.test_plans.any? %>
 <h3>Test Plans</h3>
 <div class="list-group">

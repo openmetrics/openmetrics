@@ -2,7 +2,7 @@
 TABLEBAKERY_PRESETS = {
     project: {
         attr_ignore: %w( id created_at updated_at creator_id ),
-        attr_order:  %w( name actions)
+        attr_order:  %w( name description actions)
     },
     system: {
         attr_ignore: %w( id slug created_at updated_at operating_system_flavor sshuser description ),
