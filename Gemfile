@@ -110,6 +110,9 @@ gem 'secretary-rails'
 # strip whitespaces for model attributes
 gem 'strip_attributes'
 
+# better hstore handling https://github.com/devmynd/hstore_accessor
+gem 'hstore_accessor'
+
 # activity feed https://github.com/pokonski/public_activity
 #gem 'public_activity'
 gem 'public_activity', github: 'pokonski/public_activity' # we need :fallback partial support see https://github.com/pokonski/public_activity/issues/150

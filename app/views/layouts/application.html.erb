@@ -20,7 +20,7 @@
 </head>
 <body <%= yield :body_tags %> class="<%= controller_name %> <%= action_name %>">
     <%= render "layouts/header" %>
-    <%= render "layouts/breadcrumbs" %>
+    <%= render "layouts/breadcrumbs" if current_user[:settings] && current_user.show_breadcrumbs? %>
 
     <div class="container">
         <%= render "layouts/notifications" %>

@@ -49,9 +49,16 @@ class User < ActiveRecord::Base
   attr_accessor :login
 
 
-  # hstore settings
-  store_accessor :settings, :color
+  # settings are persisted with postgres hstore (https://github.com/devmynd/hstore_accessor)
+  #store_accessor :settings, :color
   #store_accessor :settings, :whatever
+  hstore_accessor :settings,
+    color: :string,
+    show_breadcrumbs: :boolean
+    # price: :float,
+    # built_at: :time,
+    # tags: :array,
+    # ratings: :hash
 
   # Concerns
   include Trackable

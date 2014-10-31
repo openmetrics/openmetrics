@@ -1,14 +1,51 @@
+<% content_for :page_header do %>
+  <h3>
+    Edit Profile
+  </h3>
+<% end %>
+
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" id="user_edit_tab">
-  <li><a href="#appearance" data-toggle="tab">Appearance</a></li>
-  <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
+  <li class="active"><a href="#appearance" data-toggle="tab">Appearance</a></li>
+  <li><a href="#profile" data-toggle="tab">Personal</a></li>
   <li><a href="#authentication" data-toggle="tab">Authentication</a></li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
+  <div class="tab-pane active" id="appearance">
+    <!-- settings form -->
+    <%= form_tag('/users', method: 'put', class: 'form-horizontal spacer', role: 'form') do %>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Color</label>
+          <div class="col-md-6">
+            <input name="user[settings][color]" class="form-control" value="<%= resource.settings['color'] if resource.settings && resource.settings['color'] %>" />
+          </div>
+          <div class="col-md-2"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Breadcrumbs</label>
+          <div class="col-md-6">
+            <div class="radio radio-inline">
+              <input type="radio" name="user[settings][show_breadcrumbs]" id="show_breadcrumbs_true" value="true" <%= 'checked' if resource.settings && resource.show_breadcrumbs? %>>
+              <label for="show_breadcrumbs_true">
+                  Show
+              </label>
+            </div>
+            <div class="radio radio-inline">
+              <input type="radio" name="user[settings][show_breadcrumbs]" id="show_breadcrumbs_false" value="false" <%= 'checked' if resource.settings && !resource.show_breadcrumbs? %>>
+              <label for="show_breadcrumbs_false">
+                  Hide
+              </label>
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
+        <%= submit_tag "submit" %>
+    <% end %>
+  </div>
 
-  <div class="tab-pane active" id="profile">
+  <div class="tab-pane" id="profile">
     <%= raw htmlform_for resource, {:html_class => 'spacer', :within_tab => true,
                                     :only => [:username, :email],
                                     :help_text => {:email => 'We use email for notifications and (gr)avatar detection.',
@@ -16,19 +53,6 @@
 
     }
     %>
-  </div>
-
-  <div class="tab-pane" id="appearance">
-    <ul>
-      <li>add options for show/hide breadcrumbs</li>
-      <li>add avatar upload</li>
-      <li>may add theme chooser</li>
-      <li>may add code highlight chooser</li>
-    </ul>
-    <%= form_tag('/users', method: 'put', class: 'form-horizontal', role: 'form') do %>
-        Color <input name="user[settings][color]" value="">
-        <%= submit_tag "submit" %>
-    <% end %>
   </div>
 
   <div class="tab-pane" id="authentication">
