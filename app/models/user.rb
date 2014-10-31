@@ -22,6 +22,8 @@
 
 class User < ActiveRecord::Base
 
+  before_save :set_defaults
+
   # Use username within profile url
   extend FriendlyId
   friendly_id :username, use: :slugged
@@ -91,6 +93,12 @@ class User < ActiveRecord::Base
 
 
   protected
+
+  def set_defaults
+    # settings (made available by hstore_accessor gem)
+    self.color = '#ccc' if self.color.nil?
+    self.show_breadcrumbs = true if self.show_breadcrumbs.nil?
+  end
 
   def secure_digest(*args)
     Digest::SHA1.hexdigest(args.flatten.join('--'))
