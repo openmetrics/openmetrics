@@ -397,6 +397,26 @@ $(document).ready(function() {
         "plugins" : [ "wholerow" ]
     });
 
+    if ( $('body.test_exections.index').length ) {
+        // test executions quality graph
+        var services = $('#system-graph').data('services'); // json
+        var running_services = $('#system-graph').data('running_services'); // json
+        var system = $('#system-graph').data('system'); //json
+
+        // generate test execution quality graphs
+        var opts = {
+            series: {
+                stackpercent: true,
+                lines: { show:false },
+                bars: { show: true, barWidth: 0.6, lineWidth: 0, horizontal: true }
+            },
+            xaxis: { show: false, max: 100 },
+            yaxis: { show: false },
+            grid: { show: true, borderWidth: 0 }
+        };
+
+    }
+
 });
 
 

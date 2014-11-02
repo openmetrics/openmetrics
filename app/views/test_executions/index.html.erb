@@ -52,6 +52,7 @@ $(".test_executions.index").ready(function () {
     <th>Status</th>
     <th>Result</th>
     <th>Quality</th>
+    <th>New Q</th>
   </tr>
   </thead>
   <tbody>
@@ -68,6 +69,7 @@ $(".test_executions.index").ready(function () {
     <td><%= EXECUTION_STATUS[te.status] %></td>
     <td><%= te.text_result %></td>
     <td><div id="test_execution_<%= te.id %>_quality" style="width:125px;height:25px;"></div></td>
+    <td><div id="quality_graph_<%= te.id %>" data-quality="<%= te.quality.to_json %>" style="width:125px;height:25px;"></div></td>
   </tr>
   </tbody>
   <% end %>
