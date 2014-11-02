@@ -35,7 +35,7 @@ $(".test_executions.index").ready(function () {
 
 <% content_for :page_header do %>
     <h3>
-      Test Executions
+      Test Executions List
     </h3>
 <% end %>
 
@@ -50,6 +50,7 @@ $(".test_executions.index").ready(function () {
     <th>Finished At</th>
     <th>Duration</th>
     <th>Status</th>
+    <th>Result</th>
     <th>Quality</th>
   </tr>
   </thead>
@@ -65,6 +66,7 @@ $(".test_executions.index").ready(function () {
     <td><%= I18n.localize(te.finished_at, :format => :short) unless te.finished_at.nil? %></td>
     <td><%= te.duration %></td>
     <td><%= EXECUTION_STATUS[te.status] %></td>
+    <td><%= te.text_result %></td>
     <td><div id="test_execution_<%= te.id %>_quality" style="width:125px;height:25px;"></div></td>
   </tr>
   </tbody>

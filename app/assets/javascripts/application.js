@@ -33,7 +33,10 @@
 //= require uploads
 //= require ace/ace
 //= require ace/mode-html
-//= require ace/theme-github
+//= require ace/mode-ruby
+//= require ace/mode-sh
+//= require ace/mode-text
+//= require ace/theme-tomorrow
 //= require conditions-builder
 //= require ui.multiselect
 //= require select2.min
@@ -196,6 +199,8 @@ $(document).ajaxComplete(function () {
 /* misc */
 
 $(document).on('page:change', function() {
+    console.log("Application Turbo Change");
+
     // toggle bootstrap dropdowns
     $('.dropdown-toggle').dropdown();
     // if tab-nav does not fit into space, show mobile icon nav
@@ -238,6 +243,12 @@ $(document).on('page:change', function() {
         }, 600);
         return false;
     });
+
+
+});
+
+$(document).ready(function() {
+   console.log("Application JS Ready");
 
 
 });

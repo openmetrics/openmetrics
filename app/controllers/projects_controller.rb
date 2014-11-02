@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
 
   def index
-    add_breadcrumb t('om.navigation.projects')
+    add_breadcrumb 'Projects List'
     @projects = Project.all
   end
 

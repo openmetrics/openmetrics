@@ -10,16 +10,16 @@ TABLEBAKERY_PRESETS = {
 
     },
     service: {
-        attr_ignore: %w( id init_name systemd_name updated_at created_at fqdn ),
-        attr_order:  %w( type name daemon_name description join_running_services actions )
+        attr_ignore: %w( id init_name systemd_name daemon_name updated_at created_at fqdn ),
+        attr_order:  %w( type name description join_running_services actions )
     },
     test_plan: {
         attr_ignore: %w( id slug updated_at created_at user_id base_url ),
         attr_order:  %w( name description actions)
     },
     test_item: {
-        attr_ignore: %w( id updated_at created_at ),
-        attr_order:  %w( name description type format markup actions)
+        attr_ignore: %w( id updated_at created_at markup),
+        attr_order:  %w( type format name description actions )
     },
     test_case: {
         attr_ignore: %w( updated_at created_at type markup ),

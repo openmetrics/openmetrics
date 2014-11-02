@@ -1,6 +1,7 @@
 <% content_for :page_header do %>
     <h3>
-      <%= badge_label @test_case, {:label_class => 'primary'} %>
+      <%= badge_label @test_case, {:label_class => 'primary',
+                                 :sub_label => {:label_class => 'info', :text => @test_case.format}} %>
       <span class="btn-group btn-group-sm pull-right">
         <%= link_to t('om.controls.delete_html'), @test_case, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-default' %>
         <%= link_to t('om.controls.edit_html'), edit_test_case_path(@test_case), :class => 'btn btn-default' %>
@@ -14,7 +15,6 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <blockquote><%= @test_case.description %></blockquote>
-        <%= badge(@test_case.format, 'info') %>
         <%= coderay(@test_case.markup, @test_case.format, "div") %><br>
       </div>
     </div>

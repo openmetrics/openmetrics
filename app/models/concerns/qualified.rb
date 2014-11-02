@@ -5,6 +5,15 @@ module Qualified
 
     self.inheritance_column = :entity_type
 
+    def text_result
+      if self.class.name == 'TestExecution'
+        "Todo"
+      else
+        NotImplementedError
+      end
+
+    end
+
     def quality
       if self.class.name == 'TestExecution'
         Quality.where(test_execution_id: self.id, entity_type: 'TestPlan', entity_id: self.test_plan.id)

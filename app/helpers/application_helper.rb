@@ -33,12 +33,8 @@ module ApplicationHelper
     opt = options.extract_options! # returns Hash
     label_class = opt[:label_class] || 'default'
     # use base_class here to show parent classname of sti model, e.g. 'Service' instead of 'HttpService'
-    object_class = object.class.base_class.name
-    default_text = if object.respond_to? :name
-             object.name
-           else
-             "unnamed Object"
-           end
+    object_class = opt[:use_base_class] ? object.class.base_class.name : object.class.name
+    default_text = object.respond_to?(:name) ? object.name : "unnamed Object"
     text = opt[:text] || default_text
 
     # sub_label? extend text with it

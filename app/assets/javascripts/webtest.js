@@ -317,32 +317,34 @@ $(document).ready(function() {
 
 
     // ace code editor
-    if ( $('#test_case_markup').length ) {
-        var format = $('#test_case_markup').data('format');
-        var editor;
-        editor = ace.edit("test_case_markup");
-        editor.setTheme("ace/theme/tomorrow");
-        switch(format) {
-            case 'selenese':
-                editor.getSession().setMode("ace/mode/html");
-                break;
-            case 'ruby':
-                editor.getSession().setMode("ace/mode/ruby");
-                break;
-            default:
-                editor.getSession().setMode("ace/mode/text");
-        }
-        editor.setOptions({
-            maxLines: Infinity
-        });
-        console.log('Ace editor loaded for format:', format);
-    }
+    // Hook up ACE editor to all textareas with data-editor attribute
+    // as seen in https://gist.github.com/duncansmart/5267653
 
-    // also init ace editor the same way for test_script_markup
-    if ( $('#test_script_markup').length ) {
-        var format = $('#test_script_markup').data('format');
-        var editor;
-        editor = ace.edit("test_script_markup");
+    $('textarea[data-format]').each(function () {
+        var textarea = $(this);
+
+        var format = textarea.data('format');
+
+        var editDiv = $('<div>', {
+            position: 'absolute',
+            width: textarea.width(),
+            height: textarea.height(),
+            'class': textarea.attr('class')
+        }).insertBefore(textarea);
+
+        textarea.css('visibility', 'hidden');
+
+
+
+        var editor = ace.edit(editDiv[0]);
+        editor.renderer.setShowGutter(false);
+        editor.getSession().setValue(textarea.val());
+        editor.getSession().setUseWorker(false);
+        editor.getSession().setTabSize(4);
+        editor.setOptions({
+            minLines: 5,
+            maxLines: Infinity
+        });
         editor.setTheme("ace/theme/tomorrow");
         switch(format) {
             case 'selenese':
@@ -351,14 +353,44 @@ $(document).ready(function() {
             case 'ruby':
                 editor.getSession().setMode("ace/mode/ruby");
                 break;
+            case 'bash':
+                editor.getSession().setMode("ace/mode/sh");
+                break;
             default:
                 editor.getSession().setMode("ace/mode/text");
         }
-        editor.setOptions({
-            maxLines: Infinity
-        });
+//
+//        var heightUpdateFunction = function() {
+//
+//            // http://stackoverflow.com/questions/11584061/
+//            var newHeight =
+//                editor.getSession().getScreenLength()
+//                * editor.renderer.lineHeight
+//                + editor.renderer.scrollBar.getWidth();
+//
+//            editDiv.height(newHeight.toString() + "px");
+//            $('#editor-section').height(newHeight.toString() + "px");
+//
+//            // This call is required for the editor to fix all of
+//            // its inner structure for adapting to a change in size
+//            editor.resize();
+//        };
+//
+//        // Set initial size to match initial content
+//        heightUpdateFunction();
+//
+//        // Whenever a change happens inside the ACE editor, update
+//        // the size again
+////        editor.getSession().on('change', heightUpdateFunction);
+
         console.log('Ace editor loaded for format:', format);
-    }
+
+        // copy back to textarea on form submit...
+        textarea.closest('form').submit(function () {
+            textarea.val(editor.getSession().getValue());
+        })
+
+    });
 
     // jstree within _test_item_browser
     $('#jstree_demo_div').jstree({

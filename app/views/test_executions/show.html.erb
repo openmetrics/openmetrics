@@ -1,6 +1,7 @@
 <% content_for :page_header do %>
   <h3>
     <%= badge_label @test_execution, {:label_class => 'primary', :text => ""} %>
+    <%= link_to badge_label(@test_plan, {:label_class => 'info'}), @test_plan %>
     <small>
 
     </small>
@@ -14,7 +15,7 @@
 
   <!-- right column, top column when mobile -->
   <div class="col-md-4 col-md-push-8">
-    <h3>Result</h3>
+    <h3 class="spacer">Result</h3>
     <div class="panel panel-default">
       <div id="test_execution_status" class="panel-body">
         <%= test_execution_status(@test_execution) %>
@@ -30,8 +31,7 @@
 
   <!-- left column, top column when mobile -->
   <div class="col-md-8 col-md-pull-4">
-    <h3><%= link_to badge_label(@test_plan, {:label_class => 'primary'}), @test_plan %></h3>
-    <div class="panel panel-default">
+    <div class="panel panel-default spacer">
       <div class="panel-body">
         <blockquote><p><%= @test_plan.description %></p></blockquote>
         <%= render partial: 'test_plan_execution', locals: { tp: @test_plan, te: @test_execution } %>
