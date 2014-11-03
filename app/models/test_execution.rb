@@ -20,8 +20,11 @@ class TestExecution < ActiveRecord::Base
   include Trackable
 
   belongs_to :test_plan
+
   # TestExecutionItem belongs to TestExecution, but we currently use method test_execution_items
   # has_many :test_execution_items
+
+  # overall result and quality
   has_one :test_execution_result
 
   # most recent test executions

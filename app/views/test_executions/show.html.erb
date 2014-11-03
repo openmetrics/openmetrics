@@ -22,11 +22,26 @@
       </div>
     </div>
     <!-- execution parameter -->
-    <i class="fa fa-rocket"></i> Parameters</strong>
+    <i class="fa fa-rocket"></i> Parameters
     <%= render 'parameters', item: @test_execution %>
     <!-- test execution quality -->
-    <i class="fa fa-tachometer"></i> Quality</strong>
+    <i class="fa fa-tachometer"></i> Quality
     <%= render 'shared/quality', item: @test_execution %>
+
+    <i class="fa fa-check-square"></i> Success Criteria
+    <div class="well">
+        <% @test_execution.quality_criteria.each do |criterion| %>
+            <% if criterion.qualifiable_type == 'TestPlan' %>
+                <span class="label label-primary">TestPlan-<%= criterion.qualifiable_id %></span>
+            <% else %>
+                <span class="label label-primary">TestItem<%= criterion.position %></span>
+            <% end %>
+            <strong><%= criterion.attr %></strong> shall be
+            <strong><%= criterion.operator %></strong>
+            <strong><%= criterion.value %></strong>
+            <br>
+        <% end %>
+    </div>
   </div>
 
   <!-- left column, top column when mobile -->

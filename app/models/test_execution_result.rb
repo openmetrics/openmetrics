@@ -12,6 +12,11 @@
 #
 
 class TestExecutionResult < ActiveRecord::Base
-  include Qualified
+  #include Qualified
+  def quality
+    self.test_execution.quality.flatten | self.test_execution.test_execution_items.collect{ |tpi| tpi.quality }.flatten
+  end
+  alias_method :overall_quality, :quality
+
   belongs_to :test_execution
 end
