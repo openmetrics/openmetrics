@@ -1,8 +1,7 @@
-/* test cases */
 
-.test_cases.new .ace_editor {
-    min-height: 250px;
-    width: 400px;
+// full width ace editor
+.form-control.ace_editor {
+    width: 100% !important;
 }
 
 

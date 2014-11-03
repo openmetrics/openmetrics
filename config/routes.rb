@@ -44,6 +44,7 @@ Openmetrics::Application.routes.draw do
 
   # webtest routes
   resources :webtests
+  resources :test_items
   resources :test_plans
   post 'test_plans/run' => 'test_plans#run', as: :run_test_plan
   resources :test_suites

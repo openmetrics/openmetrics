@@ -7,8 +7,7 @@ EXECUTION_STATUS = {
   40 => 'finished'
 }
 
-EXECUTION_TMPDIR="#{Rails.root}/tmp/test_executions"
-
+# used as text results
 QUALITY_STATUS = {
   0 => 'passed',
   5 => 'defective',
@@ -22,3 +21,5 @@ SEVERITIES = {
     20 => 'fatal'
 }
 
+
+EXECUTION_TMPDIR="#{Rails.root}/tmp/test_executions"

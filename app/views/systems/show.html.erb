@@ -33,60 +33,6 @@
         }
 
 
-
-
-
-        // system network graph (currently system and it's running services)
-        var nodes = new vis.DataSet([
-            {id: <%= @system.id %>, label: '<%= @system.name %>', group: 'system'},
-            <% @system.running_services.each do |rs| %>
-                {id: <%= rs.id %>, label: '<%= rs.service.name %>', group: 'running_service'},
-            <% end %>
-        ]);
-
-
-        // create an array with edges
-        var edges = [
-            // connect running services with system
-            <% @system.running_services.each do |rs| %>
-                {from: <%= @system.id %>, to: <%= rs.id %>, style: 'dash-line'},
-            <% end %>
-        ];
-
-        // create a network
-        var container = document.getElementById('system-graph');
-        var data = {
-            nodes: nodes,
-            edges: edges
-        };
-        var options = {
-            height: '450px',
-            navigation: true,
-            keyboard: false,
-            groups: {
-                system: {
-                    shape: 'box',
-                    color: {
-                        background: "#428bca"
-                    },
-                    fontColor: 'white',
-                    fontSize: 12
-                },
-                running_service: {
-                    shape: 'dot',
-                    color: {
-                        color: 'white',
-                        border: "#428bca"
-                    },
-                    fontSize: 10
-
-                }
-            }
-        };
-        if (container) {
-            var network = new vis.Network(container, data, options);
-        }
-
 //    $.ajax({
 //        url: '/systems/<%= @system.id %>',
 //        type: "GET",
@@ -167,7 +113,9 @@
     <div class="clearfix"></div>
     <div class="panel panel-default ">
       <div class="panel-body">
-        <div id="system-graph"></div>
+        <div id="system-graph" data-system="<%= @system.to_json %>"
+             data-services="<%= @services.all.to_json(only: [:id, :name]) %>"
+             data-running_services="<%= @system.running_services.all.to_json(except: [:type, :created_at, :updated_at]) %>"></div>
       </div>
     </div>
 

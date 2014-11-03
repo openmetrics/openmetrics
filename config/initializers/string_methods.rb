@@ -5,6 +5,8 @@ class String
   # returns acronym for some specific Strings, e.g. 'Service' will become 'SVC', also see inflections.rb
   def to_acr
     case self
+      when 'Project'
+        'P'
       when 'RunningService'
         'RS'
       when 'Service'

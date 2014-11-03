@@ -1,4 +1,8 @@
-<h1>Listing projects</h1>
+<% content_for :page_header do %>
+    <h3>
+      Projects List
+    </h3>
+<% end %>
 
 <%= raw htmltable_for @projects, { :actions => {:show => true, :edit => true}} %>
 

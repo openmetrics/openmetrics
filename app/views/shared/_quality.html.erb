@@ -11,9 +11,12 @@
           <% if q.status == 10 %>
               <span class="label label-danger">Failed</span>
           <% end %>
+          <% if criterion %>
+          <span class="label label-info">Criterion</span>
           <strong><%= criterion.attr %></strong> shall be
           <strong><%= criterion.operator %></strong>
           <strong><%= criterion.value %></strong>
+          <% end %>
           <% if q.status > 0 %>
               <i title="<%= q.message %>" class="fa fa-info-circle"></i>
           <% end %>

@@ -1,7 +1,7 @@
 
     <a href="/services/<%= rs.service.id %>" class="list-group-item">
       <h5 class="list-group-item-heading">
-        <%= badge_label rs.service, {:label_class => 'primary'} %>
+        <%= badge_label rs.service, {:label_class => 'primary', :use_base_class => true} %>
       </h5>
       <p class="list-group-item-text">
         <%= "<strong>FQDN: </strong>#{rs.service.fqdn}" unless rs.service.fqdn.nil? %>

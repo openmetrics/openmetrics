@@ -13,12 +13,12 @@ module WebtestsHelper
 
       # job scheduled, but not executed yet
       if test_execution.is_scheduled_and_not_executed?
-        concat '<button class="btn btn-info btn-lg btn-block">Not yet executed</button>'.html_safe
+        concat '<button class="btn btn-inverse btn-lg btn-block">Not yet executed</button>'.html_safe
       end
 
       # beyond scheduling
       if test_execution.is_running?
-        concat '<button class="btn btn-info btn-lg btn-block"><i class="fa fa-spinner fa-spin"></i> Running</button>'.html_safe
+        concat '<button class="btn btn-info btn-lg btn-block"><i class="fa fa-spinner fa-spin"></i> In progress</button>'.html_safe
       else
         if test_execution.is_finished?
           #  finished and exitstatus is nil: unknown
@@ -28,10 +28,9 @@ module WebtestsHelper
           else
             # finished and exitstatus equals 0: success
             if test_execution.test_execution_result.exitstatus == 0
-              concat '<button class="btn btn-success btn-lg btn-block"><i class="fa fa-smile-o"></i> Success</button>'.html_safe
+              concat '<button class="btn btn-success btn-lg btn-block">Passed</button>'.html_safe
             else
-              # FIXME TestExecution is finished and exitstatus > 0: MUST be failed *sic*
-              concat '<button class="btn btn-danger btn-lg btn-block"><i class="fa fa-frown-o"></i> Failure</button>'.html_safe
+              concat '<button class="btn btn-danger btn-lg btn-block">Failed</button>'.html_safe
             end
           end
         end

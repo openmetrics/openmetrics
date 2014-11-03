@@ -2,6 +2,64 @@ $(".systems").ready(function () {
 
     console.log('Systems JS Ready');
 
+    if ( $('body.systems.show').length ) {
+
+        // system relation graph
+        var nodes = null;
+        var edges = null;
+        var network = null;
+        var services = $('#system-graph').data('services'); // json
+        var running_services = $('#system-graph').data('running_services'); // json
+        var system = $('#system-graph').data('system'); //json
+
+        // create nodes
+        nodes = [];
+        nodes.push({id: system.id, label: system.name, group: 'system'});
+        running_services.forEach(function(rs) {
+            var service = $.grep(services, function(e){ return e.id == rs.service_id; })[0];
+            nodes.push({id: rs.id, label: service.name, group: 'running_service'});
+        });
+
+        // create edges
+        edges = [];
+        running_services.forEach(function(rs) {
+            edges.push({from: system.id, to: rs.id, style: 'dash-line'});
+        });
+        // create a network
+        var container = document.getElementById('system-graph');
+        var data = {
+            nodes: nodes,
+            edges: edges
+        };
+        var options = {
+            height: '450px',
+            navigation: true,
+            keyboard: false,
+            groups: {
+                system: {
+                    shape: 'box',
+                    color: {
+                        background: "#428bca"
+                    },
+                    fontColor: 'white',
+                    fontSize: 12
+                },
+                running_service: {
+                    shape: 'dot',
+                    color: {
+                        color: 'white',
+                        border: "#428bca"
+                    },
+                    fontSize: 10
+
+                }
+            }
+        };
+        if (container) {
+            var network = new vis.Network(container, data, options);
+        }
+    }
+
     // init running_services multiselect
     jQuery("select.running_services").multiselect();
     jQuery("select.running_services").bind('change', function(event, ui) {

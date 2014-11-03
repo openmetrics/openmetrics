@@ -4,7 +4,7 @@ class SystemsController < ApplicationController
   before_filter :inject_logged_user, only: [:update]
 
   def index
-    add_breadcrumb 'Systems'
+    add_breadcrumb 'Systems List'
     @systems = System.includes(:running_services)
     respond_with(@systems)
   end
@@ -50,6 +50,7 @@ class SystemsController < ApplicationController
   end
 
   def show
+    @services = Service.all
     @system_metrics = @system.metrics.group_by(&:plugin)
     @system_events = PublicActivity::Activity.order("created_at desc").where(trackable_type: 'System', trackable_id: @system.id)
     add_breadcrumb @system.name, 'system'

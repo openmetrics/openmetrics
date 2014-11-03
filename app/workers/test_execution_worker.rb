@@ -36,7 +36,7 @@ class TestExecutionWorker
     evaluate_quality(te)
 
     # ... and overall execution result
-    evaluate_result(te)
+    evaluate_overall_result(te)
 
     # TODO remove (delete) create executable?
   end
@@ -195,7 +195,7 @@ class TestExecutionWorker
 end
 
 def evaluate_quality(entity)
-  #logger.debug "Received entity of #{entity.class.name} #{entity.inspect} to evaluation"
+  logger.debug "Received entity of #{entity.class.name} #{entity.inspect} to evaluation"
 
   # entity may be a TestExecution or a TestExecutionItem
   # therefore get matching criteria and prepare quality object for later use
@@ -271,12 +271,25 @@ def evaluate_quality(entity)
         entity_quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: e.message)
       end
     end
+
+  else
+    # no criteria
+    if entity.respond_to? :test_execution_items and entity.class.name == 'TestExecution'
+      # find highest exit status
+      failed = entity.test_execution_items.where(['exitstatus > ?', 0]).order('exitstatus')
+      entity_quality = quality.dup
+      if failed.any?
+        entity_quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: "Exit status #{failed.first.exitstatus} > 0")
+      else
+        entity_quality.update_attributes(status: QUALITY_STATUS.key('passed'), message: "Finished with exit status #{QUALITY_STATUS.key('passed')}")
+      end
+    end
   end
 
 end
 
 
-def evaluate_result(te)
+def evaluate_overall_result(te)
   te_result = te.test_execution_result
 
   if te.quality.any?

@@ -5,12 +5,11 @@ class ServicesController < ApplicationController
   end
 
   def index
-    add_breadcrumb 'Services'
+    add_breadcrumb 'Services List'
     @services = Service.all
   end
 
   def new
-    # passing to new causes formbakery placeholders to appear
     @service = Service.new(:name => "my awesome service")
   end
 
@@ -25,12 +24,16 @@ class ServicesController < ApplicationController
     end
   end
 
+  def edit
+    @service = Service.find(params[:id])
+  end
+
   private
   # Use this method to whitelist the permissible parameters. Example:
   # params.require(:person).permit(:name, :age)
   # Also, you can specialize this method with per-user checking of permissible attributes.
   def service_params
-    params.require(:service).permit(:name)
+    params.require(:service).permit(:name, :description, :daemon_name, :init_name, :systemd_name)
   end
 
 end
