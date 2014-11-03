@@ -18,7 +18,7 @@ module WebtestsHelper
 
       # beyond scheduling
       if test_execution.is_running?
-        concat '<button class="btn btn-info btn-lg btn-block">Running <i class="fa fa-spinner fa-spin"></i></button>'.html_safe
+        concat '<button class="btn btn-info btn-lg btn-block">Processing <i class="fa fa-spinner fa-spin"></i></button>'.html_safe
       else
         if test_execution.is_finished?
           #  finished and exitstatus is nil: unknown

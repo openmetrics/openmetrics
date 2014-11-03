@@ -1,3 +1,9 @@
+# TestPlanItems
+#
+# test_plan: TestPlan
+# test_item: TestItem
+# position: integer, required when QualityCriteria are used
+
 st100_1:
   test_plan: st100
   test_item: bashsleep5

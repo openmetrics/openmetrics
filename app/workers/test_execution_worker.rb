@@ -54,7 +54,9 @@ class TestExecutionWorker
     create_runsh!(dir)
 
     items = tp.test_items
-    items.each_with_index { |item, n|
+    items.each.with_index(1) do |item, position|
+
+
       # executable header (shebang) and extension
       header = ''
       interpreter = ''
@@ -71,12 +73,12 @@ class TestExecutionWorker
       end
 
       # create executable file and change pwd (ugly way w/ ruby core utils)
-      filename = dir+"/#{n+1}_#{item.id}"
+      filename = dir+"/#{position}_#{item.id}"
 
       # prepare (and convert) markup and format
       conversion_format = item.format
-      start_browser = n+1 == 1 ? true : false # start browser in first item
-      quit_browser = n+1 == items.count ? true : false # quit browser in last item
+      start_browser = position == 1 ? true : false # start browser in first item
+      quit_browser = position == items.count ? true : false # quit browser in last item
       executable_markup = if item.type == 'TestCase' && item.format == 'selenese'
                             WebtestAutomagick::selenese_to_webdriver(item.markup, tp.base_url, start_browser, quit_browser)
                           else
@@ -107,6 +109,7 @@ class TestExecutionWorker
           markup: header+executable_markup,
           format: conversion_format,
           executable: filename,
+          position: position,
           test_item_id: item.id,
           test_execution_id: te.id
       )
@@ -121,7 +124,7 @@ class TestExecutionWorker
       # add executable filename and interpreter to return array
       ret.push([te_item.id, filename, interpreter])
 
-    }
+    end
 
     # create helper libs for TestCase's
     if items.where(type: 'TestCase', format: 'selenese').any?
@@ -129,7 +132,7 @@ class TestExecutionWorker
     end
 
     # return array of test_execution_id, filename & interpreter
-    return ret
+    ret
   end
 
   def execute(te_item_id, executable, interpreter='bash')
@@ -295,26 +298,29 @@ def evaluate_quality(entity)
   #logger.debug("Created Quality Object #{quality.inspect}")
 end
 
-
+# creates a Quality object for TestExecutionResult
+# pass, if any TestExecutionItem passed
+# fail, if TestExecutionItems failed wihout having QualityCriterion which permits this
+# unknown, if ...
 def evaluate_overall_result(te)
-  te_result = te.test_execution_result
+  result = te.test_execution_result
 
   if te.quality.any?
     if te.quality.where('status = ?', 10).any?
-      te_result.update_attributes(exitstatus: QUALITY_STATUS.key('failed'))
+      result.update_attributes(exitstatus: QUALITY_STATUS.key('failed'))
     elsif te.quality.where('status = ?', 5).any?
-      te_result.update_attributes(exitstatus: QUALITY_STATUS.key('defective'))
+      result.update_attributes(exitstatus: QUALITY_STATUS.key('defective'))
     else
-      te_result.update_attributes(exitstatus: QUALITY_STATUS.key('passed'))
+      result.update_attributes(exitstatus: QUALITY_STATUS.key('passed'))
     end
   end
 
   # if no quality result exists, use the 'newest' non-zero exitstatus TestExecutionItem to mark for overall result:
   failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
-  te_result.update_attributes(exitstatus: failed.last.exitstatus) if failed.any? and te_result.exitstatus.nil?
+  result.update_attributes(exitstatus: failed.last.exitstatus) if failed.any? and result.exitstatus.nil?
 
   # mark result success if status not yet decided
-  te_result.update_attributes(exitstatus: 0) if te_result.exitstatus.nil?
+  result.update_attributes(exitstatus: 0) if result.exitstatus.nil?
 end
 
 # places run.sh in directory

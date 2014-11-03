@@ -24,6 +24,10 @@ class TestExecutionItem < ActiveRecord::Base
   belongs_to :test_item
   belongs_to :test_execution
 
+  def test_plan_item
+    TestPlanItem.find_by test_plan_id: self.test_execution.test_plan_id, test_item_id: self.test_item_id, position: self.position
+  end
+
   def working_dir
     File.dirname(self.executable)
   end

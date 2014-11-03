@@ -73,7 +73,7 @@ st114:
 
 st115:
   name: Quality criterion 1
-  description: Test Plan with failing Test Item and success criterion to pass.
+  description: Test Plan with failing Test Item and success criterion to pass. Also has Quality Criterion on duration set.
 
 st116:
   name: Quality criterion 2

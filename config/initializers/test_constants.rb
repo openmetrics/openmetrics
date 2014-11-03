@@ -11,7 +11,8 @@ EXECUTION_STATUS = {
 QUALITY_STATUS = {
   0 => 'passed',
   5 => 'defective',
-  10 => 'failed'
+  10 => 'failed',
+  15 => 'unknown'
 }
 
 SEVERITIES = {

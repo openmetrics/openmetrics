@@ -1,0 +1,7 @@
+
+<% item.quality_criteria.each do |criterion| %>
+    <strong><%= criterion.attr %></strong> shall be
+    <strong><%= criterion.operator %></strong>
+    <strong><%= criterion.value %></strong>
+    <br>
+<% end %>

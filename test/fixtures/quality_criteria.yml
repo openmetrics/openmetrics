@@ -1,9 +1,16 @@
 st_115_qc_1:
   test_plan: st115
-  qualifiable: st115 (TestPlan)
+  qualifiable: bashexiterror (TestItem)
+  position: 1
   attr: exitstatus
   operator: equalTo
   value: 42
+st_115_qc_2:
+  test_plan: st115
+  qualifiable: st115 (TestPlan)
+  attr: duration
+  operator: lessThan
+  value: 2
 
 st_116_qc_1:
   test_plan: st116

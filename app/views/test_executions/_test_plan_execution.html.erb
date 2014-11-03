@@ -1,21 +1,22 @@
 <ul class="test_plan">
   <% if tp.test_plan_items.any? %>
-      <% tp.test_items.each_with_index do |te_item, n| %>
+      <% tp.test_items.each_with_index do |test_item, n| %>
+          <% tei = te.test_execution_items[n] %>
           <hr>
           <li>
             <span class="item-number"><%= n+1 %></span>
-            <%= badge_label te.test_execution_items[n], {:label_class => 'primary', :text => ''} %>
-            <%= link_to (badge_label te_item, {:label_class => 'info'}), te_item %>
+            <%= badge_label tei, {:label_class => 'primary', :text => ''} %>
+            <%= link_to (badge_label test_item, {:label_class => 'info'}), test_item %>
 
             <!-- add some icons to toggle input, output and error directly -->
             <span class="toggle_status">
-                <% if te.test_execution_items[n] and te.test_execution_items[n].provides_input? %>
+                <% if tei and tei.provides_input? %>
                     <i class="fa fa-sign-in" data-toggle="stdin" title="toggle Input"></i>
                 <% end %>
-                <% if te.test_execution_items[n] and !te.test_execution_items[n].output.nil? %>
+                <% if tei and !tei.output.nil? %>
                     <i class="fa fa-sign-out" data-toggle="stdout" title="toggle Output"></i>
                 <% end %>
-                <% if te.test_execution_items[n] and !te.test_execution_items[n].error.nil? %>
+                <% if tei and !tei.error.nil? %>
                     <i class="fa fa-bug" data-toggle="stderr" title="toggle Error Output"></i>
                 <% end %>
             </span>
@@ -23,48 +24,56 @@
             <!-- processing status (exit code and execution time) -->
             <div class="pull-right">
                 <%# is there already an exitstatus available? %>
-                <% if te.test_execution_items[n] and te.test_execution_items[n].exitstatus.is_a? Integer %>
-                  <small class="darkgrey">Exit </small> <span class="label exit"><%= te.test_execution_items[n].exitstatus %></span>
+                <% if tei and tei.exitstatus.is_a? Integer %>
+                  <small class="darkgrey">Exit </small> <span class="label exit"><%= tei.exitstatus %></span>
                 <% else %>
                   <span class="label label-default">not yet processed</span>
                 <% end %>
 
                 <%# if already processed show execution time %>
-                <% if te.test_execution_items[n] and !te.test_execution_items[n].duration.nil? %>
-                  <small class="darkgrey">after</small> <%= "<span class=\"duration\">#{te.test_execution_items[n].duration.to_s} s</span>".html_safe %>
+                <% if tei and !tei.duration.nil? %>
+                  <small class="darkgrey">after</small> <%= "<span class=\"duration\">#{tei.duration.to_s} s</span>".html_safe %>
                 <% end %>
             </div>
 
             <!--generate a list of stdout, stderr and the markup (-file) -->
-            <% if te.test_execution_items[n] %>
+            <% if tei %>
                 <ul class="items fa-ul">
 
                   <!-- quality criteria -->
+                  <li class="quality_criteria spacer collapse"><i class="fa-li fa fa-check-square"></i>
+                    Success Criteria
+                    <div class="well">
+                        <%= render 'shared/quality_criteria', item: tei %>
+                    </div>
+                  </li>
+
+                  <!-- quality -->
                   <li class="quality spacer collapse"><i class="fa-li fa fa-tachometer"></i>
                     Quality
-                    <%= render 'shared/quality', item: te.test_execution_items[n] %>
+                    <%= render 'shared/quality', item: tei %>
                   </li>
 
                   <%# display origin TestItem markup %>
                   <li class="markup_raw spacer collapse"><i class="fa-li fa fa-code"></i>
-                    Raw Markup  <%= badge te_item.format, 'info' %>
-                    <%= coderay(te_item.markup, te_item.format, "div") %>
+                    Raw Markup  <%= badge test_item.format, 'info' %>
+                    <%= coderay(test_item.markup, test_item.format, "div") %>
                   </li>
 
                   <%# display matching TestExecutionItem markup %>
                   <li class="markup spacer collapse"><i class="fa-li fa fa-file-code-o"></i>
-                    Executable Markup <%= badge te.test_execution_items[n].format, 'info' %>
-                    <%#= File.basename(te.test_execution_items[n].executable) %>
-                    <%= coderay(te.test_execution_items[n].markup, te.test_execution_items[n].format, "div") %>
-                    <code><%= te.test_execution_items[n].executable %></code>
+                    Executable Markup <%= badge tei.format, 'info' %>
+                    <%#= File.basename(tei.executable) %>
+                    <%= coderay(tei.markup, tei.format, "div") %>
+                    <code><%= tei.executable %></code>
                   </li>
 
                   <!-- input -->
                   <li class="stdin spacer collapse"><i class="fa-li fa fa-sign-in"></i>
                     Input
-                    <% if te.test_execution_items[n] and te.test_execution_items[n].provides_input? %>
-                       <%= coderay(te.test_execution_items[n].provided_input, "plain", "div") %>
-                       <code><%= te.test_execution_items[n].working_dir+"/in/#{te.test_execution_items[n].id}.env" %></code>
+                    <% if tei and tei.provides_input? %>
+                       <%= coderay(tei.provided_input, "plain", "div") %>
+                       <code><%= tei.working_dir+"/in/#{tei.id}.env" %></code>
                     <% else %>
                        <%= coderay('empty', "plain", "div") %>
                     <% end %>
@@ -73,13 +82,13 @@
                   <!--in case of success show the output-->
                   <li class="stdout spacer collapse"><i class="fa-li fa fa-sign-out"></i>
                     Output
-                    <%= te.test_execution_items[n] and te.test_execution_items[n].output.nil? ? coderay("empty", "plain", "div") : coderay(te.test_execution_items[n].output, "plain", "div") %>
+                    <%= tei and tei.output.nil? ? coderay("empty", "plain", "div") : coderay(tei.output, "plain", "div") %>
                   </li>
 
                   <!--in case of failure show the error message-->
                   <li class="stderr spacer collapse"><i class="fa-li fa fa-bug"></i>
                     Error Output
-                    <%= te.test_execution_items[n] and te.test_execution_items[n].error.nil? ? coderay("empty", "plain", "div") : coderay(te.test_execution_items[n].error, te.test_execution_items[n].format, "div") %>
+                    <%= tei and tei.error.nil? ? coderay("empty", "plain", "div") : coderay(tei.error, tei.format, "div") %>
                   </li>
 
                 </ul>
