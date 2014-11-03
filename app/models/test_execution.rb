@@ -27,7 +27,6 @@ class TestExecution < ActiveRecord::Base
   # most recent test executions
   scope :recent, ->(num=5) { order('created_at DESC').limit(num) }
 
-
   def result
     self.test_execution_result
   end
@@ -44,6 +43,11 @@ class TestExecution < ActiveRecord::Base
   # used for navigation within views
   def previous
     self.class.where("id < ?", id).last
+  end
+
+  # get quality criteria of corresponding test_plan and all it's test_items (by test_plan_item relation)
+  def quality_criteria
+    self.test_plan.quality_criteria.flatten | self.test_plan.test_plan_items.collect{ |tpi| tpi.quality_criteria }.flatten
   end
 
 

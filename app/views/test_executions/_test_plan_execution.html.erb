@@ -3,7 +3,8 @@
       <hr>
       <li>
         <span class="item-number"><%= n+1 %></span>
-        <%= link_to (badge_label te_item, {:label_class => 'primary'}), te_item %>
+        <%= badge_label te.test_execution_items[n], {:label_class => 'primary', :text => ''} %>
+        <%= link_to (badge_label te_item, {:label_class => 'info'}), te_item %>
 
         <!-- add some icons to toggle input, output and error directly -->
         <span class="toggle_status">

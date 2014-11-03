@@ -17,6 +17,8 @@ class String
         'TC'
       when 'TestExecution'
         'TE'
+      when 'TestExecutionItem'
+        'TEI'
       when 'TestPlan'
         'TP'
       when 'TestScript'

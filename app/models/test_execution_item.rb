@@ -24,7 +24,6 @@ class TestExecutionItem < ActiveRecord::Base
   belongs_to :test_item
   belongs_to :test_execution
 
-
   def working_dir
     File.dirname(self.executable)
   end
