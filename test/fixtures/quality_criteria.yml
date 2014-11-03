@@ -1,5 +1,43 @@
-st_102_qc_1:
-  qualifiable: st102 (TestPlan)
+st_115_qc_1:
+  test_plan: st115
+  qualifiable: st115 (TestPlan)
+  attr: exitstatus
+  operator: equalTo
+  value: 42
+
+st_116_qc_1:
+  test_plan: st116
+  qualifiable: bashexiterror (TestItem)
+  position: 1
+  attr: exitstatus
+  operator: equalTo
+  value: 42
+st_116_qc_2:
+  test_plan: st116
+  qualifiable: bashexitsuccess (TestItem)
+  position: 2
+  attr: exitstatus
+  operator: equalTo
+  value: 0
+st_116_qc_3:
+  test_plan: st116
+  qualifiable: bashexiterror (TestItem)
+  position: 3
+  attr: exitstatus
+  operator: equalTo
+  value: 42
+
+st_117_qc_1:
+  test_plan: st117
+  qualifiable: st117 (TestPlan)
+  attr: exitstatus
+  operator: equalTo
+  value: 42
+
+st_118_qc_1:
+  test_plan: st118
+  qualifiable: bashexiterror (TestItem)
+  position: 2
   attr: exitstatus
   operator: equalTo
   value: 42

@@ -23,7 +23,7 @@ class TestExecutionWorker
       end
     rescue Exception => e
       # job preparation or execution failed,
-      logger.warn "preparation or execution of TestExecution##{te.id} thrown exception #{e.message}"
+      logger.warn "Preparation or execution of TestExecution##{te.id} thrown exception #{e.message}"
       logger.debug e.backtrace.inspect
     ensure
       # persist execution finished
@@ -187,7 +187,7 @@ class TestExecutionWorker
       logger.debug "Executed #{interpreter} #{executable}"
       logger.debug "STDOUT: #{stdout}"
       logger.debug "STDERR: #{stderr}"
-      logger.info "TestExecutionItem##{te_item.id} (TestExecution##{te_item.test_execution_id}) returned with status: #{textstatus} (exitstatus #{exitstatus})"
+      logger.info "TestExecution-#{te_item.test_execution_id} [TestExecutionItem-#{te_item.id}] returned with status: #{textstatus} (exitstatus #{exitstatus})"
       te_item.update_attributes(output: stdout, error: stderr, exitstatus: exitstatus)
     end
   end
@@ -195,23 +195,22 @@ class TestExecutionWorker
 end
 
 def evaluate_quality(entity)
-  logger.debug "Received entity of #{entity.class.name} #{entity.inspect} to evaluation"
-
   # entity may be a TestExecution or a TestExecutionItem
   # therefore get matching criteria and prepare quality object for later use
+  criteria = nil
+  quality = nil
   if entity.class.name == 'TestExecution'
-    criteria = QualityCriterion.where(qualifiable_type: 'TestPlan', qualifiable_id: entity.test_plan.id)
-    quality = Quality.new(entity_type: 'TestPlan', entity_id: entity.test_plan.id, test_execution_id: entity.id)
+    criteria = QualityCriterion.where(qualifiable_type: 'TestPlan', qualifiable_id: entity.test_plan.id, test_plan_id: entity.test_plan_id)
+    quality = Quality.new(entity_type: 'TestExecution', entity_id: entity.id, test_execution_id: entity.id)
   elsif entity.class.name == 'TestExecutionItem'
-    criteria = QualityCriterion.where(qualifiable_type: 'TestItem', qualifiable_id: entity.test_item.id)
-    quality = Quality.new(entity_type: 'TestItem', entity_id: entity.test_item.id, test_execution_id: entity.test_execution.id)
+    criteria = QualityCriterion.where(qualifiable_type: 'TestItem', qualifiable_id: entity.test_item.id, test_plan_id: entity.test_execution.test_plan_id)
+    quality = Quality.new(entity_type: 'TestExecutionItem', entity_id: entity.id, test_execution_id: entity.test_execution.id)
   end
 
   if criteria.any?
-    logger.info "#{entity.class.name}##{entity.id} evaluating Quality"
+    logger.info "#{entity.class.name}-#{entity.id} evaluating Quality for #{criteria.size} criteria"
     criteria.each do |criterion|
-      entity_quality = quality.dup
-      entity_quality.update_attributes(quality_criterion: criterion)
+      quality.update_attributes(quality_criterion: criterion)
 
       # resolve operator to minitest assert operator
       numeric_operator = false
@@ -262,30 +261,38 @@ def evaluate_quality(entity)
         elsif blank_operator
           assert(entity_value.blank?)
         end
-        entity_quality.update_attributes(status: QUALITY_STATUS.key('passed'))
+        quality.update_attributes(status: QUALITY_STATUS.key('passed'))
       rescue Minitest::Assertion => e
         logger.info "#{entity.class.name}##{entity.id} #{entity_value} #{operator} #{criterion_value} isn't true, #{e.message}"
-        entity_quality.update_attributes(status: QUALITY_STATUS.key('defective'), message: e.message)
+        quality.update_attributes(status: QUALITY_STATUS.key('defective'), message: e.message)
       rescue Exception => e
         logger.warn "#{entity.class.name}##{entity.id} couldn't assert #{entity_value} #{operator} #{criterion_value}"
-        entity_quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: e.message)
+        quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: e.message)
+      end
+    end
+  else
+    # no criteria
+    if entity.class.name == 'TestExecution' and entity.respond_to? :test_execution_items
+      logger.debug "No specific quality criteria for #{entity.class.name}##{entity.id} found!"
+      # find highest exit status
+      failed = entity.test_execution_items.where(['exitstatus > ?', 0]).order('exitstatus')
+      if failed.any?
+        quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: "Exit status #{failed.first.exitstatus} > 0")
+      else
+        quality.update_attributes(status: QUALITY_STATUS.key('passed'), message: "Finished with exit status #{QUALITY_STATUS.key('passed')}")
       end
     end
 
-  else
-    # no criteria
-    if entity.respond_to? :test_execution_items and entity.class.name == 'TestExecution'
-      # find highest exit status
-      failed = entity.test_execution_items.where(['exitstatus > ?', 0]).order('exitstatus')
-      entity_quality = quality.dup
-      if failed.any?
-        entity_quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: "Exit status #{failed.first.exitstatus} > 0")
+    if entity.class.name == 'TestExecutionItem' and entity.respond_to? :exitstatus
+      logger.debug "No specific quality criteria for #{entity.class.name}##{entity.id} found!"
+      if entity.exitstatus > 0
+        quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: "Exit status #{entity.exitstatus} > 0")
       else
-        entity_quality.update_attributes(status: QUALITY_STATUS.key('passed'), message: "Finished with exit status #{QUALITY_STATUS.key('passed')}")
+        quality.update_attributes(status: QUALITY_STATUS.key('passed'), message: "Finished with exit status #{QUALITY_STATUS.key('passed')}")
       end
     end
   end
-
+  #logger.debug("Created Quality Object #{quality.inspect}")
 end
 
 

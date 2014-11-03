@@ -135,7 +135,49 @@ st114_2:
   test_item: selinputrequired
   position: 2
 
+st115_1:
+  test_plan: st115
+  test_item: bashexiterror
+  position: 1
 
+st116_1:
+  test_plan: st116
+  test_item: bashexiterror
+  position: 1
+st116_2:
+  test_plan: st116
+  test_item: bashexitsuccess
+  position: 2
+st116_3:
+  test_plan: st116
+  test_item: bashexiterror
+  position: 3
+
+st117_1:
+  test_plan: st117
+  test_item: bashexiterror
+  position: 1
+st117_2:
+  test_plan: st117
+  test_item: bashexitsuccess
+  position: 2
+st117_3:
+  test_plan: st117
+  test_item: bashexiterror
+  position: 3
+
+st118_1:
+  test_plan: st118
+  test_item: bashexitsuccess
+  position: 1
+st118_2:
+  test_plan: st118
+  test_item: bashexiterror
+  position: 2
+st118_3:
+  test_plan: st118
+  test_item: bashexitsuccess
+  position: 3
 
 bmc100_1:
   test_plan: bmc100

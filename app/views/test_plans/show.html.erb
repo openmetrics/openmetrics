@@ -29,12 +29,11 @@
       </div>
     </div>
 
-    <%# TODO cleanup print all criteria of test_plan and it's test_item's %>
-    <% if @test_plan.quality_criteria.any? %>
-        <h4>Success Criteria</h4>
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <h5>Test Plan <small>All of the following are true</small></h5>
+    <h4>Success Criteria</h4>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <% if @test_plan.quality_criteria.any? %>
+            <h5>Test Plan</h5>
             <ul class="list-group">
             <% @test_plan.quality_criteria.each do |criteria| %>
                 <li class="list-group-item">
@@ -44,25 +43,24 @@
                 </li>
             <% end %>
             </ul>
-            <!--<h4>Test Items</h4>
-            <% @test_plan.test_items.each_with_index do |test_item,n| %>
-                <% if test_item.quality_criteria.any? %>
-                    <span class="item-number"><%= n+1 %></span>
-                    <%= badge_label test_item, {:label_class => 'default'} %>
-                    <ul class="list-group">
-                    <% test_item.quality_criteria.each do |criteria| %>
-                        <li class="list-group-item">
-                          <strong><%= criteria.attr %></strong> shall be
-                          <strong><%= criteria.operator %></strong>
-                          <strong><%= criteria.value %></strong>
-                        </li>
-                    <% end %>
-                    </ul>
-                <% end %>
-            <% end %>-->
-          </div>
-        </div>
-    <% end %>
+        <% end %>
+        <% test_plan_items_quality_criteria = @test_plan.test_plan_items.collect{ |tpi| tpi.quality_criteria }.flatten %>
+        <% if test_plan_items_quality_criteria.any? %>
+            <h5>Test Items</h5>
+            <% test_plan_items_quality_criteria.each do |criterion| %>
+                <span class="item-number"><%= criterion.position %></span>
+                <%= badge_label((TestItem.find_by_id criterion.qualifiable_id), {:label_class => 'default'}) %>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                      <strong><%= criterion.attr %></strong> shall be
+                      <strong><%= criterion.operator %></strong>
+                      <strong><%= criterion.value %></strong>
+                    </li>
+                </ul>
+            <% end %>
+        <% end %>
+      </div>
+    </div>
 
   </div>
 
