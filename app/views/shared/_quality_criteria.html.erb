@@ -1,8 +1,5 @@
 <% if item.quality_criteria.any? %>
     <% item.quality_criteria.each do |criterion| %>
-        <!--<% if item.class.name == 'TestExecutionItem' %>-->
-            <!--<%= badge_label item, {:text => ''} %>-->
-        <!--<% end %>-->
         <strong><%= criterion.attr %></strong> shall be
         <strong><%= criterion.operator %></strong>
         <strong><%= criterion.value %></strong>

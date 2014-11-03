@@ -17,12 +17,13 @@ st100_2:
 st101_1:
   test_plan: st101
   test_item: bashexitsuccess
+  position: 1
 
 
 st102_1:
   test_plan: st102
   test_item: bashexiterror
-
+  position: 1
 
 st104_1:
   test_plan: st104
@@ -69,9 +70,9 @@ st106_4:
   test_item: bashexitsuccess
   position: 4
 st106_5:
-    test_plan: st106
-    test_item: bashsleep5
-    position: 5
+  test_plan: st106
+  test_item: bashsleep5
+  position: 5
 st106_6:
   test_plan: st106
   test_item: bashexiterror
@@ -112,20 +113,25 @@ st109_2:
 st110_1:
   test_plan: st110
   test_item: bashsyntaxerror
+  position: 1
 
 st111_1:
   test_plan: st111
   test_item: selsyntaxerror
+  position: 1
 
 st112_1:
   test_plan: st112
   test_item: browser_start
+  position: 1
 st112_2:
   test_plan: st112
   test_item: bashsleep30
+  position: 2
 st112_3:
   test_plan: st112
   test_item: browser_resume
+  position: 3
 
 st113_1:
   test_plan: st113
@@ -185,23 +191,31 @@ st118_3:
   test_item: bashexitsuccess
   position: 3
 
+
+###
+
 bmc100_1:
   test_plan: bmc100
   test_item: bmcsetregistrationvariables
+  position: 1
 bmc100_2:
   test_plan: bmc100
   test_item: bmcregistrationslim
-
+  position: 1
 
 bmc101_1:
   test_plan: bmc101
   test_item: bmclogoutuser
+  position: 1
 bmc101_2:
   test_plan: bmc101
   test_item: bmcsetregistrationvariables
+  position: 2
 bmc101_3:
   test_plan: bmc101
   test_item: bmcregistrationrecipe
+  position: 3
 bmc101_4:
   test_plan: bmc101
   test_item: bmcverifyregistrationrecipe
+  position: 4

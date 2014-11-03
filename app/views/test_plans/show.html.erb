@@ -29,6 +29,8 @@
       </div>
     </div>
 
+    <% test_plan_items_quality_criteria = @test_plan.test_plan_items.collect{ |tpi| tpi.quality_criteria }.flatten %>
+    <% if @test_plan.quality_criteria.any? or test_plan_items_quality_criteria.any? %>
     <h4>Success Criteria</h4>
     <div class="panel panel-default">
       <div class="panel-body">
@@ -44,7 +46,7 @@
             <% end %>
             </ul>
         <% end %>
-        <% test_plan_items_quality_criteria = @test_plan.test_plan_items.collect{ |tpi| tpi.quality_criteria }.flatten %>
+
         <% if test_plan_items_quality_criteria.any? %>
             <h5>Test Items</h5>
             <% test_plan_items_quality_criteria.each do |criterion| %>
@@ -61,6 +63,7 @@
         <% end %>
       </div>
     </div>
+    <% end %>
 
   </div>
 
