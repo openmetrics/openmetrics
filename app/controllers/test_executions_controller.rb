@@ -1,7 +1,7 @@
 require 'reloader/sse' # server side events for execution status
 
 class TestExecutionsController < ApplicationController
-  include ActionController::Live
+  #include ActionController::Live # use SSE, see http://tenderlovemaking.com/2012/07/30/is-it-live.html
   helper WebtestsHelper
 
   def show
