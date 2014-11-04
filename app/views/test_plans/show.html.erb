@@ -12,7 +12,7 @@
   <!-- right column, top column when mobile -->
   <div class="col-md-4 col-md-push-8">
     <%= render 'test_projects', test_projects: @test_plan.test_projects %>
-    <%= render partial: 'shared/recent_test_executions' %>
+    <%= render 'shared/recent_test_executions', test_executions: @test_plan.recent_executions %>
   </div>
 
   <!-- left column, top column when mobile -->
@@ -29,40 +29,12 @@
       </div>
     </div>
 
-    <% test_plan_items_quality_criteria = @test_plan.test_plan_items.collect{ |tpi| tpi.quality_criteria }.flatten %>
-    <% if @test_plan.quality_criteria.any? or test_plan_items_quality_criteria.any? %>
-    <h4>Success Criteria</h4>
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <% if @test_plan.quality_criteria.any? %>
-            <h5>Test Plan</h5>
-            <ul class="list-group">
-            <% @test_plan.quality_criteria.each do |criteria| %>
-                <li class="list-group-item">
-                  <strong><%= criteria.attr %></strong> shall be
-                  <strong><%= criteria.operator %></strong>
-                  <strong><%= criteria.value %></strong>
-                </li>
-            <% end %>
-            </ul>
-        <% end %>
-
-        <% if test_plan_items_quality_criteria.any? %>
-            <h5>Test Items</h5>
-            <% test_plan_items_quality_criteria.each do |criterion| %>
-                <span class="item-number"><%= criterion.position %></span>
-                <%= badge_label((TestItem.find_by_id criterion.qualifiable_id), {:label_class => 'default'}) %>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                      <strong><%= criterion.attr %></strong> shall be
-                      <strong><%= criterion.operator %></strong>
-                      <strong><%= criterion.value %></strong>
-                    </li>
-                </ul>
-            <% end %>
-        <% end %>
-      </div>
-    </div>
+    <!-- quality criteria -->
+    <% if @test_plan.quality_criteria.any? or @test_plan.test_plan_items.collect{ |tpi| tpi.quality_criteria }.flatten.any? %>
+        <h4>Success Criteria</h4>
+        <div class="well">
+          <%= render 'quality_criteria', test_plan: @test_plan %>
+        </div>
     <% end %>
 
   </div>

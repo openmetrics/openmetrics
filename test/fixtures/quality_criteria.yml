@@ -48,3 +48,51 @@ st_118_qc_1:
   attr: exitstatus
   operator: equalTo
   value: 42
+
+st_119_qc_1:
+  test_plan: st119
+  qualifiable: bashsleep5 (TestItem)
+  position: 1
+  attr: duration
+  operator: greaterThanEqual
+  value: 5
+st_119_qc_2:
+  test_plan: st119
+  qualifiable: bashexiterror (TestItem)
+  position: 2
+  attr: exitstatus
+  operator: equalTo
+  value: 42
+st_119_qc_3:
+  test_plan: st119
+  qualifiable: bashexiterror (TestItem)
+  position: 2
+  attr: duration
+  operator: lessThan
+  value: 1
+st_119_qc_4:
+  test_plan: st119
+  qualifiable: st119 (TestPlan)
+  attr: duration
+  operator: lessThan
+  value: 6
+st_119_qc_5:
+  test_plan: st119
+  qualifiable: st119 (TestPlan)
+  attr: exitstatus
+  operator: equalTo
+  value: 0
+st_119_qc_6:
+  test_plan: st119
+  position: 1
+  qualifiable: bashsleep5 (TestItem)
+  attr: exitstatus
+  operator: equalTo
+  value: 0
+st_119_qc_7:
+  test_plan: st119
+  position: 4
+  qualifiable: bashexiterror (TestItem)
+  attr: exitstatus
+  operator: equalTo
+  value: 42

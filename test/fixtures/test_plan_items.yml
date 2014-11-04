@@ -6,7 +6,7 @@
 
 st100_1:
   test_plan: st100
-  test_item: bashsleep5
+  test_item: bashsleep30
   position: 1
 st100_2:
   test_plan: st100
@@ -190,6 +190,23 @@ st118_3:
   test_plan: st118
   test_item: bashexitsuccess
   position: 3
+
+st119_1:
+  test_plan: st119
+  test_item: bashsleep5
+  position: 1
+st119_2:
+  test_plan: st119
+  test_item: bashexiterror
+  position: 2
+st119_3:
+  test_plan: st119
+  test_item: bashexitsuccess
+  position: 3
+st119_4:
+  test_plan: st119
+  test_item: bashexiterror
+  position: 4
 
 
 ###

@@ -41,7 +41,7 @@
   <!--right-->
     <div class="col-md-4">
       <%= render partial: 'shared/test_projects' %>
-      <%= render partial: 'shared/recent_test_executions' %>
+      <%= render 'shared/recent_test_executions', test_executions: TestExecution.recent(10) %>
     </div>
 </div>
 

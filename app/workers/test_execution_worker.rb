@@ -213,6 +213,7 @@ def evaluate_quality(entity)
   if criteria.any?
     logger.info "#{entity.class.name}-#{entity.id} evaluating Quality for #{criteria.size} criteria"
     criteria.each do |criterion|
+      quality = quality.dup
       quality.update_attributes(quality_criterion: criterion)
 
       # resolve operator to minitest assert operator
@@ -264,7 +265,7 @@ def evaluate_quality(entity)
         elsif blank_operator
           assert(entity_value.blank?)
         end
-        quality.update_attributes(status: QUALITY_STATUS.key('passed'))
+        quality.update_attributes(status: QUALITY_STATUS.key('passed'), message: "#{entity_value} #{operator} #{criterion_value} is true")
       rescue Minitest::Assertion => e
         logger.info "#{entity.class.name}##{entity.id} #{entity_value} #{operator} #{criterion_value} isn't true, #{e.message}"
         quality.update_attributes(status: QUALITY_STATUS.key('defective'), message: e.message)
@@ -280,7 +281,7 @@ def evaluate_quality(entity)
       # find highest exit status
       failed = entity.test_execution_items.where(['exitstatus > ?', 0]).order('exitstatus')
       if failed.any?
-        quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: "Exit status #{failed.first.exitstatus} > 0")
+        quality.update_attributes(status: QUALITY_STATUS.key('defective'), message: "Exit status #{failed.first.exitstatus} > 0")
       else
         quality.update_attributes(status: QUALITY_STATUS.key('passed'), message: "Finished with exit status #{QUALITY_STATUS.key('passed')}")
       end
@@ -289,7 +290,7 @@ def evaluate_quality(entity)
     if entity.class.name == 'TestExecutionItem' and entity.respond_to? :exitstatus
       logger.debug "No specific quality criteria for #{entity.class.name}##{entity.id} found!"
       if entity.exitstatus > 0
-        quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: "Exit status #{entity.exitstatus} > 0")
+        quality.update_attributes(status: QUALITY_STATUS.key('defective'), message: "Exit status #{entity.exitstatus} > 0")
       else
         quality.update_attributes(status: QUALITY_STATUS.key('passed'), message: "Finished with exit status #{QUALITY_STATUS.key('passed')}")
       end
@@ -301,7 +302,6 @@ end
 # creates a Quality object for TestExecutionResult
 # pass, if any TestExecutionItem passed
 # fail, if TestExecutionItems failed wihout having QualityCriterion which permits this
-# unknown, if ...
 def evaluate_overall_result(te)
   result = te.test_execution_result
 

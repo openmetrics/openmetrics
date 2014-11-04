@@ -1,0 +1,39 @@
+<% tpi_qc = test_plan.test_plan_items.collect{ |tpi| tpi.quality_criteria }.flatten %>
+<% grouped_qc = Hash.new{|h,k| h[k] = [] } %>
+<% tpi_qc.each{|qc| grouped_qc[qc.qualifiable_id] << qc} %>
+
+<!--test plan criteria-->
+<% if test_plan.quality_criteria.any? %>
+    <%= badge_label test_plan, {:label_class => 'primary', :text => ''} %>
+    <ul class="list-group">
+      <% test_plan.quality_criteria.each do |criteria| %>
+          <li class="list-group-item">
+            <strong><%= criteria.attr %></strong> shall be
+            <strong><%= criteria.operator %></strong>
+            <strong><%= criteria.value %></strong>
+          </li>
+      <% end %>
+    </ul>
+<% end %>
+
+
+<!--test item criteria-->
+<% if grouped_qc.any? %>
+    <% test_plan.test_plan_items.each do |tpi| %>
+        <% qcs = grouped_qc[tpi.test_item_id] %>
+        <% if qcs and qcs.any? %>
+            <%= badge_label(tpi.test_item, {:label_class => 'primary', :text => ''}) %>
+            <span class="item-number"><%= tpi.position %></span>
+            <ul class="list-group">
+              <% qcs.each do |criterion| %>
+                  <% next unless criterion.position == tpi.position %>
+                  <li class="list-group-item">
+                    <strong><%= criterion.attr %></strong> shall be
+                    <strong><%= criterion.operator %></strong>
+                    <strong><%= criterion.value %></strong>
+                  </li>
+              <% end %>
+        <% end %>
+        </ul>
+    <% end %>
+<% end %>

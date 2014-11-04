@@ -1,7 +1,7 @@
-<% unless TestExecution.recent.empty? %>
+<% unless test_executions.empty? %>
     <h4 class="spacer">Recent Test Executions</h4>
     <ul class="fa-ul spacer">
-      <% TestExecution.recent.each do |te| %>
+      <% test_executions.each do |te| %>
           <li>
             <% if te.test_execution_result.exitstatus == 0 %>
               <i class="fa fa-smile-o"></i>

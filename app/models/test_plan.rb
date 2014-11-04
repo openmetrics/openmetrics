@@ -30,6 +30,11 @@ class TestPlan < ActiveRecord::Base
   has_many :projects, -> { uniq }, through: :test_projects # http://stackoverflow.com/questions/16569994/deprecation-warning-when-using-has-many-through-uniq-in-rails-4
   accepts_nested_attributes_for :test_projects, allow_destroy: true
 
+  # most recent test plan executions
+  def recent_executions(num=5)
+    TestExecution.recent_by_test_plan(self.id, num)
+  end
+
   def test_plans_projects
     test_projects = TestProject.where(test_plan_id: self.id)
     ret = []

@@ -16,9 +16,7 @@
           <strong><%= criterion.operator %></strong>
           <strong><%= criterion.value %></strong>
           <% end %>
-          <% if q.status > 0 %>
-              <i title="<%= q.message %>" class="fa fa-info-circle"></i>
-          <% end %>
+          <i title="<%= q.message %>" class="fa fa-info-circle"></i>
           <br>
       <% end %>
   <% else %>

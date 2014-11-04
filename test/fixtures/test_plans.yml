@@ -73,7 +73,7 @@ st114:
 
 st115:
   name: Quality criterion 1
-  description: Test Plan with failing Test Item and success criterion to pass. Also has Quality Criterion on duration set.
+  description: Test Plan with a failing Test Item and a success criterion to pass successfully. Also has Quality Criterion on duration set.
 
 st116:
   name: Quality criterion 2
@@ -86,6 +86,10 @@ st117:
 st118:
   name: Quality criterion 4
   description: Test Plan with multiple successing and one failing Test Items. As failing Test Item has a Quality Criterion set, this Test Plan should pass.
+
+st119:
+  name: Quality criterion 5
+  description: Test Plan with multiple Test Items and Quality Criteria.
 
 # BMC
 bmc100:

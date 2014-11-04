@@ -1,7 +1,67 @@
+<% tpi_qc = test_execution.test_plan.test_plan_items.collect{ |tpi| tpi.quality_criteria }.flatten %>
+<% grouped_qc = Hash.new{|h,k| h[k] = [] } %>
+<% tpi_qc.each{|qc| grouped_qc[qc.qualifiable_id] << qc} %>
 
-<% item.quality_criteria.each do |criterion| %>
-    <strong><%= criterion.attr %></strong> shall be
-    <strong><%= criterion.operator %></strong>
-    <strong><%= criterion.value %></strong>
-    <br>
+<!--test plan criteria-->
+<% if test_execution.test_plan.quality_criteria.any? %>
+    <%= badge_label test_execution.test_plan, {:label_class => 'info', :text => ''} %>
+    <ul class="list-group">
+      <% test_execution.test_plan.quality_criteria.each do |criterion| %>
+          <li class="list-group-item">
+            <% q = test_execution.quality.find_by_quality_criterion_id criterion.id %>
+            <% if q %>
+                <% if q.status == 0 %>
+                    <span class="label label-success">Passed</span>
+                <% end %>
+                <% if q.status == 5 %>
+                    <span class="label label-warning">Defective</span>
+                <% end %>
+                <% if q.status == 10 %>
+                    <span class="label label-danger">Failed</span>
+                <% end %>
+            <% end %>
+            <strong><%= criterion.attr %></strong> shall be
+            <strong><%= criterion.operator %></strong>
+            <strong><%= criterion.value %></strong>
+            <% if q and q.message %>
+                <i title="<%= q.message %>" class="fa fa-info-circle"></i>
+            <% end %>
+          </li>
+      <% end %>
+    </ul>
+<% end %>
+
+
+<!--test item criteria-->
+<% if grouped_qc.any? %>
+    <% test_execution.test_execution_items.each do |tei| %>
+        <% tei_qcs = grouped_qc[tei.test_item_id] %>
+        <% if tei_qcs and tei_qcs.any? %>
+            <%= badge_label(tei.test_item, {:label_class => 'info', :text => ''}) %>
+            <span class="item-number"><%= tei.position %></span>
+            <ul class="list-group">
+              <% tei_qcs.each do |criterion| %>
+                  <% next unless criterion.position == tei.position %>
+                  <li class="list-group-item">
+                    <% q = tei.quality.find_by_quality_criterion_id criterion.id %>
+                    <% if q.status == 0 %>
+                        <span class="label label-success">Passed</span>
+                    <% end %>
+                    <% if q.status == 5 %>
+                        <span class="label label-warning">Defective</span>
+                    <% end %>
+                    <% if q.status == 10 %>
+                        <span class="label label-danger">Failed</span>
+                    <% end %>
+                    <strong><%= criterion.attr %></strong> shall be
+                    <strong><%= criterion.operator %></strong>
+                    <strong><%= criterion.value %></strong>
+                    <% if q.message %>
+                        <i title="<%= q.message %>" class="fa fa-info-circle"></i>
+                    <% end %>
+                  </li>
+              <% end %>
+        <% end %>
+        </ul>
+    <% end %>
 <% end %>
