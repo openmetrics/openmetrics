@@ -18,6 +18,7 @@
     <h3 class="spacer">Result</h3>
     <div class="panel panel-default">
       <div id="test_execution_status" class="panel-body">
+        <small>Test execution requested <%= time_ago_in_words(@test_execution.created_at) %> ago.</small><br>
         <%= test_execution_status(@test_execution) %>
       </div>
     </div>
@@ -26,8 +27,7 @@
     <%= render 'parameters', item: @test_execution %>
     <!-- test execution quality -->
     <i class="fa fa-tachometer"></i> Quality
-    <%= render 'shared/quality', item: @test_execution %>
-
+    <%= render 'quality', item: @test_execution.result %>
   </div>
 
   <!-- left column, top column when mobile -->

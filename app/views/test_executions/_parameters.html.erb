@@ -1,4 +1,6 @@
-<div class="well">
-    Base URL <code><%= item.test_plan.base_url %></code><br>
-    <small>Test execution requested <%= time_ago_in_words(item.created_at) %> ago.</small><br>
+
+ <div class="panel panel-default">
+    <div class="panel-body">
+        Base URL <% if item.test_plan.base_url %><code><%= item.test_plan.base_url %></code><% else %><code>not set</code><% end %><br>
+    </div>
 </div>

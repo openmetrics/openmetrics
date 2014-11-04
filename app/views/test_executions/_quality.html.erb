@@ -1,0 +1,27 @@
+<div class="well">
+  <% if item.quality.any? %>
+      <% item.quality.each do |q| %>
+          <% criterion = q.quality_criterion %>
+          <%= q.inspect %><br>
+          <% if criterion %><%= criterion.referred_object.inspect %><br><% end %>
+          <% if q.status == 0 %>
+              <span class="label label-success">Passed</span>
+          <% end %>
+          <% if q.status == 5 %>
+              <span class="label label-warning">Defective</span>
+          <% end %>
+          <% if q.status == 10 %>
+              <span class="label label-danger">Failed</span>
+          <% end %>
+          <% if criterion %>
+          <strong><%= criterion.attr %></strong> shall be
+          <strong><%= criterion.operator %></strong>
+          <strong><%= criterion.value %></strong>
+          <% end %>
+          <i title="<%= q.message %>" class="fa fa-info-circle"></i>
+          <hr>
+      <% end %>
+  <% else %>
+          There aren't any Quality Objects for this Item.
+  <% end %>
+</div>

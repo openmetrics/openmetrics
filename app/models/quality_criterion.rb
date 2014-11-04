@@ -2,6 +2,8 @@ class QualityCriterion < ActiveRecord::Base
   belongs_to :qualifiable, polymorphic: true
   belongs_to :test_plan
 
+  default_scope ->{order('id DESC')}
+
   def execution_related_objects(test_execution)
     if self.qualifiable_type == 'TestItem'
       if self.position
