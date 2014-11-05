@@ -1,10 +1,16 @@
 <h4 class="spacer">Projects</h4>
-<% if TestProject.any? %>
-    <ul>
-    <% Project.all.each do |p| %>
-        <li><%= link_to p.name, project_path(p) %></li>
-    <% end %>
+<% if projects.any? %>
+    <ul class="list-group">
+        <% projects.each do |project| %>
+            <li class="list-group-item">
+              <%= link_to project.name, project_path(project) %>
+              <% recent_test_plan_executions = project.test_plans.reject{|tp| TestPlan.recent_executions(tp,1).any? }.flatten %>
+              <% executions_result = project.test_plans.collect{ |tp| TestPlan.recent_executions(tp,1).first.result if TestPlan.recent_executions(tp,1).any? } %>
+              <div id="project_graph_<%= project.id %>" class="project_graph pull-right" style="width:125px;height:25px;" data-executions_result="<%= executions_result.to_json %>">
+               </div>
+            </li>
+        <% end %>
     </ul>
 <% else %>
-    None yet <i class="fa fa-smile-o"></i>
+    None
 <% end %>

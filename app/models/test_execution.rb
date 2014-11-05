@@ -29,7 +29,7 @@ class TestExecution < ActiveRecord::Base
 
   # most recent test executions
   scope :recent, ->(num=5) { order('created_at DESC').limit(num) }
-  scope :recent_by_test_plan, ->(test_plan_id=nil,num=5) { where(test_plan_id: test_plan_id).order('created_at DESC').limit(num) }
+  scope :recent_by_test_plan, ->(test_plan=nil,num=5) { where(test_plan_id: test_plan.id).order('created_at DESC').limit(num) }
 
   def result
     self.test_execution_result

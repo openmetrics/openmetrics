@@ -11,8 +11,8 @@
 
   <!-- right column, top column when mobile -->
   <div class="col-md-4 col-md-push-8">
-    <%= render 'test_projects', test_projects: @test_plan.test_projects %>
-    <%= render 'shared/recent_test_executions', test_executions: @test_plan.recent_executions %>
+    <%= render 'shared/test_projects', projects: @test_plan.test_projects.collect{ |tp| tp.project }.flatten %>
+    <%= render 'shared/recent_test_executions', test_executions: TestPlan.recent_executions(@test_plan, 5) %>
   </div>
 
   <!-- left column, top column when mobile -->

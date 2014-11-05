@@ -40,8 +40,8 @@
     </div>
   <!--right-->
     <div class="col-md-4">
-      <%= render partial: 'shared/test_projects' %>
-      <%= render 'shared/recent_test_executions', test_executions: TestExecution.recent(10) %>
+      <%= render 'shared/test_projects', projects: Project.all %>
+      <%= render 'shared/recent_test_executions', test_executions: TestExecution.recent(5) %>
     </div>
 </div>
 

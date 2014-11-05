@@ -31,9 +31,10 @@ class TestPlan < ActiveRecord::Base
   accepts_nested_attributes_for :test_projects, allow_destroy: true
 
   # most recent test plan executions
-  def recent_executions(num=5)
-    TestExecution.recent_by_test_plan(self.id, num)
-  end
+  scope :recent_executions, ->(tp,num=5) { TestExecution.recent_by_test_plan(tp, num) }
+  # def recent_executions(num=5)
+  #   TestExecution.recent_by_test_plan(self.id, num)
+  # end
 
   def test_plans_projects
     test_projects = TestProject.where(test_plan_id: self.id)

@@ -417,6 +417,51 @@ $(document).ready(function() {
 
     }
 
+    // test project graph
+    $('.project_graph').each(function () {
+        var id = $(this).attr('id');
+        var executions_result = $('#'+id).data('executions_result'); // json
+
+        var opts = {
+            series: {
+                stackpercent: true,
+                lines: { show:false },
+                bars: { show: true, barWidth: 0.6, lineWidth: 0, horizontal: true }
+            },
+            xaxis: { show: false, max: 100 },
+            yaxis: { show: false },
+            grid: { show: true, borderWidth: 0 }
+        };
+
+        var data = [];
+        var passed = 0;
+        var defective = 0;
+        var not_run = 0;
+        var failed = 0;
+
+        for (var i = 0, len = executions_result.length; i < len; i++) {
+            var r = executions_result[i];
+            if (r) {
+                if (r.exitstatus == 0) {
+                    passed++
+                } else if (r.exitstatus == 5) {
+                    defective++
+                } else if (r.exitstatus == 10) {
+                    failed++
+                }
+            }
+        }
+
+        not_run = executions_result.length - (passed + defective + failed);
+//        console.log("pass", passed, "defect", defective, "failed", failed, "not run", not_run);
+
+        data.push({"data":[[passed,1]], "color":"#83BA4F"});
+        data.push({"data":[[failed,1]], "color":"#E78800"});
+        data.push({"data":[[defective,1]], "color":"#B41722"});
+        data.push({"data":[[not_run,1]], "color":"#DDDDDD"});
+
+        $.plot($('#'+id), data, opts);
+    });
 });
 
 

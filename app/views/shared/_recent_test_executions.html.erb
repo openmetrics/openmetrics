@@ -15,10 +15,6 @@
     </ul>
     <%= link_to "Show all Test Executions", test_executions_path %>
 <% else %>
-    <h4>Recent test executions</h4>
-    <% if controller_name == "test_plans" && action_name == "show" %>
-        This script has not yet been executed.
-    <% else %>
+    <h4 class="spacer">Recent Test Executions</h4>
         Not yet executed.
-    <% end %>
 <% end %>
