@@ -1,38 +1,3 @@
-<%# javascript 'webtest' %>
-<%# javascript 'flot-0.8.3/jquery.flot' %>
-<%# javascript 'flot-0.8.3/jquery.flot.stackpercent' %>
-
-<script type="text/javascript">
-$(".test_executions.index").ready(function () {
-
-    // generate test execution quality graphs
-    var opts = {
-        series: {
-            stackpercent: true,
-            lines: { show:false },
-            bars: { show: true, barWidth: 0.6, lineWidth: 0, horizontal: true }
-        },
-        xaxis: { show: false, max: 100 },
-        yaxis: { show: false },
-        grid: { show: true, borderWidth: 0 }
-    };
-
-    <% @test_executions.each do |te| %>
-        var test_execution_<%= te.id %>_data = [];
-        var passed = 0;
-        var defective = 0;
-        var failed = 0;
-        passed = <%= te.test_execution_items.count %>;
-        failed = <%= te.test_execution_items.where('exitstatus > ?', 0).count %>;
-        passed = passed - failed;
-        test_execution_<%= te.id %>_data.push({"data":[[failed,1]], "color":"#83BA4F"});
-        test_execution_<%= te.id %>_data.push({"data":[[defective,1]], "color":"#E78800"});
-        test_execution_<%= te.id %>_data.push({"data":[[passed,1]], "color":"#B41722"});
-        $.plot($("#<%= "test_execution_#{te.id}_quality" %>"), test_execution_<%= te.id %>_data, opts);
-    <% end %>
-});
-</script>
-
 <% content_for :page_header do %>
     <h3>
       Test Executions List
@@ -52,7 +17,6 @@ $(".test_executions.index").ready(function () {
     <th>Status</th>
     <th>Result</th>
     <th>Quality</th>
-    <th>New Q</th>
   </tr>
   </thead>
   <tbody>
@@ -68,8 +32,8 @@ $(".test_executions.index").ready(function () {
     <td><%= te.duration %></td>
     <td><%= EXECUTION_STATUS[te.status] %></td>
     <td><%= te.text_result %></td>
-    <td><div id="test_execution_<%= te.id %>_quality" style="width:125px;height:25px;"></div></td>
-    <td><div id="quality_graph_<%= te.id %>" data-quality="<%= te.quality.to_json %>" style="width:125px;height:25px;"></div></td>
+    <% quality = te.test_execution_items.collect{|tei| tei.overall_quality}.flatten %>
+    <td><div id="quality_graph_<%= te.id %>" class="quality_graph" data-quality="<%= quality.to_json %>" style="width:125px;height:25px;"></div></td>
   </tr>
   </tbody>
   <% end %>

@@ -397,13 +397,12 @@ $(document).ready(function() {
         "plugins" : [ "wholerow" ]
     });
 
-    if ( $('body.test_exections.index').length ) {
-        // test executions quality graph
-        var services = $('#system-graph').data('services'); // json
-        var running_services = $('#system-graph').data('running_services'); // json
-        var system = $('#system-graph').data('system'); //json
 
-        // generate test execution quality graphs
+    // test executions quality graph
+    $('.quality_graph').each(function () {
+        var id = $(this).attr('id');
+        var quality = $('#'+id).data('quality'); // json
+
         var opts = {
             series: {
                 stackpercent: true,
@@ -415,7 +414,37 @@ $(document).ready(function() {
             grid: { show: true, borderWidth: 0 }
         };
 
-    }
+        var data = [];
+        var passed = 0;
+        var defective = 0;
+        var not_run = 0;
+        var failed = 0;
+
+        for (var i = 0, len = quality.length; i < len; i++) {
+            var r = quality[i];
+            if (r) {
+                if (r.status == 0) {
+                    passed++
+                } else if (r.status == 5) {
+                    defective++
+                } else if (r.status == 10) {
+                    failed++
+                }
+            }
+        }
+
+        not_run = quality.length - (passed + defective + failed);
+        console.log("pass", passed, "defect", defective, "failed", failed, "not run", not_run);
+
+        data.push({"data":[[passed,1]], "color":"#83BA4F"});
+        data.push({"data":[[failed,1]], "color":"#E78800"});
+        data.push({"data":[[defective,1]], "color":"#B41722"});
+        data.push({"data":[[not_run,1]], "color":"#DDDDDD"});
+
+        $.plot($('#'+id), data, opts);
+    });
+
+
 
     // test project graph
     $('.project_graph').each(function () {
@@ -453,7 +482,7 @@ $(document).ready(function() {
         }
 
         not_run = executions_result.length - (passed + defective + failed);
-//        console.log("pass", passed, "defect", defective, "failed", failed, "not run", not_run);
+        // console.log("pass", passed, "defect", defective, "failed", failed, "not run", not_run);
 
         data.push({"data":[[passed,1]], "color":"#83BA4F"});
         data.push({"data":[[failed,1]], "color":"#E78800"});

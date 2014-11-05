@@ -1,18 +1,20 @@
 <% unless test_executions.empty? %>
     <h4 class="spacer">Recent Test Executions</h4>
-    <ul class="fa-ul">
+    <div class="list-group">
       <% test_executions.each do |te| %>
-          <li>
-            <% if te.test_execution_result.exitstatus == 0 %>
-              <i class="fa fa-smile-o"></i>
-            <% else %>
-              <i class="fa fa-frown-o"></i>
-            <% end %>
-            <% anchor = te.status == 40 ? 'finished' : nil %>
-            <%= link_to("#{te.test_plan.name} executed at #{I18n.localize(te.created_at, :format => :short)}", test_execution_path(te, anchor: anchor)) %>
-          </li>
+          <a href="<%= test_execution_path(te, anchor: 'finished') %>" class="list-group-item">
+            <span class="list-group-item-heading">
+            <%= badge_label te, {:text => '', :label_class => 'primary'} %>
+            <%= badge_label te.test_plan, {:text => '', :label_class => 'info'} %>
+            <% quality = te.test_execution_items.collect{|tei| tei.overall_quality}.flatten %>
+            <span id="quality_graph_<%= te.id %>" class="quality_graph pull-right" data-quality="<%= quality.to_json %>" style="width:100px;height:25px;"></span>
+            </span>
+            <p class="list-group-item-text">
+                <code><%= te.text_result %></code> within <code><%= te.duration %> s</code>
+            </p>
+          </a>
       <% end %>
-    </ul>
+    </div>
     <%= link_to "Show all Test Executions", test_executions_path %>
 <% else %>
     <h4 class="spacer">Recent Test Executions</h4>

@@ -2,5 +2,7 @@
  <div class="panel panel-default">
     <div class="panel-body">
         Base URL <% if item.test_plan.base_url %><code><%= item.test_plan.base_url %></code><% else %><code>not set</code><% end %><br>
+        Started <% if item.started_at %><code><%= item.started_at.strftime('%Y-%m-%d %H:%M:%S') %></code><% else %><code>not set</code><% end %><br>
+        Finished <% if item.finished_at %><code><%= item.finished_at.strftime('%Y-%m-%d %H:%M:%S') %></code><% else %><code>not set</code><% end %><br>
     </div>
 </div>

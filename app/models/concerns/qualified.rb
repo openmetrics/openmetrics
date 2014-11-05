@@ -24,6 +24,13 @@ module Qualified
       end
     end
 
+    # quality objects with quality_criterion not set
+    def overall_quality
+      if self.class.name == 'TestExecutionItem'
+        Quality.where(test_execution_id: self.test_execution.id, entity_type: 'TestExecutionItem', entity_id: self.id, quality_criterion_id: nil)
+      end
+    end
+
     def quality_criteria
       if self.class.name == 'TestExecution'
         QualityCriterion.where(qualifiable_type: 'TestPlan', qualifiable_id: self.test_plan.id) | self.test_execution_items.collect{ |tpi| tpi.criteria }.flatten
