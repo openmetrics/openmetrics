@@ -1,6 +1,7 @@
 class ServicesController < ApplicationController
+  before_filter :get_object, only: [:show, :edit, :update, :destroy]
+
   def show
-    @service = Service.find(params[:id])
     add_breadcrumb @service.name, 'service'
   end
 
@@ -25,11 +26,9 @@ class ServicesController < ApplicationController
   end
 
   def edit
-    @service = Service.find(params[:id])
   end
 
   def update
-    @service = Service.find(params[:id])
     if @service.update!(service_params)
       flash[:success] = "Service updated."
     else
@@ -39,7 +38,21 @@ class ServicesController < ApplicationController
     redirect_via_turbolinks_to(:back)
   end
 
+  def destroy
+    if @service.destroy
+      flash[:notice] = "Successfully destroyed service."
+      redirect_to :action => "index"
+    else
+      flash[:error] = 'Failed to delete service.'
+    end
+  end
+
   private
+
+  def get_object
+    @service = Service.find(params[:id])
+  end
+
   # Use this method to whitelist the permissible parameters. Example:
   # params.require(:person).permit(:name, :age)
   # Also, you can specialize this method with per-user checking of permissible attributes.
