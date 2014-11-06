@@ -51,7 +51,8 @@ module HtmlFormbakery
   # Possible options:<br/>
   #<br/>
   # :caption - form legend value of created form <br/>
-  # :nested - does not create neiter 'form'-tags, nor buttons and csrf token<br/>
+  # :nested - neither create 'form'-tags, nor buttons and csrf token<br/>
+  # :without_submit_button - don't create submit button for this form
   # :action - overwrite form action<br/>
   # :only (array) - only create inputs for the given fields<br/>
   # :except (array) - create all inputs except for the given fields<br/>
@@ -77,6 +78,7 @@ module HtmlFormbakery
     submit_text = nil
     help_text = nil
     nested = false
+    without_submit_button = false
     include_page_anchor = false
     form_classes = "form-horizontal" # may be be expanded with :html_class
     form_id="#{object_name.pluralize}_#{ is_new_object ? 'new' : "update_#{object.id}_#{SecureRandom.hex(4)}" }" # default html id, e.g. systems_new
@@ -122,6 +124,10 @@ module HtmlFormbakery
 
         if args_object.include? :nested
           nested = args_object[:nested]
+        end
+
+        if args_object.include? :without_submit_button
+          without_submit_button = args_object[:without_submit_button]
         end
 
         if args_object.include? :within_tab
@@ -227,14 +233,16 @@ module HtmlFormbakery
     # add csrf token and submit button when not :nested
     unless nested
       html_result << "<input type=\"hidden\" value=\"#{form_authenticity_token}\" name=\"authenticity_token\">"
-      html_result << '<div class="form-group"><label class="col-md-4 control-label"></label><div class="col-md-4">'
-      if is_new_object
-        html_result << "<button type=\"submit\" class=\"btn btn-default btn-success bt-lg pull-right\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
-      else
-        html_result << "<input type=\"hidden\" value=\"put\" name=\"_method\">"
-        html_result << "<button type=\"submit\" class=\"btn btn-default\">#{submit_text||I18n.t("om.forms.submit_text.update")}</button>"
+      unless without_submit_button
+        html_result << '<div class="form-group"><label class="col-md-4 control-label"></label><div class="col-md-4">'
+        if is_new_object
+          html_result << "<button type=\"submit\" class=\"btn btn-default btn-success bt-lg pull-right\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
+        else
+          html_result << "<input type=\"hidden\" value=\"put\" name=\"_method\">"
+          html_result << "<button type=\"submit\" class=\"btn btn-default\">#{submit_text||I18n.t("om.forms.submit_text.update")}</button>"
+        end
+        html_result << '</div></div>'
       end
-      html_result << '</div></div>'
       html_result << '</form>'
     end
 
