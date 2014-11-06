@@ -385,10 +385,11 @@ $(document).ready(function() {
 
         console.log('Ace editor loaded for format:', format);
 
-        // copy back to textarea on form submit...
-        textarea.closest('form').submit(function () {
+        // copy back text to textarea and set save alert
+        editor.getSession().on('change', function(){
+            setAlertForSaveButton()
             textarea.val(editor.getSession().getValue());
-        })
+        });
 
     });
 
@@ -434,7 +435,7 @@ $(document).ready(function() {
         }
 
         not_run = quality.length - (passed + defective + failed);
-        console.log("pass", passed, "defect", defective, "failed", failed, "not run", not_run);
+        //console.log("pass", passed, "defect", defective, "failed", failed, "not run", not_run);
 
         data.push({"data":[[passed,1]], "color":"#83BA4F"});
         data.push({"data":[[failed,1]], "color":"#E78800"});

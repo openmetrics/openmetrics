@@ -31,13 +31,13 @@ Openmetrics::Application.routes.draw do
   # services's routes
   resources :services
   # organize services under /service_name and use ServicesController for all
-  resources :collectd_service, controller: 'services', type: 'collect_service'
-  resources :dns_service, controller: 'services', type: 'dns_service'
-  resources :http_service, controller: 'services', type: 'http_service'
-  resources :ssh_service, controller: 'services', type: 'ssh_service'
-  resources :ntp_service, controller: 'services', type: 'ntp_service'
-  resources :openmetrics_service, controller: 'services', type: 'openmetrics_service'
-  resources :openmetrics_agent_service, controller: 'services', type: 'openmetrics_agent_service'
+  resources :collectd_services, controller: 'services', type: 'collect_service'
+  resources :dns_services, controller: 'services', type: 'dns_service'
+  resources :http_services, controller: 'services', type: 'http_service'
+  resources :ssh_services, controller: 'services', type: 'ssh_service'
+  resources :ntp_services, controller: 'services', type: 'ntp_service'
+  resources :openmetrics_services, controller: 'services', type: 'openmetrics_service'
+  resources :openmetrics_agent_services, controller: 'services', type: 'openmetrics_agent_service'
 
   resources :collectd_plugins
 

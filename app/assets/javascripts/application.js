@@ -150,7 +150,15 @@ var serializeForm = function(e) {
         e.find(elements.join(", ")).each(function() {
             n = $(this).attr("name");
             v = getFieldValue($(this));
-            if (o[n] === undefined) { o[n] = v; }
+            // skip ace editor textarea
+            if ( $(this).is('textarea') && $(this).hasClass('ace_text-input')) { return }
+            // copy back values from ace editor for textareas
+            // editor is expected to be a div right before this element
+//            if ( $(this).is('textarea') && $(this).data('format')) {
+//                var editor = $(this).prev('.ace_editor');
+//                v = ace.edit(editor).getSession().getValue();
+//            }
+            if (typeof o[n] == 'undefined') { o[n] = v; }
             else if (v) {
                 if (!o[n].push) {
                     if (o[n] == "") { o[n] = v; }
@@ -248,7 +256,32 @@ $(document).on('page:change', function() {
 });
 
 $(document).ready(function() {
-   console.log("Application JS Ready");
+    console.log("Application JS Ready");
 
+    // generic form serializer
+    var save_button = $('a.save.generic');
+    save_button.click(function(e) {
+        e.preventDefault();
+        var closest_form = $('.save').closest('.container').find('form');
 
+        if (typeof closest_form != 'undefined') {
+            // console.log("Generic form serializer for ", closest_form.attr('id'));
+            var id = closest_form.attr('id');
+            var paramsString = serializeForm(closest_form);
+            $.ajax({
+                type: 'POST',
+                url: closest_form.attr('action'),
+                data: paramsString,
+                success: function (data, textStatus) {
+                    if (textStatus == "success") {
+                        removeAlertForSaveButton();
+                    }
+                },
+                error: function (data, textStatus) {
+                    //notify('error', 'error');
+                }
+            });
+        }
+    });
+    
 });

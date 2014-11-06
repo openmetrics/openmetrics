@@ -1,1 +1,1 @@
-<%= raw htmlform_for(@project, {:except => [:updated_at, :created_at, :id, :creator_id], :html_class => 'spacer'}) %>
+<%= raw htmlform_for(@project, {:except => [:updated_at, :created_at, :id, :creator_id], :without_submit_button => true, :html_class => 'spacer'}) %>

@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
     else
       flash[:warn] = "Oh snap! That didn't work."
     end
-    redirect_to :back
+    redirect_via_turbolinks_to(project_path(@project))
   end
 
   def edit
@@ -30,11 +30,11 @@ class ProjectsController < ApplicationController
   def update
     @project = Project.find(params[:id])
     if @project.update!(project_params)
-      flash[:success] = "Test case updated."
+      flash[:success] = "Project updated."
     else
       flash[:warn] = 'Something went wrong while updating project.'
     end
-    redirect_to :back
+    redirect_via_turbolinks_to(:back)
   end
 
   def destroy

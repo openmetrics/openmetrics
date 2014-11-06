@@ -56,6 +56,7 @@ module HtmlFormbakery
   # :action - overwrite form action<br/>
   # :only (array) - only create inputs for the given fields<br/>
   # :except (array) - create all inputs except for the given fields<br/>
+  # :force_name - set field names to this value, except on the object classes name
   # :include_linked_objects - if set, FB will try to create fields for linked objects too.<br/>
   # :include_join_tables (array) - EXPERIMENTAL include join tables linking to the object in form of lists<br/>
   # :html_class - form class attribute (will be merged with default form classes) <br/>
@@ -83,6 +84,7 @@ module HtmlFormbakery
     form_classes = "form-horizontal" # may be be expanded with :html_class
     form_id="#{object_name.pluralize}_#{ is_new_object ? 'new' : "update_#{object.id}_#{SecureRandom.hex(4)}" }" # default html id, e.g. systems_new
     forced_action = nil
+    forced_name = nil
     # TODO proper placeholder control; currently if a object is new (Object.id ==nil) placeholders are set
 
     # *args is an Array and not a hash, so we need to make it a little more
@@ -96,6 +98,10 @@ module HtmlFormbakery
 
         if args_object.include? :except
           list_except = args_object[:except]
+        end
+
+        if args_object.include? :forced_name
+          forced_name = args_object[:forced_name].to_s.underscore
         end
 
         if args_object.include? :include_join_tables
@@ -181,7 +187,7 @@ module HtmlFormbakery
       unless list_only.nil?
         if list_only.include? field_symbol
           html_result << '<div class="form-group">'
-          html_result << input_for(object_name, field_value, attribute[0], is_new_object, h, object)
+          html_result << input_for(forced_name||object_name, field_value, attribute[0], is_new_object, h, object)
           html_result << '</div>'
         end
       end
@@ -190,7 +196,7 @@ module HtmlFormbakery
       if !list_except.nil? and list_only.nil?
         unless list_except.include? field_symbol
           html_result << '<div class="form-group">'
-          html_result << input_for(object_name, field_value, attribute[0], is_new_object, h, object)
+          html_result << input_for(forced_name||object_name, field_value, attribute[0], is_new_object, h, object)
           html_result << '</div>'
         end
       end
@@ -198,7 +204,7 @@ module HtmlFormbakery
       # show all attributes
       if list_only.nil? and list_except.nil?
         html_result << '<div class="form-group">'
-        html_result << input_for(object_name, field_value, attribute[0], is_new_object, h, object)
+        html_result << input_for(forced_name||object_name, field_value, attribute[0], is_new_object, h, object)
         html_result << '</div>'
       end
 
@@ -238,10 +244,13 @@ module HtmlFormbakery
         if is_new_object
           html_result << "<button type=\"submit\" class=\"btn btn-default btn-success bt-lg pull-right\">#{submit_text||I18n.t("om.forms.submit_text.new")}</button>"
         else
-          html_result << "<input type=\"hidden\" value=\"put\" name=\"_method\">"
           html_result << "<button type=\"submit\" class=\"btn btn-default\">#{submit_text||I18n.t("om.forms.submit_text.update")}</button>"
         end
         html_result << '</div></div>'
+      end
+      # _method shall be PUT for update forms
+      unless is_new_object
+        html_result << "<input type=\"hidden\" value=\"put\" name=\"_method\">"
       end
       html_result << '</form>'
     end

@@ -17,15 +17,26 @@ class ServicesController < ApplicationController
     @service = Service.new(service_params)
     if @service.save
       flash[:success] = "Service saved."
-      redirect_to services_path
+      redirect_via_turbolinks_to(service_path(@service))
     else
       flash[:warn] = "Oh snap! That didn't work."
-      redirect_to_anchor_or_back
+      redirect_via_turbolinks_to(:back)
     end
   end
 
   def edit
     @service = Service.find(params[:id])
+  end
+
+  def update
+    @service = Service.find(params[:id])
+    if @service.update!(service_params)
+      flash[:success] = "Service updated."
+    else
+      flash[:warn] = 'Something went wrong while updating Service.'
+    end
+    # redirect_to :back
+    redirect_via_turbolinks_to(:back)
   end
 
   private

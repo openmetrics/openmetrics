@@ -21,7 +21,7 @@ class TestScriptsController < ApplicationController
     else
       flash[:warn] = "Oh snap! That didn't work."
     end
-    redirect_to :back
+    redirect_via_turbolinks_to(test_script_path(@test_script))
   end
 
   def edit
@@ -35,7 +35,8 @@ class TestScriptsController < ApplicationController
     else
       flash[:warn] = 'Something went wrong while updating test script.'
     end
-    redirect_to :back
+    # redirect_to :back
+    redirect_via_turbolinks_to(:back)
   end
 
   def destroy

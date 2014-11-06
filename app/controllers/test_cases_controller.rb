@@ -20,7 +20,8 @@ class TestCasesController < ApplicationController
     else
       flash[:warn] = "Oh snap! That didn't work."
     end
-    redirect_to :back
+    # redirect_to :back
+    redirect_via_turbolinks_to(test_case_path(@test_case))
   end
 
   def edit
@@ -34,7 +35,8 @@ class TestCasesController < ApplicationController
     else
       flash[:warn] = 'Something went wrong while updating test case.'
     end
-    redirect_to :back
+    # redirect_to :back
+    redirect_via_turbolinks_to(:back)
   end
 
   def destroy
