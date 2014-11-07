@@ -6,21 +6,25 @@
         <% if q.any? %>
             <% q.each do |q| %>
                 <% criterion = q.quality_criterion %>
-                <% if q.status == 0 %>
-                    <span class="label label-success">Passed</span>
-                <% end %>
-                <% if q.status == 5 %>
-                    <span class="label label-warning">Defective</span>
-                <% end %>
-                <% if q.status == 10 %>
-                    <span class="label label-danger">Failed</span>
+                <% if q %>
+                    <% if q.status == 0 %>
+                        <span class="fa fa-check-square-o text-success"></span>
+                    <% end %>
+                    <% if q.status == 5 %>
+                        <span class="fa fa-exclamation-circle text-warning"></span>
+                    <% end %>
+                    <% if q.status == 10 %>
+                        <span class="fa fa-exclamation-triangle text-danger"></span>
+                    <% end %>
                 <% end %>
                 <% if criterion %>
                     <strong><%= criterion.attr %></strong> shall be
                     <strong><%= criterion.operator %></strong>
                     <strong><%= criterion.value %></strong>
                 <% end %>
+                <% if q and q.message %>
                 <i title="<%= q.message %>" class="fa fa-info-circle"></i>
+                <% end %>
                 <br>
             <% end %>
         <% end %>

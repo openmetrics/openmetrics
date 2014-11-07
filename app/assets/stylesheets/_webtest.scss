@@ -101,6 +101,35 @@ li.list-group-item span.actions i.add {
     box-shadow: 0 2px 5px rgba(0,0,0,.4);
 }
 
+.item-number.grey {
+  position: relative;
+  display: inline-block;
+
+  z-index: 9999999999 !important;
+  padding: 2px;
+  font-family: Arial, verdana, tahoma;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0,0,0,.3);
+  background: #646464; /* Old browsers */
+  background: -webkit-linear-gradient(top, #e3e3e3 0%, #888888 100%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e3e3e3), color-stop(100%, #888888)); /* Chrome,Safari4+ */
+  background:    -moz-linear-gradient(top, #e3e3e3 0%, #888888 100%); /* FF3.6+ */
+  background:     -ms-linear-gradient(top, #e3e3e3 0%, #888888 100%); /* IE10+ */
+  background:      -o-linear-gradient(top, #e3e3e3 0%, #888888 100%); /* Opera 11.10+ */
+  background:         linear-gradient(to bottom, #e3e3e3 0%, #888888 100%);  /* W3C */
+  width: 30px;
+  height:30px;
+  line-height: 20px;
+  border: 3px solid white;
+  border-radius: 50%;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e3e3e3', endColorstr='#888888', GradientType=0); /* IE6-9 */
+  filter: progid:DXImageTransform.Microsoft.Shadow(direction=135, strength=2, color=ff0000); /* IE10 text shadows */
+  box-shadow: 0 2px 5px rgba(0,0,0,.4);
+}
+
 /* test items in a ordered list, special threatment for placeholder */
 ol.circles-list {
   list-style-type: none;

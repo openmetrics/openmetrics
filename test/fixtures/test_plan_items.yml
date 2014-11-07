@@ -208,6 +208,22 @@ st119_4:
   test_item: bashexiterror
   position: 4
 
+st120_1:
+  test_plan: st120
+  test_item: bashsleep5
+  position: 1
+st120_2:
+  test_plan: st120
+  test_item: bashexiterror
+  position: 2
+st120_3:
+  test_plan: st120
+  test_item: bashexitsuccess
+  position: 3
+st120_4:
+  test_plan: st120
+  test_item: bashexiterror
+  position: 4
 
 ###
 

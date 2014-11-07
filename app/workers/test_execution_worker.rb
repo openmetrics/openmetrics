@@ -268,7 +268,7 @@ def evaluate_quality(entity)
         quality.update_attributes(status: QUALITY_STATUS.key('passed'), message: "#{entity_value} #{operator} #{criterion_value} is true")
       rescue Minitest::Assertion => e
         logger.info "#{entity.class.name}##{entity.id} #{entity_value} #{operator} #{criterion_value} isn't true, #{e.message}"
-        quality.update_attributes(status: QUALITY_STATUS.key('defective'), message: e.message)
+        quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: e.message)
       rescue Exception => e
         logger.warn "#{entity.class.name}##{entity.id} couldn't assert #{entity_value} #{operator} #{criterion_value}"
         quality.update_attributes(status: QUALITY_STATUS.key('failed'), message: e.message)

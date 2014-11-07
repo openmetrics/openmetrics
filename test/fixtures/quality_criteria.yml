@@ -96,3 +96,25 @@ st_119_qc_7:
   attr: exitstatus
   operator: equalTo
   value: 42
+
+st_120_qc_1:
+  test_plan: st120
+  qualifiable: bashsleep5 (TestItem)
+  position: 1
+  attr: duration
+  operator: lessThanEqual
+  value: 5
+st_120_qc_2:
+  test_plan: st120
+  qualifiable: bashexiterror (TestItem)
+  position: 2
+  attr: exitstatus
+  operator: equalTo
+  value: 0
+st_120_qc_3:
+  test_plan: st120
+  qualifiable: bashexiterror (TestItem)
+  position: 2
+  attr: duration
+  operator: lessThan
+  value: 1

@@ -89,7 +89,11 @@ st118:
 
 st119:
   name: Quality criterion 5
-  description: Test Plan with multiple Test Items and Quality Criteria.
+  description: Test Plan with multiple Test Items and passing Quality Criteria.
+
+st120:
+  name: Quality criterion 6
+  description: Test Plan with multiple Test Items and passing, defective and failing Quality Criteria.
 
 # BMC
 bmc100:

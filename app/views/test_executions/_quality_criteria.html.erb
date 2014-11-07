@@ -11,13 +11,13 @@
             <% q = test_execution.quality.find_by_quality_criterion_id criterion.id %>
             <% if q %>
                 <% if q.status == 0 %>
-                    <span class="label label-success">Passed</span>
+                    <span class="fa fa-check-square-o text-success"></span>
                 <% end %>
                 <% if q.status == 5 %>
-                    <span class="label label-warning">Defective</span>
+                    <span class="fa fa-exclamation-circle text-warning"></span>
                 <% end %>
                 <% if q.status == 10 %>
-                    <span class="label label-danger">Failed</span>
+                    <span class="fa fa-exclamation-triangle text-danger"></span>
                 <% end %>
             <% end %>
             <strong><%= criterion.attr %></strong> shall be
@@ -38,25 +38,27 @@
         <% tei_qcs = grouped_qc[tei.test_item_id] %>
         <% if tei_qcs and tei_qcs.any? %>
             <%= badge_label(tei.test_item, {:label_class => 'info', :text => ''}) %>
-            <span class="item-number"><%= tei.position %></span>
+            <span class="item-number grey"><%= tei.position %></span>
             <ul class="list-group">
               <% tei_qcs.each do |criterion| %>
                   <% next unless criterion.position == tei.position %>
                   <li class="list-group-item">
                     <% q = tei.quality.find_by_quality_criterion_id criterion.id %>
-                    <% if q.status == 0 %>
-                        <span class="label label-success">Passed</span>
-                    <% end %>
-                    <% if q.status == 5 %>
-                        <span class="label label-warning">Defective</span>
-                    <% end %>
-                    <% if q.status == 10 %>
-                        <span class="label label-danger">Failed</span>
+                    <% if q %>
+                        <% if q.status == 0 %>
+                            <span class="fa fa-check-square-o text-success"></span>
+                        <% end %>
+                        <% if q.status == 5 %>
+                            <span class="fa fa-exclamation-circle text-warning"></span>
+                        <% end %>
+                        <% if q.status == 10 %>
+                            <span class="fa fa-exclamation-triangle text-danger"></span>
+                        <% end %>
                     <% end %>
                     <strong><%= criterion.attr %></strong> shall be
                     <strong><%= criterion.operator %></strong>
                     <strong><%= criterion.value %></strong>
-                    <% if q.message %>
+                    <% if q and q.message %>
                         <i title="<%= q.message %>" class="fa fa-info-circle"></i>
                     <% end %>
                   </li>
