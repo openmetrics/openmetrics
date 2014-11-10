@@ -32,7 +32,7 @@
 
     <!-- quality criteria -->
     <% if @test_plan.quality_criteria.any? or @test_plan.test_plan_items.collect{ |tpi| tpi.quality_criteria }.flatten.any? %>
-        <h4>Success Criteria</h4>
+        <h4>Quality Criteria</h4>
         <div class="well">
           <%= render 'quality_criteria', test_plan: @test_plan %>
         </div>

@@ -94,7 +94,7 @@ $(document).ready(function () {
                             }
                         });
                     }
-                }, 350);
+                }, 250);
         } // end switch
     }); // end keydown
 

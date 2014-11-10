@@ -44,7 +44,7 @@ class TestExecutionsController < ApplicationController
   end
 
   def index
-    add_breadcrumb 'Test Executions'
+    add_breadcrumb 'Test Executions List'
     @test_executions = TestExecution.order("created_at desc")
   end
 

@@ -23,7 +23,7 @@
         <% qcs = grouped_qc[tpi.test_item_id] %>
         <% if qcs and qcs.any? %>
             <%= badge_label(tpi.test_item, {:label_class => 'primary', :text => ''}) %>
-            <span class="item-number"><%= tpi.position %></span>
+            <span class="item-number grey"><%= tpi.position %></span>
             <ul class="list-group">
               <% qcs.each do |criterion| %>
                   <% next unless criterion.position == tpi.position %>

@@ -1,11 +1,9 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <h3>Greetings <%= current_user.username %>, welcome <%= 'back' if current_user.sign_in_count >= 1 %>!</h3>
+    <h3>Howdy <%= current_user.username %>, welcome <%= 'back' if current_user.sign_in_count >= 1 %>!</h3>
 
-    <h4 class="spacer">Search</h4>
-    <div class="panel panel-default">
+    <div class="panel panel-default spacer">
       <div id="container_for_search_input" class="panel-body">
-        <!--<div>Just start typing! Let me lead your way... </div>-->
       </div>
     </div>
 

@@ -2,38 +2,53 @@
 
     <div class="col-md-12">
       <h3>
-        <%= link_to "Edit Profile", edit_user_registration_path, { class: "btn btn-default pull-right" } %>
+        <% if @user == current_user %>
+          <%= link_to "Edit Profile", edit_user_registration_path, { class: "btn btn-default pull-right" } %>
           <%= raw(gravatar_image_tag(current_user.email, :class => "avatar gravatar-l right", :gravatar => {:size => 120}))%>
           <small>
-          <% if @user == current_user %>
               <%= "Howdy #{@user.username}, this is you!" %>
-          <% else %>
-              <%= "Showing User #{@user.id}" %>
-          <% end %>
           </small>
       </h3>
+      <% else %>
+          <%= raw(gravatar_image_tag(@user.email, :class => "avatar gravatar-l right", :gravatar => {:size => 120}))%>
+          <small>
+              <%= "Showing User #{@user.username}" %>
+          </small>
+      <% end %>
 
       <hr>
-      <h3>User activity</h3>
-      <div class="timeline-centered">
-        <% @activities.each do |activity| %>
+      <h4><% if @user == current_user %>Your<% else %><%= "#{@user.username}'s" %><% end %> Activity</h4>
+      <div class="panel panel-default">
+        <div class="panel-body">
 
-            <article class="timeline-entry">
-              <div class="timeline-entry-inner">
-                <div class="timeline-icon" style="background: #fff url(<%= gravatar_image_url(activity.owner.email, size: 40) %>) center center no-repeat;"> <!-- you can use e.g. bg-info here to make it a colorized circle -->
-                  <i class="entypo-feather"></i>
-                </div>
-                <div class="timeline-label">
-                  <h2>
-                    <%= link_to activity.owner.username, activity.owner if activity.owner %>
-                    <span><%= render_activity(activity, layout: 'activity', fallback: 'default') %></span>
-                  </h2>
-                  <p><%= activity.inspect %></p>
-                </div>
+            <% if @activities.any? %>
+              <div class="timeline-centered">
+                <% @activities.each do |activity| %>
+                    <article class="timeline-entry">
+                      <div class="timeline-entry-inner">
+                        <div class="timeline-icon" style="background: #fff url(<%= gravatar_image_url(activity.owner.email, size: 40) %>) center center no-repeat;"> <!-- you can use e.g. bg-info here to make it a colorized circle -->
+                          <i class="entypo-feather"></i>
+                        </div>
+                        <div class="timeline-label">
+                          <h2>
+                            <% if @user == current_user %>
+                                <%= link_to "You", activity.owner if activity.owner %>
+                            <% else %>
+                                <%= link_to activity.owner.username, activity.owner if activity.owner %>
+                            <% end %>
+                            <span><%= render_activity(activity, layout: 'activity', fallback: 'default') %></span>
+                          </h2>
+                          <p><%= activity.inspect %></p>
+                        </div>
+                      </div>
+                    </article>
+                <% end %>
               </div>
-            </article>
+            <% else %>
+                None yet
+            <% end %>
 
-        <% end %>
+        </div>
       </div>
     </div>
 </div>

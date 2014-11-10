@@ -5,7 +5,7 @@
 <% tp.test_plan_items.each_with_index do |item, n| %>
     <hr>
     <li>
-      <span class="item-number"><%= n+1 %></span>
+      <span class="item-number grey"><%= n+1 %></span>
       <%#= badge item.test_item.format, 'info' %>
       <%= link_to badge_label(item.test_item, {:label_class => 'primary'}), item.test_item %>
       <%= raw '<span class="fa fa-sign-in text-danger" title="requires input"></span>' if item.test_item.requires_input? %>

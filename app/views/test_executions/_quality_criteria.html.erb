@@ -5,7 +5,7 @@
 <!--test plan criteria-->
 <% if test_execution.test_plan.quality_criteria.any? %>
     <%= badge_label test_execution.test_plan, {:label_class => 'info', :text => ''} %>
-    <ul class="list-group">
+    <ul class="list-unstyled">
       <% test_execution.test_plan.quality_criteria.each do |criterion| %>
           <li class="list-group-item">
             <% q = test_execution.quality.find_by_quality_criterion_id criterion.id %>
@@ -37,9 +37,9 @@
     <% test_execution.test_execution_items.each do |tei| %>
         <% tei_qcs = grouped_qc[tei.test_item_id] %>
         <% if tei_qcs and tei_qcs.any? %>
-            <%= badge_label(tei.test_item, {:label_class => 'info', :text => ''}) %>
             <span class="item-number grey"><%= tei.position %></span>
-            <ul class="list-group">
+            <%= badge_label(tei.test_item, {:label_class => 'info', :text => ''}) %>
+            <ul class="list-unstyled">
               <% tei_qcs.each do |criterion| %>
                   <% next unless criterion.position == tei.position %>
                   <li class="list-group-item">

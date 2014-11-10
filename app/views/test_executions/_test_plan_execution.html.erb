@@ -4,10 +4,22 @@
           <% tei = te.test_execution_items[n] %>
           <hr>
           <li>
-            <span class="item-number"><%= n+1 %></span>
             <% if tei %>
-            <%= badge_label tei, {:label_class => 'primary', :text => ''} %>
+                <%
+                   number_color = if tei.quality.any? and tei.quality.first.status == 0
+                                    'success'
+                                elsif tei.quality.any? and tei.quality.first.status > 0
+                                    'red'
+                                else
+                                    'grey'
+                                end
+                %>
             <% end %>
+
+            <span class="item-number <%= number_color %>"><%= n+1 %></span>
+            <%# if tei %>
+                <%#= badge_label tei, {:label_class => 'primary', :text => ''} %>
+            <%# end %>
             <%= link_to (badge_label test_item, {:label_class => 'info'}), test_item %>
 
             <!-- add some icons to toggle input, output and error directly -->
@@ -28,8 +40,10 @@
                 <%# is there already an exitstatus available? %>
                 <% if tei and tei.exitstatus.is_a? Integer %>
                   <small class="darkgrey">Exit </small> <span class="label exit"><%= tei.exitstatus %></span>
+                <% elsif tei and !tei.started_at.nil? and tei.finished_at.nil? %>
+                  <span class="label label-default">In progress</span>
                 <% else %>
-                  <span class="label label-default">not yet processed</span>
+                  <span class="label label-default">Waiting</span>
                 <% end %>
 
                 <%# if already processed show execution time %>
