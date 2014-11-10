@@ -259,14 +259,11 @@ $(document).ready(function() {
     console.log("Application JS Ready");
 
     // move searchbar out of header
-    if ($('body.welcome_page.display')) {
+    if ($('body.welcome_page.display').length > 0) {
         var searchInput = jQuery('#main-search');
         var searchForm = searchInput.closest('form');
         $(searchForm).appendTo('#container_for_search_input');
         $('#main-search').focus();
-//        $('#main-search').blur(function() {
-//            $('#container_for_search_input').parent('div').removeClass('panel-primary').addClass('panel-default');
-//        })
     }
     // generic form serializer
     var save_button = $('a.save.generic');

@@ -5,7 +5,9 @@
           <hr>
           <li>
             <span class="item-number"><%= n+1 %></span>
+            <% if tei %>
             <%= badge_label tei, {:label_class => 'primary', :text => ''} %>
+            <% end %>
             <%= link_to (badge_label test_item, {:label_class => 'info'}), test_item %>
 
             <!-- add some icons to toggle input, output and error directly -->

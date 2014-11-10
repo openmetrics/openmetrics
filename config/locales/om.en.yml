@@ -14,19 +14,20 @@ en:
       password_confirmation: "Password confirm"
       register: "Sign up"
     navigation:
-      activities: "Activities"
+      activities: "Events"
       inventory: "Inventory"
       projects: "Projects"
       systems: "Systems"
       services: "Services"
       admin: "Admin Area"
-      webtests: "Tests"
+      webtests: "Test Center"
+      test_executions: "Test Executions"
       test_items: "Test Items"
       logoff: "Exit"
     views:
       system:
         index:
-          title: "Systems List"
+          title: "Systems"
           new_system: "Add a new System"
         new:
           ip_lookup:
@@ -50,7 +51,7 @@ en:
               description: "Enter some thoughts, notes or other information of interest here."
       service:
         index:
-          title: "Services List"
+          title: "Services"
           new_service: "Add a new Service"
         new:
           html_input:

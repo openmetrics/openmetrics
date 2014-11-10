@@ -58,6 +58,25 @@ $(".systems").ready(function () {
         if (container) {
             var network = new vis.Network(container, data, options);
         }
+
+        // system events timeline
+        var items = null;
+        var events = $('#system-timeline').data('events'); // json
+        var container = document.getElementById('system-timeline');
+
+        items = [];
+        events.forEach(function(event) {
+            items.push({id: event.id, content: event.key, start: event.created_at, type: 'point'});
+        });
+
+        // Configuration for the Timeline
+        var options = {};
+
+        // Create a Timeline
+        if (container) {
+            var timeline = new vis.Timeline(container, items, options);
+        }
+
     }
 
     // init running_services multiselect

@@ -1,2 +1,12 @@
-<h3>Activities</h3>
-<%= render 'shared/activities', events: @activities %>
+<% content_for :page_header do %>
+    <h3>
+      Events
+    </h3>
+<% end %>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= render 'shared/activities', events: @activities %>
+  </div>
+</div>
+

@@ -1,52 +1,3 @@
-<script type="text/javascript" data-turbolinks-eval=false>
-
-    $(".systems.show").ready(function() {
-        console.log("Systems Show JS Ready");
-
-        // set timeline http://visjs.org/docs/timeline.html
-        // DOM element where the Timeline will be attached
-        var container = document.getElementById('timeline');
-
-        // Create a DataSet (allows two way data-binding)
-//        var items = new vis.DataSet([
-//            {id: 1, content: 'item 1', start: '2014-04-20'},
-//            {id: 2, content: 'item 2', start: '2014-04-14'},
-//            {id: 3, content: 'item 3', start: '2014-04-18'},
-//            {id: 4, content: 'item 4', start: '2014-04-16', end: '2014-04-19'},
-//            {id: 5, content: 'item 5', start: '2014-04-25'},
-//            {id: 6, content: 'item 6', start: '2014-04-27', type: 'point'}
-//        ]);
-
-
-        var items = new vis.DataSet([
-            <% @system_events.each do |a| %>
-                {id: <%= a.id %>, content: '<%= a.key %>', start: '<%= a.created_at.to_time.iso8601 %>', type: 'point'},
-            <% end %>
-        ]);
-
-        // Configuration for the Timeline
-        var options = {};
-
-        // Create a Timeline
-        if (container) {
-            var timeline = new vis.Timeline(container, items, options);
-        }
-
-
-//    $.ajax({
-//        url: '/systems/<%= @system.id %>',
-//        type: "GET",
-//        complete: function(data,stat){
-//            if(stat=="success") {
-//                ResponseData = JSON.parse(data.responseText);
-//                var widgets = ResponseData.widgets;
-//                renderWidget(widgets);
-//            }
-//        }
-//    });
-    });
-</script>
-
 <% content_for :page_header do %>
     <h3>
       <%= badge_label @system, {:label_class => 'primary'} %>
@@ -103,7 +54,7 @@
       <div class="panel-body">
         <%= render 'shared/activities', events: @system_events %>
         <h4>Timeline</h4>
-        <div id="timeline"></div>
+        <div id="system-timeline" data-events="<%= @system_events.to_json %>"></div>
       </div>
     </div>
 
