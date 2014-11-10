@@ -75,7 +75,8 @@ textarea.form-control {
 }
 
 /* search */
-#main-search {min-width: 280px}
+#main-search {min-width: 280px;}
+body.welcome_page.display #main-search {min-width: 450px;}
 #ajax_search_result {
   background-color: #ffffff;
   color: #888888;

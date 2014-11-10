@@ -1,5 +1,20 @@
-<h3>Hallo! <small>auf WelcomePageController::display</small></h3>
-<!--<p>Hier gibt es noch nicht so viel zu sehen <span class="fa fa-bug"></span></p>-->
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h3>Greetings <%= current_user.username %>, welcome <%= 'back' if current_user.sign_in_count >= 1 %>!</h3>
 
-<h4 class="spacer">Recent Events</h4>
-<%= render 'shared/activities', events: @recent_events %>
+    <h4 class="spacer">Search</h4>
+    <div class="panel panel-default">
+      <div id="container_for_search_input" class="panel-body">
+        <!--<div>Just start typing! Let me lead your way... </div>-->
+      </div>
+    </div>
+
+
+    <h4 class="spacer">Recent Events</h4>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <%= render 'shared/activities', events: @recent_events %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -258,6 +258,16 @@ $(document).on('page:change', function() {
 $(document).ready(function() {
     console.log("Application JS Ready");
 
+    // move searchbar out of header
+    if ($('body.welcome_page.display')) {
+        var searchInput = jQuery('#main-search');
+        var searchForm = searchInput.closest('form');
+        $(searchForm).appendTo('#container_for_search_input');
+        $('#main-search').focus();
+//        $('#main-search').blur(function() {
+//            $('#container_for_search_input').parent('div').removeClass('panel-primary').addClass('panel-default');
+//        })
+    }
     // generic form serializer
     var save_button = $('a.save.generic');
     save_button.click(function(e) {

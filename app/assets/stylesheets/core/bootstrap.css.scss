@@ -59,6 +59,17 @@
   }
 }
 
+// set active state for whole form group
+.form-control:focus, .form-control:focus + span .btn{
+//    border-color:#1ABC9C;
+  border-color: rgb(106, 176, 232);
+  box-shadow:none;
+}
+.form-control:focus + span .btn {
+  background-color: rgba(106, 176, 232, 0.8);
+  color: white;
+}
+
 /* bootstrap make glyphicon in navbar appear more vertical aligned */
 .glyphicon {
   top: 3px;
