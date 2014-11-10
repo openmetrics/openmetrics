@@ -76,20 +76,30 @@ li.list-group-item span.actions i.add {
   position: relative;
   display: inline-block;
   z-index: 99 !important;
-  padding: 2px 1px 0 0;
-  font-family: Arial, verdana, tahoma;
-  font-size: 13px;
-  font-weight: bold;
+  padding: 3px 1px 0 0;
+  font-size: 11px;
+  font-weight: 700;
   color: white;
   text-align: center;
   text-shadow: 1px 1px 1px rgba(0,0,0,.3);
   box-shadow: 0 2px 5px rgba(0,0,0,.4);
   filter: progid:DXImageTransform.Microsoft.Shadow(direction=135, strength=2, color=ff0000); /* IE10 text shadows */
-  width: 30px;
-  height:30px;
-  line-height: 20px;
+  width: 28px;
+  height: 28px;
+//  line-height: 28px;
   border: 3px solid white;
   border-radius: 50%;
+
+
+  // default: grey
+  background: #dddddd; /* Old browsers */
+  background: -webkit-linear-gradient(top, #dddddd 0%, #888888 100%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dddddd), color-stop(100%, #888888)); /* Chrome,Safari4+ */
+  background:    -moz-linear-gradient(top, #dddddd 0%, #888888 100%); /* FF3.6+ */
+  background:     -ms-linear-gradient(top, #dddddd 0%, #888888 100%); /* IE10+ */
+  background:      -o-linear-gradient(top, #dddddd 0%, #888888 100%); /* Opera 11.10+ */
+  background:         linear-gradient(to bottom, #dddddd 0%, #888888 100%);  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#888888', GradientType=0); /* IE6-9 */
 }
 
 .item-number.red {
@@ -157,28 +167,29 @@ ol.circles-list > li:not(.placeholder):before{
   counter-increment: li-counter;
   display: inline-block;
   z-index: 99 !important;
-  padding: 2px 1px 0 0;
-  font-family: Arial, verdana, tahoma;
-  font-size: 13px;
-  font-weight: bold;
+  padding: 3px 1px 0 0;
+  font-size: 11px;
+  font-weight: 700;
   color: white;
   text-align: center;
   text-shadow: 1px 1px 1px rgba(0,0,0,.3);
-  background: #ff3019; /* Old browsers */
-  background: -webkit-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* Chrome10+,Safari5.1+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff3019), color-stop(100%, #cf0404)); /* Chrome,Safari4+ */
-  background:    -moz-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* FF3.6+ */
-  background:     -ms-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* IE10+ */
-  background:      -o-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* Opera 11.10+ */
-  background:         linear-gradient(to bottom, #ff3019 0%, #cf0404 100%);  /* W3C */
-  width: 30px;
-  height:30px;
-  line-height: 20px;
+  width: 28px;
+  height: 28px;
+//  line-height: 20px;
   border: 3px solid white;
   border-radius: 50%;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3019', endColorstr='#cf0404', GradientType=0); /* IE6-9 */
   filter: progid:DXImageTransform.Microsoft.Shadow(direction=135, strength=2, color=ff0000); /* IE10 text shadows */
   box-shadow: 0 2px 5px rgba(0,0,0,.4);
+
+  // colors from .item-number.grey
+  background: #dddddd; /* Old browsers */
+  background: -webkit-linear-gradient(top, #dddddd 0%, #888888 100%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dddddd), color-stop(100%, #888888)); /* Chrome,Safari4+ */
+  background:    -moz-linear-gradient(top, #dddddd 0%, #888888 100%); /* FF3.6+ */
+  background:     -ms-linear-gradient(top, #dddddd 0%, #888888 100%); /* IE10+ */
+  background:      -o-linear-gradient(top, #dddddd 0%, #888888 100%); /* Opera 11.10+ */
+  background:         linear-gradient(to bottom, #dddddd 0%, #888888 100%);  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#888888', GradientType=0); /* IE6-9 */
 }
 
 ol.circles-list > li.placeholder {
