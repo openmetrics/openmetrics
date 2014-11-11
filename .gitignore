@@ -17,8 +17,8 @@
 /tmp
 Gemfile.lock
 
-## environment 
-/.bundle
+# environment
+.bundle
 /vendor/bundle
 
 # Ignore IDE files
