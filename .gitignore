@@ -17,6 +17,10 @@
 /tmp
 Gemfile.lock
 
+## environment 
+/.bundle
+/vendor/bundle
+
 # Ignore IDE files
 # RubyMine
 .idea/
