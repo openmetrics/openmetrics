@@ -1,0 +1,25 @@
+<h4 class="spacer">Metric Plugin Browser</h4>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+
+    <div class="form-group">
+      <input id="searchinput" class="form-control" type="search" placeholder="Filter..." />
+    </div>
+
+    <h5>Collectd Plugins</h5>
+    <ul id="collectd_plugins_searchlist" class="collectd_plugins_list list-group">
+        <% plugins.each do |plugin| %>
+          <li class="collectd-plugin list-group-item" data-collectd_plugin="<%= plugin.id %>">
+            <span class="actions pull-right">
+              <i class="drag fa fa-arrows"></i>
+              <!--<i class="add fa fa-plus" title="Add"></i>-->
+            </span>
+            <%= link_to badge_label plugin, {:label_class => 'primary'} %>
+          </li>
+        <% end %>
+    </ul>
+
+
+  </div>
+</div>

@@ -151,10 +151,18 @@ body.welcome_page.display #ajax_search_result {width: 490px;}
   border-radius: 2px;
 }
 
-.dropzone ol {
+.dropzone ol,
+.dropzone ul {
   min-height: 150px;
 }
 
+.dropzone li.placeholder {
+  font-size: x-large;
+  font-weight: bold;
+  background-color: #eee;
+  color: $darkgrey;
+  text-align: center;
+}
 
 /* gravatar images */
 .gravatar-s {

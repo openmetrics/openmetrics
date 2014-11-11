@@ -11,7 +11,6 @@
   </h3>
 <% end %>
 
-<%= form_tag(system_path(@system), method: 'put', class: 'form-horizontal', name: 'system', role: 'form') do %>
 <div class="row">
     <div class="col-md-12">
       <!-- metrics tabs left -->
@@ -26,12 +25,14 @@
           <div class="tab-pane active" id="a">
               <div class="panel ">
                 <div class="panel-body">
+                  <%= form_tag(system_path(@system), method: 'put', class: 'form-horizontal', name: 'system', role: 'form') do %>
                   <%= raw htmlform_for @system, { :nested => true,
                           :except => [:id, :slug, :created_at, :updated_at],
                           :help_text => {:fqdn => t('om.views.system.edit.html_input.help_text.fqdn'),
                                          :name => t('om.views.system.edit.html_input.help_text.name'),
                                          :description => t('om.views.system.edit.html_input.help_text.description')}
                   } %>
+                  <% end %> <!-- end form_tag -->
                 </div>
               </div>
           </div>
@@ -51,8 +52,6 @@
       <!-- /tabs -->
     </div>
 </div>
-
-<% end %> <!-- end form_tag -->
 
 
 

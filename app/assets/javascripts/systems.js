@@ -146,30 +146,128 @@ $(".systems").ready(function () {
     });
 
 
-    // collectd plugin edit
-    jQuery("#collectd_plugins_list li").draggable({
-        helper: "clone",
+    // new test plan item browser filter
+    $('#collectd_plugins_searchlist').btsListFilter('#searchinput', {initial: false, resetOnBlur: false});
+
+    // replace buttons and placeholder for existing list items (e.g. when editing test plan with some test items)
+    var replaceButtons;
+    replaceButtons = function (event, list_item, list) {
+        var $this = list;
+        // replace move icon with sortable icon and add/remove configure icon
+        var list_items = $($this).children('li:not(.placeholder)');
+        if (list_items.length > 0) {
+            var sort_icon = $('<i class="sort fa fa-arrows-v" title="Sort"></i>');
+            var remove_icon = $('<i class="remove glyphicon glyphicon-remove" title="Remove"></i>');
+            var configure_icon = $('<i class="configure fa fa-cog" title="Configure"></i>');
+            list_items.each(function (index, value) {
+                var actions = list_item.children('.actions');
+                actions.children('i.add').remove();
+                if (actions.children('i.fa-cog').length == 0) {
+                    configure_icon.prependTo(actions);
+                }
+                if (actions.children('i.glyphicon-remove').length == 0) {
+                    remove_icon.prependTo(actions);
+                }
+                if (actions.children('i.drag').length > 0) {
+                    actions.children('i.drag').remove();
+                    if (actions.hasClass('ui-sortable')) {
+                        sort_icon.prependTo(actions);
+                    }
+                }
+            });
+        }
+
+    };
+
+    // replace buttons and placeholder for existing list items
+    if ($('.dropzone ul.collectd_plugins').children('li:not(.placeholder)').length > 0) {
+        $('li.placeholder').hide();
+        $('.dropzone ul.collectd_plugins').children('li:not(.placeholder)').map(function () {
+            var item = $(this);
+            var list = $('.dropzone ul.collectd_plugins');
+            replaceButtons(null, item, list);
+        })
+    }
+
+    // collectd plugin edit drag n drop
+    // based on http://jsfiddle.net/KyleMit/Geupm/2/
+    $(".collectd_plugins_list li").draggable({
         appendTo: "body",
-        revert: "invalid"
+        helper: "clone"
     });
 
-    jQuery("#enabled_collectd_plugins_lists_container ul").droppable({
+    jQuery(".dropzone ul.collectd_plugins").droppable({
         tolerance: "pointer",
-        activeClass: "ui-state-default",
-        hoverClass: "ui-state-hover",
-        accept: 'li.collectd-plugin',
+//        activeClass: "ui-state-default",
+//        hoverClass: "ui-state-hover",
+        accept: 'li:not(.placeholder)',
         placeholder: jQuery(this).find("li.placeholder"),
+        over: function () {
+            //hides the placeholder when the item is over the droppable
+            $("li.placeholder").hide();
+        },
         drop: function (event, ui) {
+            var draggable = ui.draggable;
+            var droppable = $(this);
             jQuery(this).find("li.placeholder").hide();
             var li = jQuery('<li class="ui-state-active ui-helper-clearfix collectd-plugin"></li>');
-            li.data('collectd_plugin', ui.draggable.data('collectd_plugin'));
+            li.data('collectd_plugin', draggable.data('collectd_plugin'));
             jQuery('<span class="left-floating"></span>').text(ui.draggable.text()).appendTo(li);
             jQuery('<span class="ui-icon ui-icon-close right-floating" title="Remove"></span>').appendTo(li);
             li.appendTo(this);
-
-                setAlertForSaveButton();
+            setAlertForSaveButton();
+            replaceButtons(event, draggable, droppable);
         }
     });
+
+//    $(".dropzone ol.test_items").sortable({
+//        items: "li:not(.placeholder)",
+//        connectWith: "li",
+//        sort: function () {
+//            $(this).removeClass("ui-state-default");
+//        },
+//        over: function () {
+//            //hides the placeholder when the item is over the sortable
+//            $("li.placeholder").hide();
+//        },
+//        update: function(event, ui) {
+//            setAlertForSaveButton();
+//            replaceButtons(event, ui.item, $(this))
+//        },
+//        out: function () {
+//            if ($(this).children(":not(.placeholder)").length == 0) {
+//                //shows the placeholder again if there are no items in the list
+//                $("li.placeholder").show();
+//            }
+//        }
+//    }).bind('sortupdate', function (event, ui) {
+//        replaceButtons(event, ui.item, $(this));
+//        event.stopImmediatePropagation();
+//    });
+
+//    jQuery("#collectd_plugins_list li").draggable({
+//        helper: "clone",
+//        appendTo: "body",
+//        revert: "invalid"
+//    });
+//
+//    jQuery("#enabled_collectd_plugins_lists_container ul").droppable({
+//        tolerance: "pointer",
+//        activeClass: "ui-state-default",
+//        hoverClass: "ui-state-hover",
+//        accept: 'li.collectd-plugin',
+//        placeholder: jQuery(this).find("li.placeholder"),
+//        drop: function (event, ui) {
+//            jQuery(this).find("li.placeholder").hide();
+//            var li = jQuery('<li class="ui-state-active ui-helper-clearfix collectd-plugin"></li>');
+//            li.data('collectd_plugin', ui.draggable.data('collectd_plugin'));
+//            jQuery('<span class="left-floating"></span>').text(ui.draggable.text()).appendTo(li);
+//            jQuery('<span class="ui-icon ui-icon-close right-floating" title="Remove"></span>').appendTo(li);
+//            li.appendTo(this);
+//
+//                setAlertForSaveButton();
+//        }
+//    });
 
 //    $( '#enabled_collectd_plugins_lists_container ul li span.ui-icon-close' ).live("click", function() {
 //        var ul = $(this).parent("li").parent("ul");
