@@ -30,6 +30,7 @@ $font-size-small: 12px;
 @import 'jstree/jstree';
 @import 'jqcron/jqCron';
 @import 'select2/select2';
+@import 'qtip/jquery.qtip.min';
 // bootstrap css that comes with select2 is not sufficient, use https://github.com/t0m/select2-bootstrap-css/tree/bootstrap3 instead
 //@import 'select2/select2-bootstrap';
 @import 'select2-bootstrap';

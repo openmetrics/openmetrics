@@ -40,6 +40,7 @@
 //= require conditions-builder
 //= require ui.multiselect
 //= require select2.min
+//= require jquery.qtip.min
 //= require search
 //= require systems
 //= require test_executions
@@ -291,6 +292,29 @@ $(document).ready(function() {
                 }
             });
         }
+    });
+
+    // tooltips
+    $('[data-tooltip!=""]').each(function() {
+        var content;
+        content = $(this).attr('data-tip-content');
+        $(this).qtip({
+            show: 'mouseover',
+            solo: true,
+            position: {
+                my: $(this).attr('data-tip-pos-my'),
+                at: $(this).attr('data-tip-pos-at'),
+                target: $(this).attr('data-tip-target'),
+                adjust: {
+                    mouse: false,
+                    y: -5
+                }
+            },
+            style: {
+                classes: $(this).attr('data-tip-style')
+            },
+            content: content
+        });
     });
 
 });

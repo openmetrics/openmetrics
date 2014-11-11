@@ -59,7 +59,7 @@
                     <strong><%= criterion.operator %></strong>
                     <strong><%= criterion.value %></strong>
                     <% if q and q.message %>
-                        <i title="<%= q.message %>" class="fa fa-info-circle"></i>
+                        <i class="fa fa-info-circle" data-tip-content="<%= q.message %>" data-tip-pos-my="bottom center" data-tip-pos-at="top center"></i>
                     <% end %>
                   </li>
               <% end %>
