@@ -1,8 +1,34 @@
 <div>
 
-  <% if @services.blank? and @systems.blank? and @test_plans.blank?%>
+  <% if @projects.blank? and @services.blank? and @systems.blank? and @test_plans.blank?%>
       <span>No matches found! <i class="fa fa-frown-o"></i></span>
   <% else %>
+
+      <% if @projects.size > 0 %>
+          <div style='padding: 5px 0px; font-size: 12px;'>
+            <h5>Projects (<%= @projects.size %> found)</h5>
+            <% for @project in @projects[0..3] %>
+                <%
+                   @p = @project.clone
+                   @p.name = @project.name.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @project.name
+                   @p.description = @project.description.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @project.description
+                %>
+                <p style='padding: 2px 5px; font-size: 11px; border-bottom: 1px solid #ddd '>
+                  <a id="project-<%= @p.id %>" href="/projects/<%= @project.id %>">
+                    <b>Name:&nbsp;</b><%= raw @p.name %>...
+                    <b>Description:&nbsp;</b><%= raw @p.description %>...
+                  </a>
+                </p>
+            <% end %>
+            <% if @projects.size > 5 %>
+                <p style="padding: 2px 5px; font-size: 9px;">
+                  <a href="/searches/search?o=<%= url_encode(@search_string) %>#tab-projects">
+                    <b>or show all found Projects...</b>
+                  </a>
+                </p>
+            <% end %>
+          </div>
+      <% end %>
 
       <% if @systems.size > 0 %>
           <div style='padding: 5px 0px; font-size: 12px;'>
@@ -14,7 +40,7 @@
                    @s.fqdn = @system.fqdn.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @system.fqdn
                 %>
                 <p style='padding: 2px 5px; font-size: 11px; border-bottom: 1px solid #ddd '>
-                  <a id="system-<%= @s.id %>" href="/systems/<%= @system.id %>" title="Show">
+                  <a id="system-<%= @s.id %>" href="/systems/<%= @system.id %>">
                     <b>Name:&nbsp;</b><%= raw @s.name %>...
                     <b>FQDN:&nbsp;</b><%= raw @s.fqdn %>...
                   </a>
@@ -22,8 +48,8 @@
             <% end %>
             <% if @systems.size > 5 %>
                 <p style="padding: 2px 5px; font-size: 9px;">
-                  <a href="/searches/search?o=<%= url_encode(@search_string) %>#tab-systems" title="Show">
-                    <b>or show all found systems...</b>
+                  <a href="/searches/search?o=<%= url_encode(@search_string) %>#tab-systems">
+                    <b>or show all found Systems...</b>
                   </a>
                 </p>
             <% end %>
@@ -40,7 +66,7 @@
                    @service.description = @service.description.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @service.description
                 %>
                 <p style='padding: 2px 5px; font-size: 11px; border-bottom: 1px solid #ddd'>
-                  <a href="/services/<%= raw @service.id %>" title="Show">
+                  <a href="/services/<%= raw @service.id %>">
                     <b>Name:&nbsp;</b><%= raw @service.name %>...
                     <b>Type:&nbsp;</b><%= raw @service.type %>...
                     <b>Description:&nbsp;</b><%= raw @service.description %>
@@ -49,8 +75,8 @@
             <% end %>
             <% if @services.size > 5 %>
                 <p style="padding: 2px 5px; font-size: 9px;">
-                  <a href="/searches/search?q=<%= url_encode(@search_string) %>#tab-services" title="Show">
-                    <b>or show all found services...</b>
+                  <a href="/searches/search?q=<%= url_encode(@search_string) %>#tab-services">
+                    <b>or show all found Services...</b>
                   </a>
                 </p>
             <% end %>
@@ -66,7 +92,7 @@
                    @test_plan.description = @test_plan.truncated_description(36, @search_string).gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if @test_plan.description
                 %>
                 <p style='padding: 2px 5px; font-size: 11px; border-bottom: 1px solid #ddd'>
-                  <a href="/test_plans/<%= raw @test_plan.id %>" title="Show">
+                  <a href="/test_plans/<%= raw @test_plan.id %>">
                     <b>Name:&nbsp;</b><%= raw @test_plan.name %>...
                     <b>Description:&nbsp;</b><%= raw @test_plan.description %>
                   </a>
@@ -74,7 +100,7 @@
             <% end %>
             <% if @test_plans.size > 5 %>
                 <p style="padding: 2px 5px; font-size: 9px;">
-                  <a href="/searches/search?q=<%= url_encode(@search_string) %>#tab-test_plans" title="Show">
+                  <a href="/searches/search?q=<%= url_encode(@search_string) %>#tab-test_plans">
                     <b>or show all found Test Plans...</b>
                   </a>
                 </p>

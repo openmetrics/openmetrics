@@ -4,12 +4,21 @@
 
 <h3>Search results for "<%= @search_string %>"</h3>
 
-<% if @services.blank? and @systems.blank? and @test_plans.blank? %>
+<% if @projects.blank? and @services.blank? and @systems.blank? and @test_plans.blank? %>
     <p>No matches found! <i class="fa fa-frown-o"></i></p>
 <% else %>
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" id="search_tab">
+      <% if @projects %>
+          <li <% unless @projects.size > 0 %>class="disabled"<% end %> data-num_results="<%=@projects.size%>">
+            <% if @projects.size > 0 %>
+                <a href="#tab-projects" data-toggle="tab">Projects (<%= @projects.size %> found)</a>
+            <% else %>
+                <a href="javascript:void(0)" class="disabled">Projects (0 found)</a>
+            <% end %>
+          </li>
+      <% end %>
       <% if @systems %>
           <li <% unless @systems.size > 0 %>class="disabled"<% end %> data-num_results="<%=@systems.size%>">
             <% if @systems.size > 0 %>
@@ -41,6 +50,23 @@
 
     <div class="tab-content">
 
+      <% if @projects.size > 0 %>
+          <div class="tab-pane active" id="tab-projects">
+            <% @projects.each do |project| %>
+                <%
+                   project.name = project.name.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if project.name
+                   project.description = project.description.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if project.description
+                %>
+                <p style='margin: 0; padding: 2px 5px; font-size: 12px; border-bottom: 1px solid #ddd '>
+                  <a href="/projects/<%= project.id %>">
+                    <b>Name:&nbsp;</b><%= raw project.name %>,
+                    <b>Description:&nbsp;</b><%= raw project.description %>,
+                  </a>
+                </p>
+            <% end %>
+          </div>
+      <% end %>
+
       <% if @systems.size > 0 %>
           <div class="tab-pane active" id="tab-systems">
             <% @systems.each do |system| %>
@@ -49,7 +75,7 @@
                    system.fqdn = system.fqdn.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if system.fqdn
                 %>
                 <p style='margin: 0; padding: 2px 5px; font-size: 12px; border-bottom: 1px solid #ddd '>
-                  <a href="/systems/<%= system.id %>" title="Show">
+                  <a href="/systems/<%= system.id %>">
                     <b>Name:&nbsp;</b><%= raw system.name %>,
                     <b>FQDN:&nbsp;</b><%= raw system.fqdn %>,
                   </a>
@@ -65,7 +91,7 @@
                    service.name = service.name.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if service.name
                 %>
                 <p style='margin: 0; padding: 2px 5px; font-size: 12px; border-bottom: 1px solid #ddd '>
-                  <a href="/services/<%= service.id %>" title="Show">
+                  <a href="/services/<%= service.id %>">
                     <b>Name:&nbsp;</b><%= raw service.name %>
                   </a>
                 </p>
@@ -81,7 +107,7 @@
                    tp.description = tp.description.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if tp.description
                 %>
                 <p style='margin: 0; padding: 2px 5px; font-size: 12px; border-bottom: 1px solid #ddd '>
-                  <a href="/test_plans/<%= tp.id %>" title="Show">
+                  <a href="/test_plans/<%= tp.id %>">
                     <b>Name:&nbsp;</b><%= raw tp.name %>,
                     <b>Description:&nbsp;</b><%= raw tp.description %>
                   </a>
