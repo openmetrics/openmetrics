@@ -7,11 +7,10 @@ module Qualified
 
     def text_result
       if self.class.name == 'TestExecution'
-        "Todo"
+        QUALITY_STATUS[self.result.exitstatus] unless self.result.exitstatus.nil?
       else
         NotImplementedError
       end
-
     end
 
     def quality

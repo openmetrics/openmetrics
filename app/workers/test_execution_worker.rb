@@ -203,10 +203,12 @@ def evaluate_quality(entity)
   criteria = nil
   quality = nil
   if entity.class.name == 'TestExecution'
-    criteria = QualityCriterion.where(qualifiable_type: 'TestPlan', qualifiable_id: entity.test_plan.id, test_plan_id: entity.test_plan_id)
+    criteria = QualityCriterion.where(qualifiable_type: 'TestPlan', qualifiable_id: entity.test_plan.id,
+                                      test_plan_id: entity.test_plan_id)
     quality = Quality.new(entity_type: 'TestExecution', entity_id: entity.id, test_execution_id: entity.id)
   elsif entity.class.name == 'TestExecutionItem'
-    criteria = QualityCriterion.where(qualifiable_type: 'TestItem', qualifiable_id: entity.test_item.id, test_plan_id: entity.test_execution.test_plan_id)
+    criteria = QualityCriterion.where(qualifiable_type: 'TestItem', qualifiable_id: entity.test_item.id,
+                                      test_plan_id: entity.test_execution.test_plan_id, position: entity.position)
     quality = Quality.new(entity_type: 'TestExecutionItem', entity_id: entity.id, test_execution_id: entity.test_execution.id)
   end
 
@@ -279,12 +281,24 @@ def evaluate_quality(entity)
     if entity.class.name == 'TestExecution' and entity.respond_to? :test_execution_items
       logger.debug "No specific quality criteria for #{entity.class.name}##{entity.id} found!"
       # find highest exit status
-      failed = entity.test_execution_items.where(['exitstatus > ?', 0]).order('exitstatus')
-      if failed.any?
-        quality.update_attributes(status: QUALITY_STATUS.key('defective'), message: "Exit status #{failed.first.exitstatus} > 0")
+      failed_items = entity.test_execution_items.where(['exitstatus > ?', 0]).order('exitstatus')
+      if failed_items.any?
+        quality.update_attributes(status: QUALITY_STATUS.key('defective'), message: "Exit status #{failed_items.first.exitstatus} > 0")
       else
         quality.update_attributes(status: QUALITY_STATUS.key('passed'), message: "Finished with exit status #{QUALITY_STATUS.key('passed')}")
       end
+
+      # any failed quality objects? then may overwrite status
+      failed_qs = Quality.where(test_execution_id: entity.id).order('status')
+      if failed_qs.any?
+        if failed_qs.first.status > 0
+          quality.update_attributes(status: QUALITY_STATUS.key('defective'), message: "Exit status #{failed_qs.first.status} > 0")
+        else
+          quality.update_attributes(status: QUALITY_STATUS.key('passed'), message: "Finished with exit status #{QUALITY_STATUS.key('passed')}")
+        end
+      end
+
+
     end
 
     if entity.class.name == 'TestExecutionItem' and entity.respond_to? :exitstatus
@@ -305,19 +319,28 @@ end
 def evaluate_overall_result(te)
   result = te.test_execution_result
 
-  if te.quality.any?
-    if te.quality.where('status = ?', 10).any?
-      result.update_attributes(exitstatus: QUALITY_STATUS.key('failed'))
-    elsif te.quality.where('status = ?', 5).any?
-      result.update_attributes(exitstatus: QUALITY_STATUS.key('defective'))
-    else
-      result.update_attributes(exitstatus: QUALITY_STATUS.key('passed'))
-    end
+  # get all quality objects and sum up status
+  # if no quality result exists, use the 'newest' non-zero exitstatus TestExecutionItem to mark for overall result
+  quality_objs = Quality.where(test_execution_id: te.id)
+  logger.debug("Deciding overall test execution quality from these objects: #{quality_objs.inspect}")
+  if quality_objs.any?
+    sum = quality_objs.map(&:status).inject(0, :+) # sum up
+    sum == 0 ? result.update_attributes(exitstatus: QUALITY_STATUS.key('passed')) : result.update_attributes(exitstatus: QUALITY_STATUS.key('failed'))
+  else
+    failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
+    result.update_attributes(exitstatus: failed.last.exitstatus) if failed.any? and result.exitstatus.nil?
   end
 
-  # if no quality result exists, use the 'newest' non-zero exitstatus TestExecutionItem to mark for overall result:
-  failed = te.test_execution_items.where(['exitstatus > ?', 0]).order('id')
-  result.update_attributes(exitstatus: failed.last.exitstatus) if failed.any? and result.exitstatus.nil?
+  # if te.quality.any?
+  #   if te.quality.where('status = ?', 10).any?
+  #     result.update_attributes(exitstatus: QUALITY_STATUS.key('failed'))
+  #   elsif te.quality.where('status = ?', 5).any?
+  #     result.update_attributes(exitstatus: QUALITY_STATUS.key('defective'))
+  #   else
+  #     result.update_attributes(exitstatus: QUALITY_STATUS.key('passed'))
+  #   end
+  # end
+
 
   # mark result success if status not yet decided
   result.update_attributes(exitstatus: 0) if result.exitstatus.nil?
