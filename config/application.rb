@@ -44,10 +44,25 @@ module Openmetrics
 
     # make rake assets:precompile happy
     # otherwise "Cannot precompile i18n-js translations unless environment is initialized."
-    config.assets.initialize_on_precompile = true
+    config.assets.initialize_on_precompile = false
 
     # Precompile *all* assets, except those that start with underscore
     #config.assets.precompile << /(^[^_\/]|\/[^_])[^\/]*$/
+
+    # via https://github.com/sstephenson/sprockets/issues/347#issuecomment-25543201
+    # We don't want the default of everything that isn't js or css, because it pulls too many things in
+    config.assets.precompile.shift
+
+    # Explicitly register the extensions we are interested in compiling
+    config.assets.precompile.push(Proc.new do |path|
+                                    File.extname(path).in? [
+                                                               '.html', '.erb', '.haml',                 # Templates
+                                                               '.png',  '.gif', '.jpg', '.jpeg', '.svg', # Images
+                                                               '.eot',  '.otf', '.svc', '.woff', '.ttf', # Fonts
+                                                           ]
+                                  end)
+    config.serve_static_assets = true
+
 
     # load rails env into sidekiq
     #config.eager_load_paths += ["#{config.root}/lib/workers"]
