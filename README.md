@@ -1,8 +1,6 @@
 http://openmetrics.net
 
 ```
-rake assets:precompile
-
 // show & fix missing translations (https://github.com/glebm/i18n-tasks)
 #i18n-task #no args show usage information
 #i18n-tasks find om.views.system.new.html_input.caption #show usage of translation key in code
