@@ -24,4 +24,8 @@ foreman run rake openmetrics:test --env config/environments/development.env
 
 // optional: for debugging purposes and playaround: start rails console
 foreman run rails console --env /opt/openmetrics/config/instance.env
+
+// precompile assets
+bundle exec rake assets:clobber RAILS_ENV=production
+bundle exec rake assets:precompile RAILS_ENV=production
 ```
