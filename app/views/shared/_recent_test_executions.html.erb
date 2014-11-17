@@ -10,8 +10,8 @@
             <p class="list-group-item-text">
               <%= raw te.image_result %>
               <% quality = te.test_execution_items.collect{|tei| tei.overall_quality}.flatten %>
-              <span id="quality_graph_<%= te.id %>" class="quality_graph" data-quality="<%= quality.to_json %>" style=" vertical-align:middle; display:inline-block; width:100px;height:25px;"></span>
-              <code><%= te.duration %> s</code>
+              <span id="quality_graph_<%= te.id %>" class="quality_graph" data-quality="<%= quality.to_json %>" style=" vertical-align:middle; display:inline-block; width:120px;height:25px;"></span>
+              <!--<code><%= te.duration %> s</code>-->
             </p>
           </a>
       <% end %>
