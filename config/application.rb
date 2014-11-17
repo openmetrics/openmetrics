@@ -31,9 +31,9 @@ module Openmetrics
     config.time_zone = 'Europe/Berlin'
 
     # The default locale is :de and all translations from config/locales/*.rb,yml are auto loaded.
+    config.i18n.enforce_available_locales = false
     config.i18n.load_path += Dir[Rails.root.join('locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :en
-    config.i18n.enforce_available_locales = true
 
     # automatically generate translations by the I18n::JS::Middleware.
     # https://github.com/PikachuEXE/i18n-js
