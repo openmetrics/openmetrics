@@ -1,6 +1,6 @@
 
 <div class="list-group running_service">
-  <a href="<%= url_for :controller => 'systems', :action => 'show', :id => systems_running_service.system.id %>" class="list-group-item" title="Show">
+  <a href="<%= url_for :controller => 'systems', :action => 'show', :id => systems_running_service.system.id %>" class="list-group-item">
     <h5 class="list-group-item-heading">
       <%= badge_label systems_running_service.system, {:label_class => 'primary'} %>
     </h5>
