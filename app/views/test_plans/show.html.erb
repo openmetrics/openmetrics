@@ -9,16 +9,8 @@
 
 <div class="row">
 
-  <!-- right column, top column when mobile -->
-  <div class="col-md-4 col-md-push-8">
-    <%= render 'shared/recent_test_executions', test_executions: TestPlan.recent_executions(@test_plan, 5) %>
-    <h4 class="spacer">Related Projects</h4>
-    <%= render 'shared/test_projects', projects: @test_plan.test_projects.collect{ |tp| tp.project }.flatten %>
-  </div>
-
-  <!-- left column, top column when mobile -->
-  <div class="col-md-8 col-md-pull-4">
-
+  <!-- left column  -->
+  <div class="col-md-8">
     <div class="panel panel-default spacer">
       <div class="panel-body">
         <blockquote>
@@ -37,7 +29,13 @@
           <%= render 'quality_criteria', test_plan: @test_plan %>
         </div>
     <% end %>
+  </div>
 
+  <!-- right column -->
+  <div class="col-md-4">
+    <h4 class="spacer">Related Projects</h4>
+    <%= render 'shared/test_projects', projects: @test_plan.test_projects.collect{ |tp| tp.project }.flatten %>
+    <%= render 'shared/recent_test_executions', test_executions: TestPlan.recent_executions(@test_plan, 5) %>
   </div>
 
 </div>
