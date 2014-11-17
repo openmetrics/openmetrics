@@ -13,6 +13,21 @@ module Qualified
       end
     end
 
+    def image_result
+      if self.class.name == 'TestExecution'
+        QUALITY_STATUS[self.result.exitstatus] unless self.result.exitstatus.nil?
+        if self.result.exitstatus == 0
+          return '<span class="fa fa-check-square-o text-success"></span>'
+        elsif self.result.exitstatus == 5
+          return '<span class="fa fa-exclamation-circle text-warning"></span>'
+        elsif self.result.exitstatus == 10
+          return '<span class="fa fa-exclamation-triangle text-danger"></span>'
+        end
+      else
+        NotImplementedError
+      end
+    end
+
     def quality
       if self.class.name == 'TestExecution'
         Quality.where(test_execution_id: self.id, entity_type: 'TestExecution', entity_id: self.id)
