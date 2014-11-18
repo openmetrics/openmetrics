@@ -1,0 +1,22 @@
+<% if @system.cidr or @system.fqdn or @system.sshuser %>
+    <h3 class="spacer">Host Information</h3>
+    <div class="panel panel-default">
+      <div class="panel-body">
+      <% if @system.fqdn %>
+        <p><strong>FQDN</strong>
+          <code class="pull-right"><%= @system.fqdn %></code>
+        </p>
+      <% end %>
+      <% if @system.cidr %>
+        <p><strong>Network address</strong>
+          <code class="pull-right"><%= @system.cidr %></code>
+        </p>
+      <% end %>
+      <% if @system.sshuser %>
+        <p><strong>SSH user</strong>
+          <code class="pull-right"><%= @system.sshuser %></code>
+        </p>
+      <% end %>
+      </div>
+    </div>
+<% end %>
