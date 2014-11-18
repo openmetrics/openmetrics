@@ -1,8 +1,15 @@
-<h3>Create Service</h3>
+<% content_for :page_header do %>
+    <h3>
+      Create Service
+      <span class="btn-group btn-group-sm pull-right">
+        <%= link_to t('om.controls.save_html'), 'javascript:void(0)', :class => 'btn btn-default save generic' %>
+      </span>
+    </h3>
+<% end %>
 
 
 <%= raw htmlform_for @service, {:html_class => 'spacer', :within_tab => false,
-                               :caption => t('om.views.service.new.html_input.caption'),
-                               :submit_text => t('om.views.service.new.html_input.submit_text')
+                                :without_submit_button => true,
+                                :except => [:id, :created_at, :updated_at]
 }
 %>

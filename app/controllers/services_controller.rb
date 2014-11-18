@@ -17,6 +17,7 @@ class ServicesController < ApplicationController
   def create
     @service = Service.new(service_params)
     if @service.save
+      @service.create_activity :create, :owner => current_user
       flash[:success] = "Service saved."
       redirect_via_turbolinks_to(service_path(@service))
     else
@@ -30,6 +31,7 @@ class ServicesController < ApplicationController
 
   def update
     if @service.update!(service_params)
+      @service.create_activity :update, :owner => current_user
       flash[:success] = "Service updated."
     else
       flash[:warn] = 'Something went wrong while updating Service.'

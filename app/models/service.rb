@@ -16,6 +16,7 @@
 
 class Service < ActiveRecord::Base
   include Exportable
+  include Trackable
   include Truncatable
 
   has_many :running_services
