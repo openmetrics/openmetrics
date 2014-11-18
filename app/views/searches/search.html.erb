@@ -68,15 +68,17 @@
       <% end %>
 
       <% if @systems.size > 0 %>
-          <div class="tab-pane active" id="tab-systems">
+          <div class="tab-pane" id="tab-systems">
             <% @systems.each do |system| %>
                 <%
                    system.name = system.name.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if system.name
+                   system.description = system.description.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if system.description
                    system.fqdn = system.fqdn.gsub(/(#{@search_string})/i, '<b class="match">\1</b>') if system.fqdn
                 %>
                 <p style='margin: 0; padding: 2px 5px; font-size: 12px; border-bottom: 1px solid #ddd '>
                   <a href="/systems/<%= system.id %>">
                     <b>Name:&nbsp;</b><%= raw system.name %>,
+                    <b>Description:&nbsp;</b><%= raw system.description %>,
                     <b>FQDN:&nbsp;</b><%= raw system.fqdn %>,
                   </a>
                 </p>
@@ -133,6 +135,19 @@
     });
 
     // on load of the page: switch to the currently selected tab
+    // if no anchor is set, make first tab with items active
     var anchor = window.location.hash;
-    $('#search_tab a[href="' + anchor + '"]').tab('show');
+    if (anchor == '') {
+        var tab_panes = $('#search_tab').children('li');
+        tab_panes.each( function( index, element ){
+            var $this = $(element);
+            if ($this.data('num_results') > 0) {
+                $this.addClass('active'); // set tab link active
+                $('#search_tab a[href="' + $this.attr('href') + '"]').tab('show');
+                return false; // break each loop
+            }
+        });
+    } else {
+        $('#search_tab a[href="' + anchor + '"]').tab('show');
+    }
 </script>

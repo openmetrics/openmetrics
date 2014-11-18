@@ -8,7 +8,7 @@ class SearchesController < ApplicationController
       q = "%#{@search_string}%"
 
       @projects = Project.where("name ilike ? or description ilike ?", q, q)
-      @systems = System.where("name ilike ? or fqdn ilike ?", q, q)
+      @systems = System.where("name ilike ? or fqdn ilike ? or description ilike ?", q, q, q)
       @services = Service.where("name ilike ?", q)
       @test_plans = TestPlan.where("name ilike ? or description ilike ?", q, q)
     end
