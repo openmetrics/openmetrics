@@ -11,10 +11,20 @@
               <span><%= render_activity(activity, layout: 'activity', fallback: 'default') %></span>
               <br><small><i class="fa fa-clock-o"></i> <%= activity.created_at.to_time.strftime('%A, %F at %I:%M%p') %></small>
             </h2>
-            <% if activity.parameters.any? %>
+            <% if activity.parameters.any? and activity.parameters.is_a?(Hash) %>
                 <p>
-                    <% if activity.parameters.is_a?(Hash)  %>
-                       <%= changes_to_string(activity.parameters[:changes]) %>
+                    <% if activity.parameters[:changes] %>
+                       <span class="label label-default">Changes</span> <%= changes_to_string(activity.parameters[:changes]) %>
+                    <% elsif activity.parameters[:test_execution_id] %>
+                        <% te = TestExecution.find_by_id activity.parameters[:test_execution_id] %>
+                        <% if te.is_finished? %>
+                          <%= link_to (badge_label te, {:text => ''}), test_execution_path(te, anchor: 'finished') %>
+                          meanwhile has been <a href="<%= test_execution_path(te, anchor: 'finished')%>"><%= raw te.image_result %> <%= te.text_result %></a>!
+                        <% elsif te.is_running? %>
+                          <%= link_to (badge_label te, {:text => ''}), te %>
+                          is currently beeing processed <i class="fa fa-spinner fa-spin"></i>
+                        <% end %>
+
                     <% else %>
                         <%= activity.parameters %>
                     <% end %>

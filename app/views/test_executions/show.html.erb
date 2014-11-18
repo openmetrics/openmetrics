@@ -15,25 +15,16 @@
 
   <!-- right column, top column when mobile -->
   <div class="col-md-4 col-md-push-8">
-    <h3 class="spacer">Result</h3>
+    <h4 class="spacer">Result</h4>
     <div class="panel panel-default">
       <div id="test_execution_status" class="panel-body">
         <%= test_execution_status(@test_execution) %>
-        Text Result <code><%= @test_execution.text_result %></code>
       </div>
     </div>
     <!-- execution parameter -->
-    <i class="fa fa-rocket"></i> Parameters
+    <h4>Parameters</h4>
     <%= render 'parameters', item: @test_execution %>
-    <!-- test execution quality -->
-    <% if @test_execution.quality_criteria.any? %>
-        <h4>Quality</h4>
-        <div class="panel">
-          <div class="panel">
-            <%= render 'quality_criteria', test_execution: @test_execution %>
-          </div>
-        </div>
-    <% end %>
+
   </div>
 
   <!-- left column, top column when mobile -->
@@ -44,6 +35,15 @@
         <%= render partial: 'test_plan_execution', locals: { tp: @test_plan, te: @test_execution } %>
       </div>
     </div>
+    <!-- test execution quality -->
+    <% if @test_execution.quality_criteria.any? %>
+        <h4>Quality</h4>
+        <div class="panel">
+          <div class="panel">
+            <%= render 'quality_criteria', test_execution: @test_execution %>
+          </div>
+        </div>
+    <% end %>
   </div>
 
 </div>

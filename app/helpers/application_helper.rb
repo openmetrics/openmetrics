@@ -32,10 +32,16 @@ module ApplicationHelper
   def badge_label(object, *options)
     opt = options.extract_options! # returns Hash
     label_class = opt[:label_class] || 'default'
+    truncate = opt[:truncate] || false
     # use base_class here to show parent classname of sti model, e.g. 'Service' instead of 'HttpService'
     object_class = opt[:use_base_class] ? object.class.base_class.name : object.class.name
     default_text = object.respond_to?(:name) ? object.name : "unnamed Object"
     text = opt[:text] || default_text
+
+    # truncate text after certain characters?
+    if truncate.is_a? Integer
+      text = truncate(text, length: truncate, separator: ' ')
+    end
 
     # sub_label? extend text with it
     if opt[:sub_label]

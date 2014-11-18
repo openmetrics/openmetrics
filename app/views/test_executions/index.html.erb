@@ -11,11 +11,11 @@
   <tr>
     <th>Test Execution</th>
     <th>Test Plan</th>
-    <th>Started At</th>
-    <th>Finished At</th>
-    <th>Duration</th>
     <th>Result</th>
     <th>Quality</th>
+    <th>Started</th>
+    <th>Finished</th>
+    <th>Duration</th>
     <th>Actions</th>
   </tr>
   </thead>
@@ -26,13 +26,14 @@
       <% anchor = te.status == 40 ? 'finished' : nil %>
       <%= link_to badge_label(te, {:text => '', :label_class => 'primary'}), test_execution_path(te, anchor: anchor) %>
     </td>
-    <td><%= link_to badge_label(te.test_plan, {:label_class => 'info'}), te.test_plan %></td>
+    <td><%= link_to badge_label(te.test_plan, {:truncate => 28, :label_class => 'info'}), te.test_plan %></td>
+    <td><%= raw te.image_result %></td>
+    <% quality = te.test_execution_items.collect{|tei| tei.overall_quality}.flatten %>
+    <td><div id="quality_graph_<%= te.id %>" class="quality_graph" data-quality="<%= quality.to_json %>" style="width:125px;height:25px;"></div></td>
     <td><%= I18n.localize(te.started_at, :format => :short) unless te.started_at.nil? %></td>
     <td><%= I18n.localize(te.finished_at, :format => :short) unless te.finished_at.nil? %></td>
     <td><%= te.duration %></td>
-    <td><%= te.text_result %></td>
-    <% quality = te.test_execution_items.collect{|tei| tei.overall_quality}.flatten %>
-    <td><div id="quality_graph_<%= te.id %>" class="quality_graph" data-quality="<%= quality.to_json %>" style="width:125px;height:25px;"></div></td>
+
     <td>
       <% anchor = te.status == 40 ? 'finished' : nil %>
       <%= link_to raw('<span class="fa fa-eye"></span> Show'), test_execution_path(te, anchor: anchor), :class => 'btn btn-default btn-xs' %>

@@ -120,6 +120,9 @@ gem 'public_activity', github: 'pokonski/public_activity' # we need :fallback pa
 # test_plan_items shall have fixed order
 gem 'acts_as_list'
 
+# more accurate distance_in_words
+gem 'precise_distance_of_time_in_words'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

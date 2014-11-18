@@ -263,6 +263,8 @@ $(document).ready(function() {
     if ($('body.welcome_page.display').length > 0) {
         var searchInput = jQuery('#main-search');
         var searchForm = searchInput.closest('form');
+        // remove forms bootstrap navbar-* classes
+        searchForm.removeClass('navbar-form').removeClass('navbar-left')
         $(searchForm).appendTo('#container_for_search_input');
         $('#main-search').focus();
     }

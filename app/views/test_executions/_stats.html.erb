@@ -1,10 +1,10 @@
 <br>
 <div class="stats-block">
     <% if test_execution.status > 10 %>
-      <!--Started At <code><%= test_execution.started_at.nil? ? 'not yet decided' : "#{test_execution.started_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code><br>-->
-      <!--Finished At <code><%= test_execution.finished_at.nil? ? 'not yet decided' : "#{test_execution.finished_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code><br>-->
+      Started <code><%= test_execution.started_at.nil? ? 'not yet decided' : "#{test_execution.started_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code><br>
+      Finished <code><%= test_execution.finished_at.nil? ? 'not yet decided' : "#{test_execution.finished_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code><br>
       Duration <code><%= test_execution.duration.nil? ? 'not yet decided' : "#{test_execution.duration} s" %></code><br>
-      Status <code><%= test_execution.result.exitstatus.nil? ? "not yet decided" : test_execution.result.exitstatus %></code>
+      <!--Status <code><%= test_execution.result.exitstatus.nil? ? "not yet decided" : test_execution.result.exitstatus %></code>-->
     <% else %>
       No statistics available yet.
     <% end %>

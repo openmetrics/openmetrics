@@ -1,8 +1,19 @@
 
  <div class="panel panel-default">
     <div class="panel-body">
-        Base URL <% if item.test_plan.base_url %><code><%= item.test_plan.base_url %></code><% else %><code>not set</code><% end %><br>
-        Started <% if item.started_at %><code><%= item.started_at.strftime('%Y-%m-%d %H:%M:%S') %></code><% else %><code>not set</code><% end %><br>
-        Finished <% if item.finished_at %><code><%= item.finished_at.strftime('%Y-%m-%d %H:%M:%S') %></code><% else %><code>not set</code><% end %><br>
+      Base URL <% if item.test_plan.base_url %><code><%= item.test_plan.base_url %></code><% else %><code>not set</code><% end %><br>
+      Requested by
+        <% if @test_execution.user_id %>
+            <% user = User.find_by_id @test_execution.user_id %>
+            <%= link_to raw(gravatar_image_tag(user.email, :class => "gravatar-s", :gravatar => {:size => 16})) + user.username,
+                        user %>
+        <% else %>
+            <code>unknown user</code>
+        <% end %>
+        <%= precise_distance_of_time_in_words(Time.now, @test_execution.created_at) %> ago
+      <br>
+
+
+
     </div>
 </div>
