@@ -93,8 +93,12 @@ a:hover  {
   padding-right: 15px;
 }
 
-/* tabs left, right and below from http://stackoverflow.com/questions/18432577/stacked-tabs-in-bootstrap-3 */
+/* panel within tab shouldn't have top border */
+.nav-tabs.borderless {
+  border-bottom: none;
+}
 
+/* tabs left, right and below from http://stackoverflow.com/questions/18432577/stacked-tabs-in-bootstrap-3 */
 .tabs-below > .nav-tabs,
 .tabs-right > .nav-tabs,
 .tabs-left > .nav-tabs {
