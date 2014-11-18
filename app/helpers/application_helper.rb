@@ -71,16 +71,16 @@ module ApplicationHelper
     changes.each do |field, value|
       tmp_str = "<strong>#{field.humanize}:</strong> "
       # value[0] is origin value, value[1] is value changed to
-      tmp_str += "#{value[0]} <i class=\"fa fa-long-arrow-right\"></i> " unless value[0].nil? or value[1].nil?
+      tmp_str += "#{value[0]} <i class=\"fa fa-long-arrow-right text-info\"></i> " unless value[0].nil? or value[1].nil?
 
       # add minus sign if value is null now
       if value[1].nil?
-        tmp_str += "<i class=\"fa fa-minus\"></i> #{value[0]}"
+        tmp_str += "<i class=\"fa fa-minus text-danger\"></i> #{value[0]}"
       end
 
       # add a plus sign if value wasn't set before
       if value[0].nil? or value[0].empty?
-        tmp_str += "#{value[0]} <i class=\"fa fa-plus\"></i> "
+        tmp_str += "#{value[0]} <i class=\"fa fa-plus text-success\"></i> "
       end
       tmp_str += "#{value[1]}" unless value[1].nil?
       changes_arr.push(tmp_str)
