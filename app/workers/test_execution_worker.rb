@@ -81,6 +81,8 @@ class TestExecutionWorker
       quit_browser = position == items.count ? true : false # quit browser in last item
       executable_markup = if item.type == 'TestCase' && item.format == 'selenese'
                             WebtestAutomagick::selenese_to_webdriver(item.markup, tp.base_url, start_browser, quit_browser)
+                          elsif item.type == 'TestScript' && item.format == 'ruby' and item.provides_random_input?
+                            WebtestAutomagick::random_input_generator(item)
                           else
                             item.markup # use item.markup by default
                           end
@@ -126,10 +128,11 @@ class TestExecutionWorker
 
     end
 
-    # create helper libs for TestCase's
-    if items.where(type: 'TestCase', format: 'selenese').any?
+    # create helper libs for TestCase's and TestScript's that use random input generator
+    if items.where(type: 'TestCase', format: 'selenese').any? or items.collect { |ti| ti.provides_random_input? }.any?
       WebtestAutomagick::setup_execution_helper(dir)
     end
+
 
     # return array of test_execution_id, filename & interpreter
     ret
@@ -153,7 +156,7 @@ class TestExecutionWorker
         env.store('OM_RANDOM', rand(99999).to_s)
       end
 
-      #  load vars into environment from most recent envfile
+      # load vars into environment from most recent envfile
       all_in_files = Dir.glob("#{in_dir}/*.env")
       in_file = all_in_files.sort.last
       unless in_file.nil?
@@ -168,12 +171,14 @@ class TestExecutionWorker
 
       # if this item provides input, persist env's to filesytem (by a sourceable bash file)
       if te_item.provides_input?
-        Dir.mkdir(in_dir) unless Dir.exist?(in_dir)
-        bash_env = ""
-        te_item.provided_input.each do |input|
-          bash_env += "#{input[0]}=#{input[1]}\n"
-        end
-        File.open(in_dir+"/#{te_item_id}.env", 'w') {|f| f.write(bash_env) }
+        # unless te_item.provided_input.collect{|i| !i.second.nil?}.any? # any input pairs contain nil values?
+          Dir.mkdir(in_dir) unless Dir.exist?(in_dir)
+          bash_env = ""
+          te_item.provided_input.each do |input|
+            bash_env += "#{input[0]}=#{input[1]}\n"
+          end
+          File.open(in_dir+"/#{te_item_id}.env", 'w') {|f| f.write(bash_env) }
+        # end
       end
 
       # run command, pass in environment

@@ -229,7 +229,8 @@ st120_4:
 
 bmc100_1:
   test_plan: bmc100
-  test_item: bmcsetregistrationvariables
+  #test_item: bmcsetregistrationvariables
+  test_item: bmcgenerateusercreds
   position: 1
 bmc100_2:
   test_plan: bmc100

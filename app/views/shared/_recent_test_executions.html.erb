@@ -3,18 +3,17 @@
     <div class="list-group">
       <% test_executions.each do |te| %>
           <a href="<%= test_execution_path(te, anchor: 'finished') %>" class="list-group-item">
-            <h5 class="list-group-item-heading">
-              <%= badge_label te, {:text => '', :label_class => 'primary'} %>
+              <%= badge_label te, {:text => ''} %>
+              <% if te.is_finished? %>
+                  <%= badge_label te.test_plan, {:label_class => 'info'} %>
+                  <%= raw te.image_result %> <%= te.text_result %>!
+              <% elsif te.is_running? %>
+                  is currently beeing processed <i class="fa fa-spinner fa-spin"></i>
+              <% else %>
+                  behaved strange <i class="fa fa-meh-o"></i>
+              <% end %>
+              <%#= badge_label te.test_plan, {:label_class => 'info'} %>
               <%#= gravatar_image_tag(current_user.email, :class => "gravatar-s", :gravatar => {:size => 16}) + current_user.username %>
-              <!--<code><%= te.duration %> s</code>-->
-            </h5>
-            <p class="list-group-item-text">
-              <%= badge_label te.test_plan, {:label_class => 'info'} %>
-              <br>
-              &nbsp;<%= raw te.image_result %>
-              <% quality = te.test_execution_items.collect{|tei| tei.overall_quality}.flatten %>
-              <span id="quality_graph_<%= te.id %>" class="quality_graph" data-quality="<%= quality.to_json %>" style=" vertical-align:middle; display:inline-block; width:300px;height:25px;"></span>
-            </p>
           </a>
       <% end %>
     </div>

@@ -88,8 +88,19 @@ class TestExecutionHelper
   alias_method :cwd, :pwd
   alias_method :working_dir, :pwd
 
+  def program_name
+    #puts __FILE__ # /home/mgrobelin/development/openmetrics/tmp/test_executions/13/lib/TestExecutionHelper.rb
+    #puts File.dirname(__FILE__) # /home/mgrobelin/development/openmetrics/tmp/test_executions/13/lib
+    #puts File.basename(__FILE__) # TestExecutionHelper.rb
+    #puts $0 # /home/mgrobelin/development/openmetrics/tmp/test_executions/13/1_40501189.rb
+    #puts File.basename($0) # 1_40501189.rb
+    File.basename($0)
+  end
+  alias_method :script_name, :program_name
+
   def debug
     puts "Current Working Dir: #{pwd}"
+    puts "Program Name: #{program_name}"
     puts "WebBrowser Session File: #{self.instance_variable_get(:@browser_session_file)}"
     puts "Random: #{self.instance_variable_get(:@random_value)}"
   end
@@ -101,6 +112,23 @@ class TestExecutionHelper
       puts "Connection refused while trying to get browser session: #{e.message}"
     end
   end
+
+  def store_environment!(*var_names)
+    in_dir = "#{pwd}/in"
+    item_id = self.program_name.split('.')[0].split('_')[1] # e.g. 2_23423423.rb
+    position = self.program_name.split('_')[0] # e.g. 2_23423423.rb
+    Dir.mkdir(in_dir) unless Dir.exist?(in_dir)
+    bash_env = ""
+    var_names.each do |var_name|
+        if ENV[var_name] == nil
+          bash_env += "#{var_name}=:\n" # : means something like nothing in bash
+        else
+          bash_env += "#{var_name}=#{ENV[var_name]}\n"
+        end
+    end
+    File.open(in_dir+"/#{position}_#{item_id}.env", 'w') {|f| f.write(bash_env) }
+  end
+  alias_method :store_environment, :store_environment!
 
   def quit_driver
     self.cleanup_browser

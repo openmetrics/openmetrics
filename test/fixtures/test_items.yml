@@ -681,6 +681,29 @@ bmclogoutuser:
     </html>
 
 
+bmcgenerateusercreds:
+  name: bmcgenerateusercreds
+  description: Generates (random) User credentials for Input Variables "email", "username" and "password"
+  type: TestScript
+  format: ruby
+  markup: |
+    length = 12
+    rand = rand(36**length).to_s(36)
+    ENV['email'] = "#{rand}@example.com"
+    ENV['username'] = "#{rand}"
+    ENV['password'] = "#{rand}"
+
+bmcgenerateusercreds2:
+  name: bmcgenerateusercreds2
+  description: Generates (random) User credentials for Input Variables "email", "username" and "password"
+  type: TestScript
+  format: ruby
+  markup: |
+    length = 12
+    rand = rand(36**length).to_s(36)
+    ENV.store('email', "#{rand}@example.com")
+    ENV.store('userame', "#{rand}@example.com")
+    ENV.store('password', "#{rand}")
 
 # start/stop/resume webbrowser
 browser_start:

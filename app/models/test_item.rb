@@ -29,6 +29,8 @@ class TestItem < ActiveRecord::Base
   def provided_input
     if self.format == 'selenese'
       WebtestAutomagick::selenese_extract_input(self.markup)
+    elsif self.format == 'ruby'
+      WebtestAutomagick::ruby_extract_input(self.markup)
     else
       nil
     end
@@ -37,11 +39,18 @@ class TestItem < ActiveRecord::Base
   def provides_input?
     if self.format == 'selenese'
       self.markup.include?('<td>store</td>')
+    elsif self.format == 'ruby'
+      self.markup.scan(/ENV\[['"]([a-zA-Z0-9]+)['"]\]\s?=/).any?
     else
       false
     end
   end
   alias_method :input_provided?, :provides_input?
+
+  def random_input?
+    self.provided_input.collect{|i| i.second.nil?}.any?
+  end
+  alias_method :provides_random_input?, :random_input?
 
   def requires_input?
     # selenese uses ${varname} notation to reference variables

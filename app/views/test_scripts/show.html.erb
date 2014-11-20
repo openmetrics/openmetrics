@@ -40,6 +40,28 @@
     <% end %>
   </div>
 
+  <h4>Input</h4>
+  <% if @test_script.provides_input? %>
+      <% @test_script.provided_input.each do |input_array| %>
+          <span class="label label-success">Provides</span>
+          <% if input_array[1] %>
+            <strong><%= input_array[1] %></strong>
+          <% else %>
+            random value
+          <% end %>
+          for <strong><%= input_array[0] %></strong><br>
+      <% end %>
+  <% end %>
+
+  <% if @test_script.requires_input? %>
+      <% @test_script.required_input.each do |input_array| %>
+          <% input_array.each do |input| %>
+              <span class="label label-danger">Requires</span> <strong><%= input.first %></strong><br>
+          <% end %>
+      <% end %>
+  <% end %>
+
+
 
 </div>
 

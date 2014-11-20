@@ -35,6 +35,8 @@ class TestExecutionItem < ActiveRecord::Base
   def provides_input?
     if self.test_item.format == 'selenese'
       self.test_item.markup.include?('<td>store</td>')
+    elsif self.test_item.format == 'ruby' and self.test_item.provides_random_input?
+      true
     else
       false
     end
@@ -44,6 +46,8 @@ class TestExecutionItem < ActiveRecord::Base
   def provided_input
     if self.test_item.format == 'selenese'
       WebtestAutomagick::selenese_extract_input(self.test_item.markup)
+    elsif self.test_item.format == 'ruby'
+      WebtestAutomagick::ruby_extract_input(self.markup)
     else
       nil
     end

@@ -25,13 +25,13 @@
             <!-- add some icons to toggle input, output and error directly -->
             <span class="toggle_status">
                 <% if tei and tei.provides_input? %>
-                    <i class="fa fa-sign-in" data-toggle="stdin" title="toggle Input"></i>
+                    <i class="fa fa-sign-in" data-toggle="stdin" title="Input"></i>
                 <% end %>
                 <% if tei and !tei.output.nil? %>
-                    <i class="fa fa-sign-out" data-toggle="stdout" title="toggle Output"></i>
+                    <i class="fa fa-sign-out" data-toggle="stdout" title="Output"></i>
                 <% end %>
                 <% if tei and !tei.error.nil? %>
-                    <i class="fa fa-bug" data-toggle="stderr" title="toggle Error Output"></i>
+                    <i class="fa fa-bug" data-toggle="stderr" title="Error Output"></i>
                 <% end %>
             </span>
 
@@ -70,26 +70,16 @@
                     <%= render 'shared/quality', item: tei %>
                   </li>
 
-                  <%# display origin TestItem markup %>
-                  <li class="markup_raw spacer collapse"><i class="fa-li fa fa-code"></i>
-                    Raw Markup  <%= badge test_item.format, 'info' %>
-                    <%= coderay(test_item.markup, test_item.format, "div") %>
-                  </li>
-
-                  <%# display matching TestExecutionItem markup %>
-                  <li class="markup spacer collapse"><i class="fa-li fa fa-file-code-o"></i>
-                    Executable Markup <%= badge tei.format, 'info' %>
-                    <%#= File.basename(tei.executable) %>
-                    <%= coderay(tei.markup, tei.format, "div") %>
-                    <code><%= tei.executable %></code>
-                  </li>
-
                   <!-- input -->
                   <li class="stdin spacer collapse"><i class="fa-li fa fa-sign-in"></i>
                     Input
                     <% if tei and tei.provides_input? %>
-                       <%= coderay(tei.provided_input, "plain", "div") %>
-                       <code><%= tei.working_dir+"/in/#{tei.id}.env" %></code>
+                        <div class="well">
+                            <% tei.provided_input.each do |input_array| %>
+                                <span class="label label-success">Provides</span> <strong><%= input_array[1] %></strong> for <strong><%= input_array[0] %></strong><br>
+                            <% end %>
+                        </div>
+                        <code><%= tei.working_dir+"/in/#{tei.id}.env" %></code>
                     <% else %>
                        <%= coderay('empty', "plain", "div") %>
                     <% end %>
@@ -105,6 +95,20 @@
                   <li class="stderr spacer collapse"><i class="fa-li fa fa-bug"></i>
                     Error Output
                     <%= tei and tei.error.nil? ? coderay("empty", "plain", "div") : coderay(tei.error, tei.format, "div") %>
+                  </li>
+
+                  <%# display origin TestItem markup %>
+                  <li class="markup_raw spacer collapse"><i class="fa-li fa fa-code"></i>
+                    Raw Markup  <%= badge test_item.format, 'info' %>
+                    <%= coderay(test_item.markup, test_item.format, "div") %>
+                  </li>
+
+                  <%# display matching TestExecutionItem markup %>
+                  <li class="markup spacer collapse"><i class="fa-li fa fa-file-code-o"></i>
+                    Executable Markup <%= badge tei.format, 'info' %>
+                    <%#= File.basename(tei.executable) %>
+                    <%= coderay(tei.markup, tei.format, "div") %>
+                    <code><%= tei.executable %></code>
                   </li>
 
                 </ul>

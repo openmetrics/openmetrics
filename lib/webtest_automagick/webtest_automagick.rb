@@ -13,6 +13,21 @@ module WebtestAutomagick
     FileUtils.cp("#{Rails.root.join('lib', 'webtest_automagick').to_s}/TestExecutionHelper.rb", "#{dir}/lib")
   end
 
+  def self.random_input_generator(test_item)
+    rb=''
+rb += %Q[
+require_relative 'lib/TestExecutionHelper'
+
+helper = TestExecutionHelper.new
+]
+    rb += test_item.markup
+
+    input_vars_array = test_item.provided_input.collect{ |x| x.first }
+    rb += "helper.store_environment! #{input_vars_array.to_s}\n"
+    #rb += "helper.program_name\n"
+    rb
+  end
+
   # translates selenese to ruby-webdriver
   # http://release.seleniumhq.org/selenium-core/1.0.1/reference.html
   def self.selenese_to_webdriver(markup, base_url, start_browser=false, close_browser=false)
@@ -48,6 +63,8 @@ module WebtestAutomagick
 
 wd += %Q[
 require 'selenium-webdriver'
+require 'test/unit/assertions'
+include Test::Unit::Assertions
 require_relative 'lib/TestExecutionHelper'
 
 helper = TestExecutionHelper.new
@@ -113,7 +130,7 @@ driver.navigate.to "#{base_url}"
         when /type/
           wd << "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
         when /verifyTextPresent/
-          wd << "driver.page_source.include? \"#{target}\"\n"
+          wd << "assert(driver.page_source.include?(\"#{target}\"), \"verifyTextPresent #{target} failed\")\n"
         when /waitForElementPresent/
           wd << '# wait for a specific element to show up' + "\n"
           wd << 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
@@ -159,5 +176,17 @@ driver.navigate.to "#{base_url}"
       end
     end
     return var_commands
+  end
+
+  # looks for stored ENV vars
+  # two formats are valid: ENV['<name>'] = <value> and ENV.store('<name>', <value>)
+  # returns array of found input pairs
+  def self.ruby_extract_input(markup)
+    store_commands = []
+    env_var_matches = markup.scan(/ENV\[['"]([a-zA-Z0-9]+)['"]\]/) # matches password from ENV['password']
+    env_var_matches.each do |match|
+      store_commands.push([match.first, nil])
+    end
+    return store_commands
   end
 end
