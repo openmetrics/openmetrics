@@ -9,8 +9,11 @@ module ApplicationHelper
     end
   end
 
-  # renders text with synthax highligh
-  def coderay(text, format='plain', container='span')
+  # renders text with synthax highlight
+  # see http://www.rubydoc.info/github/rubychan/coderay/CodeRay/Encoders/HTML for coderay options
+  def coderay(text, format='plain', container='span', line_numbers=false)
+    opts = {}
+
     case format
       when 'bash'
         format = 'sh'
@@ -20,7 +23,19 @@ module ApplicationHelper
         format = 'ruby'
     end
 
-    raw container == "span" ? CodeRay.scan("#{text}", format.to_sym).span() : CodeRay.scan("#{text}", format.to_sym).div()
+    if container == "span"
+      opts[:wrap] = :span
+    else
+      opts[:wrap] = :div
+    end
+
+    # possible opts are :inline, :table or :nil (default)
+    if line_numbers
+      opts[:line_numbers] = :inline
+    end
+
+
+    raw CodeRay.scan("#{text}", format.to_sym).html(opts)
   end
 
   # helper to insert bootstrap badge

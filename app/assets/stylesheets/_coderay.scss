@@ -20,24 +20,24 @@ span.CodeRay { white-space: pre; border: 0px; padding: 2px }
 
 table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px }
 table.CodeRay td {
-  padding: 1em 0.5em;
+//  padding: 1em 0.5em;
   vertical-align: top;
 }
 
 .CodeRay .line-numbers, .CodeRay .no {
-  background-color: #ECECEC;
-  color: #AAA;
+//  background-color: #ECECEC;
+  color: #9b9b9b;
   text-align: right;
 }
 
 .CodeRay .line-numbers a {
-  color: #AAA;
+  color: #9b9b9b;
 }
 
 .CodeRay .line-numbers tt { font-weight: bold }
 .CodeRay .line-numbers .highlighted { color: red }
 .CodeRay .line { display: block; float: left; width: 100%; }
-.CodeRay span.line-numbers { padding: 0px 4px }
+.CodeRay span.line-numbers { padding: 0px 20px 0px 0px }
 .CodeRay .code { width: 100% }
 
 ol.CodeRay { font-size: 10pt }
