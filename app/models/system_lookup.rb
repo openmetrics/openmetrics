@@ -4,7 +4,7 @@ class SystemLookup < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :system
-  has_one :system_lookup_result
+  has_one :system_lookup_result, dependent: :destroy
 
   strip_attributes
 

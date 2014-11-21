@@ -172,7 +172,9 @@ module SshAutomagick
 
   # Check login via SSH on the given remote server
   def self.ssh_login_possible?(system)
-    Net::SSH.start(system.cidr, system.sshuser) do |ssh|
+    keys = '~/.ssh/id_rsa_om'
+    # :use_agent needs to be false, otherwise :keys are ignored due to bug https://github.com/net-ssh/net-ssh/issues/137
+    Net::SSH.start(system.cidr, system.sshuser, :keys => keys) do |ssh|
       test_ssh_connection(ssh)
     end
   end
@@ -270,7 +272,18 @@ module SshAutomagick
        
      end # Net:SSH block
 
-    end
+   end
+
+   def self.run_ohai!(system)
+     keys = '~/.ssh/id_rsa_om'
+     out = ''
+     Net::SSH.start(system.cidr, system.sshuser, :keys => keys) do |ssh|
+       ssh.exec!('. ~/.profile && cd /opt/openmetrics/om-agent/lib/ohai && ./bin/ohai') do |channel, stream, data|
+         out << data
+       end
+     end
+     out
+   end
 
 
 
@@ -280,7 +293,7 @@ module SshAutomagick
    #
    # schema: <remotefile>.conf.bak.YYYY-MM-DD_HH:MM_XXXX
    #
-   def create_collectd_config_backup(ssh_connection, filepath)
+   def self.create_collectd_config_backup(ssh_connection, filepath)
          # create a random 4 character BASE-16 hash
          hash=((rand * 65535)).to_i.to_s(16).upcase.rjust(4,'0')
 
@@ -297,7 +310,7 @@ module SshAutomagick
    #
    # If there is no Token the float will be 0
    #
-   def token_present(ssh_connection)
+   def self.token_present(ssh_connection)
      stdout = ""
      ssh_connection.exec!("if [ -f .ssh/TOKEN ];then echo 'TOKEN';else touch .ssh/TOKEN;fi") do |channel, stream, data|
        stdout << data if stream == :stdout
@@ -322,7 +335,7 @@ module SshAutomagick
    # Removes the TOKEN from the given ssh_connection and returns its age as float.
    # '0' means that no TOKEN was found.
    #
-   def remove_token(ssh_connection)
+   def self.remove_token(ssh_connection)
      stdout = ""
      ssh_connection.exec!("if [ -f .ssh/TOKEN ];then echo 'TOKEN';else touch .ssh/TOKEN;fi") do |channel, stream, data|
        stdout << data if stream == :stdout
@@ -345,7 +358,7 @@ module SshAutomagick
 
    # tries to execute noop-command on given ssh_connection
    #
-   def test_ssh_connection(ssh_connection)
+   def self.test_ssh_connection(ssh_connection)
      stdout = ""
      ssh_connection.exec!(':') do |channel, stream, data|
        stdout << data if stream == :stdout
@@ -357,7 +370,7 @@ module SshAutomagick
    #
    # schema: authorized_keys.bak.YYYY-MM-DD_HH:MM_XXXX
    #
-   def create_backup(ssh_connection)
+   def self.create_backup(ssh_connection)
          # create a random 4 character BASE-16 hash
          hash=((rand * 65535)).to_i.to_s(16).upcase.rjust(4,'0')
 
@@ -371,7 +384,7 @@ module SshAutomagick
    # NOTE: pubkey will be sanitized for the check, so SSHAutomagick will not
    # care about comments or commands, just the plain key.
    #
-   def key_present(ssh_connection, pubkey)
+   def self.key_present(ssh_connection, pubkey)
 
      stdout=""
      
@@ -389,7 +402,7 @@ module SshAutomagick
    # WARNING: This method is not »uberperfect« you still shuold sanitize and check
    # the keys during the initial upload!
    #
-   def pubkey_format_ok?(pubkey)
+   def self.pubkey_format_ok?(pubkey)
      return false if pubkey.nil?
      return false if pubkey.empty?
      return false if pubkey.include? "\n" # pubkey should only be one line!
