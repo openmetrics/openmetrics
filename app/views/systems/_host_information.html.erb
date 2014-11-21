@@ -2,21 +2,26 @@
     <h3 class="spacer">Host Information</h3>
     <div class="panel panel-default">
       <div class="panel-body">
-      <% if @system.fqdn %>
-        <p><strong>FQDN</strong>
-          <code class="pull-right"><%= @system.fqdn %></code>
-        </p>
-      <% end %>
-      <% if @system.cidr %>
-        <p><strong>Network address</strong>
-          <code class="pull-right"><%= @system.cidr %></code>
-        </p>
-      <% end %>
-      <% if @system.sshuser %>
-        <p><strong>SSH user</strong>
-          <code class="pull-right"><%= @system.sshuser %></code>
-        </p>
-      <% end %>
+        <table class="table table-condensed stats">
+          <% if @system.fqdn %>
+              <tr>
+                <td class="col-md-6">FQDN</td>
+                <td class="col-md-6"><span><%= @system.fqdn %></span></td>
+              </tr>
+          <% end %>
+          <% if @system.cidr %>
+              <tr>
+                <td class="col-md-6">Network address</td>
+                <td class="col-md-6"><span><%= @system.cidr %></span></td>
+              </tr>
+          <% end %>
+          <% if @system.sshuser %>
+              <tr>
+                <td class="col-md-6">SSH User</td>
+                <td class="col-md-6"><span><%= @system.sshuser %></span></td>
+              </tr>
+          <% end %>
+        </table>
       </div>
     </div>
 <% end %>
