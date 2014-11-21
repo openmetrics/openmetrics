@@ -10,7 +10,11 @@
     <h4 class="spacer">Recent Events</h4>
     <div class="panel panel-default">
       <div class="panel-body">
-        <%= render 'shared/activities', events: @recent_events %>
+        <% if @recent_events.any? %>
+            <%= render 'shared/activities', events: @recent_events %>
+        <% else %>
+            Apparently, there aren't any notable Events yet.
+        <% end %>
       </div>
     </div>
   </div>

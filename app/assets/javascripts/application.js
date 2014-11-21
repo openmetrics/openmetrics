@@ -51,7 +51,7 @@
 /* flash handler */
 flashHandler = function(e, params) {
     console.log('Received flash message "'+params.message+'" of type '+params.type);
-    //notify(params.message, params.type);
+    notify(params.message, params.type);
 };
 $(window).bind('rails:flash', flashHandler);
 

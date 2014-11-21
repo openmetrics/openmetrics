@@ -1,12 +1,11 @@
 
 <% if @system.description or @system.operating_system or @system.operating_system_flavor %>
-    <h3 class="spacer">System Information</h3>
+    <% if @system.description %>
+        <blockquote><%= @system.description %></blockquote>
+    <% end %>
+    <h4>System Information</h4>
     <div class="panel panel-default">
         <div class="panel-body">
-          <div class="panel-body">
-            <% if @system.description %>
-                <blockquote><%= @system.description %></blockquote>
-            <% end %>
             <table class="table table-condensed stats">
               <% if @system.operating_system or @system.operating_system_flavor %>
                   <tr>
@@ -15,7 +14,6 @@
                   </tr>
               <% end %>
             </table>
-          </div>
         </div>
     </div>
 <% end %>

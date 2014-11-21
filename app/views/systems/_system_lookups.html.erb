@@ -1,0 +1,22 @@
+<% lookups.each do |lookup| %>
+    <h3>SystemLookup <small>#<%= lookup.id %></small></h3>
+    Text result:<br>
+    <%= coderay(lookup.result, 'json', 'div') %>
+    
+    <% if lookup.result %>
+    <h3>Result</h3>
+    <% json_result = lookup.result.is_json? ? JSON.parse(lookup.result) : false %>
+    <% if json_result %>
+        <% json_result.each do |node| %>
+                <%= node.inspect %>
+            <% end %>
+        <% end %>
+    <% else %>
+        <%= lookup.result %>
+    <% end %>
+<% end %>
+
+
+
+
+

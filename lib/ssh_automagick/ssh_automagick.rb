@@ -10,7 +10,7 @@ module SshAutomagick
    # Writes collectd_plugin.configuration into a file in local filesystem,
    # substitues variables & transfers it to remote server.
    # FIXME add error handling http://ianpurton.com/ruby-ssh-example-with-error-handling
-   def enable_collectd_plugin(collectd_plugin, system)
+   def self.enable_collectd_plugin(collectd_plugin, system)
      system_ip = system.cidr
      system_sshuser = system.sshuser
      # FIXME hardcoded path to remotes host plugin dir
@@ -66,7 +66,7 @@ module SshAutomagick
 
    # reomves collectd_plugin.configuration remote server, backup files are
    # not deleted
-   def disable_collectd_plugin(collectd_plugin, system)
+   def self.disable_collectd_plugin(collectd_plugin, system)
       system_ip = system.ip
       system_sshuser = system.sshuser
       # FIXME hardcoded path to remotes host plugin dir
@@ -90,7 +90,7 @@ module SshAutomagick
    # Then it will read the current authenticated_users file and
    # report it back to the application
    #
-   def read_current_keys(system_ip)
+   def self.read_current_keys(system_ip)
      stdout = "" #initialize as string to avoid returning NIL
      Net::SSH.start(system_ip, 'mgrobelin') do |ssh|
         stdout = ssh.exec!("cat .ssh/authorized_keys")
@@ -101,7 +101,7 @@ module SshAutomagick
    # Given the result of read_current_keys, or the string representation of a
    # authorized users file, this methed returns an array with the keydata as Hash.
    #
-   def parse_authorized_keys(authorized_keys)
+   def self.parse_authorized_keys(authorized_keys)
      result = []
      #puts "!A!"
      unless authorized_keys.blank?
@@ -170,9 +170,11 @@ module SshAutomagick
      end
    end
 
-  #
-  def test_connection
-
+  # Check login via SSH on the given remote server
+  def self.ssh_login_possible?(system)
+    Net::SSH.start(system.cidr, system.sshuser) do |ssh|
+      test_ssh_connection(ssh)
+    end
   end
 
 
@@ -186,7 +188,7 @@ module SshAutomagick
    # If the key is present on the machine SSHAutomagick will NOT deploy the new
    # key.
    #
-   def deploy_key(system_ip, pubkey)
+   def self.deploy_key(system_ip, pubkey)
 
      return "Malformed pubkey, deploykey aborted!" unless pubkey_format_ok?(pubkey)
 
@@ -339,6 +341,16 @@ module SshAutomagick
        token_age = Time.now.to_f - stdout.to_f
        return token_age
      end
+   end
+
+   # tries to execute noop-command on given ssh_connection
+   #
+   def test_ssh_connection(ssh_connection)
+     stdout = ""
+     ssh_connection.exec!(':') do |channel, stream, data|
+       stdout << data if stream == :stdout
+     end
+     stdout.empty? ? true : false
    end
 
    # Creates a backup of the authorized keys file

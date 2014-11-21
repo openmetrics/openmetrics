@@ -49,6 +49,25 @@ class SystemsController < ApplicationController
     end
   end
 
+  # POST /systems/profile
+  def profile
+    sl = SystemLookup.new(system_lookup_params)
+    sl.user_id = current_user.id
+    begin
+      if sl.save
+        sl.create_activity :create, :owner => current_user
+        flash[:success] = 'IpLookup scheduled successfully.'
+      else
+        flash[:warn] = 'Oh snap! Scheduling SystemLookup on that System failed. ;('
+      end
+    rescue
+      logger.error 'Failed to schedule job on SystemLookupWorker'
+      flash[:error] = "That SystemLookup schedule didn't work."
+    ensure
+      redirect_to_anchor_or_back
+    end
+  end
+
   def show
     @services = Service.all
     @system_metrics = @system.metrics.group_by(&:plugin)
@@ -110,6 +129,10 @@ class SystemsController < ApplicationController
 
   def ip_lookup_params
     params.require(:ip_lookup).permit(:target)
+  end
+
+  def system_lookup_params
+    params.require(:system_lookup).permit(:system_id)
   end
 
   # save user_id within model changes

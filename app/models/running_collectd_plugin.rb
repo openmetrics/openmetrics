@@ -9,7 +9,7 @@
 #
 
 class RunningCollectdPlugin < ActiveRecord::Base
-  include SshAutomagick # to enable collectd plugin
+  #include SshAutomagick # to enable collectd plugin
 
   belongs_to :collectd_plugin
   belongs_to :running_service
@@ -19,7 +19,7 @@ class RunningCollectdPlugin < ActiveRecord::Base
 
   def enable_plugin
     begin
-      enable_collectd_plugin(self.collectd_plugin, self.system)
+      SshAutomagick::enable_collectd_plugin(self.collectd_plugin, self.system)
     rescue Exception => e
       logger.error "Failed to enable running_collectd_plugin #{self.id} due to exception #{e.message}"
     end

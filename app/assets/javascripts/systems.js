@@ -1,3 +1,17 @@
+//button to run test plan
+$(document).on('click', '.profile_system', function(e) {
+    var system_id = $(this).data('system_id');
+    var paramsString = $.param({system_lookup: {system_id: system_id}});
+    $.ajax({
+        type: "POST",
+        url: '/systems/profile',
+        data: paramsString,
+        success: function(data, textStatus) {
+            console.log('Run baby, run!');
+        }
+    });
+});
+
 $(".systems").ready(function () {
 
     console.log('Systems JS Ready');

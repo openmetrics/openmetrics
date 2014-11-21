@@ -30,6 +30,7 @@ class System < ActiveRecord::Base
   #has_many :running_collectd_plugins
   has_many :running_collectd_plugins, dependent: :destroy
   accepts_nested_attributes_for :running_collectd_plugins#, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
+  has_many :system_lookups
 
   strip_attributes
   validates :name, :presence => true, length: {minimum: 3},

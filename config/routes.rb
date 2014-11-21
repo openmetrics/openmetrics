@@ -24,9 +24,9 @@ Openmetrics::Application.routes.draw do
   # system's routes
   resources :systems
   post 'systems/scan' => 'systems#scan', as: :scan_system
- 
-  # ip lookups
+  post 'systems/profile' => 'systems#profile', as: :profile_system
   resources :ip_lookups
+  resources :system_lookups
 
   # services's routes
   resources :services

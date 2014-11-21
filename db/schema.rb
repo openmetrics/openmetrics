@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141103203537) do
+ActiveRecord::Schema.define(version: 20141121110621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,6 +179,20 @@ ActiveRecord::Schema.define(version: 20141103203537) do
   add_index "sidekiq_jobs", ["retry"], name: "index_sidekiq_jobs_on_retry", using: :btree
   add_index "sidekiq_jobs", ["started_at"], name: "index_sidekiq_jobs_on_started_at", using: :btree
   add_index "sidekiq_jobs", ["status"], name: "index_sidekiq_jobs_on_status", using: :btree
+
+  create_table "system_lookup_results", force: true do |t|
+    t.integer "system_lookup_id"
+    t.text    "result"
+  end
+
+  create_table "system_lookups", force: true do |t|
+    t.integer  "system_id"
+    t.string   "job_id"
+    t.integer  "user_id"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.integer  "status"
+  end
 
   create_table "system_variables", force: true do |t|
     t.string  "name"

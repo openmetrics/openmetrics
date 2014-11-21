@@ -3,6 +3,9 @@
       <%= badge_label @system, {:label_class => 'primary'} %>
       <span class="btn-group btn-group-sm pull-right">
         <%= link_to t('om.controls.delete_html'), @system, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-default' %>
+        <button class="btn btn-default profile_system" data-system_id="<%= @system.id %>">
+          <span class="fa fa-flask"></span> Profile
+        </button>
         <%= link_to t('om.controls.edit_html'), edit_system_path(@system), :class => 'btn btn-default' %>
       </span>
     </h3>
@@ -38,6 +41,13 @@
             <a href="#relations" data-toggle="tab">Relations</a>
         <% else %>
             <a href="javascript:void(0)" class="disabled">Relations</a>
+        <% end %>
+      </li>
+      <li <%= 'class=disabled' unless @system.system_lookups.any? %>>
+        <% if @system.system_lookups.any? %>
+            <a href="#audits" data-toggle="tab">Audits</a>
+        <% else %>
+            <a href="javascript:void(0)" class="disabled">Audits</a>
         <% end %>
       </li>
     </ul>
@@ -84,7 +94,7 @@
         <div class="clearfix"></div>
         <!-- / metrics tabs -->
       </div>
-        <div class="tab-pane" id="relations">
+      <div class="tab-pane" id="relations">
           <div class="panel panel-default">
             <div class="panel-body">
               <!-- system graph (will be filled by js) -->
@@ -93,7 +103,14 @@
                    data-running_services="<%= @system.running_services.all.to_json(except: [:type, :created_at, :updated_at]) %>"></div>
             </div>
           </div>
+      </div>
+      <div class="tab-pane" id="audits">
+        <div class="panel panel-default">
+          <div class="panel-body">
+                <%= render 'system_lookups', lookups: @system.system_lookups %>
+          </div>
         </div>
+      </div>
     </div>
 
   </div><!-- / left column -->

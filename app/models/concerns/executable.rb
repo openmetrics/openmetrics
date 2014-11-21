@@ -18,6 +18,8 @@ module Executable
       TestExecutionResult.create!(test_execution: self)
     elsif self.class.name == 'IpLookup'
       IpLookupResult.create!(ip_lookup: self)
+    elsif self.class.name == 'SystemLookup'
+      SystemLookupResult.create!(system_lookup: self)
     end
   end
 
@@ -31,6 +33,8 @@ module Executable
         update_column :job_id, TestExecutionWorker.perform_async(self.id, self.test_plan_id)
       elsif self.class.name == 'IpLookup'
         update_column :job_id, IpLookupWorker.perform_async(self.id)
+      elsif self.class.name == 'SystemLookup'
+        update_column :job_id, SystemLookupWorker.perform_async(self.id)
       end
       update_column :status, EXECUTION_STATUS.key('scheduled')
       logger.info "#{self.class.name} #{self.id} scheduled for execution (jid: #{self.job_id})."

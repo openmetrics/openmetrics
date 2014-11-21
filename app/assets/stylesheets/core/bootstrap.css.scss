@@ -13,6 +13,26 @@ a:hover  {
   text-decoration: none;
 }
 
+/* Override blockquote style */
+blockquote {
+  border-left: none;
+  padding: 0;
+  font-size: 16px;
+//  margin-bottom: 0;
+}
+blockquote:before {
+  content: "\f10d";/* Insert the pseudo element - replicating what FontAwesome does */
+  font-family: FontAwesome;
+  float: left;
+  margin-right: 10px;
+}
+//blockquote:after {
+//  content: "\f10e";/* Insert the pseudo element - replicating what FontAwesome does */
+//  font-family: FontAwesome;
+//  float: right;
+//  margin-left: 10px;
+//}
+
 /* always show vertical scrollbar to prevent layout jumps */
 //html {
 //  overflow-y: scroll;
