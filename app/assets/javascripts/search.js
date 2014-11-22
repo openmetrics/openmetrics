@@ -104,6 +104,38 @@ $(document).ready(function () {
         selectedItem = 0; // reset search result selection
     });
 
+    //make tabs clickable and store location
+    $('ul#search_tab').find('a').not('.disabled').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    // on load of the page: switch to the currently selected tab
+    // if no anchor is set, make first tab with items active
+    var anchor = window.location.hash;
+    if (anchor == '') {
+        var tab_panes = $('#search_tab').children('li');
+        tab_panes.each( function( index, element ){
+            var $this = $(element);
+            if ($this.data('num_results') > 0) {
+                //$this.addClass('active'); // set tab link active
+                var tab = $this.children('a').attr('href');
+                $('#search_tab a[href="' + tab + '"]').tab('show');
+                //$('#search_tab a[href="#tab-test_plans"]').tab('show');
+                return false; // break each loop
+            }
+        });
+    } else {
+        console.log('showing', anchor);
+        $('#search_tab a[href="' + anchor + '"]').tab('show');
+    }
+
+    // store the currently selected tab in the window location hash
+    $("ul#search_tab > li > a").on("shown.bs.tab", function (e) {
+        var tab_name = $(e.target).attr("href").substr(1); // strip '#' from anchors
+        window.location.hash = tab_name;
+    });
+
 });
 
 function hideAjaxSearchResults() {

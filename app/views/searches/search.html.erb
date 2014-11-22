@@ -123,31 +123,5 @@
 
 <!-- make tabs clickable and store location -->
 <script>
-    $('#search_tab').find('a').not('.disabled').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
 
-    // store the currently selected tab in the window location hash
-    $("ul.nav-tabs > li > a").on("shown.bs.tab", function (e) {
-        var tab_name = $(e.target).attr("href").substr(1);
-        window.location.hash = tab_name;
-    });
-
-    // on load of the page: switch to the currently selected tab
-    // if no anchor is set, make first tab with items active
-    var anchor = window.location.hash;
-    if (anchor == '') {
-        var tab_panes = $('#search_tab').children('li');
-        tab_panes.each( function( index, element ){
-            var $this = $(element);
-            if ($this.data('num_results') > 0) {
-                $this.addClass('active'); // set tab link active
-                $('#search_tab a[href="' + $this.attr('href') + '"]').tab('show');
-                return false; // break each loop
-            }
-        });
-    } else {
-        $('#search_tab a[href="' + anchor + '"]').tab('show');
-    }
 </script>
