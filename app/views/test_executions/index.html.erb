@@ -26,7 +26,7 @@
       <% anchor = te.status == 40 ? 'finished' : nil %>
       <%= link_to badge_label(te, {:text => '', :label_class => 'primary'}), test_execution_path(te, anchor: anchor) %>
     </td>
-    <td><%= link_to badge_label(te.test_plan, {:truncate => 28, :label_class => 'info'}), te.test_plan %></td>
+    <td><%= link_to badge_label(te.test_plan, {:truncate => 28, :label_class => 'info'}), te.test_plan, title: te.test_plan.name %></td>
     <td><%= raw te.image_result %></td>
     <% quality = te.test_execution_items.collect{|tei| tei.overall_quality}.flatten %>
     <td><div id="quality_graph_<%= te.id %>" class="quality_graph" data-quality="<%= quality.to_json %>" style="width:125px;height:25px;"></div></td>

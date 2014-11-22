@@ -2,8 +2,8 @@
 <div class="stats-block">
   <table class="table table-condensed stats">
     <tr>
-        <td class="col-md-6">Base URL</td>
-        <td class="col-md-6">
+        <td class="col-md-4">Base URL</td>
+        <td class="col-md-8">
           <% if test_execution.test_plan.base_url and !test_execution.test_plan.base_url.empty? %>
               <code><%= test_execution.test_plan.base_url %></code>
           <% else %>
@@ -19,7 +19,6 @@
           </td>
         <tr>
           <td class="col-md-4">Finished</td>
-
           <td class="col-md-8">
             <code><%= test_execution.finished_at.nil? ? 'not yet decided' : "#{test_execution.finished_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code>
           </td>
