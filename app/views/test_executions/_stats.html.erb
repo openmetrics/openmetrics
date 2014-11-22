@@ -1,11 +1,41 @@
 <br>
 <div class="stats-block">
+  <table class="table table-condensed stats">
+    <tr>
+        <td class="col-md-6">Base URL</td>
+        <td class="col-md-6">
+          <% if test_execution.test_plan.base_url and !test_execution.test_plan.base_url.empty? %>
+              <code><%= test_execution.test_plan.base_url %></code>
+          <% else %>
+              <code>not set</code>
+          <% end %>
+        </td>
+      </tr>
     <% if test_execution.status > 10 %>
-      Started <code><%= test_execution.started_at.nil? ? 'not yet decided' : "#{test_execution.started_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code><br>
-      Finished <code><%= test_execution.finished_at.nil? ? 'not yet decided' : "#{test_execution.finished_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code><br>
-      Duration <code><%= test_execution.duration.nil? ? 'not yet decided' : "#{test_execution.duration} s" %></code><br>
-      <!--Status <code><%= test_execution.result.exitstatus.nil? ? "not yet decided" : test_execution.result.exitstatus %></code>-->
-    <% else %>
-      No statistics available yet.
-    <% end %>
+        <tr>
+          <td class="col-md-4">Started</td>
+          <td class="col-md-8">
+            <code><%= test_execution.started_at.nil? ? 'not yet decided' : "#{test_execution.started_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code>
+          </td>
+        <tr>
+          <td class="col-md-4">Finished</td>
+
+          <td class="col-md-8">
+            <code><%= test_execution.finished_at.nil? ? 'not yet decided' : "#{test_execution.finished_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code>
+          </td>
+
+        </tr>
+        <tr>
+          <td class="col-md-4">Duration</td>
+          <td class="col-md-8">
+            <code><%= test_execution.duration.nil? ? 'not yet decided' : "#{test_execution.duration} s" %></code></td>
+        </tr>
+        <tr>
+          <td class="col-md-4">Exit Status</td>
+          <td class="col-md-8">
+            <code><%= test_execution.result.exitstatus.nil? ? "not yet decided" : test_execution.result.exitstatus %></code>
+          </td>
+        </tr>
+  <% end %>
+  </table>
 </div>
