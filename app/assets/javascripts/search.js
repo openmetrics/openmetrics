@@ -111,7 +111,7 @@ $(document).ready(function () {
     });
 
     // on load of the page: switch to the currently selected tab
-    // if no anchor is set, make first tab with items active
+    // if no anchor is set, set the first tab with some items to active
     var anchor = window.location.hash;
     if (anchor == '') {
         var tab_panes = $('#search_tab').children('li');
@@ -126,7 +126,6 @@ $(document).ready(function () {
             }
         });
     } else {
-        console.log('showing', anchor);
         $('#search_tab a[href="' + anchor + '"]').tab('show');
     }
 
