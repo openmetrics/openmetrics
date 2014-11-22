@@ -131,7 +131,7 @@ $(document).ready(function () {
     }
 
     // store the currently selected tab in the window location hash
-    $("ul#search_tab > li > a").on("shown.bs.tab", function (e) {
+    $("ul#search_tab > li > a").on("shown.bs.tab", function (e) {at
         var tab_name = $(e.target).attr("href").substr(1); // strip '#' from anchors
         window.location.hash = tab_name;
     });
