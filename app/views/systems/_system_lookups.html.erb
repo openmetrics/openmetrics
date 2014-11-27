@@ -1,10 +1,14 @@
-<% lookups.each do |lookup| %>
-    <h3>SystemLookup <small>#<%= lookup.id %></small></h3>
-    Text result:<br>
-    <%= coderay(lookup.result, 'json', 'div') %>
-<% end %>
-
-
+<div class="list-group">
+    <% lookups.each do |lookup| %>
+      <a href="<%= system_lookup_path(lookup) %>" class="list-group-item">
+        <h4 class="list-group-item-heading">SystemLookup <small>#<%= lookup.id %></small></h4>
+        <p class="list-group-item-text">
+            Started <code><%= lookup.started_at.nil? ? 'not yet decided' : "#{lookup.started_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code><br>
+            Finished <code><%= lookup.finished_at.nil? ? 'not yet decided' : "#{lookup.finished_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code>
+        </p>
+      </a>
+    <% end %>
+</div>
 
 
 

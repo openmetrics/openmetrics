@@ -1,0 +1,12 @@
+<% content_for :page_header do %>
+    <h3>SystemLookup <small>#<%= @system_lookup.id %></small></h3>
+<% end %>
+
+<%= link_to raw(badge_label(@system_lookup.system)), system_path(@system_lookup.system) %><br>
+<%= coderay(@system_lookup.result, 'json', 'div') %>
+
+
+
+
+
+
