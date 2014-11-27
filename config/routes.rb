@@ -9,7 +9,8 @@ Openmetrics::Application.routes.draw do
   resources :activities
 
   # devise and user related routes
-  devise_for :users, :controllers => { :registrations => "registrations" } # use our own RegistrationsController
+  # use custom RegistrationsController and SessionsController
+  devise_for :users, :controllers => { :registrations => 'registrations', sessions: 'sessions'}
   as :user do
     get '/login' => 'devise/sessions#new'
     delete '/logout' => 'devise/sessions#destroy'
