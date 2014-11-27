@@ -32,7 +32,7 @@ class TestItem < ActiveRecord::Base
     elsif self.format == 'ruby'
       WebtestAutomagick::ruby_extract_input(self.markup)
     else
-      nil
+      []
     end
   end
 
@@ -47,10 +47,10 @@ class TestItem < ActiveRecord::Base
   end
   alias_method :input_provided?, :provides_input?
 
-  def random_input?
+  def provides_random_input?
     self.provided_input.collect{|i| i.second.nil?}.any?
   end
-  alias_method :provides_random_input?, :random_input?
+  alias_method :random_input?, :provides_random_input?
 
   def requires_input?
     # selenese uses ${varname} notation to reference variables
