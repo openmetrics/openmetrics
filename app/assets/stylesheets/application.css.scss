@@ -191,5 +191,20 @@ body.welcome_page.display #ajax_search_result {width: 490px;}
   font-family: monospace;
 }
 
+/* pnotify custom styles from http://sciactive.github.io/pnotify/#stacks -> really different stacks
+/* This one is totally different. It stacks at the top and looks
+    like a Microsoft-esque browser notice bar. */
+.ui-pnotify.stack-bar-top {
+    right: 0;
+    top: 0;
+}
+.ui-pnotify.stack-bar-bottom {
+    margin-left: 15%;
+    right: auto;
+    bottom: 0;
+    top: auto;
+    left: auto;
+}
+
 /* .css3-blink http://www.john-smith.me/emulating--lt-blink-gt--using-webkit-css3-animation */
 @-webkit-keyframes blinker { from { opacity: 1.0; } to { opacity: 0.0; } } .css3-blink { -webkit-animation-name: blinker; -webkit-animation-iteration-count: infinite; -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0); -webkit-animation-duration: 1.5s; }

@@ -60,12 +60,22 @@ function notify(message, severity, title) {
     var title = typeof title !== 'undefined' ? title : null;
     var severity = typeof severity !== 'undefined' ? severity : 'notice';
 
+    // common stacks (used for positioning)
+    //var stack_topleft = {"dir1": "down", "dir2": "right", "push": "top"};
+    //var stack_bottomleft = {"dir1": "right", "dir2": "up", "push": "top"};
+    //var stack_bar_top = {"dir1": "down", "dir2": "right", "push": "top", "spacing1": 0, "spacing2": 0};
+    var stack_bar_bottom = {"dir1": "up", "dir2": "right", "spacing1": 0, "spacing2": 0};
+
     var opts = {
         text: message,
         hide: false,
         shadow: false,
         buttons: { closer_hover: true, sticker: false},
-        confirm: { confirm: false }
+        confirm: { confirm: false },
+        addclass: "stack-bar-bottom",
+        cornerclass: "",
+        width: "70%",
+        stack: stack_bar_bottom
     };
 
     switch (severity) {
