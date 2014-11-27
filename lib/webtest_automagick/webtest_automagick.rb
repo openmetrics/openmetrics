@@ -23,7 +23,9 @@ helper = TestExecutionHelper.new
     rb += test_item.markup
 
     input_vars_array = test_item.provided_input.collect{ |x| x.first }
-    rb += "helper.store_environment! #{input_vars_array.to_s}\n"
+    # Array -> String List http://stackoverflow.com/questions/3500814/ruby-array-to-string-conversion
+    #rb += "helper.store_environment! #{input_vars_array.to_s}\n"
+    rb += "helper.store_environment! #{input_vars_array.map{ |i|  %Q('#{i}') }.join(',')}\n"
     #rb += "helper.program_name\n"
     rb
   end
@@ -115,12 +117,30 @@ driver.navigate.to "#{base_url}"
 
       # translate selenese commands to selenium-webdriver markup
       # see http://selenium.googlecode.com/git/docs/api/rb/Selenium/Client/GeneratedDriver.html
-      #wd << "\n\n# DEBUG #{command}|#{target}|#{value}\n"
+      wd << "\n\n# DEBUG #{command}|#{target}|#{value}\n"
       case command
         when /click|clickAndWait/
           wd << "driver.find_element(#{how}, \"#{what}\").click\n"
         when /echo/
           wd << "# #{target}\n"
+        when /keyPress|keyPressAndWait/
+          wd << '# press key and wait' + "\n"
+          #wd << 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
+          # see http://code.google.com/p/selenium/source/browse/rb/lib/selenium/webdriver/common/action_builder.rb for action details
+          # see http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Keys.html for possible keys
+          # Map Keys for keyPress, keyPressAndWait etc.
+          # Either Key may be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII value of that key),
+          # or a single character. For example: "w", "\119".
+          if value =~ /^\\/
+            case value
+              when '\13'
+                key = ':return'
+              else
+                key = 'FIXME unknown key'
+            end
+          end
+          wd << "el = driver.find_element(#{how}, \"#{what}\")\n"
+          wd << "driver.action.key_down(el, #{key}).key_up(el, #{key})\n"
         when /open/
           wd << "driver.get(\"#{base_url}#{target}\")\n"
         when /pause/

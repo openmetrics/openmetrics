@@ -225,6 +225,15 @@ st120_4:
   test_item: bashexiterror
   position: 4
 
+st121_1:
+  test_plan: st121
+  test_item: rubyrandominput
+  position: 1
+st121_2:
+  test_plan: st121
+  test_item: selfindwithgoogle
+  position: 2
+
 ###
 
 bmc100_1:

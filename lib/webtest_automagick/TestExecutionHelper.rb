@@ -120,10 +120,10 @@ class TestExecutionHelper
     Dir.mkdir(in_dir) unless Dir.exist?(in_dir)
     bash_env = ""
     var_names.each do |var_name|
-        if ENV[var_name] == nil
+        if ENV["#{var_name}"] == nil
           bash_env += "#{var_name}=:\n" # : means something like nothing in bash
         else
-          bash_env += "#{var_name}=#{ENV[var_name]}\n"
+          bash_env += "#{var_name}=#{ENV["#{var_name}"]}\n"
         end
     end
     File.open(in_dir+"/#{position}_#{item_id}.env", 'w') {|f| f.write(bash_env) }

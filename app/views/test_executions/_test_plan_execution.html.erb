@@ -76,7 +76,7 @@
                     <% if tei and tei.provides_input? %>
                         <div class="well">
                             <% tei.provided_input.each do |input_array| %>
-                                <span class="label label-success">Provides</span> <strong><%= input_array[1] %></strong> for <strong><%= input_array[0] %></strong><br>
+                                <span class="label label-success">Provides</span> Input <strong><%= input_array[0] %></strong> with value <strong><%= input_array[1] %></strong><br>
                             <% end %>
                         </div>
                         <code><%= tei.working_dir+"/in/#{tei.id}.env" %></code>

@@ -95,6 +95,11 @@ st120:
   name: Quality criterion 6
   description: Test Plan with multiple Test Items and passing, defective and failing Quality Criteria.
 
+st121:
+  name: Random Input Generator
+  description: Test Plan that uses randomly generated input.
+  base_url: https://www.google.li
+
 # BMC
 bmc100:
   name: BMC register dietplan user
