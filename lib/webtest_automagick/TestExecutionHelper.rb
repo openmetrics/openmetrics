@@ -59,6 +59,16 @@ module WebBrowser
     puts "HTTP: #{bridge.instance_variable_get(:@http).inspect}"
     #puts "Capabilities: #{bridge.instance_variable_get(:@capabilities).inspect}"
 
+    # cookies
+    puts "Cookies: "
+    if driver.manage.all_cookies.any?
+      driver.manage.all_cookies.each do |cookie|
+        puts cookie.inspect
+      end
+    else
+      puts "none"
+    end
+
     # poll status from hub
     uri = URI("http://localhost:4444/grid/api/testsession?session=#{session_id}")
     conn = Net::HTTP.new(uri.host, uri.port)

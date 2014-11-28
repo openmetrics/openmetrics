@@ -71,12 +71,12 @@ require_relative 'lib/TestExecutionHelper'
 
 helper = TestExecutionHelper.new
 driver = helper.get_driver
-# print some debug info
-# helper.debug
+# uncomment to print some debug info
+#helper.debug
 driver.manage.timeouts.page_load = 20 # page load timeout in seconds
 driver.manage.timeouts.implicit_wait = 10 # seconds An implicit wait is to tell WebDriver to poll the DOM for a certain amount of time when trying to find an element or elements if they are not immediately available. The default setting is 0.
-driver.navigate.to "#{base_url}"
 ]
+    wd+="driver.navigate.to \"#{base_url}\"\n" if start_browser
 
     sel_commands.each do |command, target, value|
 
@@ -121,49 +121,56 @@ driver.navigate.to "#{base_url}"
 
       # translate selenese commands to selenium-webdriver markup
       # see http://selenium.googlecode.com/git/docs/api/rb/Selenium/Client/GeneratedDriver.html
-      wd << "\n\n# DEBUG #{command}|#{target}|#{value}\n"
-      case command
-        when /click|clickAndWait/
-          wd << "driver.find_element(#{how}, \"#{what}\").click\n"
-        when /echo/
-          wd << "puts \"#{target}\"\n"
-        when /keyPress|keyPressAndWait/
-          wd << '# press key and wait' + "\n"
-          #wd << 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
-          # see http://code.google.com/p/selenium/source/browse/rb/lib/selenium/webdriver/common/action_builder.rb for action details
-          # see http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Keys.html for possible keys
-          # Map Keys for keyPress, keyPressAndWait etc.
-          # Either Key may be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII value of that key),
-          # or a single character. For example: "w", "\119".
-          if value =~ /^\\/
-            case value
-              when '\13'
-                key = 'Selenium::WebDriver::Keys[:return]'
-              else
-                key = 'FIXME unknown key'
+      #wd << "\n\n# DEBUG #{command}|#{target}|#{value}\n"
+      if target.empty? and value.empty?
+        # it's a comment
+        wd << '# '+ command + "\n"
+      else
+        case command
+          when /click|clickAndWait/
+            wd << "driver.find_element(#{how}, \"#{what}\").click\n"
+          when /echo/
+            wd << "puts \"#{target}\"\n"
+          when /keyPress|keyPressAndWait/
+            wd << '# press key and wait' + "\n"
+            #wd << 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
+            # see http://code.google.com/p/selenium/source/browse/rb/lib/selenium/webdriver/common/action_builder.rb for action details
+            # see http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Keys.html for possible keys
+            # Map Keys for keyPress, keyPressAndWait etc.
+            # Either Key may be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII value of that key),
+            # or a single character. For example: "w", "\119".
+            if value =~ /^\\/
+              case value
+                when '\13'
+                  key = 'Selenium::WebDriver::Keys[:return]'
+                else
+                  key = 'FIXME unknown key'
+              end
             end
-          end
-          wd << "driver.find_element(#{how}, \"#{what}\").send_keys(#{key})\n"
-        when /open/
-          wd << "driver.get(\"#{base_url}#{target}\")\n"
-        when /pause/
-          wd << "sleep #{target}\n"
-        when /^store$/
-          wd << "ENV['#{value}'] = '#{target}'\n"
-        when /storeText/
-          wd << "text = driver.find_element(#{how}, \"#{what}\").text\n"
-          wd << "ENV['#{value}'] = text\n"
-        when /type/
-          wd << "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
-        when /verifyTextPresent/
-          wd << "assert(driver.page_source.include?(\"#{target}\"), \"verifyTextPresent #{target} failed\")\n"
-        when /waitForElementPresent/
-          wd << '# wait for a specific element to show up' + "\n"
-          wd << 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
-          wd << "wait.until { driver.find_element(#{how}, \"#{what}\") } \n"
-        else
-          wd << "# unimplemented command: #{command}|#{target}|#{value}\n"
-          wd << "exit 42\n"
+            wd << "driver.find_element(#{how}, \"#{what}\").send_keys(#{key})\n"
+          when /open/
+            wd << "driver.get(\"#{base_url}#{target}\")\n"
+          when /pause/
+            wd << "sleep #{target}\n"
+          when /^store$/
+            wd << "ENV['#{value}'] = '#{target}'\n"
+          when /storeText/
+            wd << "text = driver.find_element(#{how}, \"#{what}\").text\n"
+            wd << "ENV['#{value}'] = text\n"
+          when /type/
+            wd << "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
+          when /verifyTextPresent/
+            wd << "assert(driver.page_source.include?(\"#{target}\"), \"verifyTextPresent '#{target}' failed\")\n"
+          when /verifyTextNotPresent/
+            wd << "assert(!driver.page_source.include?(\"#{target}\"), \"verifyTextNotPresent '#{target}' failed\")\n"
+          when /waitForElementPresent/
+            wd << '# wait for a specific element to show up' + "\n"
+            wd << 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
+            wd << "wait.until { driver.find_element(#{how}, \"#{what}\") } \n"
+          else
+            wd << "# unimplemented command: #{command}|#{target}|#{value}\n"
+            wd << "exit 42\n"
+        end
       end
     end
     wd << "driver.quit\n" if close_browser

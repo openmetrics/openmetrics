@@ -263,7 +263,6 @@ st122_6:
 
 bmc100_1:
   test_plan: bmc100
-  #test_item: bmcsetregistrationvariables
   test_item: bmcgenerateusercreds
   position: 1
 bmc100_2:
@@ -273,17 +272,13 @@ bmc100_2:
 
 bmc101_1:
   test_plan: bmc101
-  test_item: bmclogoutuser
+  test_item: bmcgenerateusercreds
   position: 1
 bmc101_2:
   test_plan: bmc101
-  test_item: bmcsetregistrationvariables
+  test_item: bmcregistrationrecipe
   position: 2
 bmc101_3:
   test_plan: bmc101
-  test_item: bmcregistrationrecipe
-  position: 3
-bmc101_4:
-  test_plan: bmc101
   test_item: bmcverifyregistrationrecipe
-  position: 4
+  position: 3

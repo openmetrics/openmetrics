@@ -719,10 +719,9 @@ bmcverifyregistrationfinished:
 
 bmcverifyregistrationrecipe:
   name: BMC verify registration recipe
-  description: Check if register a recipe user was successful.
+  description: Checks if registering a recipe user was successful. Opens /profile/show and checks user roles.
   type: TestCase
   format: selenese
-  markup: |
   markup: |
     <?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -738,13 +737,63 @@ bmcverifyregistrationrecipe:
     <tr><td rowspan="1" colspan="3">verify_registration_finished</td></tr>
     </thead><tbody>
     <tr>
-        <td>echo</td>
-        <td>prüfe, dass die Seite "Deine Registrierung für unser Rezepte-Portal war erfolgreich!" enthält</td>
+        <td>verifyTextPresent</td>
+        <td>Deine Registrierung für unser Rezepte-Portal war erfolgreich!</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>... damit die Registrierung wirklich abgeschlossen wird, muss noch der "Diätprogramm überspringen und zu den Rezepten" span (nicht der Link) geclickt werden</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>clickAndWait</td>
+        <td>css=span.skip a</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Nach dem Bestätigungs-Click sollte man in der Rezepte-Übersicht landen</td>
+        <td></td>
         <td></td>
     </tr>
     <tr>
         <td>verifyTextPresent</td>
-        <td>Deine Registrierung für unser Rezepte-Portal war erfolgreich!</td>
+        <td>Rezept-Übersicht</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>unter /profile/show sollten die Rollen ROLE_USER und ROLE_RECIPE aufgeführt sein</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>open</td>
+        <td>/profile/show</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>verifyTextPresent</td>
+        <td>ROLE_USER</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>verifyTextPresent</td>
+        <td>ROLE_RECIPE</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>... die Rollen ROLE_ADMIN und ROLE_SUPERADMIN dürfen nicht vorhanden sein</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>verifyTextNotPresent</td>
+        <td>ROLE_ADMIN</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>verifyTextNotPresent</td>
+        <td>ROLE_SUPERADMIN</td>
         <td></td>
     </tr>
     </tbody></table>

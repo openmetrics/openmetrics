@@ -3,3 +3,9 @@ selftest_<%= i %>:
   test_plan: st<%= i %>
   project: selftest
 <% end %>
+
+<% 1.upto(101) do |i| %>
+bmc_regression_<%= i %>:
+  test_plan: bmc<%= i %>
+  project: bmc_regression
+<% end %>
