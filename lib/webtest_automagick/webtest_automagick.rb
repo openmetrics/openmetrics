@@ -65,6 +65,7 @@ helper = TestExecutionHelper.new
 
 wd += %Q[
 require 'selenium-webdriver'
+include Selenium::WebDriver::Keys
 require 'test/unit/assertions'
 include Test::Unit::Assertions
 require_relative 'lib/TestExecutionHelper'
@@ -111,8 +112,12 @@ driver.navigate.to "#{base_url}"
       end
 
       # if value is of format ${foo} reference to its environment variable ENV['foo'] instead
-      unless (value =~ /^\$\{[a-zA-Z0-9]*\}/).nil?
-        value.gsub!(/^\$\{([a-zA-Z0-9]*)\}/, '#{ENV[\'\1\']}')
+      # do the same with target (on echo command)
+      unless (value =~ /^\$\{[a-zA-Z0-9_]*\}/).nil?
+        value.gsub!(/^\$\{([a-zA-Z0-9_]*)\}/, '#{ENV[\'\1\']}')
+      end
+      unless (target =~ /\$\{[a-zA-Z0-9_]*\}/).nil? and command == 'echo'
+        target.gsub!(/\$\{([a-zA-Z0-9_]*)\}/, '#{ENV[\'\1\']}')
       end
 
       # translate selenese commands to selenium-webdriver markup
@@ -122,7 +127,7 @@ driver.navigate.to "#{base_url}"
         when /click|clickAndWait/
           wd << "driver.find_element(#{how}, \"#{what}\").click\n"
         when /echo/
-          wd << "# #{target}\n"
+          wd << "puts \"#{target}\"\n"
         when /keyPress|keyPressAndWait/
           wd << '# press key and wait' + "\n"
           #wd << 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
@@ -134,19 +139,21 @@ driver.navigate.to "#{base_url}"
           if value =~ /^\\/
             case value
               when '\13'
-                key = ':return'
+                key = 'Selenium::WebDriver::Keys[:return]'
               else
                 key = 'FIXME unknown key'
             end
           end
-          wd << "el = driver.find_element(#{how}, \"#{what}\")\n"
-          wd << "driver.action.key_down(el, #{key}).key_up(el, #{key})\n"
+          wd << "driver.find_element(#{how}, \"#{what}\").send_keys(#{key})\n"
         when /open/
           wd << "driver.get(\"#{base_url}#{target}\")\n"
         when /pause/
           wd << "sleep #{target}\n"
-        when /store/
+        when /^store$/
           wd << "ENV['#{value}'] = '#{target}'\n"
+        when /storeText/
+          wd << "text = driver.find_element(#{how}, \"#{what}\").text\n"
+          wd << "ENV['#{value}'] = text\n"
         when /type/
           wd << "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
         when /verifyTextPresent/

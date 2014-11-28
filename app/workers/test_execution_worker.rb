@@ -170,14 +170,14 @@ class TestExecutionWorker
       end
 
       # if this item provides input, persist env's to filesytem (by a sourceable bash file)
-      if te_item.provides_input?
+      if te_item.provides_input? and !te_item.test_item.provides_random_input?
         # unless te_item.provided_input.collect{|i| !i.second.nil?}.any? # any input pairs contain nil values?
           Dir.mkdir(in_dir) unless Dir.exist?(in_dir)
-          bash_env = ""
+          bash_env = ''
           te_item.provided_input.each do |input|
             bash_env += "#{input[0]}=#{input[1]}\n"
           end
-          File.open(in_dir+"/#{te_item_id}.env", 'w') {|f| f.write(bash_env) }
+          File.open(in_dir+"/#{te_item.position}_#{te_item.test_item_id}.env", 'w') {|f| f.write(bash_env) }
         # end
       end
 
