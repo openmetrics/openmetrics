@@ -21,12 +21,11 @@ require_relative 'lib/TestExecutionHelper'
 helper = TestExecutionHelper.new
 ]
     rb += test_item.markup
-
+    # append newline to make humans interacting via terminals happy
+    rb+="\n" unless test_item.markup.ends_with? "\n"
     input_vars_array = test_item.provided_input.collect{ |x| x.first }
     # Array -> String List http://stackoverflow.com/questions/3500814/ruby-array-to-string-conversion
-    #rb += "helper.store_environment! #{input_vars_array.to_s}\n"
     rb += "helper.store_environment! #{input_vars_array.map{ |i|  %Q('#{i}') }.join(',')}\n"
-    #rb += "helper.program_name\n"
     rb
   end
 

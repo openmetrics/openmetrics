@@ -233,16 +233,165 @@ selprovideinput:
       </body>
       </html>
 
-rubyrandominput:
-  name: rubyrandominput
-  description: Generates random input
+rubyinput:
+  name: Set Input
+  description: Sets Input
   type: TestScript
   format: ruby
   markup: |
-    length = 12
-    rand = rand(36**length).to_s(36)
-    ENV['FOO'] = "HELLO-I-AM-RANDOM-#{rand}"
+    ENV['WORD'] = "labskaus"
 
+rubyrandominput:
+  name: Random chars generator
+  description: Generates random chars
+  type: TestScript
+  format: ruby
+  markup: |
+    length = 4
+    rand = rand(36**length).to_s(36)
+    ENV['WORD'] = "#{rand}"
+
+rubyrandomwordinput:
+  name: Random word generator
+  description: Gets random word from 'Word Salad' gem - see https://github.com/alexvollmer/word_salad/blob/master/lib/word_salad/core_ext.rb
+  type: TestScript
+  format: ruby
+  markup: |
+    # taken from / inspired by 'word_salad' gem https://github.com/alexvollmer/word_salad
+    # uses local Unix dict and extends Fixnum class with .word(s)/.sentence(s)/.paragraph(s) methods
+    class WordSalad
+      # The current dictionary path
+      def self.dictionary_path
+        @dictionary_path ||= ["/usr/share/dict/words",
+                            "/usr/share/words"].select do |f|
+          FileTest.exists?(f)
+        end.first
+      end
+
+      # Override the default dictionary path to something special
+      def self.dictionary_path=(path)
+        @dictionary_path = path
+        @size = nil
+      end
+
+      def self.dictionary # :nodoc:
+        open(self.dictionary_path)
+      end
+
+      def self.size  # :nodoc:
+        @size ||= File.size(self.dictionary)
+      end
+    end
+
+    class Fixnum
+      # Returns +num+ random words from the dictionary.
+      def words
+        dict = WordSalad.dictionary
+        (1..self).to_a.map do |x|
+            IO.readlines(dict).sample.strip
+        end
+      end
+
+      alias :word :words
+
+      # Returns +num+ sentences of random words around +size+
+      # number of words.
+      def sentences(size=10)
+        variance = size / 5
+        (1..self).to_a.map do |x|
+          w = (size + (rand(variance) - variance / 2)).words
+          w[0].capitalize!
+          w.join(' ') + '.'
+        end
+      end
+
+      alias :sentence :sentences
+
+      # Returns +num+ paragraphs of around +psize+ sentences,
+      # each around +ssize+ number of words
+      def paragraphs(psize=5, ssize=10)
+        (1..self).to_a.map do |x|
+          psize.sentences.join(' ')
+        end
+      end
+
+      alias :paragraph :paragraphs
+    end
+
+    words_array = 1.word
+    # array -> String list
+    ENV['WORD'] = words_array.map{ |i|  %Q('#{i}') }.join(',')
+
+rubyrandomsentenceinput:
+  name: Random sentence generator
+  description: Gets random sentence
+  type: TestScript
+  format: ruby
+  markup: |
+    # taken from / inspired by 'word_salad' gem https://github.com/alexvollmer/word_salad
+    # uses local Unix dict and extends Fixnum class with .word(s)/.sentence(s)/.paragraph(s) methods
+    class WordSalad
+      # The current dictionary path
+      def self.dictionary_path
+        @dictionary_path ||= ["/usr/share/dict/words",
+                            "/usr/share/words"].select do |f|
+          FileTest.exists?(f)
+        end.first
+      end
+
+      # Override the default dictionary path to something special
+      def self.dictionary_path=(path)
+        @dictionary_path = path
+        @size = nil
+      end
+
+      def self.dictionary # :nodoc:
+        open(self.dictionary_path)
+      end
+
+      def self.size  # :nodoc:
+        @size ||= File.size(self.dictionary)
+      end
+    end
+
+    class Fixnum
+      # Returns +num+ random words from the dictionary.
+      def words
+        dict = WordSalad.dictionary
+        (1..self).to_a.map do |x|
+            IO.readlines(dict).sample.strip
+        end
+      end
+
+      alias :word :words
+
+      # Returns +num+ sentences of random words around +size+
+      # number of words.
+      def sentences(size=10)
+        variance = size / 5
+        (1..self).to_a.map do |x|
+          w = (size + (rand(variance) - variance / 2)).words
+          w[0].capitalize!
+          w.join(' ') + '.'
+        end
+      end
+
+      alias :sentence :sentences
+
+      # Returns +num+ paragraphs of around +psize+ sentences,
+      # each around +ssize+ number of words
+      def paragraphs(psize=5, ssize=10)
+        (1..self).to_a.map do |x|
+          psize.sentences.join(' ')
+        end
+      end
+
+      alias :paragraph :paragraphs
+    end
+
+    sentence_array = 1.sentence
+    # array -> String list
+    ENV['WORD'] = sentence_array.map{ |i|  %Q('#{i}') }.join(',')
 
 selfindwithgoogle:
   name: Find With Google
@@ -270,7 +419,7 @@ selfindwithgoogle:
     <tr>
       <td>type</td>
       <td>name=q</td>
-      <td>${FOO}</td>
+      <td>${WORD}</td>
     </tr>
     <tr>
       <td>keyPressAndWait</td>

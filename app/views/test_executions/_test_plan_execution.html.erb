@@ -39,7 +39,7 @@
             <div class="pull-right">
                 <%# is there already an exitstatus available? %>
                 <% if tei and tei.exitstatus.is_a? Integer %>
-                  <small class="darkgrey">Exit </small> <span class="label exit"><%= tei.exitstatus %></span>
+                  <small class="darkgrey">Exit </small> <span class="exit"><%= tei.exitstatus %></span>
                 <% elsif tei and !tei.started_at.nil? and tei.finished_at.nil? %>
                   <span class="label label-default">In progress</span>
                 <% else %>
@@ -79,7 +79,7 @@
                                 <span class="label label-success">Provides</span> Input <strong><%= input_array[0] %></strong> with value <strong><%= input_array[1] %></strong><br>
                             <% end %>
                         </div>
-                        <code><%= tei.working_dir+"/in/#{tei.id}.env" %></code>
+                        <code><%= tei.working_dir+"/in/#{tei.position}_#{tei.test_item_id}.env" %></code>
                     <% else %>
                        <%= coderay('empty', "plain", "div") %>
                     <% end %>

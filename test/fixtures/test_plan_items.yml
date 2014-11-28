@@ -227,12 +227,37 @@ st120_4:
 
 st121_1:
   test_plan: st121
-  test_item: rubyrandominput
+  test_item: rubyinput
   position: 1
 st121_2:
   test_plan: st121
   test_item: selfindwithgoogle
   position: 2
+
+st122_1:
+  test_plan: st122
+  test_item: rubyrandominput
+  position: 1
+st122_2:
+  test_plan: st122
+  test_item: selfindwithgoogle
+  position: 2
+st122_3:
+  test_plan: st122
+  test_item: rubyrandomwordinput
+  position: 3
+st122_4:
+  test_plan: st122
+  test_item: selfindwithgoogle
+  position: 4
+st122_5:
+  test_plan: st122
+  test_item: rubyrandomsentenceinput
+  position: 5
+st122_6:
+  test_plan: st122
+  test_item: selfindwithgoogle
+  position: 6
 
 ###
 

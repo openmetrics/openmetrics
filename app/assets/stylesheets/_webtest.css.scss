@@ -53,7 +53,7 @@ ul.test_plan li span.exit,{
   background-color: #f9f2f4;
   white-space: nowrap;
   font-size: 75%;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1;
   border-radius: .25em;
 }
@@ -76,8 +76,8 @@ li.list-group-item span.actions i.add {
   position: relative;
   display: inline-block;
   z-index: 99 !important;
-  padding: 3px 1px 0 0;
-  font-size: 11px;
+  padding: 2px 0 0 0;
+  font-size: 14px;
   font-weight: 700;
   color: white;
   text-align: center;
@@ -167,8 +167,8 @@ ol.circles-list > li:not(.placeholder):before{
   counter-increment: li-counter;
   display: inline-block;
   z-index: 99 !important;
-  padding: 3px 1px 0 0;
-  font-size: 11px;
+  padding: 2px 0 0 0;
+  font-size: 14px;
   font-weight: 700;
   color: white;
   text-align: center;

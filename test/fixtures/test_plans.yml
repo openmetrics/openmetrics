@@ -96,8 +96,13 @@ st120:
   description: Test Plan with multiple Test Items and passing, defective and failing Quality Criteria.
 
 st121:
-  name: Random Input Generator
-  description: Test Plan that uses randomly generated input.
+  name: Ruby Input generator
+  description: Google for a word and print first search result.
+  base_url: https://www.google.li
+
+st122:
+  name: Ruby random Input generators
+  description: Google for a randomly generated strings/words/sentences and print Google first search result each.
   base_url: https://www.google.li
 
 # BMC
