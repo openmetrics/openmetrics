@@ -3,8 +3,6 @@
         <% projects.each do |project| %>
             <a href="<%= project_path(project) %>" class="list-group-item">
               <%= project.name %>
-              <!--<% executions_result = project.test_plans.collect{ |tp| TestPlan.recent_executions(tp,1).first.result if TestPlan.recent_executions(tp,1).any? } %>-->
-              <!--<span id="project_graph_<%= project.id %>" class="project_graph pull-right" data-executions_result="<%= executions_result.to_json %>" style="width:125px;height:25px;"></span>-->
               <span class="pull-right"><i class="fa fa-angle-right"></i></span>
             </a>
         <% end %>
