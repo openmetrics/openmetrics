@@ -56,6 +56,7 @@ Openmetrics::Application.routes.draw do
 
   # project routes
   resources :projects
+  post 'projects/run' => 'projects#run', as: :run_test_project
 
   # Enable this route for sidekiq monitoring
   # Remember to add 'sinatra' in Gemfile
