@@ -27,10 +27,10 @@
   <div class="col-md-8">
     <%#*every running service should provide a drop-zone for the collectd_plugins%>
     <div id="enabled_collectd_plugins_lists_container">
-      <h3>Running Services</h3>
+      <h4>Running Services</h4>
       <% if @system.running_services.any? %>
           <% @system.running_services.each do |rs| %>
-              <h4><%= rs.service.name %></h4>
+              <h5><%= rs.service.name %></h5>
               <div class="dropzone">
                 <ul class="collectd_plugins list-group list-unstyled" data-running_service="<%= rs.id %>">
                   <% rcps = RunningCollectdPlugin.where(running_service_id: rs.id) %>

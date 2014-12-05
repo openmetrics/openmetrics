@@ -56,9 +56,9 @@ class SystemsController < ApplicationController
     begin
       if sl.save
         sl.create_activity :create, :owner => current_user
-        flash[:success] = 'IpLookup scheduled successfully.'
+        flash[:success] = 'System audit scheduled successfully.'
       else
-        flash[:warn] = 'Oh snap! Scheduling SystemLookup on that System failed. ;('
+        flash[:warn] = 'Oh snap! Scheduling  on that System failed. ;('
       end
     rescue
       logger.error 'Failed to schedule job on SystemLookupWorker'

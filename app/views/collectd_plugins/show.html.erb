@@ -1,17 +1,27 @@
+<% content_for :page_header do %>
+    <h3>
+      <%= badge_label @plugin, {:label_class => 'primary'} %>
+      <span class="btn-group btn-group-sm pull-right">
+            <%= link_to t('om.controls.delete_html'), @plugin, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-default' %>
+            <%= link_to t('om.controls.edit_html'), edit_service_path(@plugin), :class => 'btn btn-default' %>
+        </span>
+    </h3>
+<% end %>
+
+
 <div class="row">
 
   <!-- left column -->
   <div class="col-md-6">
-    <h3>
-      <%= badge "CP-#{@plugin.id}" %> <%=@plugin.name%>
-    </h3>
-    <p><%=@plugin.description%></p>
+    <% if @plugin.description %>
+    <p><blockquote><%=@plugin.description%></blockquote></p>
+    <% end %>
     <pre><%=@plugin.configuration%></pre>
   </div>
 
   <!-- right column -->
   <div class="col-md-6">
-    <h3>Systems & Services</h3>
+    <h4>Related Systems & Services</h4>
     <%= render :partial => 'running_collectd_plugins', :collection => @plugin.running_services, :as => :rs %>
   </div>
 

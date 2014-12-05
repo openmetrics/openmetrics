@@ -1,4 +1,4 @@
-<h4 class="spacer">
+<h4>
   Metric Plugin Browser <i class="fa fa-info-circle" data-tip-pos-my="bottom center" data-tip-pos-at="top center" data-tip-content="Items below can be dragged and dropped to dropzones!"></i>
 </h4>
 
@@ -17,7 +17,7 @@
               <i class="drag fa fa-arrows"></i>
               <!--<i class="add fa fa-plus" title="Add"></i>-->
             </span>
-            <%= link_to badge_label plugin, {:label_class => 'primary'} %>
+            <%= link_to raw(badge_label plugin, {:label_class => 'primary'}), plugin %>
           </li>
         <% end %>
     </ul>
