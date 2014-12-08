@@ -1,27 +1,4 @@
-// colors
-$darkgrey: #9b9b9b;
-$red: red;
-$green: green;
-
-.darkgrey {
-  color: $darkgrey;
-}
-.red {
-  color: $red;
-}
-.green {
-  color: $green;
-}
-
-// state colors
-$active-color: #adff2f;
-$fail-color: $red;
-$success-color: $green;
-
-// font
-$font-size: 14px;
-$font-size-small: 12px;
-
+@import 'variables';
 @import 'core/bootstrap';
 @import 'layout/fonts';
 @import 'layout/layout';
