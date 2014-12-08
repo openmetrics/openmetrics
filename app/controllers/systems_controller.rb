@@ -63,7 +63,7 @@ class SystemsController < ApplicationController
     rescue
       logger.error 'Failed to schedule job on SystemLookupWorker'
       flash[:error] = "That SystemLookup schedule didn't work."
-    ensure
+      ensure
       redirect_to_anchor_or_back
     end
   end

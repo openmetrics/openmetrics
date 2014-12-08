@@ -27,6 +27,7 @@ class SystemLookupWorker
       end
     rescue Exception => e
       logger.error("SSH failed due to #{e.message.inspect}!")
+      system_lookup.system_lookup_result.update_attributes(error: e.message)
     end
     logger.info "SystemLookup-#{system_lookup.id} for System-#{system_lookup.system_id} finished"
   end

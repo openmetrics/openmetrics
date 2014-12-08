@@ -26,51 +26,55 @@ $(".systems").ready(function () {
         var running_services = $('#system-graph').data('running_services'); // json
         var system = $('#system-graph').data('system'); //json
 
-        // create nodes
-        nodes = [];
-        nodes.push({id: system.id, label: system.name, group: 'system'});
-        running_services.forEach(function(rs) {
-            var service = $.grep(services, function(e){ return e.id == rs.service_id; })[0];
-            nodes.push({id: rs.id, label: service.name, group: 'running_service'});
-        });
+        if (system) {
+            // create nodes
+            nodes = [];
+            nodes.push({id: system.id, label: system.name, group: 'system'});
+            running_services.forEach(function (rs) {
+                var service = $.grep(services, function (e) {
+                    return e.id == rs.service_id;
+                })[0];
+                nodes.push({id: rs.id, label: service.name, group: 'running_service'});
+            });
 
-        // create edges
-        edges = [];
-        running_services.forEach(function(rs) {
-            edges.push({from: system.id, to: rs.id, style: 'dash-line'});
-        });
-        // create a network
-        var container = document.getElementById('system-graph');
-        var data = {
-            nodes: nodes,
-            edges: edges
-        };
-        var options = {
-            height: '450px',
-            navigation: true,
-            keyboard: false,
-            groups: {
-                system: {
-                    shape: 'box',
-                    color: {
-                        background: "#428bca"
+            // create edges
+            edges = [];
+            running_services.forEach(function (rs) {
+                edges.push({from: system.id, to: rs.id, style: 'dash-line'});
+            });
+            // create a network
+            var container = document.getElementById('system-graph');
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+            var options = {
+                height: '450px',
+                navigation: true,
+                keyboard: false,
+                groups: {
+                    system: {
+                        shape: 'box',
+                        color: {
+                            background: "#428bca"
+                        },
+                        fontColor: 'white',
+                        fontSize: 12
                     },
-                    fontColor: 'white',
-                    fontSize: 12
-                },
-                running_service: {
-                    shape: 'dot',
-                    color: {
-                        color: 'white',
-                        border: "#428bca"
-                    },
-                    fontSize: 10
+                    running_service: {
+                        shape: 'dot',
+                        color: {
+                            color: 'white',
+                            border: "#428bca"
+                        },
+                        fontSize: 10
 
+                    }
                 }
+            };
+            if (container) {
+                var network = new vis.Network(container, data, options);
             }
-        };
-        if (container) {
-            var network = new vis.Network(container, data, options);
         }
 
         // system events timeline
@@ -243,6 +247,27 @@ $(".systems").ready(function () {
             //    $("li.placeholder").show();
             //}
         }
+    });
+
+
+    //make tabs clickable and store location
+    $('ul#system_tabs').find('a').not('.disabled').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    // on load of the page: switch to the currently selected tab
+    var anchor = window.location.hash;
+    if (anchor == '') {
+        $('#system_tabs a:first').tab('show')
+    } else {
+        $('#system_tabs a[href="' + anchor + '"]').tab('show');
+    }
+
+    // store the currently selected tab in the window location hash
+    $("ul#system_tabs > li > a").on("shown.bs.tab", function (e) {
+        var tab_name = $(e.target).attr("href").substr(1); // strip '#' from anchors
+        window.location.hash = tab_name;
     });
 
 //    $(".dropzone ol.test_items").sortable({

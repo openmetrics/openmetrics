@@ -1,19 +1,19 @@
 
 <% if @system.description or @system.operating_system or @system.operating_system_flavor %>
+    <h4>System Information</h4>
     <% if @system.description %>
         <blockquote><%= @system.description %></blockquote>
     <% end %>
-    <h4>System Information</h4>
+    <% if @system.operating_system or @system.operating_system_flavor %>
     <div class="panel panel-default">
         <div class="panel-body">
             <table class="table table-condensed stats">
-              <% if @system.operating_system or @system.operating_system_flavor %>
                   <tr>
                     <td class="col-md-6">OS</td>
                     <td class="col-md-6"><span><%= @system.operating_system %><%= "(#{@system.operating_system_flavor})" if @system.operating_system_flavor %></span></td>
                   </tr>
-              <% end %>
             </table>
         </div>
     </div>
+    <% end %>
 <% end %>
