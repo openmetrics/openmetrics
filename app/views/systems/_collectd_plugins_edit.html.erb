@@ -32,12 +32,12 @@
           <% @system.running_services.each do |rs| %>
               <h5><%= rs.service.name %></h5>
               <div class="dropzone">
-                <ul class="collectd_plugins list-group list-unstyled" data-running_service="<%= rs.id %>">
+                <ul class="collectd_plugins list-group list-unstyled" data-running_service_id="<%= rs.id %>">
                   <% rcps = RunningCollectdPlugin.where(running_service_id: rs.id) %>
                   <% if rcps.count > 0 %>
                       <li class="placeholder">Drop Metric Plugins here</li>
                       <% rcps.each do |rcp| %>
-                          <li class="enabled list-group-item" data-running_collectd_plugin="<%= rcp.id %>">
+                          <li class="enabled list-group-item" data-collectd_plugin_id="<%= rcp.collectd_plugin.id %>" data-id="<%= rcp.id %>">
                             <span class="actions pull-right">
                               <i class="drag fa fa-arrows"></i>
                               <!--<i class="add fa fa-plus" title="Add"></i>-->

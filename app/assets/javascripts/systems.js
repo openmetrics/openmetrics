@@ -120,26 +120,22 @@ $(".systems").ready(function () {
                 return {_destroy: 1, id: jQuery(this).data('id')};
         }).get();
 
-        var add_running_collectd_plugins = jQuery('div#enabled_collectd_plugins_lists_container ul').children('li.collectd-plugin').map(function(){
+        var running_collectd_plugins_params = $('div#enabled_collectd_plugins_lists_container ul').children('li:not(.placeholder)').map(function () {
             var add = {};
-            var running_service = jQuery(this).parent('ul').data('running_service');
-            var collectd_plugin = jQuery(this).data('collectd_plugin');
-            add.running_service_id = running_service;
-            add.collectd_plugin_id = collectd_plugin;
-
+            add.collectd_plugin_id = $(this).data('collectd_plugin_id');
+            add.running_service_id = $(this).parent('ul').data('running_service_id')
+            add.id = $(this).data('id');
+            if (typeof $(this).data('remove') != 'undefined') {
+                add._destroy = 1;
+            }
             return add;
-        }).get();
-
-        var remove_running_collectd_plugins = jQuery('div#enabled_collectd_plugins_lists_container ul').children('li.disabled').map(function(){
-            return jQuery(this).attr("running_collectd_plugin");
         }).get();
 
         // extend params string
         paramsString = paramsString + '&' +
             jQuery.param({system: {running_services_attributes: running_services_params}}) + '&' +
             jQuery.param({system: {running_services_attributes: destroy_running_services}}) +'&'+
-            jQuery.param({system: {running_collectd_plugins_attributes: add_running_collectd_plugins}})+'&'+
-            jQuery.param({remove_running_collectd_plugins: remove_running_collectd_plugins})
+            jQuery.param({system: {running_collectd_plugins_attributes: running_collectd_plugins_params}})
         ;
 
         jQuery.ajax({
@@ -176,9 +172,9 @@ $(".systems").ready(function () {
             list_items.each(function (index, value) {
                 var actions = list_item.children('.actions');
                 actions.children('i.add').remove();
-                if (actions.children('i.fa-cog').length == 0) {
-                    configure_icon.prependTo(actions);
-                }
+                //if (actions.children('i.fa-cog').length == 0) {
+                //    configure_icon.prependTo(actions);
+                //}
                 if (actions.children('i.glyphicon-remove').length == 0) {
                     remove_icon.prependTo(actions);
                 }
@@ -193,15 +189,19 @@ $(".systems").ready(function () {
 
     };
 
-    // replace buttons and placeholder for existing list items
-    if ($('.dropzone ul.collectd_plugins').children('li:not(.placeholder)').length > 0) {
-        $('li.placeholder').hide();
-        $('.dropzone ul.collectd_plugins').children('li:not(.placeholder)').map(function () {
+    // replace buttons and remove placeholder for existing list items
+    $('.dropzone ul.collectd_plugins').each(function (index, element) {
+
+        if ($(element).children('li:not(.placeholder)').length > 0) {
+            console.log("found plugin");
+            $(element).children('li.placeholder').hide();
+        }
+        $(element).children('li:not(.placeholder)').map(function () {
             var item = $(this);
-            var list = $('.dropzone ul.collectd_plugins');
+            var list = item.parent('.dropzone ul.collectd_plugins');
             replaceButtons(null, item, list);
         })
-    }
+    });
 
     // collectd plugin edit drag n drop
     // based on http://jsfiddle.net/KyleMit/Geupm/2/
@@ -218,19 +218,30 @@ $(".systems").ready(function () {
         placeholder: jQuery(this).find("li.placeholder"),
         over: function () {
             //hides the placeholder when the item is over the droppable
-            $("li.placeholder").hide();
+            if ($(this).children(":not(.placeholder)").length > 0) {
+                $("li.placeholder").hide();
+            }
         },
         drop: function (event, ui) {
             var draggable = ui.draggable;
             var droppable = $(this);
-            jQuery(this).find("li.placeholder").hide();
-            var li = jQuery('<li class="ui-state-active ui-helper-clearfix collectd-plugin"></li>');
-            li.data('collectd_plugin', draggable.data('collectd_plugin'));
-            jQuery('<span class="left-floating"></span>').text(ui.draggable.text()).appendTo(li);
-            jQuery('<span class="ui-icon ui-icon-close right-floating" title="Remove"></span>').appendTo(li);
-            li.appendTo(this);
+            var clone = $(draggable).clone();
+            var target = event.target;
+            $(this).append(clone);
+            //jQuery(this).find("li.placeholder").hide();
+            //var li = jQuery('<li class="ui-state-active ui-helper-clearfix collectd-plugin"></li>');
+            //li.data('collectd_plugin', draggable.data('collectd_plugin'));
+            //jQuery('<span class="left-floating"></span>').text(ui.draggable.text()).appendTo(li);
+            //jQuery('<span class="ui-icon ui-icon-close right-floating" title="Remove"></span>').appendTo(li);
+            //li.appendTo(this);
             setAlertForSaveButton();
-            replaceButtons(event, draggable, droppable);
+            replaceButtons(event, clone, target);
+        },
+        out: function () {
+            //shows the placeholder again if there are no items in the list
+            //if ($(this).children(":not(.placeholder)").length == 0) {
+            //    $("li.placeholder").show();
+            //}
         }
     });
 
