@@ -57,7 +57,7 @@ module Openmetrics
     config.assets.precompile.push(Proc.new do |path|
                                    File.extname(path).in? [
                                                               '.html', '.erb', '.haml', '\.css',  # Templates
-                                                              '.png',  '.gif', '.jpg', '.jpeg', '.svg', # Images
+                                                              '.png',  '.gif', '.jpg', '.jpeg', '.svg', '.ico', # Images
                                                               '.eot',  '.otf', '.svc', '.woff', '.ttf', # Fonts
                                                           ]
                                  end)
