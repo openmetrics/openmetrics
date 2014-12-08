@@ -21,7 +21,7 @@ class SystemsController < ApplicationController
     if @system.save
       @system.create_activity :create, :owner => current_user
       flash[:success] = "System saved."
-      redirect_to systems_path
+      redirect_to system_path(@system)
     else
       flash[:warn] = "Oh snap! That didn't work."
       redirect_to_anchor_or_back

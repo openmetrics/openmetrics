@@ -39,6 +39,7 @@ Openmetrics::Application.routes.draw do
   resources :ntp_services, controller: 'services', type: 'ntp_service'
   resources :openmetrics_services, controller: 'services', type: 'openmetrics_service'
   resources :openmetrics_agent_services, controller: 'services', type: 'openmetrics_agent_service'
+  resources :smtp_services, controller: 'services', type: 'smtp_service'
 
   resources :collectd_plugins
 

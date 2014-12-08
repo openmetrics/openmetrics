@@ -44,6 +44,11 @@ bind:
   description: Berkeley Internet Name Daemon (BIND) DNS server
   type: DnsService
 
+php_fpm:
+  name: PHP-FPM
+  daemon_name: php-fpm
+  description: PHP-FPM (FastCGI Process Manager) is an alternative PHP FastCGI implementation with some additional features useful for sites of any size, especially busier sites.
+
 #
 # DB and Caches
 #
@@ -116,3 +121,27 @@ openssh:
 freesshd:
   name: freeSSHd
   type: SshService
+
+#
+# SMTP
+#
+exim:
+  name: Exim
+  daemon_name: exim4
+  description: Exim is a mail transfer agent (MTA) used on Unix-like operating systems.
+  type: SmtpService
+
+postfix:
+  name: Postfix
+  daemon_name: postfix
+  description: Postfix is a mail transfer agent (MTA) used on Unix-like operating systems.
+
+sendmail:
+  name: Sendmail
+  daemon_name: sendmail
+  description: Sendmail is a mail transfer agent (MTA) used on Unix-like operating systems.
+
+qmail:
+  name: qmail
+  daemon_name: qmail
+  description: Qmail is a mail transfer agent (MTA) used on Unix-like operating systems.
