@@ -50,8 +50,8 @@ class TestExecutionItem < ActiveRecord::Base
       if self.test_item.provides_random_input?
         e_basename = File.basename(self.executable)
         e_dirname = File.dirname(self.executable)
-        env_infile = "#{e_basename}/in/#{e_dirname.gsub(/\.rb/, '.env')}"
-        WebtestAutomagick::ruby_extract_input_from_file(self.executable)
+        env_infile = "#{e_dirname}/in/#{e_basename.gsub(/\.rb/, '.env')}"
+        WebtestAutomagick::ruby_extract_input_from_file(env_infile)
       else
         WebtestAutomagick::ruby_extract_input(self.markup)
       end

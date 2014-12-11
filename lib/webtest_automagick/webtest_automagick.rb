@@ -237,8 +237,7 @@ driver.manage.timeouts.implicit_wait = 10 # seconds An implicit wait is to tell 
     File.foreach(path_to_file).with_index { |line, line_num|
       #puts "#{line_num}: #{line}"
       var_name = line.split('=')[0]
-      var_value = line.match(/^.+=['"]?(.[^'"]+)['"]?/)
-
+      var_value = line.match(/^.+=['"]?(.[^'"]+)['"]?/)[1] # first match from MatchData
       store_commands.push([var_name, var_value])
     }
     return store_commands
