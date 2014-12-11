@@ -222,4 +222,19 @@ driver.manage.timeouts.implicit_wait = 10 # seconds An implicit wait is to tell 
     end
     return store_commands
   end
+
+  # looks for stored ENV vars
+  # two formats are valid: ENV['<name>'] = <value> and ENV.store('<name>', <value>)
+  # returns array of found input pairs
+  def self.ruby_extract_input_from_file(path_to_file)
+    store_commands = []
+    File.foreach(path_to_file).with_index { |line, line_num|
+      #puts "#{line_num}: #{line}"
+      var_name = line.split('=')[0]
+      var_value = line.match(/^.+=['"]?(.[^'"]+)['"]?/)
+
+      store_commands.push([var_name, var_value])
+    }
+    return store_commands
+  end
 end

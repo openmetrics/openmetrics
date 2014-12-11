@@ -47,7 +47,14 @@ class TestExecutionItem < ActiveRecord::Base
     if self.test_item.format == 'selenese'
       WebtestAutomagick::selenese_extract_input(self.test_item.markup)
     elsif self.test_item.format == 'ruby'
-      WebtestAutomagick::ruby_extract_input(self.markup)
+      if self.test_item.provides_random_input?
+        e_basename = File.basename(self.executable)
+        e_dirname = File.dirname(self.executable)
+        env_infile = "#{e_basename}/in/#{e_dirname.gsub(/\.rb/, '.env')}"
+        WebtestAutomagick::ruby_extract_input_from_file(self.executable)
+      else
+        WebtestAutomagick::ruby_extract_input(self.markup)
+      end
     else
       nil
     end
