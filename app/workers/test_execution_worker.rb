@@ -151,10 +151,10 @@ class TestExecutionWorker
 
       # prepare environment
       env = ENV.clone
-      if te_item.provides_input?
-        env.store('OM_TEST', 'foobar')
-        env.store('OM_RANDOM', rand(99999).to_s)
-      end
+      #if te_item.provides_input?
+      #  env.store('OM_TEST', 'foobar')
+      #  env.store('OM_RANDOM', rand(99999).to_s)
+      #end
 
       # load vars into environment from most recent envfile
       all_in_files = Dir.glob("#{in_dir}/*.env")
@@ -163,7 +163,7 @@ class TestExecutionWorker
         text = File.open(in_file).read
         text.each_line do |line|
           var_name = line.split('=')[0]
-          var_value = line.split('=')[1]
+          var_value = line.match(/^.+=['"]?(.[^'"]+)['"]?/)[1] # first match from MatchData
           if var_value =~ /\r?\n$/
             var_value.gsub!(/\r?\n$/, ''); # remove ending CR and linebreaks
           end
