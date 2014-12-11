@@ -234,12 +234,14 @@ driver.manage.timeouts.implicit_wait = 10 # seconds An implicit wait is to tell 
   # returns array of found input pairs
   def self.ruby_extract_input_from_file(path_to_file)
     store_commands = []
-    File.foreach(path_to_file).with_index { |line, line_num|
-      #puts "#{line_num}: #{line}"
-      var_name = line.split('=')[0]
-      var_value = line.match(/^.+=['"]?(.[^'"]+)['"]?/)[1] # first match from MatchData
-      store_commands.push([var_name, var_value])
-    }
-    return store_commands
+    if File.file?(path_to_file)
+      File.foreach(path_to_file).with_index { |line, line_num|
+        #puts "#{line_num}: #{line}"
+        var_name = line.split('=')[0]
+        var_value = line.match(/^.+=['"]?(.[^'"]+)['"]?/)[1] # first match from MatchData
+        store_commands.push([var_name, var_value])
+      }
+    end
+    store_commands
   end
 end
