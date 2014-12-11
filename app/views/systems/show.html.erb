@@ -17,17 +17,22 @@
   <div class="col-md-4 col-md-push-8">
     <%= render :partial => 'system_information' %>
     <%= render :partial => 'host_information' %>
-    <h3 class="spacer">Running Services</h3>
-
-    <div class="list-group running_service">
-      <%= render :partial => 'running_services', :collection => @system.running_services, :as => :rs %>
-    </div>
+    <% if @system.running_services.any? %>
+        <h3 class="spacer">Running Services</h3>
+        <div class="list-group running_service">
+          <%= render :partial => 'running_services', :collection => @system.running_services, :as => :rs %>
+        </div>
+        <!-- system graph (will be filled by js) -->
+        <div id="system-graph" data-system="<%= @system.to_json %>"
+             data-services="<%= @services.all.to_json(only: [:id, :name]) %>"
+             data-running_services="<%= @system.running_services.all.to_json(except: [:type, :created_at, :updated_at]) %>"></div>
+    <% end %>
   </div> <!-- / right column -->
 
   <!-- left column, bottom when mobile -->
   <div class="col-md-8 col-md-pull-4">
     <!-- tabs -->
-    <ul class="nav nav-tabs borderless" id="system_show_tab">
+    <ul class="nav nav-tabs borderless" id="system_tabs">
       <li class="active"><a href="#events" data-toggle="tab">Events</a></li>
       <li <%= 'class=disabled' unless @system_metrics.any? %>>
         <% if @system_metrics.any? %>
@@ -97,10 +102,7 @@
       <div class="tab-pane" id="relations">
           <div class="panel panel-default">
             <div class="panel-body">
-              <!-- system graph (will be filled by js) -->
-              <div id="system-graph" data-system="<%= @system.to_json %>"
-                   data-services="<%= @services.all.to_json(only: [:id, :name]) %>"
-                   data-running_services="<%= @system.running_services.all.to_json(except: [:type, :created_at, :updated_at]) %>"></div>
+                Add system graph here as soon as https://github.com/almende/vis/issues/449 is fixed
             </div>
           </div>
       </div>

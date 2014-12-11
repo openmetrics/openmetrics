@@ -164,6 +164,9 @@ class TestExecutionWorker
         text.each_line do |line|
           var_name = line.split('=')[0]
           var_value = line.split('=')[1]
+          if var_value =~ /\r?\n$/
+            var_value.gsub!(/\r?\n$/, ''); # remove ending CR and linebreaks
+          end
           logger.debug("Set environment variable: #{var_name}=#{var_value}")
           env.store(var_name, var_value)
         end

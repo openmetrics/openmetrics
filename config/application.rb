@@ -54,13 +54,18 @@ module Openmetrics
     config.assets.precompile.shift
 
     # Explicitly register the extensions we are interested in compiling
-    config.assets.precompile.push(Proc.new do |path|
-                                   File.extname(path).in? [
-                                                              '.html', '.erb', '.haml', '\.css',  # Templates
-                                                              '.png',  '.gif', '.jpg', '.jpeg', '.svg', # Images
-                                                              '.eot',  '.otf', '.svc', '.woff', '.ttf', # Fonts
-                                                          ]
-                                 end)
+    config.assets.precompile << Proc.new { |path|
+
+      # skip scss files beginning with underscore
+      false if (File.basename(path).starts_with?('_') and File.basename(path).ends_with?('.scss'))
+
+      # include the usual files
+      File.extname(path).in? [
+                                '.html', '.erb', '.haml', '.css',  # Templates
+                                '.png',  '.gif', '.jpg', '.jpeg', '.svg', '.ico', # Images
+                                '.eot',  '.otf', '.svc', '.woff', '.ttf', # Fonts
+                            ]
+   }
 
 
     # load rails env into sidekiq

@@ -700,7 +700,7 @@ bmcverifyregistrationfinished:
     </tr>
     <tr>
         <td>echo</td>
-        <td>prüfe, dass der MyHome &quot;Greeter&quot; existiert und den Text&nbsp;&nbsp;&quot;Hallo, &lt;username&gt;&quot; enthält</td>
+        <td>prüfe, dass der MyHome "Greeter" existiert und den Text "Hallo, <username>," enthält</td>
         <td></td>
     </tr>
     <tr>

@@ -12,32 +12,40 @@
 rcp1:
   running_service: rs_om_client
   collectd_plugin: cp_cpu
+  system: localhost
 
 rcp2:
   running_service: rs_om_client
   collectd_plugin: cp_load
+  system: localhost
 
 rcp3:
   running_service: rs_om_client
   collectd_plugin: cp_disk
+  system: localhost
 
 rcp4:
   running_service: rs_om_client
   collectd_plugin: cp_df
+  system: localhost
 
 rcp5:
   running_service: rs_om_client
   collectd_plugin: cp_memory
+  system: localhost
 
 rcp6:
   running_service: rs_om_client
   collectd_plugin: cp_vmem
+  system: localhost
 
 rcp7:
   running_service: rs_om_client
   collectd_plugin: cp_swap
+  system: localhost
 
 rcp8:
   running_service: rs_om_client
   collectd_plugin: cp_net_1
+  system: localhost
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141121110621) do
+ActiveRecord::Schema.define(version: 20141208130744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(version: 20141121110621) do
   create_table "system_lookup_results", force: true do |t|
     t.integer "system_lookup_id"
     t.text    "result"
+    t.text    "error"
   end
 
   create_table "system_lookups", force: true do |t|

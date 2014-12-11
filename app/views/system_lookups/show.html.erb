@@ -2,6 +2,10 @@
     <h3>SystemLookup <small>#<%= @system_lookup.id %></small></h3>
 <% end %>
 
+<% if @system_lookup.system_lookup_result.error %>
+    <p><span class="fa fa-exclamation-triangle text-danger"></span> <%= @system_lookup.system_lookup_result.error %></p>
+<% end %>
+
 <%= link_to raw(badge_label(@system_lookup.system)), system_path(@system_lookup.system) %><br>
 <%= coderay(@system_lookup.result, 'json', 'div') %>
 

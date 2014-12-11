@@ -5,6 +5,9 @@
         <p class="list-group-item-text">
             Started <code><%= lookup.started_at.nil? ? 'not yet decided' : "#{lookup.started_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code><br>
             Finished <code><%= lookup.finished_at.nil? ? 'not yet decided' : "#{lookup.finished_at.strftime("%Y-%m-%d %H:%m:%S")}" %></code>
+            <% if lookup.system_lookup_result.error %>
+                <br><span class="fa fa-exclamation-triangle text-danger"></span> <%= lookup.system_lookup_result.error %>
+            <% end %>
         </p>
       </a>
     <% end %>

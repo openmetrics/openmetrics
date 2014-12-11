@@ -11,6 +11,19 @@ $(document).on('click', '.run_test_plan', function(e) {
     });
 });
 
+/* run all test plans of a project */
+$(document).on('click', '.run_test_project', function(e) {
+    var project_id = $(this).data('id');
+    $.ajax({
+        type: "POST",
+        url: '/projects/run',
+        data: 'id='+project_id,
+        success: function(data, textStatus) {
+            console.log('Run baby, run!');
+        }
+    });
+});
+
 /* test_plan test_items actions */
 $(document).on('click', 'i.configure', function(e) {
     var test_item = $(this).closest('li');

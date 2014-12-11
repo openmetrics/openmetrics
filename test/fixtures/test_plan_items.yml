@@ -269,6 +269,10 @@ bmc100_2:
   test_plan: bmc100
   test_item: bmcregistrationslim
   position: 2
+bmc100_3:
+  test_plan: bmc100
+  test_item: bmcverifyregistrationfinished
+  position: 3
 
 bmc101_1:
   test_plan: bmc101

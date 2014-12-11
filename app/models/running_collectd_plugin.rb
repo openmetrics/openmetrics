@@ -13,7 +13,7 @@ class RunningCollectdPlugin < ActiveRecord::Base
 
   belongs_to :collectd_plugin
   belongs_to :running_service
-  has_one :system, through: :running_service
+  belongs_to :system
 
   after_commit :enable_plugin, on: :create
 

@@ -20,7 +20,7 @@ en:
       systems: "Systems"
       services: "Services"
       admin: "Admin Area"
-      webtests: "Test Center"
+      webtests: "Tests"
       test_executions: "Test Executions"
       test_items: "Test Items"
       logoff: "Exit"
@@ -61,9 +61,9 @@ en:
               name: "A name easy to remember"
       test_plan:
         index:
-          new_test_plan: "New Test Plan"
-          new_test_case: "New Test Case"
-          new_test_script: "New Test Script"
+          new_test_plan: "Test Plan"
+          new_test_case: "Test Case"
+          new_test_script: "Test Script"
     forms:
       submit_text:
         new:  "Create"

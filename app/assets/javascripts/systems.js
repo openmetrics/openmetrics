@@ -26,51 +26,55 @@ $(".systems").ready(function () {
         var running_services = $('#system-graph').data('running_services'); // json
         var system = $('#system-graph').data('system'); //json
 
-        // create nodes
-        nodes = [];
-        nodes.push({id: system.id, label: system.name, group: 'system'});
-        running_services.forEach(function(rs) {
-            var service = $.grep(services, function(e){ return e.id == rs.service_id; })[0];
-            nodes.push({id: rs.id, label: service.name, group: 'running_service'});
-        });
+        if (system) {
+            // create nodes
+            nodes = [];
+            nodes.push({id: system.id, label: system.name, group: 'system'});
+            running_services.forEach(function (rs) {
+                var service = $.grep(services, function (e) {
+                    return e.id == rs.service_id;
+                })[0];
+                nodes.push({id: rs.id, label: service.name, group: 'running_service'});
+            });
 
-        // create edges
-        edges = [];
-        running_services.forEach(function(rs) {
-            edges.push({from: system.id, to: rs.id, style: 'dash-line'});
-        });
-        // create a network
-        var container = document.getElementById('system-graph');
-        var data = {
-            nodes: nodes,
-            edges: edges
-        };
-        var options = {
-            height: '450px',
-            navigation: true,
-            keyboard: false,
-            groups: {
-                system: {
-                    shape: 'box',
-                    color: {
-                        background: "#428bca"
+            // create edges
+            edges = [];
+            running_services.forEach(function (rs) {
+                edges.push({from: system.id, to: rs.id, style: 'dash-line'});
+            });
+            // create a network
+            var container = document.getElementById('system-graph');
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+            var options = {
+                height: '450px',
+                navigation: true,
+                keyboard: false,
+                groups: {
+                    system: {
+                        shape: 'box',
+                        color: {
+                            background: "#428bca"
+                        },
+                        fontColor: 'white',
+                        fontSize: 12
                     },
-                    fontColor: 'white',
-                    fontSize: 12
-                },
-                running_service: {
-                    shape: 'dot',
-                    color: {
-                        color: 'white',
-                        border: "#428bca"
-                    },
-                    fontSize: 10
+                    running_service: {
+                        shape: 'dot',
+                        color: {
+                            color: 'white',
+                            border: "#428bca"
+                        },
+                        fontSize: 10
 
+                    }
                 }
+            };
+            if (container) {
+                var network = new vis.Network(container, data, options);
             }
-        };
-        if (container) {
-            var network = new vis.Network(container, data, options);
         }
 
         // system events timeline
@@ -120,26 +124,22 @@ $(".systems").ready(function () {
                 return {_destroy: 1, id: jQuery(this).data('id')};
         }).get();
 
-        var add_running_collectd_plugins = jQuery('div#enabled_collectd_plugins_lists_container ul').children('li.collectd-plugin').map(function(){
+        var running_collectd_plugins_params = $('div#enabled_collectd_plugins_lists_container ul').children('li:not(.placeholder)').map(function () {
             var add = {};
-            var running_service = jQuery(this).parent('ul').data('running_service');
-            var collectd_plugin = jQuery(this).data('collectd_plugin');
-            add.running_service_id = running_service;
-            add.collectd_plugin_id = collectd_plugin;
-
+            add.collectd_plugin_id = $(this).data('collectd_plugin_id');
+            add.running_service_id = $(this).parent('ul').data('running_service_id')
+            add.id = $(this).data('id');
+            if (typeof $(this).data('remove') != 'undefined') {
+                add._destroy = 1;
+            }
             return add;
-        }).get();
-
-        var remove_running_collectd_plugins = jQuery('div#enabled_collectd_plugins_lists_container ul').children('li.disabled').map(function(){
-            return jQuery(this).attr("running_collectd_plugin");
         }).get();
 
         // extend params string
         paramsString = paramsString + '&' +
             jQuery.param({system: {running_services_attributes: running_services_params}}) + '&' +
             jQuery.param({system: {running_services_attributes: destroy_running_services}}) +'&'+
-            jQuery.param({system: {running_collectd_plugins_attributes: add_running_collectd_plugins}})+'&'+
-            jQuery.param({remove_running_collectd_plugins: remove_running_collectd_plugins})
+            jQuery.param({system: {running_collectd_plugins_attributes: running_collectd_plugins_params}})
         ;
 
         jQuery.ajax({
@@ -176,9 +176,9 @@ $(".systems").ready(function () {
             list_items.each(function (index, value) {
                 var actions = list_item.children('.actions');
                 actions.children('i.add').remove();
-                if (actions.children('i.fa-cog').length == 0) {
-                    configure_icon.prependTo(actions);
-                }
+                //if (actions.children('i.fa-cog').length == 0) {
+                //    configure_icon.prependTo(actions);
+                //}
                 if (actions.children('i.glyphicon-remove').length == 0) {
                     remove_icon.prependTo(actions);
                 }
@@ -193,15 +193,19 @@ $(".systems").ready(function () {
 
     };
 
-    // replace buttons and placeholder for existing list items
-    if ($('.dropzone ul.collectd_plugins').children('li:not(.placeholder)').length > 0) {
-        $('li.placeholder').hide();
-        $('.dropzone ul.collectd_plugins').children('li:not(.placeholder)').map(function () {
+    // replace buttons and remove placeholder for existing list items
+    $('.dropzone ul.collectd_plugins').each(function (index, element) {
+
+        if ($(element).children('li:not(.placeholder)').length > 0) {
+            console.log("found plugin");
+            $(element).children('li.placeholder').hide();
+        }
+        $(element).children('li:not(.placeholder)').map(function () {
             var item = $(this);
-            var list = $('.dropzone ul.collectd_plugins');
+            var list = item.parent('.dropzone ul.collectd_plugins');
             replaceButtons(null, item, list);
         })
-    }
+    });
 
     // collectd plugin edit drag n drop
     // based on http://jsfiddle.net/KyleMit/Geupm/2/
@@ -218,20 +222,52 @@ $(".systems").ready(function () {
         placeholder: jQuery(this).find("li.placeholder"),
         over: function () {
             //hides the placeholder when the item is over the droppable
-            $("li.placeholder").hide();
+            if ($(this).children(":not(.placeholder)").length > 0) {
+                $("li.placeholder").hide();
+            }
         },
         drop: function (event, ui) {
             var draggable = ui.draggable;
             var droppable = $(this);
-            jQuery(this).find("li.placeholder").hide();
-            var li = jQuery('<li class="ui-state-active ui-helper-clearfix collectd-plugin"></li>');
-            li.data('collectd_plugin', draggable.data('collectd_plugin'));
-            jQuery('<span class="left-floating"></span>').text(ui.draggable.text()).appendTo(li);
-            jQuery('<span class="ui-icon ui-icon-close right-floating" title="Remove"></span>').appendTo(li);
-            li.appendTo(this);
+            var clone = $(draggable).clone();
+            var target = event.target;
+            $(this).append(clone);
+            //jQuery(this).find("li.placeholder").hide();
+            //var li = jQuery('<li class="ui-state-active ui-helper-clearfix collectd-plugin"></li>');
+            //li.data('collectd_plugin', draggable.data('collectd_plugin'));
+            //jQuery('<span class="left-floating"></span>').text(ui.draggable.text()).appendTo(li);
+            //jQuery('<span class="ui-icon ui-icon-close right-floating" title="Remove"></span>').appendTo(li);
+            //li.appendTo(this);
             setAlertForSaveButton();
-            replaceButtons(event, draggable, droppable);
+            replaceButtons(event, clone, target);
+        },
+        out: function () {
+            //shows the placeholder again if there are no items in the list
+            //if ($(this).children(":not(.placeholder)").length == 0) {
+            //    $("li.placeholder").show();
+            //}
         }
+    });
+
+
+    //make tabs clickable and store location
+    $('ul#system_tabs').find('a').not('.disabled').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    // on load of the page: switch to the currently selected tab
+    var anchor = window.location.hash;
+    if (anchor == '') {
+        $('#system_tabs a:first').tab('show')
+    } else {
+        $('#system_tabs a[href="' + anchor + '"]').tab('show');
+    }
+
+    // store the currently selected tab in the window location hash
+    $("ul#system_tabs > li > a").on("shown.bs.tab", function (e) {
+        var tab_name = $(e.target).attr("href").substr(1); // strip '#' from anchors
+        window.location.hash = tab_name;
     });
 
 //    $(".dropzone ol.test_items").sortable({

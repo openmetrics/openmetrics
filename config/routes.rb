@@ -39,6 +39,7 @@ Openmetrics::Application.routes.draw do
   resources :ntp_services, controller: 'services', type: 'ntp_service'
   resources :openmetrics_services, controller: 'services', type: 'openmetrics_service'
   resources :openmetrics_agent_services, controller: 'services', type: 'openmetrics_agent_service'
+  resources :smtp_services, controller: 'services', type: 'smtp_service'
 
   resources :collectd_plugins
 
@@ -56,6 +57,7 @@ Openmetrics::Application.routes.draw do
 
   # project routes
   resources :projects
+  post 'projects/run' => 'projects#run', as: :run_test_project
 
   # Enable this route for sidekiq monitoring
   # Remember to add 'sinatra' in Gemfile

@@ -1,0 +1,201 @@
+@import 'variables';
+// full width ace editor
+.form-control.ace_editor {
+    width: 100% !important;
+}
+
+
+/* test plan styles */
+
+//ace editor
+#test_case_markup {
+//  position: absolute;
+  width: 500px;
+  min-height: 250px;
+}
+
+ul.test_plan {
+  list-style-type: none;
+  margin: 0;
+  padding:0;
+}
+
+ul.test_plan li {
+  margin-bottom: 20px;
+  //background-color: #efefef;
+}
+
+ul.test_plan li > * {
+  vertical-align: middle !important;
+}
+
+/* test plan execution pointer for toggle */
+.test_plan .toggle_status i {
+  cursor: pointer;
+}
+
+/* popover test plan execution scheduling */
+#run_options_popover {
+  width: 450px;
+  font-size: xx-small;
+}
+#run_options_popover .jqCron {
+  display: block;
+  margin-top: 15px;
+}
+
+
+/* handle like a label */
+ul.test_plan li span.duration,
+ul.test_plan li span.exit,{
+  padding: .2em .6em .3em;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  white-space: nowrap;
+  font-size: 75%;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: .25em;
+}
+
+/* margin and pointer for multiple icons within list-group-item (test_plan items)*/
+li.list-group-item span.actions i.fa,
+li.list-group-item span.actions i.glyphicon {
+  display: inline-block;
+  margin-left: 5px;
+  cursor: move;
+}
+
+li.list-group-item span.actions i.remove,
+li.list-group-item span.actions i.configure,
+li.list-group-item span.actions i.add {
+  cursor: pointer;
+}
+
+.item-number {
+  position: relative;
+  display: inline-block;
+  z-index: 99 !important;
+  padding: 2px 0 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0,0,0,.3);
+  box-shadow: 0 2px 5px rgba(0,0,0,.4);
+  filter: progid:DXImageTransform.Microsoft.Shadow(direction=135, strength=2, color=ff0000); /* IE10 text shadows */
+  width: 28px;
+  height: 28px;
+//  line-height: 28px;
+  border: 3px solid white;
+  border-radius: 50%;
+
+
+  // default: grey
+  background: #dddddd; /* Old browsers */
+  background: -webkit-linear-gradient(top, #dddddd 0%, #888888 100%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dddddd), color-stop(100%, #888888)); /* Chrome,Safari4+ */
+  background:    -moz-linear-gradient(top, #dddddd 0%, #888888 100%); /* FF3.6+ */
+  background:     -ms-linear-gradient(top, #dddddd 0%, #888888 100%); /* IE10+ */
+  background:      -o-linear-gradient(top, #dddddd 0%, #888888 100%); /* Opera 11.10+ */
+  background:         linear-gradient(to bottom, #dddddd 0%, #888888 100%);  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#888888', GradientType=0); /* IE6-9 */
+}
+
+.item-number.red {
+    background: #ff3019; /* Old browsers */
+    background: -webkit-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* Chrome10+,Safari5.1+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff3019), color-stop(100%, #cf0404)); /* Chrome,Safari4+ */
+    background:    -moz-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* FF3.6+ */
+    background:     -ms-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* IE10+ */
+    background:      -o-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* Opera 11.10+ */
+    background:         linear-gradient(to bottom, #ff3019 0%, #cf0404 100%);  /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3019', endColorstr='#cf0404', GradientType=0); /* IE6-9 */
+}
+
+.item-number.green {
+  background: #65ff19; /* Old browsers */
+  background: -webkit-linear-gradient(top, #65ff19 0%, #5ad004 100%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #65ff19), color-stop(100%, #5ad004)); /* Chrome,Safari4+ */
+  background:    -moz-linear-gradient(top, #65ff19 0%, #5ad004 100%); /* FF3.6+ */
+  background:     -ms-linear-gradient(top, #65ff19 0%, #5ad004 100%); /* IE10+ */
+  background:      -o-linear-gradient(top, #65ff19 0%, #5ad004 100%); /* Opera 11.10+ */
+  background:         linear-gradient(to bottom, #65ff19 0%, #5ad004 100%);  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#65ff19', endColorstr='#5ad004', GradientType=0); /* IE6-9 */
+}
+
+.item-number.success {
+  background: #5ad004; /* Old browsers */
+  background: -webkit-linear-gradient(top, #5ad004 0%, #4cae4c 100%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5ad004), color-stop(100%, #4cae4c)); /* Chrome,Safari4+ */
+  background:    -moz-linear-gradient(top, #5ad004 0%, #4cae4c 100%); /* FF3.6+ */
+  background:     -ms-linear-gradient(top, #5ad004 0%, #4cae4c 100%); /* IE10+ */
+  background:      -o-linear-gradient(top, #5ad004 0%, #4cae4c 100%); /* Opera 11.10+ */
+  background:         linear-gradient(to bottom, #5ad004 0%, #4cae4c 100%);  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5ad004', endColorstr='#4cae4c', GradientType=0); /* IE6-9 */
+}
+
+.item-number.info {
+  background: #39b3d7; /* Old browsers */
+  background: -webkit-linear-gradient(top, #39b3d7 0%, #269abc 100%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #39b3d7), color-stop(100%, #269abc)); /* Chrome,Safari4+ */
+  background:    -moz-linear-gradient(top, #39b3d7 0%, #269abc 100%); /* FF3.6+ */
+  background:     -ms-linear-gradient(top, #39b3d7 0%, #269abc 100%); /* IE10+ */
+  background:      -o-linear-gradient(top, #39b3d7 0%, #269abc 100%); /* Opera 11.10+ */
+  background:         linear-gradient(to bottom, #39b3d7 0%, #269abc 100%);  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#39b3d7', endColorstr='#269abc', GradientType=0); /* IE6-9 */
+}
+
+.item-number.grey {
+  background: #dddddd; /* Old browsers */
+  background: -webkit-linear-gradient(top, #dddddd 0%, #888888 100%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dddddd), color-stop(100%, #888888)); /* Chrome,Safari4+ */
+  background:    -moz-linear-gradient(top, #dddddd 0%, #888888 100%); /* FF3.6+ */
+  background:     -ms-linear-gradient(top, #dddddd 0%, #888888 100%); /* IE10+ */
+  background:      -o-linear-gradient(top, #dddddd 0%, #888888 100%); /* Opera 11.10+ */
+  background:         linear-gradient(to bottom, #dddddd 0%, #888888 100%);  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#888888', GradientType=0); /* IE6-9 */
+}
+
+/* test items in a ordered list, special threatment for drag and drop placeholder */
+ol.circles-list {
+  list-style-type: none;
+  counter-reset: li-counter;
+}
+ol.circles-list > li:not(.placeholder):before{
+  content: counter(li-counter);
+  counter-increment: li-counter;
+  display: inline-block;
+  z-index: 99 !important;
+  padding: 2px 0 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0,0,0,.3);
+  width: 28px;
+  height: 28px;
+//  line-height: 20px;
+  border: 3px solid white;
+  border-radius: 50%;
+  filter: progid:DXImageTransform.Microsoft.Shadow(direction=135, strength=2, color=ff0000); /* IE10 text shadows */
+  box-shadow: 0 2px 5px rgba(0,0,0,.4);
+
+  // colors from .item-number.grey
+  background: #dddddd; /* Old browsers */
+  background: -webkit-linear-gradient(top, #dddddd 0%, #888888 100%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dddddd), color-stop(100%, #888888)); /* Chrome,Safari4+ */
+  background:    -moz-linear-gradient(top, #dddddd 0%, #888888 100%); /* FF3.6+ */
+  background:     -ms-linear-gradient(top, #dddddd 0%, #888888 100%); /* IE10+ */
+  background:      -o-linear-gradient(top, #dddddd 0%, #888888 100%); /* Opera 11.10+ */
+  background:         linear-gradient(to bottom, #dddddd 0%, #888888 100%);  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#888888', GradientType=0); /* IE6-9 */
+}
+
+ol.circles-list > li.placeholder {
+  font-size: x-large;
+  font-weight: bold;
+  background-color: #eee;
+  color: $darkgrey;
+  text-align: center;
+}

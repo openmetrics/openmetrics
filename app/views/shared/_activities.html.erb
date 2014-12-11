@@ -14,7 +14,7 @@
             <% if activity.parameters.any? and activity.parameters.is_a?(Hash) %>
                 <p>
                     <% if activity.parameters[:changes] %>
-                       <span class="label label-default">Changes</span> <%= changes_to_string(activity.parameters[:changes]) %>
+                       <span class="label label-info">Change</span> <%= changes_to_string(activity.parameters[:changes]) %>
                     <% elsif activity.parameters[:test_execution_id] %>
                         <% te = TestExecution.find_by_id activity.parameters[:test_execution_id] %>
                         <% if te.is_finished? %>

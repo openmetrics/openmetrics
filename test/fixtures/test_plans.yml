@@ -107,8 +107,8 @@ st122:
 
 # BMC
 bmc100:
-  name: BMC register dietplan user
-  description: Registers a dietplan user by filling out register form at start page.
+  name: BMC register user
+  description: Registers a normal (dietplan) user by filling out register form at start page.
   base_url: http://localhost
 
 bmc101:

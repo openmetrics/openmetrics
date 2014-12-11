@@ -112,8 +112,8 @@ driver.manage.timeouts.implicit_wait = 10 # seconds An implicit wait is to tell 
 
       # if value is of format ${foo} reference to its environment variable ENV['foo'] instead
       # do the same with target (on echo command)
-      unless (value =~ /^\$\{[a-zA-Z0-9_]*\}/).nil?
-        value.gsub!(/^\$\{([a-zA-Z0-9_]*)\}/, '#{ENV[\'\1\']}')
+      unless (value =~ /\$\{[a-zA-Z0-9_]*\}/).nil?
+        value.gsub!(/\$\{([a-zA-Z0-9_]*)\}/, '#{ENV[\'\1\']}')
       end
       unless (target =~ /\$\{[a-zA-Z0-9_]*\}/).nil? and command == 'echo'
         target.gsub!(/\$\{([a-zA-Z0-9_]*)\}/, '#{ENV[\'\1\']}')
@@ -130,7 +130,7 @@ driver.manage.timeouts.implicit_wait = 10 # seconds An implicit wait is to tell 
           when /click|clickAndWait/
             wd << "driver.find_element(#{how}, \"#{what}\").click\n"
           when /echo/
-            wd << "puts \"#{target}\"\n"
+            wd << "puts \"#{html_escape(target)}\"\n"
           when /keyPress|keyPressAndWait/
             wd << '# press key and wait' + "\n"
             #wd << 'wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds' + "\n"
@@ -151,7 +151,9 @@ driver.manage.timeouts.implicit_wait = 10 # seconds An implicit wait is to tell 
           when /open/
             wd << "driver.get(\"#{base_url}#{target}\")\n"
           when /pause/
-            wd << "sleep #{target}\n"
+            # selenese command uses miliseconds, whereas ruby sleep uses seconds
+            s = target.to_f/1000
+            wd << "sleep #{s}\n"
           when /^store$/
             wd << "ENV['#{value}'] = '#{target}'\n"
           when /storeText/
@@ -159,9 +161,13 @@ driver.manage.timeouts.implicit_wait = 10 # seconds An implicit wait is to tell 
             wd << "ENV['#{value}'] = text\n"
           when /type/
             wd << "driver.find_element(#{how}, \"#{what}\").send_keys(\"#{value}\")\n"
-          when /verifyTextPresent/
+          when /verifyElementPresent/
+            wd << "assert(driver.find_element(#{how}, \"#{what}\"), \"verifyElementPresent '#{target}' failed\") \n"
+          when /^verifyText$/
+            wd << "assert_equal(\"#{value}\", driver.find_element(#{how}, \"#{what}\").text, \"verifyText failed\") \n"
+          when /^verifyTextPresent$/
             wd << "assert(driver.page_source.include?(\"#{target}\"), \"verifyTextPresent '#{target}' failed\")\n"
-          when /verifyTextNotPresent/
+          when /^verifyTextNotPresent$/
             wd << "assert(!driver.page_source.include?(\"#{target}\"), \"verifyTextNotPresent '#{target}' failed\")\n"
           when /waitForElementPresent/
             wd << '# wait for a specific element to show up' + "\n"

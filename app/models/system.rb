@@ -28,8 +28,8 @@ class System < ActiveRecord::Base
   accepts_nested_attributes_for :running_services, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
   has_and_belongs_to_many :metrics
   #has_many :running_collectd_plugins
-  has_many :running_collectd_plugins, dependent: :destroy
-  accepts_nested_attributes_for :running_collectd_plugins#, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
+  has_many :running_collectd_plugins
+  accepts_nested_attributes_for :running_collectd_plugins, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
   has_many :system_lookups, ->{order("id DESC")}
 
   strip_attributes

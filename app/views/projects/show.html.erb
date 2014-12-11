@@ -13,7 +13,19 @@
 <% end %>
 
 <% if @project.test_plans.any? %>
-<h3>Test Plans</h3>
+<h3>
+  Test Plans
+  <span class="btn-group btn-group-sm pull-right">
+    <button class="btn btn-default run_test_project" data-id="<%= @project.id %>">
+      <span class="fa fa-play"></span> Run Test Plans
+    </button>
+</span>
+
+</h3>
+
+    <% executions_result = @project.test_plans.collect{ |tp| TestPlan.recent_executions(tp,1).first.result if TestPlan.recent_executions(tp,1).any? } %>
+    <div id="project_graph_<%= @project.id %>" class="project_graph" data-executions_result="<%= executions_result.to_json %>" style="height:35px;"></div>
+
 <div class="list-group">
 <% @project.test_plans.each do |tp| %>
     <a href="/test_plans/<%= tp.id %>" class="list-group-item">
