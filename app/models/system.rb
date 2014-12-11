@@ -18,6 +18,7 @@
 class System < ActiveRecord::Base
   include Exportable
   include Sluggable
+  include Taggable
   include Trackable
   include Truncatable
 

@@ -266,6 +266,11 @@ $(document).on('page:change', function() {
 
 });
 
+// labels (tagging) select input change shall highlight save button
+$(document).on('change', '#label_input', function(e) {
+    setAlertForSaveButton()
+});
+
 $(document).ready(function() {
     console.log("Application JS Ready");
 
@@ -328,5 +333,32 @@ $(document).ready(function() {
             content: content
         });
     });
+
+    // generic label (tagging) input
+    // uses 'name' attribute instead of defaults 'text'
+    function select2_format(item) { return item.name; }
+    if ( $('#label_input').length ) {
+        var labels = $('#label_input').data('labels'); // json
+        var json_labels = $('#label-input').data('preselected-labels'); // json
+        // preselection
+        var preselected_labels;
+        if (typeof json_labels != 'undefined') {
+            preselected_labels = json_labels.map(function (label) {
+                return label.id;
+            });
+        } else {
+            preselected_labels = [];
+        }
+        $('#label_input').select2({
+            data: labels,
+            formatSelection: select2_format,
+            formatResult: select2_format,
+            multiple: true,
+            width: '100%',
+            allowClear: true,
+            dropdownAutoWidth: true
+        }).select2("val", preselected_labels);
+    }
+
 
 });

@@ -42,7 +42,12 @@
               <%= render partial: 'running_services_edit' %>
             </div>
             <div class="col-md-4">
-              <h4>Groups <small>TODO</small></h4>
+              <h4>Labels</h4>
+              <input type="hidden" id="label_input"
+                     data-labels="<%= Label.all.to_json(only: [:id, :name, :color]) %>"
+                     data-preselected-labels="<%= @system.labels.to_json(:only => [:id, :name] ) %>"
+                     data-current-labels="<%= @system.label_taggings.to_json(:only => [:id, :tag_id] ) %>"
+              />
             </div>
           </div>
           <div class="tab-pane" id="metrics"><%= render partial: 'collectd_plugins_edit' %></div>

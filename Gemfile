@@ -120,6 +120,9 @@ gem 'public_activity', github: 'pokonski/public_activity' # we need :fallback pa
 # test_plan_items shall have fixed order
 gem 'acts_as_list'
 
+# Tagging
+gem 'acts-as-taggable-on'
+
 # more accurate distance_in_words
 gem 'precise_distance_of_time_in_words'
 

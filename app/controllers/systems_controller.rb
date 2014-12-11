@@ -123,7 +123,8 @@ class SystemsController < ApplicationController
   def system_params
     params.require(:system).permit(:name, :fqdn, :description, :cidr, :sshuser, :operating_system, :operating_system_flavor,
                                    running_services_attributes: [:id, :_destroy, :service_id, :fqdn, :description],
-                                   running_collectd_plugins_attributes: [:id, :_destroy, :running_service_id, :collectd_plugin_id]
+                                   running_collectd_plugins_attributes: [:id, :_destroy, :running_service_id, :collectd_plugin_id],
+                                   label_list: [:id, :_destroy, :tag_id],
     )
   end
 

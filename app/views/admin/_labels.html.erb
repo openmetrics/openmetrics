@@ -1,0 +1,13 @@
+  <div class="list-group">
+    <% labels.each do |label| %>
+        <div class=" list-group-item">
+          <span class="label" style="background-color: <%= '#'+label.color.to_s %>">
+            <%= label.name %>
+          </span>
+          <span class="pull-right">
+            <a class="btn btn-default btn-xs delete_label" href="#"><span class="fa fa-times"></span> Delete</a>
+            <a class="btn btn-default btn-xs edit_label" href="#"><span class="fa fa-wrench"></span> Edit</a>
+          </span>
+        </div>
+    <% end %>
+  </div>

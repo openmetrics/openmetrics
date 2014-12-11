@@ -12,6 +12,7 @@ class WelcomePageController < ApplicationController
   def admin
     add_breadcrumb t("om.navigation.admin")
     @all_users = User.all
+    @all_labels = Label.all
 
     # env vars
     sorted_env_vars = Hash[ENV.sort]
