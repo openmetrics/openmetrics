@@ -198,6 +198,8 @@ ActiveRecord::Schema.define(version: 20141211150912) do
     t.datetime "started_at"
     t.datetime "finished_at"
     t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "system_variables", force: true do |t|
@@ -236,6 +238,7 @@ ActiveRecord::Schema.define(version: 20141211150912) do
 
   create_table "tags", force: true do |t|
     t.string  "name"
+    t.string  "color"
     t.integer "taggings_count", default: 0
   end
 

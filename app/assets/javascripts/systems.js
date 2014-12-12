@@ -97,6 +97,33 @@ $(".systems").ready(function () {
 
     }
 
+    // system label (tagging) input
+    // uses 'name' attribute instead of defaults 'text'
+    function select2_format(item) { return item.name; }
+    if ( $('#label_input').length ) {
+        var labels = $('#label_input').data('labels'); // json
+        var json_labels = $('#label_input').data('preselected-labels'); // json
+        // preselection
+        var preselected_labels;
+        if (typeof json_labels != 'undefined') {
+            preselected_labels = json_labels.map(function (label) {
+                return label.id;
+            });
+        } else {
+            preselected_labels = [];
+        }
+        $('#label_input').select2({
+            data: labels,
+            formatSelection: select2_format,
+            formatResult: select2_format,
+            multiple: true,
+            width: '100%',
+            allowClear: true,
+            dropdownAutoWidth: true
+        }).select2("val", preselected_labels);
+    }
+
+
     // init running_services multiselect
     jQuery("select.running_services").multiselect();
     jQuery("select.running_services").bind('change', function(event, ui) {
@@ -139,38 +166,39 @@ $(".systems").ready(function () {
         var selected_labels = $("#label_input").select2('data');
         var current_labels = $('#label_input').data('current-labels'); // json
         var all_labels = $('#label_input').data('labels'); // json
-        console.log("current labels", current_labels);
-        console.log("selected labels", selected_labels );
+        //console.log("current labels", current_labels);
+        //console.log("selected labels", selected_labels );
         var label_params = selected_labels.map(function(label) {
             var obj = {};
             obj.tag_id = label.id;
+            obj.name = label.name;
             var in_current_labels = $.grep(current_labels, function(e){ return e.tag_id == label.id; });
-            console.log(in_current_labels);
             if (in_current_labels.length > 0) {
                 //console.log("already in label", in_current_labels);
                 obj.id = in_current_labels[0].id;
             }
-            return obj;
+            //return obj;
+            return obj.name;
         });
 
         // remove label
-        var remove_labels = [];
-        current_labels.forEach(function(label) {
-            // any current labels missing in selection?
-            var to_be_removed = $.grep(label_params, function(e){ return e.tag_id == label.tag_id; });
-            if (to_be_removed.length == 0) {
-                console.log("remove", label, "from", current_labels);
-                remove_labels.push(label.id);
-            }
-        });
-        if (remove_labels.length > 0) {
-            remove_labels.forEach(function(id) {
-                var obj = {};
-                obj.id = id;
-                obj._destroy = 1;
-                label_params.push(obj);
-            });
-        }
+        //var remove_labels = [];
+        //current_labels.forEach(function(label) {
+        //    // any current labels missing in selection?
+        //    var to_be_removed = $.grep(label_params, function(e){ return e.tag_id == label.tag_id; });
+        //    if (to_be_removed.length == 0) {
+        //        console.log("remove", label, "from", current_labels);
+        //        remove_labels.push(label.id);
+        //    }
+        //});
+        //if (remove_labels.length > 0) {
+        //    remove_labels.forEach(function(id) {
+        //        var obj = {};
+        //        obj.id = id;
+        //        obj._destroy = 1;
+        //        label_params.push(obj);
+        //    });
+        //}
 
         // extend params string
         paramsString = paramsString + '&' +

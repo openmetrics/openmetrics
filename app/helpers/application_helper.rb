@@ -44,14 +44,25 @@ module ApplicationHelper
   end
 
   # helper for helper :)
+  #
+  # Options:
+  #   label_class - String, name of bootstrap css class to use (default: 'default')
+  #   truncate - Integer, truncate label text after given number of chars
+  #   show_tags - Boolean, show Tags or not (default: false)
+  #   tag_context - String, which Tag context to use (default: 'labels')
+  #
   def badge_label(object, *options)
     opt = options.extract_options! # returns Hash
     label_class = opt[:label_class] || 'default'
     truncate = opt[:truncate] || false
+    show_tags = opt[:show_tags] || false
+    tag_context = opt[:tag_context] || 'labels'
+    tag_context = tag_context.to_sym
     # use base_class here to show parent classname of sti model, e.g. 'Service' instead of 'HttpService'
     object_class = opt[:use_base_class] ? object.class.base_class.name : object.class.name
     default_text = object.respond_to?(:name) ? object.name : "unnamed Object"
     text = opt[:text] || default_text
+    output = '' # used later
 
     # truncate text after certain characters?
     if truncate.is_a? Integer
@@ -66,13 +77,22 @@ module ApplicationHelper
     end
 
     if current_user.show_labels == 'none'
-      raw(text)
+      output = raw(text)
     elsif current_user.show_labels == 'short'
-      raw(badge("#{object_class.to_acronym}-#{object.id}", label_class)) + raw(" #{text}")
+      output = raw(badge("#{object_class.to_acronym}-#{object.id}", label_class)) + raw(" #{text}")
     else
       # long label
-      raw(badge("#{object_class} #{object.id}", label_class)) + raw(" #{text}")
+      output = raw(badge("#{object_class} #{object.id}", label_class)) + raw(" #{text}")
     end
+
+    if show_tags and object.respond_to?(tag_context)
+      tags = object.send(tag_context)
+      tags.each do |tag|
+        output += raw(' <span class="label" style="background-color: #'+tag.color+'">'+tag.name+'</span>')
+      end
+    end
+
+    output
   end
 
   # sets data-no-turbolink attribute to html body tag, to disable turbolinks on a specific page
