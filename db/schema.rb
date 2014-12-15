@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141211150912) do
+ActiveRecord::Schema.define(version: 20141215142726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,10 +82,16 @@ ActiveRecord::Schema.define(version: 20141211150912) do
   end
 
   create_table "metrics", force: true do |t|
-    t.string "plugin"
-    t.string "ds"
-    t.string "name"
-    t.string "rrd_file"
+    t.string   "plugin"
+    t.string   "ds"
+    t.string   "name"
+    t.string   "rrd_file"
+    t.string   "plugin_instance"
+    t.string   "type"
+    t.string   "type_instance"
+    t.string   "host"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "metrics_systems", force: true do |t|

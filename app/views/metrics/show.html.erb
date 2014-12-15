@@ -1,0 +1,157 @@
+<% content_for :page_header do %>
+    <h3>
+      <%= badge_label @metric, {:label_class => 'primary'} %>
+        <span class="btn-group btn-group-sm pull-right">
+            <%= link_to t('om.controls.delete_html'), @metric, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-default' %>
+        </span>
+    </h3>
+<% end %>
+
+<div class="row">
+
+  <!-- left column -->
+  <div class="col-md-8">
+
+    <table class="table table-condensed stats">
+      <tr>
+        <td class="col-md-4">Name</td>
+        <td class="col-md-8">
+          <% if @metric.name %>
+              <code><%= @metric.name %></code>
+          <% else %>
+              <code>not set</code>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="col-md-4">Host</td>
+        <td class="col-md-8">
+          <% if @metric.host %>
+              <code><%= @metric.host %></code>
+          <% else %>
+              <code>not set</code>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="col-md-4">Plugin</td>
+        <td class="col-md-8">
+          <% if @metric.plugin %>
+              <code><%= @metric.plugin %></code>
+          <% else %>
+              <code>not set</code>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="col-md-4">Plugin Instance</td>
+        <td class="col-md-8">
+          <% if @metric.plugin_instance %>
+              <code><%= @metric.plugin_instance %></code>
+          <% else %>
+              <code>not set</code>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="col-md-4">Type</td>
+        <td class="col-md-8">
+          <% if @metric.type %>
+              <code><%= @metric.type %></code>
+          <% else %>
+              <code>not set</code>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+      <td class="col-md-4">Type Instance</td>
+      <td class="col-md-8">
+        <% if @metric.type_instance %>
+            <code><%= @metric.type_instance %></code>
+        <% else %>
+            <code>not set</code>
+        <% end %>
+      </td>
+        </tr>
+      <tr>
+        <td class="col-md-4">DS</td>
+        <td class="col-md-8">
+          <% if @metric.ds %>
+              <code><%= @metric.ds %></code>
+          <% else %>
+              <code>not set</code>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="col-md-4">RRD File</td>
+        <td class="col-md-8">
+          <% if @metric.rrd_file %>
+              <code><%= @metric.rrd_file %></code>
+          <% else %>
+              <code>not set</code>
+          <% end %>
+        </td>
+      </tr>
+      <% if @metric.get_data %>
+          <% last_update = @metric.get_data.detect{|obj| @metric.ds == obj['metric_options']['ds'] } %>
+          <% if last_update and last_update['last_update'] %>
+            <% last_update_time = Time.at(last_update['last_update'].to_f) %>
+          <% else %>
+            <% last_update_time = nil %>
+          <% end %>
+          <% if last_update and last_update['value'] %>
+              <% last_value = last_update['value'] %>
+          <% else %>
+              <% last_value = nil %>
+          <% end %>
+          <tr>
+            <td class="col-md-4">Last Updated (Socket)</td>
+            <td class="col-md-8">
+              <% if last_update_time %>
+                  <code><%= last_update_time.strftime("%Y-%m-%d %H:%M:%S") unless last_update_time.nil? %></code>
+              <% else %>
+                  <code>not set</code>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-md-4">Last Value (Socket)</td>
+            <td class="col-md-8">
+              <% unless last_value.nil? %>
+                  <code><%= last_value %></code>
+              <% else %>
+                  <code>not set</code>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+
+  <!-- right column -->
+  <div class="col-md-4">
+    <h4>Information</h4>
+    <table class="table table-condensed">
+      <tr>
+        <td class="col-md-4">System</td>
+        <td class="col-md-8">
+          <% if @metric.system %>
+              <%= badge_label @metric.system, {:label_class => 'primary'} %>
+          <% else %>
+              <code>not set</code>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+
+
+  </div>
+
+</div>
+
+
+
+
+
+

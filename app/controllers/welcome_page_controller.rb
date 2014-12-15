@@ -12,11 +12,14 @@ class WelcomePageController < ApplicationController
   def admin
     add_breadcrumb t("om.navigation.admin")
     @all_users = User.all
-    @all_labels = Label.all
+    @all_labels = ActsAsTaggableOn::Tag.all
 
     # env vars
     sorted_env_vars = Hash[ENV.sort]
     @om_env_vars = sorted_env_vars.reject{|key, value| !key.starts_with? 'OM_'}
+
+    # system metrics
+    @metrics_count = Metric.count
 
     # fetch selenium status by http (returns json)
     uri = URI("http://localhost:5555/wd/hub/status")

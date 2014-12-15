@@ -7,6 +7,7 @@ Openmetrics::Application.routes.draw do
   root 'welcome_page#display'
 
   resources :activities
+  resources :metrics
 
   # devise and user related routes
   # use custom RegistrationsController and SessionsController

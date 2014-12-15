@@ -27,8 +27,7 @@ class System < ActiveRecord::Base
   tracks_association :running_services # by rails-secretary gem
   has_many :services, through: :running_services
   accepts_nested_attributes_for :running_services, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
-  has_and_belongs_to_many :metrics
-  #has_many :running_collectd_plugins
+  #has_and_belongs_to_many :metrics
   has_many :running_collectd_plugins
   accepts_nested_attributes_for :running_collectd_plugins, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
   has_many :system_lookups, ->{order("id DESC")}
@@ -37,10 +36,19 @@ class System < ActiveRecord::Base
   validates :name, :presence => true, length: {minimum: 3},
                    :uniqueness => true, :format => { :with => /[A-Za-z0-9::space::]+/ }
 
+
+  def metrics
+    Metric.find_by_host(self.fqdn)
+  end
+
   #
   # TODO if socket holds recent data, e.g. because host (or collectd on that box died there should be a fallback to get metrics from existing rrd files
   def list_metrics
-    return data_provider.get_all_metrics_from_socket(self.fqdn)
+    data_provider.get_all_metrics_from_socket(self.fqdn)
+  end
+
+  def get_metric_values(identifier)
+    data_provider.get_data_from_socket(identifier)
   end
 
   def data_provider

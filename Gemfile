@@ -46,6 +46,9 @@ gem 'jbuilder', '~> 1.2'
 # use sidekiq as for background processing
 gem 'sidekiq'
 
+# sidekiq scheduling
+gem 'sidekiq-scheduler', github: 'Moove-it/sidekiq-scheduler'
+
 # read and write to Round-Robin-Databases (.rrd)
 gem 'rrd-ffi'
 

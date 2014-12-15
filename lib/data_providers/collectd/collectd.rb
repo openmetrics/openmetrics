@@ -10,6 +10,62 @@ module DataProvider
         @path = "#{ENV['OM_BASE_DIR']}/data/collectd/rrd"
       end
 
+
+      # connect to collectd socket and use LISTVAL/GETVAL to fetch last value and update time for given identifier
+      # echo 'LISTVAL' | socat - UNIX:/opt/openmetrics/run/collectd/collectd-socket
+      # echo 'GETVAL "labskaus/swap/swap_io-out"' | socat - UNIX:/opt/openmetrics/run/collectd/collectd-socket
+      def get_data_from_socket(identifier)
+        hostname = identifier.split('/')[0]
+        socket_path = "#{ENV['OM_BASE_DIR']}/run/collectd/collectd-socket"
+        last_update = nil
+
+        socket = UNIXSocket.new(socket_path)
+        socket.puts("LISTVAL")
+        first_line = socket.gets
+        num_results = first_line.split(" ").first.to_i
+        num_results.times do
+          line = socket.gets
+          if line.split(' ')[1] == identifier
+            last_update = line.split(' ')[0]
+          end
+        end
+        socket.close
+
+        socket = UNIXSocket.new(socket_path)
+        socket.puts("GETVAL \"#{identifier}\"") # double quotes for identifiers with whitspace
+        first_line = socket.gets
+        r = []
+        num_datasources = first_line.split(" ").first.to_i
+        # identifier: host "/" plugin ["-" plugin instance] "/" type ["-" type instance]
+        # knecht.parship.internal/load/load
+        # labskaus/df-boot-efi/df_complex-free
+        plugin_identifier, type_identifier = identifier.gsub(/#{hostname}\//, '').split("/")
+        plugin, plugin_instance = plugin_identifier.match(/^([^-]+)?-?(.*)?$/).captures
+        type, type_instance = type_identifier.match(/^([^-]+)?-?(.*)?$/).captures
+        num_datasources.times do
+          line = socket.gets
+          ds = line.split('=')[0]
+          value = line.split('=')[1]
+          if value =~ /\r?\n$/
+            value.gsub!(/\r?\n$/, ''); # remove ending CR and linebreaks
+          end
+          metric = {}
+          metric['identifier'] = identifier
+          metric['host'] = hostname
+          metric['value'] = value
+          metric['last_update'] = last_update
+          metric['metric_options'] = {}
+          metric['metric_options']['plugin'] = plugin
+          metric['metric_options']['plugin_instance'] = plugin_instance
+          metric['metric_options']['type'] = type
+          metric['metric_options']['type_instance'] = type_instance
+          metric['metric_options']['ds'] = ds
+          r << metric
+        end
+        socket.close
+        r
+      end
+
       # 1) get all available metrics by socket LISTVAL
       # 2) filter host of interest
       # 3) get datasources by socket GETVAL
@@ -33,38 +89,46 @@ module DataProvider
         end
         socket.close
 
-        # 3)
+        # 3) parse socket results https://collectd.org/wiki/index.php/Naming_schema
         r = []
         metric_list.each do |element|
           last_update, identifier  = element.split(" ", 2) # only two splits as the identifier may include whitespaces
-          #puts identifier
-          #puts last_update
-
           socket = UNIXSocket.new(socket_path)
           socket.puts("GETVAL \"#{identifier}\"") # double quotes for identifiers with whitspace
           first_line = socket.gets
-          #puts first_line
           num_datasources = first_line.split(" ").first.to_i
-
-          plugin, rrd_file = identifier.gsub(/#{hostname}\//, '').split("/")
-          # identifier: knecht.parship.internal/load/load
+          # identifier: host "/" plugin ["-" plugin instance] "/" type ["-" type instance]
+          # knecht.parship.internal/load/load
+          # labskaus/df-boot-efi/df_complex-free
+          plugin_identifier, type_identifier = identifier.gsub(/#{hostname}\//, '').split("/")
+          plugin, plugin_instance = plugin_identifier.match(/^([^-]+)?-?(.*)?$/).captures
+          type, type_instance = type_identifier.match(/^([^-]+)?-?(.*)?$/).captures
           num_datasources.times do
             line = socket.gets
-            ds = line.split("=")[0]
+            ds = line.split('=')[0]
+            value = line.split('=')[1]
+            if value =~ /\r?\n$/
+              value.gsub!(/\r?\n$/, ''); # remove ending CR and linebreaks
+            end
             metric = {}
-            metric['metric'] = plugin + "_" + rrd_file + "_" + ds
+            metric['identifier'] = identifier
+            metric['host'] = hostname
+            metric['last_update'] = last_update
+            metric['value'] = value
             metric['metric_options'] = {}
-            metric['metric_options']['ds'] = ds
             metric['metric_options']['plugin'] = plugin
-            metric['metric_options']['rrd_file'] = rrd_file
+            metric['metric_options']['plugin_instance'] = plugin_instance
+            metric['metric_options']['type'] = type
+            metric['metric_options']['type_instance'] = type_instance
+            metric['metric_options']['ds'] = ds
+            #puts metric.inspect
             r << metric
           end
           socket.close
         end
         return r
-      end  
+      end
 
-      
       def get_all_metrics(hostname)
         rel_host_path = host = hostname
         host_path = File.join(@path,rel_host_path)
@@ -170,7 +234,7 @@ module DataProvider
         socket.close      
         puts "DEBUG flush_rrdcache for #{identifier} #{result}"
       end
-      
+
       DataProvider.register(self)
     end
   end

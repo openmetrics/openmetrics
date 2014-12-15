@@ -81,6 +81,8 @@
                   </ul>
                   <div class="tab-content">
                     <% @system_metrics.each_with_index do |plugin, index| %>
+                        <%= plugin.inspect %><br>
+
                         <div class="tab-pane <%= 'active' if index == 0 %>" id="<%= plugin.first %>">
                           <% rrds = @system_metrics[plugin.first].group_by(&:rrd_file) %>
                           <% rrds.each_pair do |rrd, x| %>

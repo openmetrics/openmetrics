@@ -57,6 +57,7 @@ cp_nginx:
   description: |
     The nginx plugin connects to nginx (pronounced “engine x”), an HTTP and mail (reverse) proxy server. It collects the number of requests handled by the nginx daemon since startup and the number of current connections by connection state (reading, writing, ...).
   configuration: |
+    LoadPlugin "nginx"
     <Plugin "nginx">
       URL "http://127.0.0.1:8000/nginx_status?auto"
     </Plugin>

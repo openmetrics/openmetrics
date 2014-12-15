@@ -9,11 +9,17 @@
     No Openmetrics environment variables found. That's bad! <span class="fa fa-meh-o"></span>
 <% end %>
 
-<h4 class="spacer">Users</h4>
-<%= render 'admin/users', users: @all_users %>
-
 <h4 class="spacer">Labels</h4>
 <%= render 'admin/labels', labels: @all_labels %>
+
+<h4 class="spacer">Metrics</h4>
+<p>
+  Currently there are <%= @metrics_count %> Metrics registered. <br>
+  Click <%= link_to 'here', metrics_path %> for more details.
+</p>
+
+<h4 class="spacer">Users</h4>
+<%= render 'admin/users', users: @all_users %>
 
 
 <h4 class="spacer">Sidekiq Background Processor</h4>

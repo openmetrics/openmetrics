@@ -1,5 +1,9 @@
 # default presets for HtmlTablebakery
 TABLEBAKERY_PRESETS = {
+    metric: {
+        attr_ignore: %w( created_at updated_at),
+        attr_order:  %w( id host name rrd_file plugin plugin_instance type type_instance ds )
+    },
     project: {
         attr_ignore: %w( id created_at updated_at creator_id ),
         attr_order:  %w( name description actions)

@@ -30,34 +30,34 @@ l8:
   name: label 5319e7
   color: 5319e7
 
-l9:
-  name: label f7c6c7
-  color: f7c6c7
-
-l10:
-  name: label fad8c7
-  color: fad8c7
-
-l11:
-  name: label fef2c0
-  color: fef2c0
-
-l12:
-  name: label bfe5bf
-  color: bfe5bf
-
-l13:
-  name: label bfdadc
-  color: bfdadc
-
-l14:
-  name: label c7def8
-  color: c7def8
-
-l15:
-  name: label bfd4f2
-  color: bfd4f2
-
-l16:
-  name: label d4c5f9
-  color: d4c5f9
+#l9:
+#  name: label f7c6c7
+#  color: f7c6c7
+#
+#l10:
+#  name: label fad8c7
+#  color: fad8c7
+#
+#l11:
+#  name: label fef2c0
+#  color: fef2c0
+#
+#l12:
+#  name: label bfe5bf
+#  color: bfe5bf
+#
+#l13:
+#  name: label bfdadc
+#  color: bfdadc
+#
+#l14:
+#  name: label c7def8
+#  color: c7def8
+#
+#l15:
+#  name: label bfd4f2
+#  color: bfd4f2
+#
+#l16:
+#  name: label d4c5f9
+#  color: d4c5f9
