@@ -109,7 +109,8 @@
             <td class="col-md-4">Last Updated (Socket)</td>
             <td class="col-md-8">
               <% if last_update_time %>
-                  <code><%= last_update_time.strftime("%Y-%m-%d %H:%M:%S") unless last_update_time.nil? %></code>
+                  <code><%= last_update_time.strftime("%Y-%m-%d %H:%M:%S") %></code>
+                  <small>(<%= precise_distance_of_time_in_words(Time.now, last_update_time) %> ago)</small>
               <% else %>
                   <code>not set</code>
               <% end %>
