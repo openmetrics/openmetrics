@@ -82,13 +82,12 @@
                   <div class="tab-content">
                     <% @system_metrics.each_with_index do |plugin, index| %>
                         <div class="tab-pane <%= 'active' if index == 0 %>" id="<%= plugin.first %>">
-                          <% rrds = @system_metrics[plugin.first].group_by(&:rrd_file) %>
+                          <% rrds = @system_metrics[plugin.first].group_by(&:name) %>
                           <% rrds.each_pair do |rrd, x| %>
                               <h4><%= rrd %></h4>
                               <% img_path = "/collectd/#{@system.fqdn}.dir/#{x.first.name}-1day.png" %>
                               <img src="<%= img_path %>"/>
                           <% end %>
-
                         </div>
                     <% end %>
                   </div>
