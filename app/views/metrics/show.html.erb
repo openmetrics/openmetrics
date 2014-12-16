@@ -8,10 +8,28 @@
 
   <!-- left column -->
   <div class="col-md-8">
+    <% ['1hour', '1day', '1month', '1year'].each do |resolution| %>
+        <% img_path = "/collectd/#{@metric.system.fqdn}.dir/#{@metric.name}-#{resolution}.png" %>
+        <h4><%= resolution %></h4>
+        <img src="<%= img_path %>"/>
+    <% end %>
+  </div>
 
-    <h4>Metric Details</h4>
+  <!-- right column -->
+  <div class="col-md-4">
+    <h4>Metric Information</h4>
 
     <table class="table table-condensed stats">
+      <tr>
+        <td class="col-md-4">System</td>
+        <td class="col-md-8">
+          <% if @metric.system %>
+              <%= link_to raw(badge_label @metric.system, {:label_class => 'primary'}), @metric.system %>
+          <% else %>
+              <code>not set</code>
+          <% end %>
+        </td>
+      </tr>
       <tr>
         <td class="col-md-4">Name</td>
         <td class="col-md-8">
@@ -146,23 +164,6 @@
             </td>
           </tr>
       <% end %>
-    </table>
-  </div>
-
-  <!-- right column -->
-  <div class="col-md-4">
-    <h4>Relations</h4>
-    <table class="table table-condensed stats">
-      <tr>
-        <td class="col-md-4">System</td>
-        <td class="col-md-8">
-          <% if @metric.system %>
-              <%= link_to raw(badge_label @metric.system, {:label_class => 'primary'}), @metric.system %>
-          <% else %>
-              <code>not set</code>
-          <% end %>
-        </td>
-      </tr>
     </table>
   </div>
 

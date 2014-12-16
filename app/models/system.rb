@@ -28,6 +28,7 @@ class System < ActiveRecord::Base
   has_many :services, through: :running_services
   accepts_nested_attributes_for :running_services, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
   has_and_belongs_to_many :metrics
+  before_destroy { metrics.clear } # there is no dependent: destroy for habtm relations
   has_many :running_collectd_plugins
   accepts_nested_attributes_for :running_collectd_plugins, allow_destroy: true #, reject_if: proc { |attributes| attributes['name'].blank? }
   has_many :system_lookups, ->{order("id DESC")}

@@ -11,7 +11,7 @@
 
 class Metric < ActiveRecord::Base
   include Trackable
-  has_and_belongs_to_many :systems, limit: 1 # something like has_and_belongs_to_one
+  has_and_belongs_to_many :systems #, limit: 1 # something like has_and_belongs_to_one
 
   # disable STI
   # type column shouldnt be needed at all, but it could be used to have easy access to type (as String)
