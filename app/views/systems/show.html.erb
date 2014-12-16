@@ -85,7 +85,7 @@
                           <% rrds = @system_metrics[plugin.first].group_by(&:rrd_file) %>
                           <% rrds.each_pair do |rrd, x| %>
                               <h4><%= rrd %></h4>
-                              <% img_path = "/collectd/#{@system.fqdn}.dir/#{@system.fqdn}/#{x.first.plugin}/#{x.first.name}-1day.png" %>
+                              <% img_path = "/collectd/#{@system.fqdn}.dir/#{x.first.name}-1day.png" %>
                               <img src="<%= img_path %>"/>
                           <% end %>
 
