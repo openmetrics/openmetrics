@@ -1,9 +1,6 @@
 <% content_for :page_header do %>
     <h3>
       <%= badge_label @metric, {:label_class => 'primary'} %>
-        <span class="btn-group btn-group-sm pull-right">
-            <%= link_to t('om.controls.delete_html'), @metric, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-default' %>
-        </span>
     </h3>
 <% end %>
 
@@ -11,6 +8,8 @@
 
   <!-- left column -->
   <div class="col-md-8">
+
+    <h4>Metric Details</h4>
 
     <table class="table table-condensed stats">
       <tr>
@@ -132,21 +131,19 @@
 
   <!-- right column -->
   <div class="col-md-4">
-    <h4>Information</h4>
-    <table class="table table-condensed">
+    <h4>Relations</h4>
+    <table class="table table-condensed stats">
       <tr>
         <td class="col-md-4">System</td>
         <td class="col-md-8">
           <% if @metric.system %>
-              <%= badge_label @metric.system, {:label_class => 'primary'} %>
+              <%= link_to raw(badge_label @metric.system, {:label_class => 'primary'}), @metric.system %>
           <% else %>
               <code>not set</code>
           <% end %>
         </td>
       </tr>
     </table>
-
-
   </div>
 
 </div>

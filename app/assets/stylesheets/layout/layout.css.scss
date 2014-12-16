@@ -24,7 +24,7 @@
 .table.stats tr > td:first-child {
   font-weight: bolder;
 }
-.table.stats tr > td:nth-child(2) span {
+.table.stats tr > td:nth-child(2) span:not(.label) {
   /* same style as bootstrap's code */
   font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
   padding: 2px 4px;

@@ -16,6 +16,7 @@ en:
     navigation:
       activities: "Events"
       inventory: "Inventory"
+      metrics: "Metrics"
       projects: "Projects"
       systems: "Systems"
       services: "Services"
