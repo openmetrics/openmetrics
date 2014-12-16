@@ -2,12 +2,19 @@
   <% events.each do |activity| %>
       <article class="timeline-entry">
         <div class="timeline-entry-inner">
-          <div class="timeline-icon" style="background: #fff url(<%= gravatar_image_url(activity.owner.email, size: 40) %>) center center no-repeat;"> <!-- you can use e.g. bg-info here to make it a colorized circle -->
-            <i class="entypo-feather"></i>
-          </div>
+          <% if activity.owner %>
+          <!-- you can use e.g. bg-info here to make it a colorized circle -->
+          <div class="timeline-icon" style="background: #fff url(<%= gravatar_image_url(activity.owner.email, size: 40) unless activity.owner.nil? %>) center center no-repeat;"><i class="entypo-feather"></i></div>
+          <% else %>
+              <div class="timeline-icon bg-info"><i class="entypo-feather"></i></div>
+          <% end %>
           <div class="timeline-label">
             <h2>
-              <%= link_to activity.owner.username, activity.owner if activity.owner %>
+              <% if activity.owner %>
+                <%= link_to activity.owner.username, activity.owner %>
+              <% else %>
+                Someone
+              <% end %>
               <span><%= render_activity(activity, layout: 'activity', fallback: 'default') %></span>
               <br><small><i class="fa fa-clock-o"></i> <%= activity.created_at.to_time.strftime('%A, %F at %I:%M%p') %></small>
             </h2>

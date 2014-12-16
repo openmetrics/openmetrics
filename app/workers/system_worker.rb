@@ -5,12 +5,12 @@ class SystemWorker
 
   def perform
     System.all.each do |system|
-      create_or_update_metrics(system)
+      register_metrics(system)
     end
   end
 
-  # connect to collectd socket and create/update metrics from given results
-  def create_or_update_metrics(system)
+  # connect to collectd socket and create/update systems metrics from given results
+  def register_metrics(system)
     system_metrics = system.list_metrics
     system_metrics.each do |metric|
       m = Metric.find_or_initialize_by(
@@ -24,11 +24,16 @@ class SystemWorker
             ds: metric['metric_options']['ds']
       )
 
+      # relate system
+      m.systems << system
+
       if m.new_record?
         logger.info("Created new metric for System##{system.id}: #{m.inspect}")
         m.save!
+        m.create_activity :create
       else
         # update metric
+        #m.create_activity :update
       end
 
     end

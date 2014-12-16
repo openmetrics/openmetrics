@@ -10,15 +10,17 @@
 #
 
 class Metric < ActiveRecord::Base
-  #has_and_belongs_to_many :systems
+  include Trackable
+  has_and_belongs_to_many :systems, limit: 1 # something like has_and_belongs_to_one
 
   # disable STI
   # type column shouldnt be needed at all, but it could be used to have easy access to type (as String)
   # otherwise ActiveRecord::SubclassNotFound: Invalid single-table inheritance type: HttpService is not a subclass of RunningService
   self.inheritance_column = :_type_disabled
 
+  # something like has_and_belongs_to_one
   def system
-    System.find_by_fqdn(self.host)
+   self.systems.first
   end
 
   def get_data

@@ -63,15 +63,15 @@
         </td>
       </tr>
       <tr>
-      <td class="col-md-4">Type Instance</td>
-      <td class="col-md-8">
-        <% if @metric.type_instance %>
-            <code><%= @metric.type_instance %></code>
-        <% else %>
-            <code>not set</code>
-        <% end %>
-      </td>
-        </tr>
+        <td class="col-md-4">Type Instance</td>
+        <td class="col-md-8">
+          <% if @metric.type_instance %>
+              <code><%= @metric.type_instance %></code>
+          <% else %>
+              <code>not set</code>
+          <% end %>
+        </td>
+      </tr>
       <tr>
         <td class="col-md-4">DS</td>
         <td class="col-md-8">
@@ -93,11 +93,11 @@
         </td>
       </tr>
       <% if @metric.get_data %>
-          <% last_update = @metric.get_data.detect{|obj| @metric.ds == obj['metric_options']['ds'] } %>
+          <% last_update = @metric.get_data.detect { |obj| @metric.ds == obj['metric_options']['ds'] } %>
           <% if last_update and last_update['last_update'] %>
-            <% last_update_time = Time.at(last_update['last_update'].to_f) %>
+              <% last_update_time = Time.at(last_update['last_update'].to_f) %>
           <% else %>
-            <% last_update_time = nil %>
+              <% last_update_time = nil %>
           <% end %>
           <% if last_update and last_update['value'] %>
               <% last_value = last_update['value'] %>
@@ -105,7 +105,7 @@
               <% last_value = nil %>
           <% end %>
           <tr>
-            <td class="col-md-4">Last Updated (Socket)</td>
+            <td class="col-md-4">Last Value Update (Socket)</td>
             <td class="col-md-8">
               <% if last_update_time %>
                   <code><%= last_update_time.strftime("%Y-%m-%d %H:%M:%S") %></code>
@@ -120,6 +120,26 @@
             <td class="col-md-8">
               <% unless last_value.nil? %>
                   <code><%= last_value %></code>
+              <% else %>
+                  <code>not set</code>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-md-4">Updated At</td>
+            <td class="col-md-8">
+              <% if @metric.updated_at %>
+                  <code><%= @metric.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></code>
+              <% else %>
+                  <code>not set</code>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-md-4">Created At</td>
+            <td class="col-md-8">
+              <% if @metric.created_at %>
+                  <code><%= @metric.created_at.strftime("%Y-%m-%d %H:%M:%S") %></code>
               <% else %>
                   <code>not set</code>
               <% end %>
