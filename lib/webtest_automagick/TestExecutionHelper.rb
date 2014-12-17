@@ -27,7 +27,7 @@ module WebBrowser
               else
                 start
               end
-    #debug_browser_session(driver)
+    debug_browser_session(driver)
     driver
   end
 
