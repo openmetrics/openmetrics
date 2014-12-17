@@ -26,4 +26,8 @@ foreman run rails console --env /opt/openmetrics/config/instance.env
 // precompile assets
 bundle exec rake assets:clobber RAILS_ENV=production
 bundle exec rake assets:precompile RAILS_ENV=production
+
+// generate start script (init.d)
+gem install foreman-export-initd
+foreman export initd /tmp --user om --app openmetrics
 ```
