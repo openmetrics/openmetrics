@@ -40,8 +40,9 @@ label {
   font-size: $font-size-small;
 }
 
+// text areas
 textarea.form-control {
-
+  min-height: 54px;
 }
 
 /* loading indicator positioning, will be show/hidden by turbolink page:fetch and page:change */
