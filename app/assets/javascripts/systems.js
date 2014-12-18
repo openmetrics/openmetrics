@@ -323,19 +323,41 @@ $(".systems").ready(function () {
     });
 
     // on load of the page: switch to the currently selected tab
+    // if a fragment with -- is passed, additionally show that subtab
     var anchor = window.location.hash;
-    if (anchor == '') {
-        $('#system_tabs a:first').tab('show')
+    var fragment = window.location.hash.replace('#','').split('--')[1];
+
+    if (window.location.hash == '') {
+        //console.log("no anchor passed");
+        $('#system_tabs a:first').tab('show');
     } else {
-        $('#system_tabs a[href="' + anchor + '"]').tab('show');
+
+        if (window.location.hash.indexOf("--") > -1) {
+            // first open anchor, then fragment tab
+            //console.log("anchor with fragment passed");
+            $('#system_tabs a[href="' + window.location.hash.replace(/^(.+)--.*/, '$1') + '"]').tab('show');
+            $('#system_metrics_tabs a[href="' + window.location.hash + '"]').tab('show');
+        } else {
+            // no fragment
+            //console.log("anchor passed");
+            $('#system_tabs a[href="' + window.location.hash + '"]').tab('show');
+        }
     }
 
     // store the currently selected tab in the window location hash
-    // also lazy load system metric images on tab show
     $("ul#system_tabs > li > a").on("shown.bs.tab", function (e) {
-        var tab_name = $(e.target).attr("href").substr(1); // strip '#' from anchors
-        window.location.hash = tab_name;
-        // lazy load system metric images
+        console.log("system tab show event");
+        var current_tab_name = $(e.target).attr("href").substr(1); // strip '#' from anchors
+        window.location.hash = current_tab_name;
+        // scroll top, do not jump to anchor content
+        scrollTo(0,0);
+    });
+
+    // lazy load images within system metrics tabs
+    $("ul#system_metrics_tabs > li > a").on("shown.bs.tab", function (e) {
+        console.log("show metrics tab");
+        var current_tab_name = $(e.target).attr("href").substr(1); // strip '#' from anchors
+        window.location.hash = current_tab_name;
         $(e.target.hash).find('.lazy').each(function(){
             var imageSrc = $(this).attr("data-original");
             $(this).attr("src", imageSrc).removeAttr("data-original");

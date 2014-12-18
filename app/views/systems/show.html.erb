@@ -72,16 +72,16 @@
             <div class="panel panel-default">
               <div class="panel-body">
                 <div class="tabbable">
-                  <ul class="nav nav-tabs">
+                  <ul class="nav nav-tabs" id="system_metrics_tabs">
                     <% @system_metrics.each_with_index do |plugin, index| %>
                         <li <%= 'class=active' if index == 0 %> >
-                          <a href="#<%= plugin.first %>" data-toggle="tab"><%= plugin.first %> <span class="badge badge-xs"><%= plugin.second.count %></span></a>
+                          <a href="#metrics--<%= plugin.first %>" data-toggle="tab"><%= plugin.first %> <span class="badge"><%= plugin.second.count %></span></a>
                         </li>
                     <% end %>
                   </ul>
                   <div class="tab-content">
                     <% @system_metrics.each_with_index do |plugin, index| %>
-                        <div class="tab-pane <%= 'active' if index == 0 %>" id="<%= plugin.first %>">
+                        <div class="tab-pane <%= 'active' if index == 0 %>" id="metrics--<%= plugin.first %>">
                           <% @system_metrics[plugin.first].group_by(&:name).each_pair do |rrd, x| %>
                               <h4>
 
