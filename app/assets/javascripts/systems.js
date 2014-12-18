@@ -331,9 +331,15 @@ $(".systems").ready(function () {
     }
 
     // store the currently selected tab in the window location hash
+    // also lazy load system metric images on tab show
     $("ul#system_tabs > li > a").on("shown.bs.tab", function (e) {
         var tab_name = $(e.target).attr("href").substr(1); // strip '#' from anchors
         window.location.hash = tab_name;
+        // lazy load system metric images
+        $(e.target.hash).find('.lazy').each(function(){
+            var imageSrc = $(this).attr("data-original");
+            $(this).attr("src", imageSrc).removeAttr("data-original");
+        });
     });
 
 //    $(".dropzone ol.test_items").sortable({
