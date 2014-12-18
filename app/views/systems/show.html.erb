@@ -75,7 +75,7 @@
                   <ul class="nav nav-tabs">
                     <% @system_metrics.each_with_index do |plugin, index| %>
                         <li <%= 'class=active' if index == 0 %> >
-                          <a href="#<%= plugin.first %>" data-toggle="tab"><%= plugin.first %> <span class="badge"><%= plugin.second.count %></span></a>
+                          <a href="#<%= plugin.first %>" data-toggle="tab"><%= plugin.first %> <span class="badge badge-xs"><%= plugin.second.count %></span></a>
                         </li>
                     <% end %>
                   </ul>

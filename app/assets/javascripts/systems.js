@@ -340,6 +340,8 @@ $(".systems").ready(function () {
             var imageSrc = $(this).attr("data-original");
             $(this).attr("src", imageSrc).removeAttr("data-original");
         });
+        // scroll top, do not jump to anchor content
+        scrollTo(0,0);
     });
 
 //    $(".dropzone ol.test_items").sortable({

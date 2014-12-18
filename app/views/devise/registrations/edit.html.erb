@@ -147,6 +147,8 @@
     $("ul.nav-tabs > li > a").on("shown.bs.tab", function (e) {
         var tab_name = $(e.target).attr("href").substr(1);
         window.location.hash = tab_name;
+        // scroll top, do not jump to anchor content
+        scrollTo(0,0);
     });
 
     // on load of the page: switch to the currently selected tab

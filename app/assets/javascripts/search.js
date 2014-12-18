@@ -133,6 +133,8 @@ $(document).ready(function () {
     $("ul#search_tab > li > a").on("shown.bs.tab", function (e) {
         var tab_name = $(e.target).attr("href").substr(1); // strip '#' from anchors
         window.location.hash = tab_name;
+        // scroll top, do not jump to anchor content
+        scrollTo(0,0);
     });
 
 });
