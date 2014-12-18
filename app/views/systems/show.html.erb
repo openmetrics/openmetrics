@@ -82,9 +82,20 @@
                   <div class="tab-content">
                     <% @system_metrics.each_with_index do |plugin, index| %>
                         <div class="tab-pane <%= 'active' if index == 0 %>" id="<%= plugin.first %>">
-                          <% rrds = @system_metrics[plugin.first].group_by(&:name) %>
-                          <% rrds.each_pair do |rrd, x| %>
-                              <h4><%= rrd %></h4>
+                          <% @system_metrics[plugin.first].group_by(&:name).each_pair do |rrd, x| %>
+                              <h4>
+
+                                <!--multiple datasources?-->
+                                <% num_datasources = @system_metrics[plugin.first].group_by(&:ds) %>
+                                <% if num_datasources.count > 1 %>
+                                    <%= rrd %>
+                                    <% num_datasources.each do |ds| %>
+                                        <%= link_to ds.first, metric_path(ds.second.first.id) %>
+                                    <% end %>
+                                <% else %>
+                                    <%= link_to rrd, metric_path(x.first.id) %>
+                                <% end %>
+                              </h4>
                               <% img_path = "/collectd/#{@system.fqdn}.dir/#{x.first.name}-1day.png" %>
                               <!--lazy loading images needs dimension set-->
                               <img class="lazy" data-original="<%= img_path %>" width="631" height="173"/>
