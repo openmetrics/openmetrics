@@ -94,13 +94,12 @@ ActiveRecord::Schema.define(version: 20141215142726) do
     t.datetime "updated_at"
   end
 
-  create_table "metrics_systems", force: true do |t|
+  create_table "metrics_systems", id: false, force: true do |t|
     t.integer "system_id"
     t.integer "metric_id"
   end
 
-  add_index "metrics_systems", ["metric_id"], name: "index_metrics_systems_on_metric_id", using: :btree
-  add_index "metrics_systems", ["system_id"], name: "index_metrics_systems_on_system_id", using: :btree
+  add_index "metrics_systems", ["metric_id", "system_id"], name: "index_metrics_systems_on_metric_id_and_system_id", unique: true, using: :btree
 
   create_table "projects", force: true do |t|
     t.string   "name"
