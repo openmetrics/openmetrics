@@ -2,6 +2,8 @@ development: &default
   om:
     collectd:
       socket_path: /var/run/collectd-socket
+      image_width: 651 # image width matching rrdtool --width 570
+      image_height: 168 # image width matching rrdtool --height 95
   api:
     base_url: http://localhost/v1
     token: YTBkYmIzZWUxZWE2MmRiNWZlOTQyNjQ3YjAyYmZmMDIxOTEwZmJmNzM1NjNmMmE4MDA2MWFkOTEyZTlhMTM2OQ

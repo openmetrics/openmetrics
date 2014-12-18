@@ -7,17 +7,17 @@
 <div class="row">
 
   <!-- left column -->
-  <div class="col-md-8">
-    <% ['1hour', '1day', '1month', '1year'].each do |resolution| %>
+  <div class="col-md-7">
+    <% ['1hour', '1day', '1week', '1month'].each do |resolution| %>
         <% img_path = "/collectd/#{@metric.system.fqdn}.dir/#{@metric.name}-#{resolution}.png" %>
         <h4><%= resolution %></h4>
-        <img src="<%= img_path %>"/>
+        <img src="<%= img_path %>" width="<%= CONFIG['om']['collectd']['image_width'] %>" height="<%= CONFIG['om']['collectd']['image_height'] %>" />
     <% end %>
   </div>
 
   <!-- right column -->
-  <div class="col-md-4">
-    <h4>Metric Information</h4>
+  <div class="col-md-5">
+    <h4 class="spacer">Metric Information</h4>
 
     <table class="table table-condensed stats">
       <tr>
@@ -30,6 +30,40 @@
           <% end %>
         </td>
       </tr>
+      <% if @metric.get_data %>
+          <% last_update = @metric.get_data.detect { |obj| @metric.ds == obj['metric_options']['ds'] } %>
+          <% if last_update and last_update['last_update'] %>
+              <% last_update_time = Time.at(last_update['last_update'].to_f) %>
+          <% else %>
+              <% last_update_time = nil %>
+          <% end %>
+          <% if last_update and last_update['value'] %>
+              <% last_value = last_update['value'] %>
+          <% else %>
+              <% last_value = nil %>
+          <% end %>
+          <tr>
+            <td class="col-md-4">Socket Update</td>
+            <td class="col-md-8">
+              <% if last_update_time %>
+                  <code><%= last_update_time.strftime("%Y-%m-%d %H:%M:%S") %></code>
+                  <small>(<%= precise_distance_of_time_in_words(Time.now, last_update_time) %> ago)</small>
+              <% else %>
+                  <code>not set</code>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-md-4">Socket Value</td>
+            <td class="col-md-8">
+              <% unless last_value.nil? %>
+                  <code><%= last_value %></code>
+              <% else %>
+                  <code>not set</code>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
       <tr>
         <td class="col-md-4">Name</td>
         <td class="col-md-8">
@@ -110,39 +144,6 @@
           <% end %>
         </td>
       </tr>
-      <% if @metric.get_data %>
-          <% last_update = @metric.get_data.detect { |obj| @metric.ds == obj['metric_options']['ds'] } %>
-          <% if last_update and last_update['last_update'] %>
-              <% last_update_time = Time.at(last_update['last_update'].to_f) %>
-          <% else %>
-              <% last_update_time = nil %>
-          <% end %>
-          <% if last_update and last_update['value'] %>
-              <% last_value = last_update['value'] %>
-          <% else %>
-              <% last_value = nil %>
-          <% end %>
-          <tr>
-            <td class="col-md-4">Last Value Update (Socket)</td>
-            <td class="col-md-8">
-              <% if last_update_time %>
-                  <code><%= last_update_time.strftime("%Y-%m-%d %H:%M:%S") %></code>
-                  <small>(<%= precise_distance_of_time_in_words(Time.now, last_update_time) %> ago)</small>
-              <% else %>
-                  <code>not set</code>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <td class="col-md-4">Last Value (Socket)</td>
-            <td class="col-md-8">
-              <% unless last_value.nil? %>
-                  <code><%= last_value %></code>
-              <% else %>
-                  <code>not set</code>
-              <% end %>
-            </td>
-          </tr>
           <tr>
             <td class="col-md-4">Updated At</td>
             <td class="col-md-8">
@@ -163,7 +164,6 @@
               <% end %>
             </td>
           </tr>
-      <% end %>
     </table>
   </div>
 
