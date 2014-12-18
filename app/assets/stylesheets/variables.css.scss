@@ -1,16 +1,23 @@
 $darkgrey: #9b9b9b;
-$red: red;
-$green: green;
+$red: #e11d21;
+$green: #009800;
+$petrol: #006b75;
+$blue: #207de5;
+$darkblue: #0052cc;
+$purple: #5319e7;
+$orange: #eb6420;
+$yellow: #fbca04;
 
-.darkgrey {
-  color: $darkgrey;
-}
-.red {
-  color: $red;
-}
-.green {
-  color: $green;
-}
+
+.darkgrey { color: $darkgrey; }
+.red { color: $red; }
+.green { color: $green; }
+.petrol { color: $petrol; }
+.blue { color: $blue; }
+.darkblue { color: $darkblue; }
+.purple { color: $purple; }
+.orange { color: $orange; }
+.yellow { color: $yellow; }
 
 // state colors
 $active-color: #adff2f;
